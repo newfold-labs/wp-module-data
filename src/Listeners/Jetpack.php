@@ -14,11 +14,26 @@ class Jetpack extends Listener {
 	 */
 	public function register_hooks() {
 		// Connected
+		add_action( 'jetpack_log_entry', array( $this, 'connected' ) );
+
 		// Module enabled/disabled
 		add_action( 'jetpack_pre_activate_module', array( $this, 'module_enabled' ) );
 		add_action( 'jetpack_pre_deactivate_module', array( $this, 'module_disabled' ) );
+
 		// Publicize
 		add_action( 'publicize_save_meta', array( $this, 'publicize' ), 10, 4 );
+	}
+
+	/**
+	 * Jetpack connected
+	 *
+	 * @param array $entry Jetpack log entry
+	 * @return void
+	 */
+	public function connected( $entry ) {
+		if ( 'register' === $entry['code'] ) {
+			$this->push( 'jetpack_event', array( 'code' => 'connected' ) );
+		}
 	}
 
 	/**
