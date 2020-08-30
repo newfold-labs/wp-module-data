@@ -15,11 +15,11 @@ class Event {
 	public $category;
 
 	/**
-	 * Event action
+	 * Key representing the event action that occurred
 	 *
 	 * @var string
 	 */
-	public $action;
+	public $key;
 
 	/**
 	 * Array of extra data related to the event
@@ -53,15 +53,15 @@ class Event {
 	 * Construct
 	 *
 	 * @param string $category General category of the event. Should match to a Listener class
-	 * @param string $action   The action that occurred
+	 * @param string $key      Key representing the action that occurred
 	 * @param array  $data     Additional data specific to the event that occurred
 	 */
-	public function __construct( $category = 'Admin', $action = '', $data = array() ) {
+	public function __construct( $category = 'Admin', $key = '', $data = array() ) {
 		global $title, $wpdb, $wp_version;
 
 		// Event details
 		$this->category = strtolower( $category );
-		$this->action   = $action;
+		$this->key      = $key;
 		$this->data     = $data;
 
 		// Request information
@@ -82,11 +82,11 @@ class Event {
 
 		// Environment Information
 		$this->environment = array(
-			'siteurl'        => get_site_url(),
-			'php_version'    => phpversion(),
-			'mysql_version'  => $wpdb->db_version(),
-			'wp_version'     => $wp_version,
-			'plugin_version' => BLUEHOST_PLUGIN_VERSION,
+			'url'    => get_site_url(),
+			'php'    => phpversion(),
+			'mysql'  => $wpdb->db_version(),
+			'wp'     => $wp_version,
+			'plugin' => BLUEHOST_PLUGIN_VERSION,
 		);
 	}
 

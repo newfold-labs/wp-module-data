@@ -34,13 +34,13 @@ abstract class Listener {
 	/**
 	 * Wrapper for pushing event data up to the Event Manager
 	 *
-	 * @param string $action Action that occurred
-	 * @param array  $data   Array of additional data for the action
+	 * @param string $key  Key representing the action that occurred
+	 * @param array  $data Array of additional data for the action
 	 * @return void
 	 */
-	protected function push( $action, $data = array() ) {
+	protected function push( $key, $data = array() ) {
 		$category = $this->get_class_name();
-		$event    = new Event( $category, $action, $data );
+		$event    = new Event( $category, $key, $data );
 		$this->manager->push( $event );
 	}
 
