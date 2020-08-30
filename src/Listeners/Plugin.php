@@ -29,11 +29,10 @@ class Plugin extends Listener {
 	 * @return object Plugin API arguments
 	 */
 	public function search( $args, $action ) {
-		// Bail if it's not a search
-		if ( 'query_plugins' !== $action ) {
-			return;
+		// Must be a non-null search
+		if ( 'query_plugins' === $action && ! empty( $args->search) ) {
+			$this->push( 'plugin_search', array( 'term' => esc_attr( strtolower( $args->search ) ) ) );
 		}
-		$this->push( 'plugin_search', array( 'term' => esc_attr( $args->serach ) ) );
 
 		return $args;
 	}
