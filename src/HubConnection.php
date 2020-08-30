@@ -53,7 +53,7 @@ class HubConnection implements SubscriberInterface {
 
 		if ( ! get_transient( 'bh_data_connection_throttle' ) ) {
 
-			set_transient( 'bh_data_connection_throttle', true, 30 * MINUTE_IN_SECONDS );
+			set_transient( 'bh_data_connection_throttle', true, 60 * MINUTE_IN_SECONDS );
 
 			$token = md5( wp_generate_password() );
 			set_transient( 'bh_data_verify_token', $token, 5 * MINUTE_IN_SECONDS );
