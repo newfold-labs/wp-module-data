@@ -32,7 +32,7 @@ class Jetpack extends Listener {
 	 */
 	public function connected( $entry ) {
 		if ( 'register' === $entry['code'] ) {
-			$this->push( 'jetpack_event', array( 'code' => 'connected' ) );
+			$this->push( 'jetpack_connected' );
 		}
 	}
 
