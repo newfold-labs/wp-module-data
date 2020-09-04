@@ -75,8 +75,8 @@ class Event {
 		$user       = get_user_by( 'id', get_current_user_id() );
 		$this->user = array(
 			'id'     => get_current_user_id(),
-			'login'  => $user->user_nicename,
-			'role'   => $user->roles[0],
+			'login'  => ( ! empty( $user->user_nicename ) ) ? $user->user_nicename : '',
+			'role'   => ( ! empty( $user->roles[0] ) ) ? $user->roles[0] : '',
 			'locale' => get_user_locale(),
 		);
 
