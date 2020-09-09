@@ -17,7 +17,7 @@ class BHPlugin extends Listener {
 		add_filter( 'pre_update_option_mm_coming_soon', array( $this, 'site_launch' ), 10, 2 );
 
 		// SSO
-		add_action( 'eig_sso_success', array( $this, 'sso_success' ) );
+		add_action( 'eig_sso_success', array( $this, 'sso_success' ), 10, 2 );
 		add_action( 'eig_sso_fail', array( $this, 'sso_fail' ) );
 
 		// Staging
