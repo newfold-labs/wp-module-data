@@ -64,11 +64,21 @@ class Event {
 		$this->key      = $key;
 		$this->data     = $data;
 
+		// Try to grab user request IP and account for any proxies
+		if ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
+			// In case there are multiple proxies, just use the first one
+			$ip_list = explode( ',', $_SERVER['HTTP_X_FORWARDED_FOR'] );
+			$ip      = $ip_list[0];
+		} else {
+			$ip = $_SERVER['REMOTE_ADDR'];
+		}
+
 		// Request information
 		$this->request = array(
 			'url'        => get_site_url( null, $_SERVER['REQUEST_URI'] ),
 			'page_title' => $title,
 			'user_agent' => ( isset( $_SERVER['HTTP_USER_AGENT'] ) ) ? $_SERVER['HTTP_USER_AGENT'] : '',
+			'ip'         => $ip,
 		);
 
 		// User information
