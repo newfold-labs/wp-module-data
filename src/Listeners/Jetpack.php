@@ -59,13 +59,7 @@ class Jetpack extends Listener {
 	 * @return void
 	 */
 	public function module_disabled( $module ) {
-		$args = array(
-			'action' => 'jetpack_module_disabled',
-			'data'   => array(
-				'module' => $module,
-			),
-		);
-		$this->push( 'jetpack_module_disabled', array( 'module' => $args ) );
+		$this->push( 'jetpack_module_disabled', array( 'module' => $module ) );
 	}
 
 	/**
