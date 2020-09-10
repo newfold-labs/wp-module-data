@@ -14,7 +14,7 @@ class Jetpack extends Listener {
 	 */
 	public function register_hooks() {
 		// Connected
-		add_action( 'jetpack_log_entry', array( $this, 'connected' ) );
+		add_action( 'jetpack_log_entry', array( $this, 'connected' ), 10, 3 );
 
 		// Module enabled/disabled
 		add_action( 'jetpack_pre_activate_module', array( $this, 'module_enabled' ) );
@@ -27,13 +27,19 @@ class Jetpack extends Listener {
 	/**
 	 * Jetpack connected
 	 *
-	 * @param array $entry Jetpack log entry
+	 * @param integer        $id Jetpack Site ID
+	 * @param string         $secret Jetpack blog token
+	 * @param integer|boolan $public Whether the site is public
 	 * @return void
 	 */
-	public function connected( $entry ) {
-		if ( 'register' === $entry['code'] ) {
-			$this->push( 'jetpack_connected' );
-		}
+	public function connected( $id, $secret, $public ) {
+		$this->push(
+			'jetpack_connected',
+			array(
+				'id'     => $id,
+				'public' => $public,
+			)
+		);
 	}
 
 	/**

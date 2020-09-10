@@ -50,17 +50,21 @@ class Data {
 
 		$this->hub = new HubConnection();
 
-		if ( $this->hub->is_connected() ) {
-			$manager = new EventManager();
-			$manager->initialize_listeners();
-			$manager->add_subscriber( $this->hub );
-
-			if ( defined( 'BH_DATA_DEBUG' ) && BH_DATA_DEBUG ) {
-				$this->logger = new Logger();
-				$manager->add_subscriber( $this->logger );
-			}
-		} else {
+		// If not connected, attempt to connect and
+		// bail before registering the subscribers/listeners
+		if ( ! $this->hub->is_connected() ) {
 			$this->hub->connect();
+			return;
+		}
+
+		$manager = new EventManager();
+		$manager->initialize_listeners();
+
+		$manager->add_subscriber( $this->hub );
+
+		if ( defined( 'BH_DATA_DEBUG' ) && BH_DATA_DEBUG ) {
+			$this->logger = new Logger();
+			$manager->add_subscriber( $this->logger );
 		}
 
 	}

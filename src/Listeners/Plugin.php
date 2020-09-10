@@ -30,7 +30,7 @@ class Plugin extends Listener {
 	 */
 	public function search( $args, $action ) {
 		// Must be a non-null search
-		if ( 'query_plugins' === $action && ! empty( $args->search) ) {
+		if ( 'query_plugins' === $action && ! empty( $args->search ) ) {
 			$this->push( 'plugin_search', array( 'term' => esc_attr( strtolower( $args->search ) ) ) );
 		}
 

@@ -35,7 +35,7 @@ abstract class Listener {
 	 * Wrapper for pushing event data up to the Event Manager
 	 *
 	 * @param string $key  Key representing the action that occurred
-	 * @param array  $data Array of additional data for the action
+	 * @param array  $data Optional array of additional data for the action
 	 * @return void
 	 */
 	protected function push( $key, $data = array() ) {
