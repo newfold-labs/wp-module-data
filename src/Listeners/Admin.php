@@ -30,6 +30,9 @@ class Admin extends Listener {
 	 * @return void
 	 */
 	public function view() {
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+			return;
+		}
 		$this->push( 'pageview' );
 	}
 

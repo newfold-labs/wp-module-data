@@ -140,11 +140,13 @@ class HubConnection implements SubscriberInterface {
 		global $wpdb, $wp_version;
 
 		return array(
-			'url'    => get_site_url(),
-			'php'    => phpversion(),
-			'mysql'  => $wpdb->db_version(),
-			'wp'     => $wp_version,
-			'plugin' => BLUEHOST_PLUGIN_VERSION,
+			'url'         => get_site_url(),
+			'php'         => phpversion(),
+			'mysql'       => $wpdb->db_version(),
+			'wp'          => $wp_version,
+			'plugin'      => BLUEHOST_PLUGIN_VERSION,
+			'hostname'    => gethostname(),
+			'cache_level' => intval( get_option( 'endurance_cache_level', 2 ) ),
 		);
 	}
 }
