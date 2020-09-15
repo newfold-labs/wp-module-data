@@ -86,10 +86,10 @@ class HubConnection implements SubscriberInterface {
 	 * @return boolean
 	 */
 	public function verify_token( $token ) {
-		$saved_token = $this->get_transient( 'bh_data_verify_token' );
+		$saved_token = Transient::get( 'bh_data_verify_token' );
 
 		if ( $saved_token && $saved_token === $token ) {
-			$this->delete_transient( 'bh_data_verify_token' );
+			Transient::delete( 'bh_data_verify_token' );
 			return true;
 		}
 
@@ -119,7 +119,7 @@ class HubConnection implements SubscriberInterface {
 		$this->throttle();
 
 		$token = md5( wp_generate_password() );
-		$this->set_transient( 'bh_data_verify_token', $token, 5 * MINUTE_IN_SECONDS );
+		Transient::set( 'bh_data_verify_token', $token, 5 * MINUTE_IN_SECONDS );
 
 		$data                 = $this->get_core_data();
 		$data['verify_token'] = $token;
@@ -150,25 +150,12 @@ class HubConnection implements SubscriberInterface {
 	}
 
 	/**
-	 * Whether to use transients to store temporary data
-	 *
-	 * If the site has an object-cache.php drop-in, then we can't reliably
-	 * use the transients API. We'll try to fall back to the options API.
-	 *
-	 * @return boolean
-	 */
-	public function should_use_transients() {
-		require_once ABSPATH . '/wp-admin/includes/plugin.php';
-		return ! array_key_exists( 'object-cache.php', get_dropins() );
-	}
-
-	/**
 	 * Set the connection throttle
 	 *
 	 * @return void
 	 */
 	public function throttle() {
-		$this->throttle = $this->set_transient( 'bh_data_connection_throttle', true, 60 * MINUTE_IN_SECONDS );
+		$this->throttle = Transient::set( 'bh_data_connection_throttle', true, 60 * MINUTE_IN_SECONDS );
 	}
 
 	/**
@@ -177,63 +164,8 @@ class HubConnection implements SubscriberInterface {
 	 * @return boolean
 	 */
 	public function is_throttled() {
-		$this->throttled = $this->get_transient( 'bh_data_connection_throttle' );
+		$this->throttled = Transient::get( 'bh_data_connection_throttle' );
 		return $this->throttled;
-	}
-
-	/**
-	 * Custom wrapper for get_transient() with Options API fallback
-	 *
-	 * @param string $key The key of the transient to retrieve
-	 * @return mixed The value of the transient
-	 */
-	private function get_transient( $key ) {
-		if ( $this->should_use_transients() ) {
-			return get_transient( $key );
-		}
-
-		$data = get_option( $key );
-		if ( ! empty( $data ) ) {
-			if ( isset( $data['expires'] ) && $data['expires'] > time() ) {
-				return $data['value'];
-			}
-		}
-
-		return false;
-	}
-
-	/**
-	 * Custom wrapper for set_transient() with Options API fallback
-	 *
-	 * @param string  $key     Key to use for storing the transient
-	 * @param mixed   $value   Value to be saved
-	 * @param integer $expires Optional expiration time
-	 * @return boolean Whether the value was saved
-	 */
-	private function set_transient( $key, $value, $expires = 60 * MINUTE_IN_SECONDS ) {
-		if ( $this->should_use_transients() ) {
-			return set_transient( $key, $value, $expires );
-		}
-
-		$data = array(
-			'value'   => $value,
-			'expires' => $expires,
-		);
-		return update_option( $key, $data, false );
-	}
-
-	/**
-	 * Custom wrapper for delete_transient() with Optiosn API fallback
-	 *
-	 * @param string $key The key of the transient/option to delete
-	 * @return boolean Whether the value was deleted
-	 */
-	private function delete_transient( $key ) {
-		if ( $this->should_use_transients() ) {
-			return delete_transient( $key );
-		}
-
-		return delete_option( $key );
 	}
 
 	/**
