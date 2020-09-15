@@ -194,7 +194,7 @@ class HubConnection implements SubscriberInterface {
 
 		$data = get_option( $key );
 		if ( ! empty( $data ) ) {
-			if ( $data['expires'] > time() ) {
+			if ( isset( $data['expires'] ) && $data['expires'] > time() ) {
 				return $data['value'];
 			}
 		}
