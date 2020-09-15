@@ -45,17 +45,18 @@ class Transient {
 	 *
 	 * @param string  $key     Key to use for storing the transient
 	 * @param mixed   $value   Value to be saved
-	 * @param integer $expires Optional expiration time
+	 * @param integer $expires Optional expiration time in seconds from now. Default is 1 hour
 	 * @return boolean Whether the value was saved
 	 */
-	public static function set( $key, $value, $expires = 60 * MINUTE_IN_SECONDS ) {
+	public static function set( $key, $value, $expires = null ) {
+		$expiration = ( $expires ) ? time() + $expires : time() + 60 * MINUTE_IN_SECONDS;
 		if ( self::should_use_transients() ) {
-			return set_transient( $key, $value, $expires );
+			return set_transient( $key, $value, $expiration );
 		}
 
 		$data = array(
 			'value'   => $value,
-			'expires' => $expires,
+			'expires' => $expiration,
 		);
 		return update_option( $key, $data, false );
 	}
