@@ -182,7 +182,7 @@ class HubConnection implements SubscriberInterface {
 	}
 
 	/**
-	 * Custom override for get_transient() with Options API fallback
+	 * Custom wrapper for get_transient() with Options API fallback
 	 *
 	 * @param string $key The key of the transient to retrieve
 	 * @return mixed The value of the transient
@@ -203,7 +203,7 @@ class HubConnection implements SubscriberInterface {
 	}
 
 	/**
-	 * Custom override for set_transient() with Options API fallback
+	 * Custom wrapper for set_transient() with Options API fallback
 	 *
 	 * @param string  $key     Key to use for storing the transient
 	 * @param mixed   $value   Value to be saved
@@ -223,7 +223,7 @@ class HubConnection implements SubscriberInterface {
 	}
 
 	/**
-	 * Custom override for delete_transient() with Optiosn API fallback
+	 * Custom wrapper for delete_transient() with Optiosn API fallback
 	 *
 	 * @param string $key The key of the transient/option to delete
 	 * @return boolean Whether the value was deleted
