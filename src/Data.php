@@ -23,22 +23,9 @@ class Data {
 	 */
 	public function start() {
 
-		// Make sure all REST API routes are registered
-		add_action( 'rest_api_init', array( $this, 'rest_api_init' ) );
-
 		// Delays our primary module setup until init
 		add_action( 'init', array( $this, 'init' ) );
 
-	}
-
-	/**
-	 * Set up REST API routes
-	 *
-	 * @return void
-	 */
-	public function rest_api_init() {
-		$controller = new API\Verify();
-		$controller->register_routes();
 	}
 
 	/**
@@ -53,6 +40,11 @@ class Data {
 		// If not connected, attempt to connect and
 		// bail before registering the subscribers/listeners
 		if ( ! $this->hub->is_connected() ) {
+
+			// Initialize the required verification endpoints
+			$this->hub->register_verification_hooks();
+
+			// Attempt to connect
 			$this->hub->connect();
 			return;
 		}

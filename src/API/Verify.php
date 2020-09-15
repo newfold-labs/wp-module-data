@@ -2,6 +2,7 @@
 
 namespace Endurance\WP\Module\Data\API;
 
+use Endurance\WP\Module\Data\HubConnection;
 use WP_REST_Controller;
 use WP_REST_Server;
 use WP_REST_Response;
@@ -12,11 +13,20 @@ use WP_REST_Response;
 class Verify extends WP_REST_Controller {
 
 	/**
+	 * Instance of HubConnection class
+	 *
+	 * @var HubConnection
+	 */
+	public $hub;
+
+	/**
 	 * Constructor.
 	 *
+	 * @param HubConnection $hub Instance of the hub connection manager
 	 * @since 4.7.0
 	 */
-	public function __construct() {
+	public function __construct( HubConnection $hub ) {
+		$this->hub       = $hub;
 		$this->namespace = 'bluehost/v1/data';
 		$this->rest_base = 'verify';
 	}
@@ -60,16 +70,8 @@ class Verify extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function get_items( $request ) {
-		$saved_token = get_transient( 'bh_data_verify_token' );
-
-		if ( $saved_token && $saved_token === $request['token'] ) {
-			$valid  = true;
-			$status = 200;
-			delete_transient( 'bh_data_verify_token' );
-		} else {
-			$valid  = false;
-			$status = 401;
-		}
+		$valid  = $this->hub->verify_token( $request['token'] );
+		$status = ( $valid ) ? 200 : 401;
 
 		$response = new WP_REST_Response(
 			array(

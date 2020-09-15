@@ -36,6 +36,60 @@ class HubConnection implements SubscriberInterface {
 	}
 
 	/**
+	 * Register the hooks required for site verification
+	 *
+	 * @return void
+	 */
+	public function register_verification_hooks() {
+		add_action( 'rest_api_init', array( $this, 'rest_api_init' ) );
+		add_action( 'wp_ajax_nopriv_bh-hub-verify', array( $this, 'ajax_verify' ) );
+
+	}
+
+	/**
+	 * Set up REST API routes
+	 *
+	 * @return void
+	 */
+	public function rest_api_init() {
+		$controller = new API\Verify( $this );
+		$controller->register_routes();
+	}
+
+	/**
+	 * Process the admin-ajax request
+	 *
+	 * @return void
+	 */
+	public function ajax_verify() {
+		$valid  = $this->verify_token( $_REQUEST['token'] );
+		$status = ( $valid ) ? 200 : 400;
+
+		$data = array(
+			'token' => $_REQUEST['token'],
+			'valid' => $valid,
+		);
+		wp_send_json( $data, $status );
+	}
+
+	/**
+	 * Confirm whether verification token is valid
+	 *
+	 * @param string $token Token to verify
+	 * @return boolean
+	 */
+	public function verify_token( $token ) {
+		$saved_token = get_transient( 'bh_data_verify_token' );
+
+		if ( $saved_token && $saved_token === $token ) {
+			delete_transient( 'bh_data_verify_token' );
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
 	 * Check whether site has established connection to hub
 	 *
 	 * @return boolean
