@@ -45,7 +45,10 @@ class Data {
 			$this->hub->register_verification_hooks();
 
 			// Attempt to connect
-			$this->hub->connect();
+			if ( ! $this->hub->is_throttled() ) {
+				$this->hub->connect();
+			}
+
 			return;
 		}
 

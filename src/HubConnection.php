@@ -21,6 +21,14 @@ class HubConnection implements SubscriberInterface {
 	 */
 	private $token;
 
+
+	/**
+	 * Whether connection attempts are currently throttled
+	 *
+	 * @var boolean
+	 */
+	private $throttled;
+
 	/**
 	 * Construct
 	 */
@@ -32,7 +40,6 @@ class HubConnection implements SubscriberInterface {
 
 		$this->api = BH_HUB_URL;
 
-		$this->token = $this->get_auth_token();
 	}
 
 	/**
@@ -79,10 +86,10 @@ class HubConnection implements SubscriberInterface {
 	 * @return boolean
 	 */
 	public function verify_token( $token ) {
-		$saved_token = get_transient( 'bh_data_verify_token' );
+		$saved_token = Transient::get( 'bh_data_verify_token' );
 
 		if ( $saved_token && $saved_token === $token ) {
-			delete_transient( 'bh_data_verify_token' );
+			Transient::delete( 'bh_data_verify_token' );
 			return true;
 		}
 
@@ -105,39 +112,60 @@ class HubConnection implements SubscriberInterface {
 	 */
 	public function connect() {
 
-		if ( ! get_transient( 'bh_data_connection_throttle' ) ) {
+		if ( $this->is_throttled() ) {
+			return;
+		}
 
-			set_transient( 'bh_data_connection_throttle', true, 60 * MINUTE_IN_SECONDS );
+		$this->throttle();
 
-			$token = md5( wp_generate_password() );
-			set_transient( 'bh_data_verify_token', $token, 5 * MINUTE_IN_SECONDS );
+		$token = md5( wp_generate_password() );
+		Transient::set( 'bh_data_verify_token', $token, 5 * MINUTE_IN_SECONDS );
 
-			$data                 = $this->get_core_data();
-			$data['verify_token'] = $token;
+		$data                 = $this->get_core_data();
+		$data['verify_token'] = $token;
 
-			$args = array(
-				'body'     => wp_json_encode( $data ),
-				'headers'  => array(
-					'Content-Type' => 'applicaton/json',
-					'Accept'       => 'applicaton/json',
-				),
-				'blocking' => true,
-				'timeout'  => 30,
-			);
+		$args = array(
+			'body'     => wp_json_encode( $data ),
+			'headers'  => array(
+				'Content-Type' => 'applicaton/json',
+				'Accept'       => 'applicaton/json',
+			),
+			'blocking' => true,
+			'timeout'  => 30,
+		);
 
-			$response = wp_remote_post( $this->api . '/connect', $args );
-			$status   = wp_remote_retrieve_response_code( $response );
+		$response = wp_remote_post( $this->api . '/connect', $args );
+		$status   = wp_remote_retrieve_response_code( $response );
 
-			// Created = 201; Updated = 200
-			if ( 201 === $status || 200 === $status ) {
-				$body = json_decode( wp_remote_retrieve_body( $response ) );
-				if ( ! empty( $body->token ) ) {
-					$encryption      = new Encryption();
-					$encrypted_token = $encryption->encrypt( $body->token );
-					update_option( 'bh_data_token', $encrypted_token );
-				}
+		// Created = 201; Updated = 200
+		if ( 201 === $status || 200 === $status ) {
+			$body = json_decode( wp_remote_retrieve_body( $response ) );
+			if ( ! empty( $body->token ) ) {
+				$encryption      = new Encryption();
+				$encrypted_token = $encryption->encrypt( $body->token );
+				update_option( 'bh_data_token', $encrypted_token );
 			}
 		}
+
+	}
+
+	/**
+	 * Set the connection throttle
+	 *
+	 * @return void
+	 */
+	public function throttle() {
+		$this->throttle = Transient::set( 'bh_data_connection_throttle', true, 60 * MINUTE_IN_SECONDS );
+	}
+
+	/**
+	 * Check whether connection is throttled
+	 *
+	 * @return boolean
+	 */
+	public function is_throttled() {
+		$this->throttled = Transient::get( 'bh_data_connection_throttle' );
+		return $this->throttled;
 	}
 
 	/**
@@ -159,7 +187,7 @@ class HubConnection implements SubscriberInterface {
 			'headers'  => array(
 				'Content-Type'  => 'applicaton/json',
 				'Accept'        => 'applicaton/json',
-				'Authorization' => "Bearer $this->token",
+				'Authorization' => 'Bearer ' . $this->get_auth_token(),
 			),
 			'blocking' => false,
 			'timeout'  => .5,
