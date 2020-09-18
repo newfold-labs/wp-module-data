@@ -134,6 +134,9 @@ class HubConnection implements SubscriberInterface {
 			'timeout'  => 30,
 		);
 
+		$attempts = intval( get_option( 'bh_data_connection_attempts', 0 ) );
+		update_option( 'bh_data_connection_attempts', $attempts + 1 );
+
 		$response = wp_remote_post( $this->api . '/connect', $args );
 		$status   = wp_remote_retrieve_response_code( $response );
 
@@ -155,7 +158,38 @@ class HubConnection implements SubscriberInterface {
 	 * @return void
 	 */
 	public function throttle() {
-		$this->throttle = Transient::set( 'bh_data_connection_throttle', true, 60 * MINUTE_IN_SECONDS );
+		$interval = $this->get_throttle_interval();
+
+		$this->throttle = Transient::set( 'bh_data_connection_throttle', true, $interval );
+	}
+
+	/**
+	 * Determine the throttle interval based off number of connection attempts
+	 *
+	 * @return integer Time to wait until next connection attempt
+	 */
+	public function get_throttle_interval() {
+
+		$attempts = intval( get_option( 'bh_data_connection_attempts', 0 ) );
+
+		// Throttle intervals step-up:
+		// Hourly for 4 hours
+		// Twice a day for 3 days
+		// Once a day for 3 days
+		// Every 3 days for 3 times
+		// Once a week
+		if ( $attempts <= 4 ) {
+			return HOUR_IN_SECONDS;
+		} elseif ( $attempts <= 10 ) {
+			return 12 * HOUR_IN_SECONDS;
+		} elseif ( $attempts <= 13 ) {
+			return DAY_IN_SECONDS;
+		} elseif ( $attempts <= 16 ) {
+			return 3 * DAY_IN_SECONDS;
+		} else {
+			return WEEK_IN_SECONDS;
+		}
+
 	}
 
 	/**
