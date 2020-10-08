@@ -16,6 +16,7 @@ class EventManager {
 		'\\Listeners\\Admin',
 		'\\Listeners\\BHPlugin',
 		'\\Listeners\\Content',
+		'\\Listeners\\Cron',
 		'\\Listeners\\Jetpack',
 		'\\Listeners\\Plugin',
 		'\\Listeners\\Theme',
