@@ -14,7 +14,7 @@ class Jetpack extends Listener {
 	 */
 	public function register_hooks() {
 		// Connected
-		add_action( 'jetpack_log_entry', array( $this, 'connected' ), 10, 3 );
+		add_action( 'jetpack_site_registered', array( $this, 'connected' ), 10, 3 );
 
 		// Module enabled/disabled
 		add_action( 'jetpack_pre_activate_module', array( $this, 'module_enabled' ) );
