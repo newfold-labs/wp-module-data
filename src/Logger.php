@@ -10,10 +10,15 @@ class Logger implements SubscriberInterface {
 	/**
 	 * Method for handling receiving event data
 	 *
-	 * @param Event $event Event object representing data about the event that occurred
+	 * @param array $events Array of Event objects representing data about the events that occurred
 	 */
-	public function notify( Event $event ) {
-		$log = wp_json_encode( $event, JSON_UNESCAPED_SLASHES ) . "\n";
-		file_put_contents( dirname( dirname( __FILE__ ) ) . '/debug.log', $log, FILE_APPEND );
+	public function notify( $events ) {
+		foreach ( $events as $event ) {
+			if ( ! $event ) {
+				return;
+			}
+			$log = wp_json_encode( $event, JSON_UNESCAPED_SLASHES ) . "\n";
+			file_put_contents( dirname( dirname( __FILE__ ) ) . '/debug.log', $log, FILE_APPEND );
+		}
 	}
 }

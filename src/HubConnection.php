@@ -101,8 +101,8 @@ class HubConnection implements SubscriberInterface {
 	 *
 	 * @return boolean
 	 */
-	public function is_connected() {
-		return (bool) ( $this->get_auth_token() );
+	public static function is_connected() {
+		return (bool) ( self::get_auth_token() );
 	}
 
 	/**
@@ -205,29 +205,34 @@ class HubConnection implements SubscriberInterface {
 	/**
 	 * Post event data payload to the hub
 	 *
-	 * @param Event $event Event object representing the action that occurred
+	 * @param array $events Array of Event objects representing the actions that occurred
 	 *
 	 * @return void
 	 */
-	public function notify( Event $event ) {
+	public function notify( $events ) {
 
 		// If for some reason we are not connected, bail out now.
-		if ( ! $this->is_connected() ) {
+		if ( ! self::is_connected() ) {
 			return;
 		}
 
+		$payload = array(
+			'environment' => $this->get_core_data(),
+			'events'      => $events,
+		);
+
 		$args = array(
-			'body'     => wp_json_encode( $event ),
+			'body'     => wp_json_encode( $payload ),
 			'headers'  => array(
 				'Content-Type'  => 'applicaton/json',
 				'Accept'        => 'applicaton/json',
-				'Authorization' => 'Bearer ' . $this->get_auth_token(),
+				'Authorization' => 'Bearer ' . self::get_auth_token(),
 			),
 			'blocking' => false,
 			'timeout'  => .5,
 		);
 
-		wp_remote_post( $this->api . '/event', $args );
+		wp_remote_post( $this->api . '/events', $args );
 	}
 
 	/**
@@ -235,16 +240,12 @@ class HubConnection implements SubscriberInterface {
 	 *
 	 * @return string|null The decrypted token if it's set
 	 */
-	public function get_auth_token() {
-		if ( empty( $this->token ) ) {
-			$encrypted_token = get_option( 'bh_data_token' );
-			if ( false !== $encrypted_token ) {
-				$encryption  = new Encryption();
-				$this->token = $encryption->decrypt( $encrypted_token );
-			}
+	public static function get_auth_token() {
+		$encrypted_token = get_option( 'bh_data_token' );
+		if ( false !== $encrypted_token ) {
+			$encryption = new Encryption();
+			return $encryption->decrypt( $encrypted_token );
 		}
-
-		return $this->token;
 	}
 
 	/**

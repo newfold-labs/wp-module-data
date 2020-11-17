@@ -30,6 +30,90 @@ class EventManager {
 	private $subscribers = array();
 
 	/**
+	 * The queue of events logged in the current request
+	 *
+	 * @var array
+	 */
+	private $queue = array();
+
+	/**
+	 * Initialize the Event Manager
+	 *
+	 * @return void
+	 */
+	public function init() {
+		$this->initialize_listeners();
+		$this->initialize_cron();
+
+		// Register the shutdown hook which sends or saves all queued events
+		add_action( 'shutdown', array( $this, 'shutdown' ) );
+	}
+
+	/**
+	 * Handle setting up the scheduled job for sending updates
+	 *
+	 * @return void
+	 */
+	public function initialize_cron() {
+		// Ensure there is a minutely option in the cron schedules
+		add_filter( 'cron_schedules', array( $this, 'add_minutely_schedule' ) );
+
+		// Minutely cron hook
+		add_action( 'bh_data_sync_cron', array( $this, 'send_batch' ) );
+
+		// Register the cron task
+		if ( ! wp_next_scheduled( 'bh_data_sync_cron' ) ) {
+			wp_schedule_event( time() + MINUTE_IN_SECONDS, 'minutely', 'bh_data_sync_cron' );
+		}
+	}
+
+	/**
+	 * Add the weekly option to cron schedules if it doesn't exist
+	 *
+	 * @param array $schedules List of cron schedule options
+	 * @return array
+	 */
+	public function add_minutely_schedule( $schedules ) {
+		if ( ! array_key_exists( 'minutely', $schedules ) || MINUTE_IN_SECONDS !== $schedules['minutely']['interval'] ) {
+			$schedules['minutely'] = array(
+				'interval' => MINUTE_IN_SECONDS,
+				'display'  => __( 'Once Every Minute' ),
+			);
+		}
+		return $schedules;
+	}
+
+	/**
+	 * Sends or saves all queued events at the end of the request
+	 *
+	 * @return void
+	 */
+	public function shutdown() {
+
+		// Separate out the async events
+		$async = array();
+		foreach ( $this->queue as $index => $event ) {
+			if ( 'pageview' === $event->key ) {
+				$async[] = $event;
+				unset( $this->queue[ $index ] );
+			}
+		}
+
+		// Save any async events for sending later
+		if ( ! empty( $async ) ) {
+			if ( ! get_option( 'bh_data_queue_lock' ) ) {
+				$saved_queue = get_option( 'bh_data_queue', array() );
+				update_option( 'bh_data_queue', array_merge( $saved_queue, $async ), false );
+			}
+		}
+
+		// Any remaining items in the queue should be sent now
+		if ( ! empty( $this->queue ) ) {
+			$this->send( $this->queue );
+		}
+	}
+
+	/**
 	 * Register a new event subscriber
 	 *
 	 * @param SubscriberInterface $subscriber Class subscribing to event updates
@@ -71,15 +155,61 @@ class EventManager {
 	}
 
 	/**
-	 * Push event details out to subscribers
+	 * Push event data onto the queue
 	 *
 	 * @param Event $event Details about the action taken
 	 *
 	 * @return void
 	 */
 	public function push( Event $event ) {
+		do_action( 'bh_event_log', $event->key, $event );
+		array_push( $this->queue, $event );
+	}
+
+	/**
+	 * Send queued events to all subscribers
+	 *
+	 * @param array $events A list of events
+	 * @return void
+	 */
+	public function send( $events ) {
 		foreach ( $this->get_subscribers() as $subscriber ) {
-			$subscriber->notify( $event );
+			$subscriber->notify( $events );
 		}
+	}
+
+	/**
+	 * Retrieve a batch of events from the DB queue and shorten it
+	 *
+	 * @param integer $count Number of events to grab from the queue
+	 * @return array
+	 */
+	public function get_batch( $count = 20 ) {
+		$events = get_option( 'bh_data_queue', array() );
+		// Bail early if no saved events
+		if ( empty( $events ) ) {
+			return $events;
+		}
+
+		for ( $i = 0; $i < $count; $i++ ) {
+			$batch[] = array_shift( $events );
+		}
+
+		update_option( 'bh_data_queue', $events, false );
+		return $batch;
+	}
+
+	/**
+	 * Send queued events to all subscribers
+	 *
+	 * @return void
+	 */
+	public function send_batch() {
+		add_option( 'bh_data_queue_lock', true );
+		$events = $this->get_batch();
+		if ( ! empty( $events ) ) {
+			$this->send( $events );
+		}
+		delete_option( 'bh_data_queue_lock' );
 	}
 }

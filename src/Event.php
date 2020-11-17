@@ -43,11 +43,11 @@ class Event {
 	public $user;
 
 	/**
-	 * Array of version data about the environment
+	 * Timestamp when the event occurred
 	 *
-	 * @var array
+	 * @var integer
 	 */
-	public $environment;
+	public $time;
 
 	/**
 	 * Construct
@@ -57,9 +57,10 @@ class Event {
 	 * @param array  $data     Additional data specific to the event that occurred
 	 */
 	public function __construct( $category = 'Admin', $key = '', $data = array() ) {
-		global $title, $wpdb, $wp_version;
+		global $title;
 
 		// Event details
+		$this->time     = time();
 		$this->category = strtolower( $category );
 		$this->key      = $key;
 		$this->data     = $data;
@@ -90,16 +91,6 @@ class Event {
 			'locale' => get_user_locale(),
 		);
 
-		// Environment Information
-		$this->environment = array(
-			'url'         => get_site_url(),
-			'php'         => phpversion(),
-			'mysql'       => $wpdb->db_version(),
-			'wp'          => $wp_version,
-			'plugin'      => BLUEHOST_PLUGIN_VERSION,
-			'hostname'    => gethostname(),
-			'cache_level' => intval( get_option( 'endurance_cache_level', 2 ) ),
-		);
 	}
 
 }

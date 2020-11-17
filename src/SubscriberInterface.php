@@ -10,7 +10,7 @@ interface SubscriberInterface {
 	/**
 	 * Method for handling receiving event data
 	 *
-	 * @param Event $event Event object representing data about the event that occurred
+	 * @param array $events Array of Event objects representing data about the events that occurred
 	 */
-	public function notify( Event $event );
+	public function notify( $events );
 }

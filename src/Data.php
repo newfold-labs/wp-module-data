@@ -39,7 +39,7 @@ class Data {
 
 		// If not connected, attempt to connect and
 		// bail before registering the subscribers/listeners
-		if ( ! $this->hub->is_connected() ) {
+		if ( ! $this->hub::is_connected() ) {
 
 			// Initialize the required verification endpoints
 			$this->hub->register_verification_hooks();
@@ -53,7 +53,7 @@ class Data {
 		}
 
 		$manager = new EventManager();
-		$manager->initialize_listeners();
+		$manager->init();
 
 		$manager->add_subscriber( $this->hub );
 

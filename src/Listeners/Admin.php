@@ -14,8 +14,8 @@ class Admin extends Listener {
 	 */
 	public function register_hooks() {
 		// Admin pages
-		// add_action( 'admin_footer', array( $this, 'view' ), 9 );
-		// add_action( 'customize_controls_print_footer_scripts', array( $this, 'view' ) );
+		add_action( 'admin_footer', array( $this, 'view' ), 9 );
+		add_action( 'customize_controls_print_footer_scripts', array( $this, 'view' ) );
 
 		// Login
 		add_action( 'wp_login', array( $this, 'login' ) );
