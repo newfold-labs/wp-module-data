@@ -61,6 +61,9 @@ class HubConnection implements SubscriberInterface {
 	public function rest_api_init() {
 		$controller = new API\Verify( $this );
 		$controller->register_routes();
+
+		$controller = new API\Events( $this );
+		$controller->register_routes();
 	}
 
 	/**

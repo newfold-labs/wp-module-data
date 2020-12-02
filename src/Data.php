@@ -37,12 +37,11 @@ class Data {
 
 		$this->hub = new HubConnection();
 
-		// If not connected, attempt to connect and
-		// bail before registering the subscribers/listeners
-		if ( ! $this->hub::is_connected() ) {
+		// Initialize the required verification endpoints
+		$this->hub->register_verification_hooks();
 
-			// Initialize the required verification endpoints
-			$this->hub->register_verification_hooks();
+		// If not connected, attempt to connect and
+		if ( ! $this->hub::is_connected() ) {
 
 			// Attempt to connect
 			if ( ! $this->hub->is_throttled() ) {
