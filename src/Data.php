@@ -37,11 +37,15 @@ class Data {
 
 		$this->hub = new HubConnection();
 
-		// Initialize the required verification endpoints
-		$this->hub->register_verification_hooks();
+		$manager = new EventManager();
+		$manager->initialize_rest_endpoint();
 
 		// If not connected, attempt to connect and
+		// bail before registering the subscribers/listeners
 		if ( ! $this->hub::is_connected() ) {
+
+			// Initialize the required verification endpoints
+			$this->hub->register_verification_hooks();
 
 			// Attempt to connect
 			if ( ! $this->hub->is_throttled() ) {
@@ -51,7 +55,6 @@ class Data {
 			return;
 		}
 
-		$manager = new EventManager();
 		$manager->init();
 
 		$manager->add_subscriber( $this->hub );

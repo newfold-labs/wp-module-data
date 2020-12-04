@@ -3,7 +3,7 @@
 namespace Endurance\WP\Module\Data\API;
 
 use Endurance\WP\Module\Data\Event;
-use Endurance\WP\Module\Data\HubConnection;
+use Endurance\WP\Module\Data\EventManager;
 use WP_REST_Controller;
 use WP_REST_Server;
 
@@ -13,21 +13,21 @@ use WP_REST_Server;
 class Events extends WP_REST_Controller {
 
 	/**
-	 * Instance of HubConnection class
+	 * Instance of the EventManager class.
 	 *
-	 * @var HubConnection
+	 * @var EventManager
 	 */
-	public $hub;
+	public $event_manager;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param HubConnection $hub Instance of the hub connection manager
+	 * @param EventManager $event_manager Instance of the EventManager class.
 	 */
-	public function __construct( HubConnection $hub ) {
-		$this->hub       = $hub;
-		$this->namespace = 'bluehost/v1/data';
-		$this->rest_base = 'events';
+	public function __construct( EventManager $event_manager ) {
+		$this->event_manager = $event_manager;
+		$this->namespace     = 'bluehost/v1/data';
+		$this->rest_base     = 'events';
 	}
 
 	/**
@@ -43,17 +43,22 @@ class Events extends WP_REST_Controller {
 			array(
 				'args' => array(
 					'action'   => array(
-						'required'    => true,
-						'description' => __( 'Event action' ),
-						'type'        => 'string',
+						'required'          => true,
+						'description'       => __( 'Event action' ),
+						'type'              => 'string',
+						'sanitize_callback' => function ( $value ) {
+							return sanitize_title( $value );
+						}
 					),
 					'category' => array(
-						'default'     => 'Admin',
-						'description' => __( 'Event category' ),
-						'type'        => 'string',
+						'default'           => 'admin',
+						'description'       => __( 'Event category' ),
+						'type'              => 'string',
+						'sanitize_callback' => function ( $value ) {
+							return sanitize_title( $value );
+						}
 					),
 					'data'     => array(
-						'required'    => true,
 						'description' => __( 'Event data' ),
 						'type'        => 'object',
 					),
@@ -79,11 +84,12 @@ class Events extends WP_REST_Controller {
 
 		$category = $request->get_param( 'category' );
 		$action   = $request->get_param( 'action' );
-		$data     = $request->get_param( 'data' );
+		$data     = ! empty( $request['data'] ) ? $request['data'] : [];
 
 		$event = new Event( $category, $action, $data );
 
-		$this->hub->notify( [ $event ] );
+		$this->event_manager->push( $event );
+
 		$response = rest_ensure_response(
 			[
 				'category' => $category,
@@ -97,15 +103,23 @@ class Events extends WP_REST_Controller {
 	}
 
 	/**
-	 * No authentication required for this endpoint
+	 * User is required to be logged in.
 	 *
 	 * @param \WP_REST_Request $request Full details about the request.
 	 *
 	 * @return true|\WP_Error
-	 * @since 1.0
 	 *
+	 * @since 1.0
 	 */
 	public function create_item_permissions_check( $request ) {
+		if ( ! current_user_can( 'read' ) ) {
+			return new \WP_Error(
+				'rest_cannot_log_event',
+				__( 'Sorry, you are not allowed to use this endpoint.' ),
+				array( 'status' => rest_authorization_required_code() )
+			);
+		}
+
 		return true;
 	}
 }
