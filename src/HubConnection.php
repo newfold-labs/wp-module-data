@@ -208,7 +208,7 @@ class HubConnection implements SubscriberInterface {
 	/**
 	 * Post event data payload to the hub
 	 *
-	 * @param array $events Array of Event objects representing the actions that occurred
+	 * @param Event[] $events Array of Event objects representing the actions that occurred
 	 *
 	 * @return void
 	 */

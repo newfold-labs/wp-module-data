@@ -2,6 +2,7 @@
 
 namespace Endurance\WP\Module\Data\API;
 
+use Endurance\WP\Module\Data\Event;
 use Endurance\WP\Module\Data\HubConnection;
 use WP_REST_Controller;
 use WP_REST_Server;
@@ -41,9 +42,20 @@ class Events extends WP_REST_Controller {
 			'/' . $this->rest_base . '/',
 			array(
 				'args' => array(
-					'data' => array(
-						'description' => __( 'Event data.' ),
-						'type'        => 'array',
+					'action'   => array(
+						'required'    => true,
+						'description' => __( 'Event action' ),
+						'type'        => 'string',
+					),
+					'category' => array(
+						'default'     => 'Admin',
+						'description' => __( 'Event category' ),
+						'type'        => 'string',
+					),
+					'data'     => array(
+						'required'    => true,
+						'description' => __( 'Event data' ),
+						'type'        => 'object',
 					),
 				),
 				array(
@@ -64,9 +76,21 @@ class Events extends WP_REST_Controller {
 	 * @return \WP_REST_Response|\WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function create_item( $request ) {
-		$eventData = $request->get_json_params();
-		$this->hub->notify( $eventData );
-		$response = rest_ensure_response( $eventData );
+
+		$category = $request->get_param( 'category' );
+		$action   = $request->get_param( 'action' );
+		$data     = $request->get_param( 'data' );
+
+		$event = new Event( $category, $action, $data );
+
+		$this->hub->notify( [ $event ] );
+		$response = rest_ensure_response(
+			[
+				'category' => $category,
+				'action'   => $action,
+				'data'     => $data,
+			]
+		);
 		$response->set_status( 202 );
 
 		return $response;
