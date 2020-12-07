@@ -1,10 +1,18 @@
- # Endurance Data WordPress Module
+<a href="https://endurance.com/" target="_blank">
+    <img src="https://bluehost.com/resources/logos/endurance.svg" alt="Endurance Logo" title="Endurance" align="right" height="42" />
+</a>
+
+# Data WordPress Module
  
 Connects a WordPress site to Endurance systems to provide basic features and metrics.
  
  ## Installation
  
  ### 1. Add the Bluehost Satis to your `composer.json`.
+ 
+  ```bash
+ composer config repositories.bluehost composer https://bluehost.github.io/satis
+ ```
  
  ### 2. Require the `bluehost/endurance-wp-module-data` package.
  
