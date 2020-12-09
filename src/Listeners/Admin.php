@@ -30,10 +30,19 @@ class Admin extends Listener {
 	 * @return void
 	 */
 	public function view() {
+		global $title;
+
 		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 			return;
 		}
-		$this->push( 'pageview' );
+
+		$this->push(
+			'pageview',
+			array(
+				'page'       => get_site_url( null, $_SERVER['REQUEST_URI'] ),
+				'page_title' => $title,
+			)
+		);
 	}
 
 	/**
