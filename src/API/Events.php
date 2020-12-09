@@ -48,7 +48,7 @@ class Events extends WP_REST_Controller {
 						'type'              => 'string',
 						'sanitize_callback' => function ( $value ) {
 							return sanitize_title( $value );
-						}
+						},
 					),
 					'category' => array(
 						'default'           => 'admin',
@@ -56,7 +56,7 @@ class Events extends WP_REST_Controller {
 						'type'              => 'string',
 						'sanitize_callback' => function ( $value ) {
 							return sanitize_title( $value );
-						}
+						},
 					),
 					'data'     => array(
 						'description' => __( 'Event data' ),
@@ -84,18 +84,18 @@ class Events extends WP_REST_Controller {
 
 		$category = $request->get_param( 'category' );
 		$action   = $request->get_param( 'action' );
-		$data     = ! empty( $request['data'] ) ? $request['data'] : [];
+		$data     = ! empty( $request['data'] ) ? $request['data'] : array();
 
 		$event = new Event( $category, $action, $data );
 
 		$this->event_manager->push( $event );
 
 		$response = rest_ensure_response(
-			[
+			array(
 				'category' => $category,
 				'action'   => $action,
 				'data'     => $data,
-			]
+			)
 		);
 		$response->set_status( 202 );
 
