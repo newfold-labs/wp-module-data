@@ -13,13 +13,13 @@ class EventManager {
 	 * @var array
 	 */
 	const LISTENERS = array(
-		'\\Listeners\\Admin',
-		'\\Listeners\\BHPlugin',
-		'\\Listeners\\Content',
-		'\\Listeners\\Cron',
-		'\\Listeners\\Jetpack',
-		'\\Listeners\\Plugin',
-		'\\Listeners\\Theme',
+		'\\Endurance\\WP\\Module\\Data\\Listeners\\Admin',
+		'\\Endurance\\WP\\Module\\Data\\Listeners\\BHPlugin',
+		'\\Endurance\\WP\\Module\\Data\\Listeners\\Content',
+		'\\Endurance\\WP\\Module\\Data\\Listeners\\Cron',
+		'\\Endurance\\WP\\Module\\Data\\Listeners\\Jetpack',
+		'\\Endurance\\WP\\Module\\Data\\Listeners\\Plugin',
+		'\\Endurance\\WP\\Module\\Data\\Listeners\\Theme',
 	);
 
 	/**
@@ -50,6 +50,14 @@ class EventManager {
 	}
 
 	/**
+	 * Initialize the REST API endpoint.
+	 */
+	public function initialize_rest_endpoint() {
+		// Register REST endpoint.
+		add_action( 'rest_api_init', array( $this, 'rest_api_init' ) );
+	}
+
+	/**
 	 * Handle setting up the scheduled job for sending updates
 	 *
 	 * @return void
@@ -68,9 +76,18 @@ class EventManager {
 	}
 
 	/**
+	 * Register the event route.
+	 */
+	public function rest_api_init() {
+		$controller = new API\Events( $this );
+		$controller->register_routes();
+	}
+
+	/**
 	 * Add the weekly option to cron schedules if it doesn't exist
 	 *
 	 * @param array $schedules List of cron schedule options
+	 *
 	 * @return array
 	 */
 	public function add_minutely_schedule( $schedules ) {
@@ -80,6 +97,7 @@ class EventManager {
 				'display'  => __( 'Once Every Minute' ),
 			);
 		}
+
 		return $schedules;
 	}
 
@@ -117,6 +135,7 @@ class EventManager {
 	 * Register a new event subscriber
 	 *
 	 * @param SubscriberInterface $subscriber Class subscribing to event updates
+	 *
 	 * @return void
 	 */
 	public function add_subscriber( SubscriberInterface $subscriber ) {
@@ -148,8 +167,7 @@ class EventManager {
 	 */
 	public function initialize_listeners() {
 		foreach ( $this->get_listeners() as $listener ) {
-			$classname = __NAMESPACE__ . $listener;
-			$class     = new $classname( $this );
+			$class = new $listener( $this );
 			$class->register_hooks();
 		}
 	}
@@ -170,6 +188,7 @@ class EventManager {
 	 * Send queued events to all subscribers
 	 *
 	 * @param array $events A list of events
+	 *
 	 * @return void
 	 */
 	public function send( $events ) {
@@ -182,6 +201,7 @@ class EventManager {
 	 * Retrieve a batch of events from the DB queue and shorten it
 	 *
 	 * @param integer $count Number of events to grab from the queue
+	 *
 	 * @return array
 	 */
 	public function get_batch( $count = 20 ) {
@@ -191,11 +211,12 @@ class EventManager {
 			return $events;
 		}
 
-		for ( $i = 0; $i < $count; $i++ ) {
+		for ( $i = 0; $i < $count; $i ++ ) {
 			$batch[] = array_shift( $events );
 		}
 
 		update_option( 'bh_data_queue', $events, false );
+
 		return $batch;
 	}
 

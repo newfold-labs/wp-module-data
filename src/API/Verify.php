@@ -55,7 +55,6 @@ class Verify extends WP_REST_Controller {
 					'callback'            => array( $this, 'get_items' ),
 					'permission_callback' => array( $this, 'get_items_permissions_check' ),
 				),
-				// 'schema' => array( $this, 'get_public_item_schema' ),
 			)
 		);
 
@@ -66,8 +65,8 @@ class Verify extends WP_REST_Controller {
 	 *
 	 * @since 1.0
 	 *
-	 * @param WP_REST_Request $request Full details about the request.
-	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+	 * @param \WP_REST_Request $request Full details about the request.
+	 * @return \WP_REST_Response|\WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function get_items( $request ) {
 		$valid  = $this->hub->verify_token( $request['token'] );

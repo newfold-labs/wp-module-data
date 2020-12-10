@@ -37,6 +37,9 @@ class Data {
 
 		$this->hub = new HubConnection();
 
+		$manager = new EventManager();
+		$manager->initialize_rest_endpoint();
+
 		// If not connected, attempt to connect and
 		// bail before registering the subscribers/listeners
 		if ( ! $this->hub::is_connected() ) {
@@ -52,7 +55,6 @@ class Data {
 			return;
 		}
 
-		$manager = new EventManager();
 		$manager->init();
 
 		$manager->add_subscriber( $this->hub );

@@ -30,10 +30,25 @@ class Admin extends Listener {
 	 * @return void
 	 */
 	public function view() {
+		global $title;
+
 		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 			return;
 		}
-		$this->push( 'pageview' );
+
+		// Exclude Bluehost Plugin pages from this listener
+		$screen = get_current_screen();
+		if ( 'toplevel_page_bluehost' === $screen->id ) {
+			return;
+		}
+
+		$this->push(
+			'pageview',
+			array(
+				'page'       => get_site_url( null, $_SERVER['REQUEST_URI'] ),
+				'page_title' => $title,
+			)
+		);
 	}
 
 	/**
