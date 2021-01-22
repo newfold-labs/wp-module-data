@@ -83,6 +83,7 @@ class HubConnection implements SubscriberInterface {
 	 * Confirm whether verification token is valid
 	 *
 	 * @param string $token Token to verify
+	 *
 	 * @return boolean
 	 */
 	public function verify_token( $token ) {
@@ -90,6 +91,7 @@ class HubConnection implements SubscriberInterface {
 
 		if ( $saved_token && $saved_token === $token ) {
 			Transient::delete( 'bh_data_verify_token' );
+
 			return true;
 		}
 
@@ -199,6 +201,7 @@ class HubConnection implements SubscriberInterface {
 	 */
 	public function is_throttled() {
 		$this->throttled = Transient::get( 'bh_data_connection_throttle' );
+
 		return $this->throttled;
 	}
 
@@ -206,14 +209,15 @@ class HubConnection implements SubscriberInterface {
 	 * Post event data payload to the hub
 	 *
 	 * @param Event[] $events Array of Event objects representing the actions that occurred
+	 * @param bool    $is_blocking
 	 *
-	 * @return void
+	 * @return array|\WP_Error
 	 */
-	public function notify( $events ) {
+	public function notify( $events, $is_blocking = false ) {
 
 		// If for some reason we are not connected, bail out now.
 		if ( ! self::is_connected() ) {
-			return;
+			return new \WP_Error( 'hub_connection', __( 'This site is not connected to the hub.' ) );
 		}
 
 		$payload = array(
@@ -228,11 +232,11 @@ class HubConnection implements SubscriberInterface {
 				'Accept'        => 'applicaton/json',
 				'Authorization' => 'Bearer ' . self::get_auth_token(),
 			),
-			'blocking' => false,
-			'timeout'  => .5,
+			'blocking' => $is_blocking,
+			'timeout'  => $is_blocking ? 10 : .5,
 		);
 
-		wp_remote_post( $this->api . '/events', $args );
+		return wp_remote_post( $this->api . '/events', $args );
 	}
 
 	/**
@@ -244,6 +248,7 @@ class HubConnection implements SubscriberInterface {
 		$encrypted_token = get_option( 'bh_data_token' );
 		if ( false !== $encrypted_token ) {
 			$encryption = new Encryption();
+
 			return $encryption->decrypt( $encrypted_token );
 		}
 	}

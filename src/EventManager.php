@@ -79,7 +79,7 @@ class EventManager {
 	 * Register the event route.
 	 */
 	public function rest_api_init() {
-		$controller = new API\Events( $this );
+		$controller = new API\Events( Data::$instance->hub, $this );
 		$controller->register_routes();
 	}
 

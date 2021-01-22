@@ -4,6 +4,7 @@ namespace Endurance\WP\Module\Data\API;
 
 use Endurance\WP\Module\Data\Event;
 use Endurance\WP\Module\Data\EventManager;
+use Endurance\WP\Module\Data\HubConnection;
 use WP_REST_Controller;
 use WP_REST_Server;
 
@@ -20,12 +21,21 @@ class Events extends WP_REST_Controller {
 	public $event_manager;
 
 	/**
-	 * Constructor.
+	 * Instance of the HubConnection class.
 	 *
-	 * @param EventManager $event_manager Instance of the EventManager class.
+	 * @var HubConnection
 	 */
-	public function __construct( EventManager $event_manager ) {
+	public $hub;
+
+	/**
+	 * Events constructor.
+	 *
+	 * @param HubConnection $hub           Instance of the HubConnection class.
+	 * @param EventManager  $event_manager Instance of the EventManager class.
+	 */
+	public function __construct( HubConnection $hub, EventManager $event_manager ) {
 		$this->event_manager = $event_manager;
+		$this->hub           = $hub;
 		$this->namespace     = 'bluehost/v1/data';
 		$this->rest_base     = 'events';
 	}
@@ -62,6 +72,14 @@ class Events extends WP_REST_Controller {
 						'description' => __( 'Event data' ),
 						'type'        => 'object',
 					),
+					'queue'    => array(
+						'default'           => true,
+						'description'       => __( 'Whether or not to queue the event' ),
+						'type'              => 'boolean',
+						'sanitize_callback' => function ( $value ) {
+							return filter_var( $value, FILTER_VALIDATE_BOOLEAN );
+						}
+					),
 				),
 				array(
 					'methods'             => WP_REST_Server::CREATABLE,
@@ -88,6 +106,30 @@ class Events extends WP_REST_Controller {
 
 		$event = new Event( $category, $action, $data );
 
+		// If request isn't to be queued, we want the realtime response.
+		if ( ! $request['queue'] ) {
+			$notifications = [];
+			$hub_response  = $this->hub->notify( [ $event ], true );
+
+			if ( is_wp_error( $hub_response ) ) {
+				return new \WP_REST_Response( $hub_response->get_error_message(), 401 );
+			}
+
+			$status_code = wp_remote_retrieve_response_code( $hub_response );
+
+			if ( 200 !== $status_code ) {
+				return new \WP_REST_Response( wp_remote_retrieve_response_message( $hub_response ), $status_code );
+			}
+
+			$payload = json_decode( wp_remote_retrieve_body( $hub_response ) );
+			if ( $payload && is_array( $payload->data ) ) {
+				$notifications = $payload;
+			}
+
+			return new \WP_REST_Response( $notifications, 201 );
+		}
+
+		// Otherwise, queue the event.
 		$this->event_manager->push( $event );
 
 		$response = rest_ensure_response(
