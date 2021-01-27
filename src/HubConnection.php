@@ -269,6 +269,7 @@ class HubConnection implements SubscriberInterface {
 			'plugin'      => BLUEHOST_PLUGIN_VERSION,
 			'hostname'    => gethostname(),
 			'cache_level' => intval( get_option( 'endurance_cache_level', 2 ) ),
+			'cloudflare'  => get_option( 'endurance_cloudflare_enabled', false ),
 		);
 	}
 }
