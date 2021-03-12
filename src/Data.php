@@ -15,6 +15,20 @@ class Data {
 	public $hub;
 
 	/**
+	 * Last instantiated instance of this class.
+	 *
+	 * @var Data
+	 */
+	public static $instance;
+
+	/**
+	 * Data constructor.
+	 */
+	public function __construct() {
+		self::$instance = $this;
+	}
+
+	/**
 	 * Start up the plugin module
 	 *
 	 * Do this separately so it isn't tied to class creation
