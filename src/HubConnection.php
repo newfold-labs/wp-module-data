@@ -123,6 +123,12 @@ class HubConnection implements SubscriberInterface {
 
 		$data                 = $this->get_core_data();
 		$data['verify_token'] = $token;
+		
+		// Add plugin data
+		// Need to determine what type of request this is and 
+		// only add plugin data if applicable. 
+		// Initial connection and Cron
+		$data['plugins']      = wp_json_encode( get_plugin_data() );
 
 		$args = array(
 			'body'     => wp_json_encode( $data ),
