@@ -125,12 +125,6 @@ class HubConnection implements SubscriberInterface {
 
 		$data                 = $this->get_core_data();
 		$data['verify_token'] = $token;
-		
-		// Add plugin data
-		// Need to determine what type of request this is and 
-		// only add plugin data if applicable. 
-		// Initial connection and Cron
-		$data['plugins']      = wp_json_encode( get_plugin_data() );
 
 		$args = array(
 			'body'     => wp_json_encode( $data ),
@@ -276,6 +270,32 @@ class HubConnection implements SubscriberInterface {
 			'hostname'    => gethostname(),
 			'cache_level' => intval( get_option( 'endurance_cache_level', 2 ) ),
 			'cloudflare'  => get_option( 'endurance_cloudflare_enabled', false ),
+			'plugins'     => self::prepare_plugin_data( get_plugins() )
 		);
+	}
+
+	/**
+	 * Prepare plugin data
+	 */
+	public function prepare_plugin_data( $datas ){
+		$plugins = [];
+		foreach ( $datas as $key => $data ) {
+			$plugin = [];
+			// key/slug preparations
+			// $key cleanup;
+			$plugin['slug'] = $key;
+			// grab needed data points
+			$plugin['version'] = $data['Version'];
+			$plugin['description'] = $data['Description'];
+			// add auto-updates boolean
+			// $plugin['autoupdates'] = ;
+			// add status
+			$plugin['active'] = is_plugin_active( $key );
+
+			array_push( $plugins, $plugin );
+		}
+		// print_r($plugins);
+		// json_encode ?
+		return $plugins;
 	}
 }
