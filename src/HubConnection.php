@@ -270,32 +270,46 @@ class HubConnection implements SubscriberInterface {
 			'hostname'    => gethostname(),
 			'cache_level' => intval( get_option( 'endurance_cache_level', 2 ) ),
 			'cloudflare'  => get_option( 'endurance_cloudflare_enabled', false ),
-			'plugins'     => self::prepare_plugin_data( get_plugins() )
+			'plugins'     => self::collect_plugins()
 		);
 	}
 
 	/**
 	 * Prepare plugin data
 	 */
-	public function prepare_plugin_data( $datas ){
+	public function collect_plugins(){
+
+		$datas = get_plugins();
+		$mudatas = get_mu_plugins();
 		$plugins = [];
+		
+		// process normal plugins
 		foreach ( $datas as $key => $data ) {
 			$plugin = [];
 			// key/slug preparations
-			// $key cleanup;
 			$plugin['slug'] = $key;
 			// grab needed data points
 			$plugin['version'] = $data['Version'];
 			$plugin['description'] = $data['Description'];
-			// add auto-updates boolean
-			// $plugin['autoupdates'] = ;
-			// add status
 			$plugin['active'] = is_plugin_active( $key );
 
 			array_push( $plugins, $plugin );
 		}
-		// print_r($plugins);
-		// json_encode ?
+
+		// process mu plugins
+		foreach ( $mudatas as $key => $data ) {
+			$plugin = [];
+			// key/slug preparations
+			$plugin['slug'] = $key;
+			// grab needed data points
+			$plugin['version'] = $data['Version'];
+			$plugin['description'] = $data['Description'];
+			$plugin['mu'] = true;
+			$plugin['active'] = true;
+
+			array_push( $plugins, $plugin );
+		}
+		
 		return $plugins;
 	}
 }
