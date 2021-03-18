@@ -2,6 +2,8 @@
 
 namespace Endurance\WP\Module\Data;
 
+use Endurance\WP\Module\Data\Listeners\Plugin;
+
 /**
  * Manages a Hub connection instance and interactions with it
  */
@@ -123,7 +125,7 @@ class HubConnection implements SubscriberInterface {
 		$token = md5( wp_generate_password() );
 		Transient::set( 'bh_data_verify_token', $token, 5 * MINUTE_IN_SECONDS );
 
-		$data                 = $this->get_core_data();
+		$data                 = $this->get_core_data(true);
 		$data['verify_token'] = $token;
 
 		$args = array(
@@ -258,10 +260,10 @@ class HubConnection implements SubscriberInterface {
 	 *
 	 * @return array
 	 */
-	public function get_core_data() {
+	public function get_core_data($include_plugins=false) {
 		global $wpdb, $wp_version;
 
-		return array(
+		$data = array(
 			'url'         => get_site_url(),
 			'php'         => phpversion(),
 			'mysql'       => $wpdb->db_version(),
@@ -269,47 +271,13 @@ class HubConnection implements SubscriberInterface {
 			'plugin'      => BLUEHOST_PLUGIN_VERSION,
 			'hostname'    => gethostname(),
 			'cache_level' => intval( get_option( 'endurance_cache_level', 2 ) ),
-			'cloudflare'  => get_option( 'endurance_cloudflare_enabled', false ),
-			'plugins'     => self::collect_plugins()
+			'cloudflare'  => get_option( 'endurance_cloudflare_enabled', false )
 		);
-	}
 
-	/**
-	 * Prepare plugin data
-	 */
-	public function collect_plugins(){
-
-		$datas = get_plugins();
-		$mudatas = get_mu_plugins();
-		$plugins = [];
-		
-		// process normal plugins
-		foreach ( $datas as $key => $data ) {
-			$plugin = [];
-			// key/slug preparations
-			$plugin['slug'] = $key;
-			// grab needed data points
-			$plugin['version'] = $data['Version'];
-			$plugin['description'] = $data['Description'];
-			$plugin['active'] = is_plugin_active( $key );
-
-			array_push( $plugins, $plugin );
+		if ($include_plugins) {
+			$data['plugins'] = Plugin::collect_plugins();
 		}
 
-		// process mu plugins
-		foreach ( $mudatas as $key => $data ) {
-			$plugin = [];
-			// key/slug preparations
-			$plugin['slug'] = $key;
-			// grab needed data points
-			$plugin['version'] = $data['Version'];
-			$plugin['description'] = $data['Description'];
-			$plugin['mu'] = true;
-			$plugin['active'] = true;
-
-			array_push( $plugins, $plugin );
-		}
-		
-		return $plugins;
+		return $data;
 	}
 }
