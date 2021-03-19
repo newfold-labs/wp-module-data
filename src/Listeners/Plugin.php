@@ -17,7 +17,7 @@ class Plugin extends Listener {
 		add_action( 'activated_plugin', array( $this, 'activated' ), 10, 2 );
 		add_action( 'deactivated_plugin', array( $this, 'deactivated' ), 10, 2 );
 		add_action( 'deleted_plugin', array( $this, 'deleted' ), 10, 2 );
-		// add_action( 'upgrader_process_complete', array( $this, 'updated' ), 10, 2);
+		add_action( 'upgrader_process_complete', array( $this, 'updated' ), 10, 2);
 		
 		// transient found - bh plugin was just activated, send that event
 		if ( get_transient('bh_plugin_activated') ) {
@@ -69,11 +69,61 @@ class Plugin extends Listener {
 	 * @return void
 	 */
 	public function deleted( $plugin, $deleted ) {
+		// abort if not successfully deleted
+		if ( !$deleted ) {
+			return;
+		}
+
 		$data = array(
-			'plugin'       => $plugin,
-			'network_wide' => $network_wide
+			'plugin' => $plugin
 		);
 		$this->push( 'plugin_deleted', $data );
+	}
+
+	/**
+	 * Plugin install or update completed
+	 *
+	 * @param string  $plugin Name of the plugin
+	 * @param boolean $deleted Whether the plugin deletion was successful
+	 * @return void
+	 */
+	public function updated( $upgrader_object, $options ) {
+		// bail if not plugin install or update
+		if ( 'plugin' !== $options['type'] ) {
+			return;
+		}
+		// set event type
+		if ( 'update' === $options['action'] ) {
+			$event_key = 'plugin_updated';
+
+			$plugins = [];
+			if ( isset( $options['plugins'] ) && is_array( $options['plugins'] ) ) {
+				foreach ( $options['plugins'] as $index => $pluginslug ) {
+					$plugin = $this->collect_plugin( 
+						$pluginslug, 
+						is_plugin_active( $pluginslug ),
+						false
+					);
+					array_push( $plugins, $plugin );
+				}
+			}
+			$data = array(
+				'plugins' => $plugins,
+			);
+		
+		} elseif ('install' === $options['action'] ) {
+			$event_key = 'plugin_installed';
+			// get all plugins - slug not returned for install actions
+			$plugins = $this->collect_plugins();
+			$data = array(
+				'plugins' => $plugins,
+			);
+
+		} else {
+			return;
+		}
+		
+		$this->push( $event_key, $data );
 	}
 
 	/**
@@ -83,12 +133,13 @@ class Plugin extends Listener {
 	 * @param string  $slug Name of the plugin
 	 * @param boolean $active Whether the plugin is active
 	 */
-	public function collect_plugin( $slug, $active ){
-		$plugins = [];
+	public function collect_plugin( $slug, $active, $wrapper=true ){
+		
 		$plugin = [];
 		$pluginpath = WP_PLUGIN_DIR . '/' . $slug;
-		if( !function_exists('get_plugin_data') ){
-			require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+
+		if ( ! function_exists( 'get_plugin_data' ) ) {
+			require wp_normalize_path( ABSPATH . '/wp-admin/includes/plugin.php' );
 		}
 		// get data for this plugin
 		$data = get_plugin_data( $pluginpath );
@@ -100,9 +151,14 @@ class Plugin extends Listener {
 		$plugin['version'] = $data['Version'];
 		$plugin['description'] = $data['Description'];
 		$plugin['active'] = $active;
-		array_push( $plugins, $plugin );
+		if ( $wrapper ) {
+			$plugins = [];
+			array_push( $plugins, $plugin );
+			return $plugins;
+		} else {
+			return $plugin;
+		}
 
-		return $plugins;
 	}
 
 	/**
