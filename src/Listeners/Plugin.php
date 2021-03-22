@@ -133,7 +133,7 @@ class Plugin extends Listener {
 	 * @param string  $slug Name of the plugin
 	 * @param boolean $active Whether the plugin is active
 	 */
-	public function collect_plugin( $slug, $active, $wrapper=true ){
+	public static function collect_plugin( $slug, $active, $wrapper=true ){
 		
 		$plugin = [];
 		$pluginpath = WP_PLUGIN_DIR . '/' . $slug;
@@ -164,7 +164,7 @@ class Plugin extends Listener {
 	/**
 	 * Prepare plugin data for all plugins
 	 */
-	public function collect_plugins(){
+	public static function collect_plugins(){
 
 		$datas = get_plugins();
 		$mudatas = get_mu_plugins();
