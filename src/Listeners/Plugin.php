@@ -127,6 +127,42 @@ class Plugin extends Listener {
 	}
 
 	/**
+	 * Grab relevant data from plugin data
+	 */
+	public static function glean_plugin_data($data){
+		$plugin = [];
+		$plugin['version'] = $data['Version'];
+		$plugin['description'] = $data['Description'] ? $data['Description'] : '';
+		$plugin['title'] = $data['Name'] ? $data['Name'] : '';
+		$plugin['url'] = $data['PluginURI'] ? $data['PluginURI'] : '';
+		return $plugin;
+	}
+
+	/**
+	 * Get plugin dir name or main file if no dir. 
+	 * 
+	 */
+	public static function glean_plugin_slugname($slug){
+		// slughere/index.php
+		// slughere/slughere.php
+		// slughere.php
+		// -- slugname
+		$newslug = '';
+		// if has `/` split on `/` and get second to last index.
+		if ( str_contains($slug, '/') ) {
+			$parts = explode('/', $slug);
+			end($parts);
+			$newslug = prev($parts);
+		} else {
+			// if not, split on . and get second to last index.
+			$parts = explode('.', $slug);
+			end($parts);
+			$newslug = prev($parts);
+		}
+		return $newslug;
+	}
+
+	/**
 	 * Prepare plugin data for single plugin 
 	 * For when single plugin action occurs
 	 * 
@@ -142,15 +178,12 @@ class Plugin extends Listener {
 			require wp_normalize_path( ABSPATH . '/wp-admin/includes/plugin.php' );
 		}
 		// get data for this plugin
-		$data = get_plugin_data( $pluginpath );
-		
+		$plugin = self::glean_plugin_data( get_plugin_data( $pluginpath ) ); 
 		// key/slug preparations
-		$plugin['slug'] = $slug;
-		// $plugin['path'] = $pluginpath;
-		// grab needed data points
-		$plugin['version'] = $data['Version'];
-		$plugin['description'] = $data['Description'];
+		$plugin['slug'] = self::glean_plugin_slugname( $slug );
+		// grab other needed data points
 		$plugin['active'] = $active;
+
 		if ( $wrapper ) {
 			$plugins = [];
 			array_push( $plugins, $plugin );
@@ -172,12 +205,10 @@ class Plugin extends Listener {
 		
 		// process normal plugins
 		foreach ( $datas as $key => $data ) {
-			$plugin = [];
+			$plugin = self::glean_plugin_data( $data ); 
 			// key/slug preparations
-			$plugin['slug'] = $key;
-			// grab needed data points
-			$plugin['version'] = $data['Version'];
-			$plugin['description'] = $data['Description'];
+			$plugin['slug'] = self::glean_plugin_slugname( $key );
+			// grab additional needed data points
 			$plugin['active'] = is_plugin_active( $key );
 
 			array_push( $plugins, $plugin );
@@ -185,12 +216,10 @@ class Plugin extends Listener {
 
 		// process mu plugins
 		foreach ( $mudatas as $key => $data ) {
-			$plugin = [];
+			$plugin = self::glean_plugin_data( $data ); 
 			// key/slug preparations
-			$plugin['slug'] = $key;
-			// grab needed data points
-			$plugin['version'] = $data['Version'];
-			$plugin['description'] = $data['Description'];
+			$plugin['slug'] = self::glean_plugin_slugname( $key );
+			// grab additional needed data points
 			$plugin['mu'] = true;
 			$plugin['active'] = true;
 
@@ -199,4 +228,5 @@ class Plugin extends Listener {
 		
 		return $plugins;
 	}
+
 }
