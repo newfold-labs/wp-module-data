@@ -33,7 +33,11 @@ class Cron extends Listener {
 	 * @return void
 	 */
 	public function update() {
-		$this->push( 'cron' );
+		$data = array(
+			'plugins' => Plugin::collect_plugins()
+		);
+
+		$this->push( 'cron', $data );
 	}
 
 	/**

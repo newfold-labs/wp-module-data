@@ -125,8 +125,9 @@ class HubConnection implements SubscriberInterface {
 		$token = md5( wp_generate_password() );
 		Transient::set( 'bh_data_verify_token', $token, 5 * MINUTE_IN_SECONDS );
 
-		$data                 = $this->get_core_data(true);
+		$data                 = $this->get_core_data();
 		$data['verify_token'] = $token;
+		$data['plugins'] = Plugin::collect_plugins();
 
 		$args = array(
 			'body'     => wp_json_encode( $data ),
@@ -260,7 +261,7 @@ class HubConnection implements SubscriberInterface {
 	 *
 	 * @return array
 	 */
-	public function get_core_data($include_plugins=false) {
+	public function get_core_data() {
 		global $wpdb, $wp_version;
 
 		$data = array(
@@ -273,10 +274,6 @@ class HubConnection implements SubscriberInterface {
 			'cache_level' => intval( get_option( 'endurance_cache_level', 2 ) ),
 			'cloudflare'  => get_option( 'endurance_cloudflare_enabled', false )
 		);
-
-		if ($include_plugins) {
-			$data['plugins'] = Plugin::collect_plugins();
-		}
 
 		return $data;
 	}

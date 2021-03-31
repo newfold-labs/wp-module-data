@@ -127,12 +127,13 @@ class Plugin extends Listener {
 	}
 
 	/**
-	 * Grab relevant data from plugin data
+	 * Grab relevant data from plugin data - and only what we want
+	 * @param Array $data The plugin meta data from the header
+	 * @return Array Hiive relevant plugin details
 	 */
-	public static function glean_plugin_data($data){
+	public static function glean_plugin_data( $data ){
 		$plugin = [];
 		$plugin['version'] = $data['Version'];
-		$plugin['description'] = $data['Description'] ? $data['Description'] : '';
 		$plugin['title'] = $data['Name'] ? $data['Name'] : '';
 		$plugin['url'] = $data['PluginURI'] ? $data['PluginURI'] : '';
 		return $plugin;
@@ -140,26 +141,43 @@ class Plugin extends Listener {
 
 	/**
 	 * Get plugin dir name or main file if no dir. 
-	 * 
+	 * @param string  $slug Relative path to plugin file
+	 * @return string slug for plugin
 	 */
-	public static function glean_plugin_slugname($slug){
-		// slughere/index.php
-		// slughere/slughere.php
-		// slughere.php
-		// -- slugname
+	public static function glean_plugin_slugname( $slug ){
 		$newslug = '';
 		// if has `/` split on `/` and get second to last index.
-		if ( str_contains($slug, '/') ) {
-			$parts = explode('/', $slug);
-			end($parts);
-			$newslug = prev($parts);
+		if ( str_contains( $slug, '/' ) ) {
+			$parts = explode( '/', $slug );
+			end( $parts );
+			$newslug = prev( $parts );
 		} else {
 			// if not, split on . and get second to last index.
-			$parts = explode('.', $slug);
-			end($parts);
-			$newslug = prev($parts);
+			$parts = explode( '.', $slug );
+			end( $parts );
+			$newslug = prev( $parts );
 		}
 		return $newslug;
+	}
+
+	/**
+	 * Does this plugin autoupdate?
+	 * @param string  $slug plugin identifier
+	 * @return boolean Whether plugin is configured to auto-update
+	 */
+	public static function does_it_autoupdate( $slug ){
+		// check bluehost plugin setting for auto updates
+		$wp_o_auto_bh = get_site_option( 'auto_update_plugin', false );
+		if ( $wp_o_auto_bh ) {
+			return true;
+		}
+		// check core setting for auto updates
+		$wp_o_auto_wp = get_site_option( 'auto_update_plugins' );
+		if ( in_array( $slug, $wp_o_auto_wp ) ) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -168,6 +186,8 @@ class Plugin extends Listener {
 	 * 
 	 * @param string  $slug Name of the plugin
 	 * @param boolean $active Whether the plugin is active
+	 * @param boolean $wrapper Whether to include a plugins wrapper array
+	 * @return Array of data for plugin 
 	 */
 	public static function collect_plugin( $slug, $active, $wrapper=true ){
 		
@@ -181,8 +201,13 @@ class Plugin extends Listener {
 		$plugin = self::glean_plugin_data( get_plugin_data( $pluginpath ) ); 
 		// key/slug preparations
 		$plugin['slug'] = self::glean_plugin_slugname( $slug );
-		// grab other needed data points
-		$plugin['active'] = $active;
+		// set other needed data points
+		if ( $active ) {
+			$plugin['active'] = true;
+		}
+		if ( self::does_it_autoupdate( $slug ) ) {
+			$plugin['au'] = true;
+		}
 
 		if ( $wrapper ) {
 			$plugins = [];
@@ -191,14 +216,17 @@ class Plugin extends Listener {
 		} else {
 			return $plugin;
 		}
-
 	}
 
 	/**
 	 * Prepare plugin data for all plugins
+	 * @return Array of plugins
 	 */
 	public static function collect_plugins(){
 
+		if ( ! function_exists( 'get_plugins' ) ) {
+			require wp_normalize_path( ABSPATH . '/wp-admin/includes/plugin.php' );
+		}
 		$datas = get_plugins();
 		$mudatas = get_mu_plugins();
 		$plugins = [];
@@ -208,8 +236,13 @@ class Plugin extends Listener {
 			$plugin = self::glean_plugin_data( $data ); 
 			// key/slug preparations
 			$plugin['slug'] = self::glean_plugin_slugname( $key );
-			// grab additional needed data points
-			$plugin['active'] = is_plugin_active( $key );
+			// set additional needed data points
+			if ( is_plugin_active( $key ) ) {
+				$plugin['active'] = true;
+			}
+			if ( self::does_it_autoupdate( $key ) ) {
+				$plugin['au'] = true;
+			}
 
 			array_push( $plugins, $plugin );
 		}
@@ -219,9 +252,12 @@ class Plugin extends Listener {
 			$plugin = self::glean_plugin_data( $data ); 
 			// key/slug preparations
 			$plugin['slug'] = self::glean_plugin_slugname( $key );
-			// grab additional needed data points
+			// set additional needed data points
 			$plugin['mu'] = true;
 			$plugin['active'] = true;
+			if ( self::does_it_autoupdate( $key ) ) {
+				$plugin['au'] = true;
+			}
 
 			array_push( $plugins, $plugin );
 		}
