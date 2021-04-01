@@ -22,7 +22,7 @@ class Plugin extends Listener {
 		// transient found - bh plugin was just activated, send that event
 		if ( get_transient('bh_plugin_activated') ) {
 			$this->activated( 
-				'bluehost-wordpress-plugin/bluehost-wordpress-plugin.php', 
+				'bluehost-wordpress-plugin', 
 				false
 			);
 			delete_transient('bh_plugin_activated');
