@@ -73,9 +73,10 @@ class Plugin extends Listener {
 		if ( !$deleted ) {
 			return;
 		}
-
+		
+		$slug = self::glean_plugin_slugname( $plugin );
 		$data = array(
-			'plugin' => $plugin
+			'plugin' => $slug,
 		);
 		$this->push( 'plugin_deleted', $data );
 	}
