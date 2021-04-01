@@ -166,14 +166,15 @@ class Plugin extends Listener {
 	 * @return boolean Whether plugin is configured to auto-update
 	 */
 	public static function does_it_autoupdate( $slug ){
-		// check bluehost plugin setting for auto updates
-		$wp_o_auto_bh = get_site_option( 'auto_update_plugin', false );
-		if ( $wp_o_auto_bh ) {
+		// check bluehost plugin setting for auto updates on all plugins
+		$bh_auto_updates = get_site_option( 'auto_update_plugin' );
+		if ( 'true' === $bh_auto_updates ) {
 			return true;
 		}
-		// check core setting for auto updates
-		$wp_o_auto_wp = get_site_option( 'auto_update_plugins' );
-		if ( in_array( $slug, $wp_o_auto_wp ) ) {
+
+		// check core setting for auto updates on this plugin
+		$wp_auto_updates = (array) get_site_option( 'auto_update_plugins', array() );
+		if ( in_array( $slug, $wp_auto_updates, true ) ) {
 			return true;
 		}
 
