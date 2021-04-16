@@ -257,9 +257,6 @@ class Plugin extends Listener {
 			// set additional needed data points
 			$plugin['mu'] = true;
 			$plugin['active'] = true;
-			if ( self::does_it_autoupdate( $key ) ) {
-				$plugin['au'] = true;
-			}
 
 			array_push( $plugins, $plugin );
 		}
