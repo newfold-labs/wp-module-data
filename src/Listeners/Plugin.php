@@ -168,7 +168,7 @@ class Plugin extends Listener {
 	 */
 	public static function does_it_autoupdate( $slug ){
 		// check bluehost plugin setting for auto updates on all plugins
-		$bh_auto_updates = get_site_option( 'auto_update_plugin' );
+		$bh_auto_updates = get_site_option( 'auto_update_plugin', 'true' );
 		if ( 'true' === $bh_auto_updates ) {
 			return true;
 		}
