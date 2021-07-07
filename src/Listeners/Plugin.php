@@ -20,12 +20,12 @@ class Plugin extends Listener {
 		add_action( 'upgrader_process_complete', array( $this, 'updated' ), 10, 2);
 		
 		// transient found - bh plugin was just activated, send that event
-		if ( get_transient('bh_plugin_activated') ) {
+		if ( get_transient( 'bh_plugin_activated' ) ) {
 			$this->activated( 
 				'bluehost-wordpress-plugin/bluehost-wordpress-plugin.php', 
 				false
 			);
-			delete_transient('bh_plugin_activated');
+			delete_transient( 'bh_plugin_activated' );
 		}
 	}
 
@@ -40,7 +40,7 @@ class Plugin extends Listener {
 		$data = array(
 			'plugin'       => $plugin,
 			'network_wide' => $network_wide,
-			'plugins'      => $this->collect_plugin($plugin, true),
+			'plugins'      => $this->collect_plugin( $plugin, true ),
 		);
 		$this->push( 'plugin_activated', $data );
 	}
@@ -56,7 +56,7 @@ class Plugin extends Listener {
 		$data = array(
 			'plugin'       => $plugin,
 			'network_wide' => $network_wide,
-			'plugins'      => $this->collect_plugin($plugin, false),
+			'plugins'      => $this->collect_plugin( $plugin, false ),
 		);
 		$this->push( 'plugin_deactivated', $data );
 	}
@@ -84,8 +84,8 @@ class Plugin extends Listener {
 	/**
 	 * Plugin install or update completed
 	 *
-	 * @param string  $plugin Name of the plugin
-	 * @param boolean $deleted Whether the plugin deletion was successful
+	 * @param string  $upgrader_object Upgrader Object from upgrade hook
+	 * @param boolean $options Options from upgrade hook including type, action & plugins.
 	 * @return void
 	 */
 	public function updated( $upgrader_object, $options ) {
