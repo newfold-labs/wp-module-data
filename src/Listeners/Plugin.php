@@ -115,9 +115,8 @@ class Plugin extends Listener {
 		} elseif ('install' === $options['action'] ) {
 			$event_key = 'plugin_installed';
 			// get all plugins - slug not returned for install actions
-			$plugins = $this->collect_plugins();
 			$data = array(
-				'plugins' => $plugins,
+				'plugins' => $this->collect_plugins(),
 			);
 
 		} else {
