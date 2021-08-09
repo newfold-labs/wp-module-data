@@ -40,7 +40,7 @@ class Plugin extends Listener {
 		$data = array(
 			'plugin'       => $plugin,
 			'network_wide' => $network_wide,
-			'plugins'      => $this->collect_plugin( $plugin, true ),
+			'plugins'      => [ $this->collect_plugin( $plugin, true ) ],
 		);
 		$this->push( 'plugin_activated', $data );
 	}
@@ -56,7 +56,7 @@ class Plugin extends Listener {
 		$data = array(
 			'plugin'       => $plugin,
 			'network_wide' => $network_wide,
-			'plugins'      => $this->collect_plugin( $plugin, false ),
+			'plugins'      => [ $this->collect_plugin( $plugin, false ) ],
 		);
 		$this->push( 'plugin_deactivated', $data );
 	}
@@ -102,8 +102,7 @@ class Plugin extends Listener {
 				foreach ( $options['plugins'] as $index => $pluginslug ) {
 					$plugin = $this->collect_plugin( 
 						$pluginslug, 
-						is_plugin_active( $pluginslug ),
-						false
+						is_plugin_active( $pluginslug )
 					);
 					array_push( $plugins, $plugin );
 				}
@@ -115,9 +114,8 @@ class Plugin extends Listener {
 		} elseif ('install' === $options['action'] ) {
 			$event_key = 'plugin_installed';
 			// get all plugins - slug not returned for install actions
-			$plugins = $this->collect_plugins();
 			$data = array(
-				'plugins' => $plugins,
+				'plugins' => $this->collect_plugins(),
 			);
 
 		} else {
@@ -188,10 +186,9 @@ class Plugin extends Listener {
 	 * 
 	 * @param string  $slug Name of the plugin
 	 * @param boolean $active Whether the plugin is active
-	 * @param boolean $wrapper Whether to include a plugins wrapper array
 	 * @return Array of data for plugin 
 	 */
-	public static function collect_plugin( $slug, $active, $wrapper=true ){
+	public static function collect_plugin( $slug, $active ){
 		
 		$plugin = [];
 		$pluginpath = WP_PLUGIN_DIR . '/' . $slug;
@@ -211,13 +208,7 @@ class Plugin extends Listener {
 			$plugin['au'] = true;
 		}
 
-		if ( $wrapper ) {
-			$plugins = [];
-			array_push( $plugins, $plugin );
-			return $plugins;
-		} else {
-			return $plugin;
-		}
+		return $plugin;
 	}
 
 	/**
