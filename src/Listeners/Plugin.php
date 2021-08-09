@@ -74,7 +74,7 @@ class Plugin extends Listener {
 			return;
 		}
 		
-		$slug = self::glean_plugin_slugname( $plugin );
+		$slug = $plugin;
 		$data = array(
 			'plugin' => $slug,
 		);
@@ -139,27 +139,6 @@ class Plugin extends Listener {
 	}
 
 	/**
-	 * Get plugin dir name or main file if no dir. 
-	 * @param string  $slug Relative path to plugin file
-	 * @return string slug for plugin
-	 */
-	public static function glean_plugin_slugname( $slug ){
-		$newslug = '';
-		// if has `/` split on `/` and get second to last index.
-		if ( str_contains( $slug, '/' ) ) {
-			$parts = explode( '/', $slug );
-			end( $parts );
-			$newslug = prev( $parts );
-		} else {
-			// if not, split on . and get second to last index.
-			$parts = explode( '.', $slug );
-			end( $parts );
-			$newslug = prev( $parts );
-		}
-		return $newslug;
-	}
-
-	/**
 	 * Does this plugin autoupdate?
 	 * @param string  $slug plugin identifier
 	 * @return boolean Whether plugin is configured to auto-update
@@ -199,7 +178,7 @@ class Plugin extends Listener {
 		// get data for this plugin
 		$plugin = self::glean_plugin_data( get_plugin_data( $pluginpath ) ); 
 		// key/slug preparations
-		$plugin['slug'] = self::glean_plugin_slugname( $slug );
+		$plugin['slug'] = $slug;
 		// set other needed data points
 		if ( $active ) {
 			$plugin['active'] = true;
@@ -228,7 +207,7 @@ class Plugin extends Listener {
 		foreach ( $datas as $key => $data ) {
 			$plugin = self::glean_plugin_data( $data ); 
 			// key/slug preparations
-			$plugin['slug'] = self::glean_plugin_slugname( $key );
+			$plugin['slug'] = $key;
 			// set additional needed data points
 			if ( is_plugin_active( $key ) ) {
 				$plugin['active'] = true;
@@ -244,7 +223,7 @@ class Plugin extends Listener {
 		foreach ( $mudatas as $key => $data ) {
 			$plugin = self::glean_plugin_data( $data ); 
 			// key/slug preparations
-			$plugin['slug'] = self::glean_plugin_slugname( $key );
+			$plugin['slug'] = $key;
 			// set additional needed data points
 			$plugin['mu'] = true;
 			$plugin['active'] = true;
