@@ -264,7 +264,7 @@ class HubConnection implements SubscriberInterface {
 	public function get_core_data() {
 		global $wpdb, $wp_version;
 
-		$data = array(
+		return array(
 			'url'         => get_site_url(),
 			'php'         => phpversion(),
 			'mysql'       => $wpdb->db_version(),
@@ -272,9 +272,8 @@ class HubConnection implements SubscriberInterface {
 			'plugin'      => BLUEHOST_PLUGIN_VERSION,
 			'hostname'    => gethostname(),
 			'cache_level' => intval( get_option( 'endurance_cache_level', 2 ) ),
-			'cloudflare'  => get_option( 'endurance_cloudflare_enabled', false )
+			'cloudflare'  => get_option( 'endurance_cloudflare_enabled', false ),
 		);
 
-		return $data;
 	}
 }
