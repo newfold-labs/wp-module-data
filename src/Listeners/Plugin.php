@@ -115,7 +115,7 @@ class Plugin extends Listener {
 			$event_key = 'plugin_installed';
 			// get all plugins - slug not returned for install actions
 			$data = array(
-				'plugins' => $this->collect_plugins(),
+				'plugins' => $this->collect_installed_plugins(),
 			);
 
 		} else {
@@ -194,7 +194,7 @@ class Plugin extends Listener {
 	 * Prepare plugin data for all plugins
 	 * @return Array of plugins
 	 */
-	public static function collect_plugins(){
+	public static function collect_installed_plugins(){
 
 		if ( ! function_exists( 'get_plugins' ) ) {
 			require wp_normalize_path( ABSPATH . '/wp-admin/includes/plugin.php' );
