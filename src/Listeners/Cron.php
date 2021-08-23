@@ -34,7 +34,7 @@ class Cron extends Listener {
 	 */
 	public function update() {
 		$data = array(
-			'plugins' => Plugin::collect_plugins()
+			'plugins' => Plugin::collect_installed_plugins()
 		);
 
 		$this->push( 'cron', $data );
