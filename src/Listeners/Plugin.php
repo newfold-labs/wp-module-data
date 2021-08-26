@@ -98,15 +98,31 @@ class Plugin extends Listener {
 			$event_key = 'plugin_updated';
 
 			$plugins = [];
-			if ( isset( $options['plugins'] ) && is_array( $options['plugins'] ) ) {
-				foreach ( $options['plugins'] as $index => $pluginslug ) {
-					$plugin = $this->collect_plugin( 
-						$pluginslug, 
-						is_plugin_active( $pluginslug )
-					);
-					array_push( $plugins, $plugin );
+			// for when plugins is returned as array (manual updates)
+			if ( isset( $options['plugins'] ) ) {
+				if( is_array( $options['plugins'] ) ) {
+					foreach ( $options['plugins'] as $index => $pluginslug ) {
+						$plugin = $this->collect_plugin( 
+							$pluginslug, 
+							is_plugin_active( $pluginslug )
+						);
+						array_push( $plugins, $plugin );
+					}
 				}
 			}
+			// for when single plugin is returned as string (auto updates)
+			if ( isset( $options['plugin'] ) ) {
+				$plugin = $this->collect_plugin( 
+					$options['plugin'], 
+					is_plugin_active( $options['plugin'] )
+				);
+				array_push( $plugins, $plugin );
+			}
+			// fallback: if no plugins are matching, get all plugins
+			if ( 1 > count($plugins) ) {
+				$plugins = $this->collect_installed_plugins();
+			}
+
 			$data = array(
 				'plugins' => $plugins,
 			);
