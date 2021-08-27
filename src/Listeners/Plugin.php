@@ -148,7 +148,7 @@ class Plugin extends Listener {
 	 */
 	public static function glean_plugin_data( $data ){
 		$plugin = [];
-		$plugin['version'] = $data['Version'];
+		$plugin['version'] = $data['Version'] ? $data["Version"] : '0.0';
 		$plugin['title'] = $data['Name'] ? $data['Name'] : '';
 		$plugin['url'] = $data['PluginURI'] ? $data['PluginURI'] : '';
 		return $plugin;
