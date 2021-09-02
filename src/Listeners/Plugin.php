@@ -34,13 +34,13 @@ class Plugin extends Listener {
 	 *
 	 * @param string  $plugin Name of the plugin
 	 * @param boolean $network_wide Whether plugin was network activated
+	 *
 	 * @return void
 	 */
 	public function activated( $plugin, $network_wide ) {
 		$data = array(
-			'plugin'       => $plugin,
+			'plugin'       => PluginHelper::collect( $plugin ),
 			'network_wide' => $network_wide,
-			'plugins'      => [ $this->collect_plugin( $plugin, true ) ],
 		);
 		$this->push( 'plugin_activated', $data );
 	}
@@ -50,13 +50,13 @@ class Plugin extends Listener {
 	 *
 	 * @param string  $plugin Name of the plugin
 	 * @param boolean $network_wide Whether plugin was network deactivated
+	 *
 	 * @return void
 	 */
 	public function deactivated( $plugin, $network_wide ) {
 		$data = array(
-			'plugin'       => $plugin,
+			'plugin'       => PluginHelper::collect( $plugin ),
 			'network_wide' => $network_wide,
-			'plugins'      => [ $this->collect_plugin( $plugin, false ) ],
 		);
 		$this->push( 'plugin_deactivated', $data );
 	}
