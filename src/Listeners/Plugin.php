@@ -2,6 +2,7 @@
 
 namespace Endurance\WP\Module\Data\Listeners;
 
+use Endurance\WP\Module\Data\Helpers\Transient;
 use Endurance\WP\Module\Data\Helpers\Plugin as PluginHelper;
 
 /**
@@ -23,12 +24,12 @@ class Plugin extends Listener {
 		add_action( 'upgrader_process_complete', array( $this, 'updated' ), 10, 2);
 		
 		// transient found - bh plugin was just activated, send that event
-		if ( get_transient( 'bh_plugin_activated' ) ) {
-			$this->activated( 
-				'bluehost-wordpress-plugin/bluehost-wordpress-plugin.php', 
+		if ( Transient::get( 'bh_plugin_activated' ) ) {
+			$this->activated(
+				'bluehost-wordpress-plugin/bluehost-wordpress-plugin.php',
 				false
 			);
-			delete_transient( 'bh_plugin_activated' );
+			Transient::delete( 'bh_plugin_activated' );
 		}
 	}
 
