@@ -3,6 +3,8 @@
 namespace Endurance\WP\Module\Data;
 
 use Endurance\WP\Module\Data\Listeners\Plugin;
+use Endurance\WP\Module\Data\Helpers\Encryption;
+use Endurance\WP\Module\Data\Helpers\Transient;
 
 /**
  * Manages a Hub connection instance and interactions with it
