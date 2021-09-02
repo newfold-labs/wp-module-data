@@ -2,6 +2,8 @@
 
 namespace Endurance\WP\Module\Data\Listeners;
 
+use Endurance\WP\Module\Data\Helpers\Plugin as PluginHelper;
+
 /**
  * Monitors generic plugin events
  */
@@ -16,6 +18,7 @@ class Plugin extends Listener {
 		// Plugin activated/deactivated
 		add_action( 'activated_plugin', array( $this, 'activated' ), 10, 2 );
 		add_action( 'deactivated_plugin', array( $this, 'deactivated' ), 10, 2 );
+		add_action( 'delete_plugin', array( $this, 'save_deleted' ), 10, 2 );
 		add_action( 'deleted_plugin', array( $this, 'deleted' ), 10, 2 );
 		add_action( 'upgrader_process_complete', array( $this, 'updated' ), 10, 2);
 		
@@ -62,23 +65,34 @@ class Plugin extends Listener {
 	}
 
 	/**
+	 * Temporarily store data about the plugin about to be deleted
+	 *
+	 * @param string $plugin Name of the plugin
+	 *
+	 * @return void
+	 */
+	public function save_deleted( $plugin ) {
+		update_option( 'deleted_plugin', PluginHelper::collect( $plugin ) );
+	}
+
+	/**
 	 * Plugin deleted
 	 *
 	 * @param string  $plugin Name of the plugin
 	 * @param boolean $deleted Whether the plugin deletion was successful
+	 *
 	 * @return void
 	 */
 	public function deleted( $plugin, $deleted ) {
-		// abort if not successfully deleted
-		if ( !$deleted ) {
-			return;
+		// Only send if it was successfully deleted
+		if ( $deleted ) {
+			$data = array(
+				'plugin' => get_option( 'deleted_plugin' ),
+			);
+			$this->push( 'plugin_deleted', $data );
 		}
-		
-		$slug = $plugin;
-		$data = array(
-			'plugin' => $slug,
-		);
-		$this->push( 'plugin_deleted', $data );
+		// We need to clean up the saved data either way
+		delete_option( 'plugin_deleted' );
 	}
 
 	/**
