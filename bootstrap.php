@@ -1,6 +1,7 @@
 <?php
 
 use Endurance\WP\Module\Data\Data;
+use Endurance\WP\Module\Data\Helpers\Transient;
 
 if ( function_exists( 'add_action' ) ) {
 	add_action( 'after_setup_theme', 'eig_module_data_register' );
@@ -33,9 +34,9 @@ function eig_module_data_load() {
  * Register activation hook outside init so it will fire on activation.
  */
 function bh_plugin_activate() {
-	set_transient( 'bh_plugin_activated', 1 );
+	Transient::set( 'bh_plugin_activated', 1 );
 }
-register_activation_hook( 
-	'bluehost-wordpress-plugin/bluehost-wordpress-plugin.php', 
-	'bh_plugin_activate' 
+register_activation_hook(
+	'bluehost-wordpress-plugin/bluehost-wordpress-plugin.php',
+	'bh_plugin_activate'
 );
