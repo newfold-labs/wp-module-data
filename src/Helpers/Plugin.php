@@ -19,7 +19,7 @@ class Plugin {
 			require wp_normalize_path( ABSPATH . '/wp-admin/includes/plugin.php' );
 		}
 
-		return self::glean_data( $slug, get_plugin_data( WP_PLUGIN_DIR . '/' . $slug ) );
+		return self::get_data( $slug, get_plugin_data( WP_PLUGIN_DIR . '/' . $slug ) );
 	}
 
 	/**
@@ -36,12 +36,12 @@ class Plugin {
 
 		// Collect standard plugins
 		foreach ( get_plugins() as $slug => $data ) {
-			array_push( $plugins, self::glean_data( $slug, $data ) );
+			array_push( $plugins, self::get_data( $slug, $data ) );
 		}
 
 		// Collect mu plugins
 		foreach ( get_mu_plugins() as $slug => $data ) {
-			array_push( $plugins, self::glean_data( $slug, $data, true ) );
+			array_push( $plugins, self::get_data( $slug, $data, true ) );
 		}
 
 		return $plugins;
@@ -56,7 +56,7 @@ class Plugin {
 	 *
 	 * @return array Hiive relevant plugin details
 	 */
-	public static function glean_data( $slug, $data, $mu = false ) {
+	public static function get_data( $slug, $data, $mu = false ) {
 		$plugin                 = array();
 		$plugin['slug']         = $slug;
 		$plugin['version']      = $data['Version'] ? $data['Version'] : '0.0';
