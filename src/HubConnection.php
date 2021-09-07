@@ -2,7 +2,7 @@
 
 namespace Endurance\WP\Module\Data;
 
-use Endurance\WP\Module\Data\Listeners\Plugin;
+use Endurance\WP\Module\Data\Helpers\Plugin as PluginHelper;
 use Endurance\WP\Module\Data\Helpers\Encryption;
 use Endurance\WP\Module\Data\Helpers\Transient;
 
@@ -129,7 +129,7 @@ class HubConnection implements SubscriberInterface {
 
 		$data                 = $this->get_core_data();
 		$data['verify_token'] = $token;
-		$data['plugins']      = Plugin::collect_installed_plugins();
+		$data['plugins']      = PluginHelper::collect_installed();
 
 		$args = array(
 			'body'     => wp_json_encode( $data ),
