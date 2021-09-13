@@ -2,6 +2,8 @@
 
 namespace Endurance\WP\Module\Data\Listeners;
 
+use Endurance\WP\Module\Data\Helpers\Plugin;
+
 /**
  * Schedules Cron event listeners
  */
@@ -33,7 +35,11 @@ class Cron extends Listener {
 	 * @return void
 	 */
 	public function update() {
-		$this->push( 'cron' );
+		$data = array(
+			'plugins' => Plugin::collect_installed(),
+		);
+
+		$this->push( 'cron', $data );
 	}
 
 	/**

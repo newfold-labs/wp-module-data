@@ -1,6 +1,6 @@
 <?php
 
-namespace Endurance\WP\Module\Data;
+namespace Endurance\WP\Module\Data\Helpers;
 
 /**
  * Encrypt/Decrypt strings for database storage
