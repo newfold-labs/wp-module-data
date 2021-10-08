@@ -2,6 +2,8 @@
 
 namespace Endurance\WP\Module\Data\Helpers;
 
+require_once wp_normalize_path( ABSPATH . '/wp-admin/includes/class-wp-debug-data.php' );
+
 /**
  * Helper class for gathering and formatting Site Health data
  *
@@ -10,24 +12,24 @@ namespace Endurance\WP\Module\Data\Helpers;
 class SiteHealth {
 
 	/**
-	 * Site Health debug data
+	 * Raw Site health data.
 	 *
 	 * @since 1.6
 	 *
 	 * @var array
 	 */
-	private static $debug_data;
+	private static $raw_debug_data;
 
 	/**
-	 * Ensures the needed WordPress classes are available.
+	 * Safe Site Health data.
+	 *
+	 * All empty and private fields have been removed from self:$raw_debug_data.
 	 *
 	 * @since 1.6
+	 *
+	 * @var array
 	 */
-	public function __construct() {
-		if ( ! class_exists( 'WP_Debug_Data' ) ) {
-			require wp_normalize_path( ABSPATH . '/wp-admin/includes/plugin.php' );
-		}
-	}
+	private static $safe_debug_data;
 
 	/**
 	 * Retrieves a site's debug data through Site health.
@@ -36,14 +38,14 @@ class SiteHealth {
 	 *
 	 * @return array The site's debug data.
 	 */
-	public static function get_data() {
-		if ( ! empty( self::$debug_data ) ) {
-			return self::$debug_data;
+	public static function get_raw_data() {
+		if ( ! empty( self::$raw_debug_data ) ) {
+			return self::$raw_debug_data;
 		}
 
-		self::$debug_data = WP_Debug_Data::debug_data();
+		self::$raw_debug_data = \WP_Debug_Data::debug_data();
 
-		return self::$debug_data;
+		return self::$raw_debug_data;
 	}
 
 	/**
@@ -56,11 +58,51 @@ class SiteHealth {
 	 * @return array List of Site Health debug data.
 	 */
 	public static function get_safe_data() {
-		if ( empty( self::$debug_data ) ) {
-			self::get_data();
+		if ( ! empty( self::$safe_debug_data ) ) {
+			return self::$safe_debug_data;
 		}
 
-		return WP_Debug_Data::format( self::$debug_data, 'debug' );
+		$safe_data = array();
+
+		foreach ( self::get_raw_data() as $section => $details ) {
+			// Skip this section if there are no fields, or the section has been declared as private.
+			if ( empty( $details['fields'] ) || ( isset( $details['private'] ) && $details['private'] ) ) {
+				continue;
+			}
+
+			foreach ( $details['fields'] as $field_name => $field ) {
+				if ( isset( $field['private'] ) && true === $field['private'] ) {
+					continue;
+				}
+
+				if ( isset( $field['debug'] ) ) {
+					$debug_data = $field['debug'];
+				} else {
+					$debug_data = $field['value'];
+				}
+
+				// Can be array, one level deep only.
+				if ( is_array( $debug_data ) ) {
+					$value = array();
+
+					foreach ( $debug_data as $sub_field_name => $sub_field_value ) {
+						$value[ $sub_field_name ] = $sub_field_value;
+					}
+				} elseif ( is_bool( $debug_data ) ) {
+					$value = $debug_data ? 'true' : 'false';
+				} elseif ( empty( $debug_data ) && '0' !== $debug_data ) {
+					$value = 'undefined';
+				} else {
+					$value = $debug_data;
+				}
+
+				$safe_data[ $section ][ $field_name ] = $value;
+			}
+		}
+
+		self::$safe_debug_data = $safe_data;
+
+		return self::$safe_debug_data;
 	}
 
 	/**
@@ -86,9 +128,6 @@ class SiteHealth {
 		if ( 0 >= $total_tests ) {
 			return -1;
 		}
-
-		update_option( 'jons-test-1-score', round( (int) $results['good'] / $total_tests ) );
-		update_option( 'jons-test-3-tests', $total_tests );
 
 		return round( (int) $results['good'] / $total_tests );
 	}
