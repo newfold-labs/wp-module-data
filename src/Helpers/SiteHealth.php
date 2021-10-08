@@ -129,7 +129,7 @@ class SiteHealth {
 			return -1;
 		}
 
-		return round( (int) $results['good'] / $total_tests );
+		return round( (int) $results['good'] / $total_tests * 100 );
 	}
 
 }
