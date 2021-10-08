@@ -30,13 +30,11 @@ class SiteHealth extends Listener {
 	 * @return void
 	 */
 	public function tests_run( $value ) {
-		$site_health_data = array();
-
-		$site_health_data = array(
+		$this->push( 'site_health_score', array(
 			'score' => SiteHealthHelper::calculate_score( $value ),
+		) );
+		$this->push( 'site_health_debug', array(
 			'debug_data' => wp_json_encode( SiteHealthHelper::get_safe_data() ),
-		);
-
-		$this->push( 'site_health', $site_health_data );
+		) );
 	}
 }
