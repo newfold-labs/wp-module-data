@@ -2,8 +2,6 @@
 
 namespace Endurance\WP\Module\Data\Helpers;
 
-require_once wp_normalize_path( ABSPATH . '/wp-admin/includes/class-wp-debug-data.php' );
-
 /**
  * Helper class for gathering and formatting Site Health data
  *
@@ -42,6 +40,8 @@ class SiteHealth {
 		if ( ! empty( self::$raw_debug_data ) ) {
 			return self::$raw_debug_data;
 		}
+
+		require_once wp_normalize_path( ABSPATH . '/wp-admin/includes/class-wp-debug-data.php' );
 
 		self::$raw_debug_data = \WP_Debug_Data::debug_data();
 
