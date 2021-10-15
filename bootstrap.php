@@ -36,7 +36,9 @@ function eig_module_data_load() {
 function bh_plugin_activate() {
 	Transient::set( 'bh_plugin_activated', 1 );
 }
-register_activation_hook(
-	'bluehost-wordpress-plugin/bluehost-wordpress-plugin.php',
-	'bh_plugin_activate'
-);
+if ( function_exists( 'register_activation_hook' ) ) {
+	register_activation_hook(
+		'bluehost-wordpress-plugin/bluehost-wordpress-plugin.php',
+		'bh_plugin_activate'
+	);
+}
