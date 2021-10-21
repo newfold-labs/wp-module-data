@@ -12,7 +12,7 @@ class SiteHealth extends Listener {
 	/**
 	 * Register the hooks for the subscriber
 	 *
-	 * @since 1.6
+	 * @since 1.7.0
 	 *
 	 * @return void
 	 */
@@ -24,7 +24,7 @@ class SiteHealth extends Listener {
 	/**
 	 * Report Site Health related data
 	 *
-	 * @since 1.6
+	 * @since 1.7.0
 	 *
 	 * @param string $value A JSON string with the results of Site Health tests
 	 * @return void

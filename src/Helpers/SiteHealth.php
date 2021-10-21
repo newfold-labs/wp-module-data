@@ -5,14 +5,14 @@ namespace Endurance\WP\Module\Data\Helpers;
 /**
  * Helper class for gathering and formatting Site Health data
  *
- * @since 1.6
+ * @since 1.7.0
  */
 class SiteHealth {
 
 	/**
 	 * Raw Site health data.
 	 *
-	 * @since 1.6
+	 * @since 1.7.0
 	 *
 	 * @var array
 	 */
@@ -23,7 +23,7 @@ class SiteHealth {
 	 *
 	 * All empty and private fields have been removed from self:$raw_debug_data.
 	 *
-	 * @since 1.6
+	 * @since 1.7.0
 	 *
 	 * @var array
 	 */
@@ -32,7 +32,7 @@ class SiteHealth {
 	/**
 	 * Retrieves a site's debug data through Site health.
 	 *
-	 * @since 1.6
+	 * @since 1.7.0
 	 *
 	 * @return array The site's debug data.
 	 */
@@ -53,7 +53,7 @@ class SiteHealth {
 	 *
 	 * Any data marked `private` in Site Health (database user, for example) will not be included in this list.
 	 *
-	 * @since 1.6
+	 * @since 1.7.0
 	 *
 	 * @return array List of Site Health debug data.
 	 */
@@ -110,7 +110,7 @@ class SiteHealth {
 	 *
 	 * The score is the number of successful tests (good) divided by the total number of tests.
 	 *
-	 * @since 1.6
+	 * @since 1.7.0
 	 *
 	 * @param string $results A JSON encoded string of Site Health test results.
 	 *                        This will usually be the value of the `health-check-site-status-result` transient
