@@ -19,6 +19,7 @@ class EventManager {
 		'\\Endurance\\WP\\Module\\Data\\Listeners\\Cron',
 		'\\Endurance\\WP\\Module\\Data\\Listeners\\Jetpack',
 		'\\Endurance\\WP\\Module\\Data\\Listeners\\Plugin',
+		'\\Endurance\\WP\\Module\\Data\\Listeners\\SiteHealth',
 		'\\Endurance\\WP\\Module\\Data\\Listeners\\Theme',
 	);
 
