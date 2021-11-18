@@ -20,6 +20,9 @@ Connects a WordPress site to Endurance systems to provide basic features and met
  composer require bluehost/endurance-wp-module-data
  ```
  
+ ## Updates
+ This module has a constant `NFD_DATA_MODULE_VERSION` which needs to be incremented in conjuction with new releases and updates via github tagging. 
+
  ## Usage
  
  This module is forced active and cannot be disabled by users. There is no UI or other options.
