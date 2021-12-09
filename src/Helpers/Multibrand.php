@@ -21,6 +21,14 @@ class Multibrand {
 				'version' => BLUEHOST_PLUGIN_VERSION,
 			);
 		}
+		if ( defined( 'HOSTGATOR_PLUGIN_VERSION' ) ) {
+			return array(
+				'id' => 'hostgator',
+				'name' => 'HostGator',
+				'slug' => 'hostgator-wordpress-plugin/hostgator-wordpress-plugin.php',
+				'version' => HOSTGATOR_PLUGIN_VERSION,
+			);
+		}
 		if ( defined( 'MM_VERSION' ) ) {
 			return array(
 				'id' => 'mojo',
@@ -29,7 +37,13 @@ class Multibrand {
 				'version' => MM_VERSION,
 			);
 		}
-		return 'unknown';
+		// default
+		return array(
+			'id' => 'error',
+			'name' => 'Error',
+			'slug' => 'error',
+			'version' => '0',
+		);
 	}
 
 	/**
