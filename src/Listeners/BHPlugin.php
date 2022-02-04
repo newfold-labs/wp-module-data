@@ -35,11 +35,8 @@ class BHPlugin extends Listener {
 	public function site_launch( $new_option, $old_option ) {
 		// Ensure it only fires when Coming Soon is disabled
 		if ( $new_option !== $old_option && 'false' === $new_option ) {
-			if ( bh_has_plugin_install_date() ) {
-				$install_time = bh_get_plugin_install_date();
-			} else {
-				$install_time = strtotime( get_option( 'mm_install_date', gmdate( 'M d, Y' ) ) );
-			}
+			$mm_install_time = get_option( 'mm_install_date', gmdate( 'M d, Y' ) );
+			$install_time = apply_filters('nfd_install_date_filter', strtotime( $mm_install_time ) );
 
 			$data = array(
 				'ttl' => time() - $install_time,
