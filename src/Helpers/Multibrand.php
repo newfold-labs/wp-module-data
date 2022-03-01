@@ -29,6 +29,14 @@ class Multibrand {
 				'version' => HOSTGATOR_PLUGIN_VERSION,
 			);
 		}
+		if ( defined( 'WEB_PLUGIN_VERSION' ) ) {
+			return array(
+				'id' => 'web',
+				'name' => 'Web.com',
+				'slug' => 'wp-plugin-web/wp-plugin-web.php',
+				'version' => WEB_PLUGIN_VERSION,
+			);
+		}
 		if ( defined( 'MM_VERSION' ) ) {
 			return array(
 				'id' => 'mojo',

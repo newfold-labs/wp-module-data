@@ -9,7 +9,7 @@ use Endurance\WP\Module\Data\Helpers\Transient;
 if ( defined( 'NFD_DATA_MODULE_VERSION' ) ) {
 	exit;
 } else {
-	define( 'NFD_DATA_MODULE_VERSION', '1.8.2' );
+	define( 'NFD_DATA_MODULE_VERSION', '1.8.3' );
 }
 
 if ( function_exists( 'add_action' ) ) {
