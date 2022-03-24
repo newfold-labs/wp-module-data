@@ -1,8 +1,8 @@
 <?php
 
-namespace Endurance\WP\Module\Data\Listeners;
+namespace NewfoldLabs\WP\Module\Data\Listeners;
 
-use Endurance\WP\Module\Data\Helpers\Plugin;
+use NewfoldLabs\WP\Module\Data\Helpers\Plugin;
 
 /**
  * Schedules Cron event listeners
@@ -39,7 +39,7 @@ class Cron extends Listener {
 			'plugins' => Plugin::collect_installed(),
 		);
 
-		$data = apply_filters( 'endurance_wp_data_module_cron_data_filter', $data );
+		$data = apply_filters( 'newfold_wp_data_module_cron_data_filter', $data );
 
 		$this->push( 'cron', $data );
 	}

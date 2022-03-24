@@ -1,6 +1,6 @@
 <?php
 
-namespace Endurance\WP\Module\Data;
+namespace NewfoldLabs\WP\Module\Data;
 
 /**
  * Class to manage event subscriptions
@@ -13,14 +13,14 @@ class EventManager {
 	 * @var array
 	 */
 	const LISTENERS = array(
-		'\\Endurance\\WP\\Module\\Data\\Listeners\\Admin',
-		'\\Endurance\\WP\\Module\\Data\\Listeners\\BHPlugin',
-		'\\Endurance\\WP\\Module\\Data\\Listeners\\Content',
-		'\\Endurance\\WP\\Module\\Data\\Listeners\\Cron',
-		'\\Endurance\\WP\\Module\\Data\\Listeners\\Jetpack',
-		'\\Endurance\\WP\\Module\\Data\\Listeners\\Plugin',
-		'\\Endurance\\WP\\Module\\Data\\Listeners\\SiteHealth',
-		'\\Endurance\\WP\\Module\\Data\\Listeners\\Theme',
+		'\\NewfoldLabs\\WP\\Module\\Data\\Listeners\\Admin',
+		'\\NewfoldLabs\\WP\\Module\\Data\\Listeners\\BHPlugin',
+		'\\NewfoldLabs\\WP\\Module\\Data\\Listeners\\Content',
+		'\\NewfoldLabs\\WP\\Module\\Data\\Listeners\\Cron',
+		'\\NewfoldLabs\\WP\\Module\\Data\\Listeners\\Jetpack',
+		'\\NewfoldLabs\\WP\\Module\\Data\\Listeners\\Plugin',
+		'\\NewfoldLabs\\WP\\Module\\Data\\Listeners\\SiteHealth',
+		'\\NewfoldLabs\\WP\\Module\\Data\\Listeners\\Theme',
 	);
 
 	/**
@@ -149,7 +149,7 @@ class EventManager {
 	 * @return array List of susbscriber classes
 	 */
 	public function get_subscribers() {
-		return apply_filters( 'endurance_data_subscribers', $this->subscribers );
+		return apply_filters( 'newfold_data_subscribers', $this->subscribers );
 	}
 
 	/**
@@ -158,7 +158,7 @@ class EventManager {
 	 * @return array List of listener classes
 	 */
 	public function get_listeners() {
-		return apply_filters( 'endurance_data_listeners', $this::LISTENERS );
+		return apply_filters( 'newfold_data_listeners', $this::LISTENERS );
 	}
 
 	/**

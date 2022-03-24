@@ -1,8 +1,8 @@
 <?php
 
-namespace Endurance\WP\Module\Data\Listeners;
+namespace NewfoldLabs\WP\Module\Data\Listeners;
 
-use Endurance\WP\Module\Data\Helpers\SiteHealth as SiteHealthHelper;
+use NewfoldLabs\WP\Module\Data\Helpers\SiteHealth as SiteHealthHelper;
 
 /**
  * Monitors Site Health events

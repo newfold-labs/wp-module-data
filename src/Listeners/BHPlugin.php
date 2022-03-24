@@ -1,6 +1,6 @@
 <?php
 
-namespace Endurance\WP\Module\Data\Listeners;
+namespace NewfoldLabs\WP\Module\Data\Listeners;
 
 /**
  * Monitors Bluehost plugin events

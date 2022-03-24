@@ -1,6 +1,6 @@
 <?php
 
-namespace Endurance\WP\Module\Data;
+namespace NewfoldLabs\WP\Module\Data;
 
 /**
  * Event data object

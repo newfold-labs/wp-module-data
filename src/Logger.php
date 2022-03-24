@@ -1,6 +1,6 @@
 <?php
 
-namespace Endurance\WP\Module\Data;
+namespace NewfoldLabs\WP\Module\Data;
 
 /**
  * Subscribes to the Event Manager and writes event data to a log file

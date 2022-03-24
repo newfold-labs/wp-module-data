@@ -1,6 +1,6 @@
 <?php
 
-namespace Endurance\WP\Module\Data\Helpers;
+namespace NewfoldLabs\WP\Module\Data\Helpers;
 
 /**
  * Encrypt/Decrypt strings for database storage

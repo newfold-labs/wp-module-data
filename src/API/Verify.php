@@ -1,8 +1,8 @@
 <?php
 
-namespace Endurance\WP\Module\Data\API;
+namespace NewfoldLabs\WP\Module\Data\API;
 
-use Endurance\WP\Module\Data\HubConnection;
+use NewfoldLabs\WP\Module\Data\HubConnection;
 use WP_REST_Controller;
 use WP_REST_Server;
 use WP_REST_Response;
@@ -27,7 +27,7 @@ class Verify extends WP_REST_Controller {
 	 */
 	public function __construct( HubConnection $hub ) {
 		$this->hub       = $hub;
-		$this->namespace = 'bluehost/v1/data';
+		$this->namespace = 'newfold-data/v1';
 		$this->rest_base = 'verify';
 	}
 

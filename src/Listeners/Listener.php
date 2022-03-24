@@ -1,9 +1,9 @@
 <?php
 
-namespace Endurance\WP\Module\Data\Listeners;
+namespace NewfoldLabs\WP\Module\Data\Listeners;
 
-use Endurance\WP\Module\Data\EventManager;
-use Endurance\WP\Module\Data\Event;
+use NewfoldLabs\WP\Module\Data\EventManager;
+use NewfoldLabs\WP\Module\Data\Event;
 
 /**
  * Base class for listeners

@@ -1,9 +1,9 @@
 <?php
 
-namespace Endurance\WP\Module\Data\Listeners;
+namespace NewfoldLabs\WP\Module\Data\Listeners;
 
-use Endurance\WP\Module\Data\Helpers\Transient;
-use Endurance\WP\Module\Data\Helpers\Plugin as PluginHelper;
+use NewfoldLabs\WP\Module\Data\Helpers\Transient;
+use NewfoldLabs\WP\Module\Data\Helpers\Plugin as PluginHelper;
 
 /**
  * Monitors generic plugin events

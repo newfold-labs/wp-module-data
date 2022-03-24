@@ -1,23 +1,25 @@
-<a href="https://endurance.com/" target="_blank">
-    <img src="https://bluehost.com/resources/logos/endurance.svg" alt="Endurance Logo" title="Endurance" align="right" height="42" />
-</a>
+<div style="text-align: center;">
+ <a href="https://newfold.com/" target="_blank">
+  <img src="https://newfold.com/content/experience-fragments/newfold/site-header/master/_jcr_content/root/header/logo.coreimg.svg/1621395071423/newfold-digital.svg" alt="Newfold Logo" title="Newfold Digital" height="42" />
+ </a>
+</div>
 
-# Data WordPress Module
+# WordPress Data Module
  
-Connects a WordPress site to Endurance systems to provide basic features and metrics.
+Connects a WordPress site to Newfold systems to provide basic features and metrics.
  
  ## Installation
  
- ### 1. Add the Bluehost Satis to your `composer.json`.
+ ### 1. Add the Newfold Satis to your `composer.json`.
  
   ```bash
- composer config repositories.bluehost composer https://bluehost.github.io/satis
+ composer config repositories.newfold composer https://newfold-labs.github.io/satis
  ```
  
- ### 2. Require the `bluehost/endurance-wp-module-data` package.
+ ### 2. Require the `newfold-labs/wp-module-data` package.
  
  ```bash
- composer require bluehost/endurance-wp-module-data
+ composer require newfold-labs/wp-module-data
  ```
  
  ## Updates
@@ -27,10 +29,12 @@ Connects a WordPress site to Endurance systems to provide basic features and met
  
  This module is forced active and cannot be disabled by users. There is no UI or other options.
  
- ## More on Endurance WordPress Modules
- 
-* <a href="https://github.com/bluehost/endurance-wp-module-loader#endurance-wordpress-modules">What are modules?</a>
-* <a href="https://github.com/bluehost/endurance-wp-module-loader#creating--registering-a-module">Creating/registering modules</a>
-* <a href="https://github.com/bluehost/endurance-wp-module-loader#installing-from-our-satis">Installing from our Satis</a>
-* <a href="https://github.com/bluehost/endurance-wp-module-loader#local-development">Local development notes</a>
-* <a href="https://github.com/bluehost/endurance-wp-module-loader#understanding-the-module-lifecycle">Understanding the module lifecycle</a>
+ [More on Newfold WordPress Modules](https://github.com/newfold-labs/wp-module-loader)
+
+## TODO
+
+- [ ] Update the `bootstrap.php` file to use the new loader.
+- [x] Update the REST API namespace to be `wp-json/newfold-data/v1/*`. 
+- [ ] Search for instances of `endurance`, `bluehost`, 'eig` or `bh`, and update to use either `newfold` or `nfd`.
+- [ ] Remove the BHPlugin listener. For Web, let's just use the `endurance_data_listeners` filter to register a listener should we need one.
+- [ ] Validate that things work as expected.

@@ -1,11 +1,11 @@
 <?php
 
-namespace Endurance\WP\Module\Data;
+namespace NewfoldLabs\WP\Module\Data;
 
-use Endurance\WP\Module\Data\Helpers\Encryption;
-use Endurance\WP\Module\Data\Helpers\Multibrand;
-use Endurance\WP\Module\Data\Helpers\Plugin as PluginHelper;
-use Endurance\WP\Module\Data\Helpers\Transient;
+use NewfoldLabs\WP\Module\Data\Helpers\Encryption;
+use NewfoldLabs\WP\Module\Data\Helpers\Plugin as PluginHelper;
+use NewfoldLabs\WP\Module\Data\Helpers\Transient;
+use function NewfoldLabs\WP\ModuleLoader\container;
 
 /**
  * Manages a Hub connection instance and interactions with it
@@ -257,6 +257,8 @@ class HubConnection implements SubscriberInterface {
 
 			return $encryption->decrypt( $encrypted_token );
 		}
+
+		return null;
 	}
 
 
@@ -270,15 +272,15 @@ class HubConnection implements SubscriberInterface {
 
 		return array(
 			'brand'       => sanitize_title( get_option( 'mm_brand', 'false' ) ),
-			'cache_level' => intval( get_option( 'endurance_cache_level', 2 ) ),
-			'cloudflare'  => get_option( 'endurance_cloudflare_enabled', false ),
+			'cache_level' => intval( get_option( 'newfold_cache_level', 2 ) ),
+			'cloudflare'  => get_option( 'newfold_cloudflare_enabled', false ),
 			'data'        => NFD_DATA_MODULE_VERSION,
 			'email'       => get_option( 'admin_email' ),
 			'hostname'    => gethostname(),
 			'mysql'       => $wpdb->db_version(),
-			'origin'      => Multibrand::get_origin_plugin_id(),
+			'origin'      => container()->plugin()->get( 'id', 'error' ),
 			'php'         => phpversion(),
-			'plugin'      => Multibrand::get_origin_plugin_version(),
+			'plugin'      => container()->plugin()->get( 'version', '0' ),
 			'url'         => get_site_url(),
 			'wp'          => $wp_version,
 		);

@@ -1,5 +1,5 @@
 <?php
-namespace Endurance\WP\Module\Data\Helpers;
+namespace NewfoldLabs\WP\Module\Data\Helpers;
 
 /**
  * Custom Transient class to handle an Options API based fallback

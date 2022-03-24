@@ -1,6 +1,6 @@
 <?php
 
-namespace Endurance\WP\Module\Data\Helpers;
+namespace NewfoldLabs\WP\Module\Data\Helpers;
 
 /**
  * Helper class for gathering and formatting Site Health data

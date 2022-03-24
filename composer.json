@@ -1,16 +1,23 @@
 {
-  "name": "endurance/wp-module-data",
-  "description": "Endurance Data Module",
+  "name": "newfold-labs/wp-module-data",
+  "description": "Newfold Data Module",
   "type": "library",
   "license": "GPL-2.0-or-later",
   "repositories": [
     {
-        "type": "composer",
-        "url": "https://bluehost.github.io/satis/",
-        "only": [
-            "bluehost/*",
-            "mojoness/*"
-        ]
+      "type": "composer",
+      "url": "https://newfold-labs.github.io/satis/",
+      "only": [
+        "newfold-labs/*"
+      ]
+    },
+    {
+      "type": "composer",
+      "url": "https://bluehost.github.io/satis/",
+      "only": [
+        "bluehost/*",
+        "mojoness/*"
+      ]
     }
   ],
   "autoload": {

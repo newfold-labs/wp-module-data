@@ -1,10 +1,10 @@
 <?php
 
-namespace Endurance\WP\Module\Data\API;
+namespace NewfoldLabs\WP\Module\Data\API;
 
-use Endurance\WP\Module\Data\Event;
-use Endurance\WP\Module\Data\EventManager;
-use Endurance\WP\Module\Data\HubConnection;
+use NewfoldLabs\WP\Module\Data\Event;
+use NewfoldLabs\WP\Module\Data\EventManager;
+use NewfoldLabs\WP\Module\Data\HubConnection;
 use WP_REST_Controller;
 use WP_REST_Server;
 
@@ -36,7 +36,7 @@ class Events extends WP_REST_Controller {
 	public function __construct( HubConnection $hub, EventManager $event_manager ) {
 		$this->event_manager = $event_manager;
 		$this->hub           = $hub;
-		$this->namespace     = 'bluehost/v1/data';
+		$this->namespace     = 'newfold-data/v1';
 		$this->rest_base     = 'events';
 	}
 
