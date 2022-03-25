@@ -22,7 +22,7 @@
   ],
   "autoload": {
     "psr-4": {
-      "Endurance\\WP\\Module\\Data\\": "src"
+      "NewfoldLabs\\WP\\Module\\Data\\": "src/"
     },
     "files": [
       "bootstrap.php"

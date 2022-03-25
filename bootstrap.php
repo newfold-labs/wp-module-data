@@ -1,54 +1,60 @@
 <?php
 
+use NewfoldLabs\WP\ModuleLoader\Container;
 use NewfoldLabs\WP\Module\Data\Data;
 use NewfoldLabs\WP\Module\Data\Helpers\Transient;
-use function NewfoldLabs\WP\ModuleLoader\container;
+
+use function NewfoldLabs\WP\ModuleLoader\register as registerModule;
+use function NewfoldLabs\WP\ModuleLoader\container as moduleContainer;
 
 // Define constants
 // Do not allow multiple copies of the module to be active
 if ( defined( 'NFD_DATA_MODULE_VERSION' ) ) {
 	exit;
 } else {
-	define( 'NFD_DATA_MODULE_VERSION', '1.8.3' );
-}
+	define( 'NFD_DATA_MODULE_VERSION', '2.0.0' );
 
-if ( function_exists( 'add_action' ) ) {
-	add_action( 'after_setup_theme', 'eig_module_data_register' );
-}
+	/**
+	 * Register the data module
+	 */
+	if ( function_exists( 'add_action' ) ) {
 
-/**
- * Register the data module
- */
-function eig_module_data_register() {
-	eig_register_module(
-		array(
-			'name'     => 'data',
-			'label'    => __( 'Data', 'newfold-data-module' ),
-			'callback' => 'eig_module_data_load',
-			'isActive' => true,
-			'isHidden' => true,
-		)
-	);
-}
+		add_action(
+			'plugins_loaded',
+			function () {
 
-/**
- * Load the data module
- */
-function eig_module_data_load() {
-	$module = new Data();
-	$module->start();
-}
+				registerModule(
+					array(
+						'name'     => 'data',
+						'label'    => __( 'Data', 'newfold-data-module' ),
+						'callback' => function ( Container $container ) {
+							$module = new Data( $container );
+							$module->start();
+						},
+						'isActive' => true,
+						'isHidden' => true,
+					)
+				);
 
-/**
- * Register activation hook outside init so it will fire on activation.
- */
-function nfd_plugin_activate() {
-	Transient::set( 'nfd_plugin_activated', container()->plugin()->basename );
-}
+			}
+		);
 
-if ( function_exists( 'register_activation_hook' ) ) {
-	register_activation_hook(
-		container()->plugin()->basename,
-		'nfd_plugin_activate'
-	);
+	}
+
+	/**
+	 * Register activation hook (outside init so it will fire on activation).
+	 */
+	function nfd_plugin_activate() {
+		if ( function_exists( 'moduleContainer' ) ) {
+			Transient::set( 'nfd_plugin_activated', container()->plugin()->basename );
+		}
+	}
+
+	if ( function_exists( 'register_activation_hook' ) && function_exists( 'moduleContainer' ) ) {
+		register_activation_hook(
+			container()->plugin()->basename,
+			'nfd_plugin_activate'
+		);
+	}
+
 }

@@ -33,7 +33,7 @@ Connects a WordPress site to Newfold systems to provide basic features and metri
 
 ## TODO
 
-- [ ] Update the `bootstrap.php` file to use the new loader.
+- [x] Update the `bootstrap.php` file to use the new loader.
 - [x] Update the REST API namespace to be `wp-json/newfold-data/v1/*`. 
 - [ ] Search for instances of `endurance`, `bluehost`, 'eig` or `bh`, and update to use either `newfold` or `nfd`.
 - [ ] Remove the BHPlugin listener. For Web, let's just use the `endurance_data_listeners` filter to register a listener should we need one.
