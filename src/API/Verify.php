@@ -2,31 +2,31 @@
 
 namespace NewfoldLabs\WP\Module\Data\API;
 
-use NewfoldLabs\WP\Module\Data\HubConnection;
+use NewfoldLabs\WP\Module\Data\HiiveConnection;
 use WP_REST_Controller;
 use WP_REST_Server;
 use WP_REST_Response;
 
 /**
- * REST API controller for verifying a hub connection attempt
+ * REST API controller for verifying a hiive connection attempt
  */
 class Verify extends WP_REST_Controller {
 
 	/**
-	 * Instance of HubConnection class
+	 * Instance of HiiveConnection class
 	 *
-	 * @var HubConnection
+	 * @var HiiveConnection
 	 */
-	public $hub;
+	public $hiive;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param HubConnection $hub Instance of the hub connection manager
+	 * @param HiiveConnection $hiive Instance of the hiive connection manager
 	 * @since 4.7.0
 	 */
-	public function __construct( HubConnection $hub ) {
-		$this->hub       = $hub;
+	public function __construct( HiiveConnection $hiive ) {
+		$this->hiive     = $hiive;
 		$this->namespace = 'newfold-data/v1';
 		$this->rest_base = 'verify';
 	}
@@ -69,7 +69,7 @@ class Verify extends WP_REST_Controller {
 	 * @return \WP_REST_Response|\WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function get_items( $request ) {
-		$valid  = $this->hub->verify_token( $request['token'] );
+		$valid  = $this->hiive->verify_token( $request['token'] );
 		$status = ( $valid ) ? 200 : 401;
 
 		$response = new WP_REST_Response(

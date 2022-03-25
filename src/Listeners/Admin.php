@@ -36,12 +36,6 @@ class Admin extends Listener {
 			return;
 		}
 
-		// Exclude Bluehost Plugin pages from this listener
-		// $screen = get_current_screen();
-		// if ( 'toplevel_page_bluehost' === $screen->id ) {
-		// 	return;
-		// }
-
 		$this->push(
 			'pageview',
 			array(

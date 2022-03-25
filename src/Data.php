@@ -8,11 +8,11 @@ namespace NewfoldLabs\WP\Module\Data;
 class Data {
 
 	/**
-	 * Hub Connection instance
+	 * Hiive Connection instance
 	 *
-	 * @var HubConnection
+	 * @var HiiveConnection
 	 */
-	public $hub;
+	public $hiive;
 
 	/**
 	 * Last instantiated instance of this class.
@@ -49,21 +49,21 @@ class Data {
 	 */
 	public function init() {
 
-		$this->hub = new HubConnection();
+		$this->hiive = new HiiveConnection();
 
 		$manager = new EventManager();
 		$manager->initialize_rest_endpoint();
 
 		// If not connected, attempt to connect and
 		// bail before registering the subscribers/listeners
-		if ( ! $this->hub::is_connected() ) {
+		if ( ! $this->hiive::is_connected() ) {
 
 			// Initialize the required verification endpoints
-			$this->hub->register_verification_hooks();
+			$this->hiive->register_verification_hooks();
 
 			// Attempt to connect
-			if ( ! $this->hub->is_throttled() ) {
-				$this->hub->connect();
+			if ( ! $this->hiive->is_throttled() ) {
+				$this->hiive->connect();
 			}
 
 			return;
@@ -71,9 +71,9 @@ class Data {
 
 		$manager->init();
 
-		$manager->add_subscriber( $this->hub );
+		$manager->add_subscriber( $this->hiive );
 
-		if ( defined( 'BH_DATA_DEBUG' ) && BH_DATA_DEBUG ) {
+		if ( defined( 'NFD_DATA_DEBUG' ) && NFD_DATA_DEBUG ) {
 			$this->logger = new Logger();
 			$manager->add_subscriber( $this->logger );
 		}

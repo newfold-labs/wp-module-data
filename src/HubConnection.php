@@ -8,12 +8,12 @@ use NewfoldLabs\WP\Module\Data\Helpers\Transient;
 use function NewfoldLabs\WP\ModuleLoader\container;
 
 /**
- * Manages a Hub connection instance and interactions with it
+ * Manages a Hiive connection instance and interactions with it
  */
-class HubConnection implements SubscriberInterface {
+class HiiveConnection implements SubscriberInterface {
 
 	/**
-	 * Hub API url
+	 * Hiive API url
 	 *
 	 * @var string
 	 */
@@ -39,11 +39,11 @@ class HubConnection implements SubscriberInterface {
 	 */
 	public function __construct() {
 
-		if ( ! defined( 'BH_HUB_URL' ) ) {
-			define( 'BH_HUB_URL', 'https://hiive.cloud/api' );
+		if ( ! defined( 'NFD_HIIVE_URL' ) ) {
+			define( 'NFD_HIIVE_URL', 'https://hiive.cloud/api' );
 		}
 
-		$this->api = BH_HUB_URL;
+		$this->api = NFD_HIIVE_URL;
 
 	}
 
@@ -54,7 +54,7 @@ class HubConnection implements SubscriberInterface {
 	 */
 	public function register_verification_hooks() {
 		add_action( 'rest_api_init', array( $this, 'rest_api_init' ) );
-		add_action( 'wp_ajax_nopriv_bh-hub-verify', array( $this, 'ajax_verify' ) );
+		add_action( 'wp_ajax_nopriv_nfd-hiive-verify', array( $this, 'ajax_verify' ) );
 
 	}
 
@@ -92,10 +92,10 @@ class HubConnection implements SubscriberInterface {
 	 * @return boolean
 	 */
 	public function verify_token( $token ) {
-		$saved_token = Transient::get( 'bh_data_verify_token' );
+		$saved_token = Transient::get( 'nfd_data_verify_token' );
 
 		if ( $saved_token && $saved_token === $token ) {
-			Transient::delete( 'bh_data_verify_token' );
+			Transient::delete( 'nfd_data_verify_token' );
 
 			return true;
 		}
@@ -104,7 +104,7 @@ class HubConnection implements SubscriberInterface {
 	}
 
 	/**
-	 * Check whether site has established connection to hub
+	 * Check whether site has established connection to hiive
 	 *
 	 * @return boolean
 	 */
@@ -113,7 +113,7 @@ class HubConnection implements SubscriberInterface {
 	}
 
 	/**
-	 * Attempt to connect to hub
+	 * Attempt to connect to hiive
 	 *
 	 * @return void
 	 */
@@ -126,7 +126,7 @@ class HubConnection implements SubscriberInterface {
 		$this->throttle();
 
 		$token = md5( wp_generate_password() );
-		Transient::set( 'bh_data_verify_token', $token, 5 * MINUTE_IN_SECONDS );
+		Transient::set( 'nfd_data_verify_token', $token, 5 * MINUTE_IN_SECONDS );
 
 		$data                 = $this->get_core_data();
 		$data['verify_token'] = $token;
@@ -142,10 +142,10 @@ class HubConnection implements SubscriberInterface {
 			'timeout'  => 30,
 		);
 
-		$attempts = intval( get_option( 'bh_data_connection_attempts', 0 ) );
-		update_option( 'bh_data_connection_attempts', $attempts + 1 );
+		$attempts = intval( get_option( 'nfd_data_connection_attempts', 0 ) );
+		update_option( 'nfd_data_connection_attempts', $attempts + 1 );
 
-		$response = wp_remote_post( $this->api . '/sites/v1/connect', $args );
+		$response = wp_remote_post( $this->api . '/sites/v2/connect', $args );
 		$status   = wp_remote_retrieve_response_code( $response );
 
 		// Created = 201; Updated = 200
@@ -154,7 +154,7 @@ class HubConnection implements SubscriberInterface {
 			if ( ! empty( $body->token ) ) {
 				$encryption      = new Encryption();
 				$encrypted_token = $encryption->encrypt( $body->token );
-				update_option( 'bh_data_token', $encrypted_token );
+				update_option( 'nfd_data_token', $encrypted_token );
 			}
 		}
 
@@ -168,7 +168,7 @@ class HubConnection implements SubscriberInterface {
 	public function throttle() {
 		$interval = $this->get_throttle_interval();
 
-		$this->throttle = Transient::set( 'bh_data_connection_throttle', true, $interval );
+		$this->throttle = Transient::set( 'nfd_data_connection_throttle', true, $interval );
 	}
 
 	/**
@@ -178,7 +178,7 @@ class HubConnection implements SubscriberInterface {
 	 */
 	public function get_throttle_interval() {
 
-		$attempts = intval( get_option( 'bh_data_connection_attempts', 0 ) );
+		$attempts = intval( get_option( 'nfd_data_connection_attempts', 0 ) );
 
 		// Throttle intervals step-up:
 		// Hourly for 4 hours
@@ -206,13 +206,13 @@ class HubConnection implements SubscriberInterface {
 	 * @return boolean
 	 */
 	public function is_throttled() {
-		$this->throttled = Transient::get( 'bh_data_connection_throttle' );
+		$this->throttled = Transient::get( 'nfd_data_connection_throttle' );
 
 		return $this->throttled;
 	}
 
 	/**
-	 * Post event data payload to the hub
+	 * Post event data payload to the hiive
 	 *
 	 * @param Event[] $events Array of Event objects representing the actions that occurred
 	 * @param bool    $is_blocking
@@ -223,7 +223,7 @@ class HubConnection implements SubscriberInterface {
 
 		// If for some reason we are not connected, bail out now.
 		if ( ! self::is_connected() ) {
-			return new \WP_Error( 'hub_connection', __( 'This site is not connected to the hub.' ) );
+			return new \WP_Error( 'hiive_connection', __( 'This site is not connected to the hiive.' ) );
 		}
 
 		$payload = array(
@@ -251,7 +251,7 @@ class HubConnection implements SubscriberInterface {
 	 * @return string|null The decrypted token if it's set
 	 */
 	public static function get_auth_token() {
-		$encrypted_token = get_option( 'bh_data_token' );
+		$encrypted_token = get_option( 'nfd_data_token' );
 		if ( false !== $encrypted_token ) {
 			$encryption = new Encryption();
 

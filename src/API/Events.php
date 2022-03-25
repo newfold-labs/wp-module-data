@@ -4,12 +4,12 @@ namespace NewfoldLabs\WP\Module\Data\API;
 
 use NewfoldLabs\WP\Module\Data\Event;
 use NewfoldLabs\WP\Module\Data\EventManager;
-use NewfoldLabs\WP\Module\Data\HubConnection;
+use NewfoldLabs\WP\Module\Data\HiiveConnection;
 use WP_REST_Controller;
 use WP_REST_Server;
 
 /**
- * REST API controller for sending events to the hub.
+ * REST API controller for sending events to the hiive.
  */
 class Events extends WP_REST_Controller {
 
@@ -21,21 +21,21 @@ class Events extends WP_REST_Controller {
 	public $event_manager;
 
 	/**
-	 * Instance of the HubConnection class.
+	 * Instance of the HiiveConnection class.
 	 *
-	 * @var HubConnection
+	 * @var HiiveConnection
 	 */
-	public $hub;
+	public $hiive;
 
 	/**
 	 * Events constructor.
 	 *
-	 * @param HubConnection $hub           Instance of the HubConnection class.
+	 * @param HiiveConnection $hiive           Instance of the HiiveConnection class.
 	 * @param EventManager  $event_manager Instance of the EventManager class.
 	 */
-	public function __construct( HubConnection $hub, EventManager $event_manager ) {
+	public function __construct( HiiveConnection $hiive, EventManager $event_manager ) {
 		$this->event_manager = $event_manager;
-		$this->hub           = $hub;
+		$this->hiive         = $hiive;
 		$this->namespace     = 'newfold-data/v1';
 		$this->rest_base     = 'events';
 	}
@@ -108,20 +108,20 @@ class Events extends WP_REST_Controller {
 
 		// If request isn't to be queued, we want the realtime response.
 		if ( ! $request['queue'] ) {
-			$notifications = [];
-			$hub_response  = $this->hub->notify( [ $event ], true );
+			$notifications  = [];
+			$hiive_response = $this->hiive->notify( [ $event ], true );
 
-			if ( is_wp_error( $hub_response ) ) {
-				return new \WP_REST_Response( $hub_response->get_error_message(), 401 );
+			if ( is_wp_error( $hiive_response ) ) {
+				return new \WP_REST_Response( $hiive_response->get_error_message(), 401 );
 			}
 
-			$status_code = wp_remote_retrieve_response_code( $hub_response );
+			$status_code = wp_remote_retrieve_response_code( $hiive_response );
 
 			if ( 200 !== $status_code ) {
-				return new \WP_REST_Response( wp_remote_retrieve_response_message( $hub_response ), $status_code );
+				return new \WP_REST_Response( wp_remote_retrieve_response_message( $hiive_response ), $status_code );
 			}
 
-			$payload = json_decode( wp_remote_retrieve_body( $hub_response ) );
+			$payload = json_decode( wp_remote_retrieve_body( $hiive_response ) );
 			if ( $payload && is_array( $payload->data ) ) {
 				$notifications = $payload;
 			}
