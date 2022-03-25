@@ -14,7 +14,6 @@ class EventManager {
 	 */
 	const LISTENERS = array(
 		'\\NewfoldLabs\\WP\\Module\\Data\\Listeners\\Admin',
-		'\\NewfoldLabs\\WP\\Module\\Data\\Listeners\\BHPlugin',
 		'\\NewfoldLabs\\WP\\Module\\Data\\Listeners\\Content',
 		'\\NewfoldLabs\\WP\\Module\\Data\\Listeners\\Cron',
 		'\\NewfoldLabs\\WP\\Module\\Data\\Listeners\\Jetpack',
