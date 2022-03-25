@@ -20,11 +20,11 @@ class Cron extends Listener {
 		add_filter( 'cron_schedules', array( $this, 'add_weekly_schedule' ) );
 
 		// Weekly cron hook
-		add_action( 'bh_data_cron', array( $this, 'update' ) );
+		add_action( 'nfd_data_cron', array( $this, 'update' ) );
 
 		// Register the cron task
-		if ( ! wp_next_scheduled( 'bh_data_cron' ) ) {
-			wp_schedule_event( time() + DAY_IN_SECONDS, 'weekly', 'bh_data_cron' );
+		if ( ! wp_next_scheduled( 'nfd_data_cron' ) ) {
+			wp_schedule_event( time() + DAY_IN_SECONDS, 'weekly', 'nfd_data_cron' );
 		}
 
 	}

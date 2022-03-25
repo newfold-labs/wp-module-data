@@ -77,7 +77,7 @@ class Plugin {
 	 * @return boolean
 	 */
 	public static function does_it_autoupdate( $slug ) {
-		// Check bluehost plugin setting for auto updates on all plugins
+		// Check plugin setting for auto updates on all plugins
 		if ( get_site_option( 'auto_update_plugin', 'true' ) ) {
 			return true;
 		}

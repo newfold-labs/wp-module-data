@@ -68,11 +68,11 @@ class EventManager {
 		add_filter( 'cron_schedules', array( $this, 'add_minutely_schedule' ) );
 
 		// Minutely cron hook
-		add_action( 'bh_data_sync_cron', array( $this, 'send_batch' ) );
+		add_action( 'nfd_data_sync_cron', array( $this, 'send_batch' ) );
 
 		// Register the cron task
-		if ( ! wp_next_scheduled( 'bh_data_sync_cron' ) ) {
-			wp_schedule_event( time() + MINUTE_IN_SECONDS, 'minutely', 'bh_data_sync_cron' );
+		if ( ! wp_next_scheduled( 'nfd_data_sync_cron' ) ) {
+			wp_schedule_event( time() + MINUTE_IN_SECONDS, 'minutely', 'nfd_data_sync_cron' );
 		}
 	}
 
@@ -120,9 +120,9 @@ class EventManager {
 
 		// Save any async events for sending later
 		if ( ! empty( $async ) ) {
-			if ( ! get_option( 'bh_data_queue_lock' ) ) {
-				$saved_queue = get_option( 'bh_data_queue', array() );
-				update_option( 'bh_data_queue', array_merge( $saved_queue, $async ), false );
+			if ( ! get_option( 'nfd_data_queue_lock' ) ) {
+				$saved_queue = get_option( 'nfd_data_queue', array() );
+				update_option( 'nfd_data_queue', array_merge( $saved_queue, $async ), false );
 			}
 		}
 
@@ -206,7 +206,7 @@ class EventManager {
 	 * @return array
 	 */
 	public function get_batch( $count = 20 ) {
-		$events = get_option( 'bh_data_queue', array() );
+		$events = get_option( 'nfd_data_queue', array() );
 		// Bail early if no saved events
 		if ( empty( $events ) ) {
 			return $events;
@@ -216,7 +216,7 @@ class EventManager {
 			$batch[] = array_shift( $events );
 		}
 
-		update_option( 'bh_data_queue', $events, false );
+		update_option( 'nfd_data_queue', $events, false );
 
 		return $batch;
 	}
@@ -227,11 +227,11 @@ class EventManager {
 	 * @return void
 	 */
 	public function send_batch() {
-		add_option( 'bh_data_queue_lock', true );
+		add_option( 'nfd_data_queue_lock', true );
 		$events = $this->get_batch();
 		if ( ! empty( $events ) ) {
 			$this->send( $events );
 		}
-		delete_option( 'bh_data_queue_lock' );
+		delete_option( 'nfd_data_queue_lock' );
 	}
 }
