@@ -38,9 +38,12 @@ if ( function_exists( 'add_action' ) ) {
 
 		}
 	);
+}
+
+if ( function_exists( 'add_filter' ) ) {
 
 	// Auto-encrypt token on save.
-	add_action(
+	add_filter(
 		'pre_update_option_nfd_data_token',
 		function ( $value ) {
 			$encryption = new Encryption();
@@ -53,10 +56,12 @@ if ( function_exists( 'add_action' ) ) {
 
 // Register activation hook (outside init so it will fire on activation).
 if ( function_exists( 'register_activation_hook' ) ) {
+
 	register_activation_hook(
 		container()->plugin()->basename,
 		function () {
 			Transient::set( 'nfd_plugin_activated', container()->plugin()->basename );
 		}
 	);
+
 }
