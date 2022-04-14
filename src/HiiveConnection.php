@@ -152,9 +152,10 @@ class HiiveConnection implements SubscriberInterface {
 		if ( 201 === $status || 200 === $status ) {
 			$body = json_decode( wp_remote_retrieve_body( $response ) );
 			if ( ! empty( $body->token ) ) {
-				$encryption      = new Encryption();
-				$encrypted_token = $encryption->encrypt( $body->token );
-				update_option( 'nfd_data_token', $encrypted_token );
+
+				// Token is auto-encrypted using the `pre_update_option_nfd_data_token` hook.
+				update_option( 'nfd_data_token', $body->token );
+
 			}
 		}
 
