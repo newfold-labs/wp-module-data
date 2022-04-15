@@ -3,9 +3,9 @@
 use NewfoldLabs\WP\Module\Data\Data;
 use NewfoldLabs\WP\Module\Data\Helpers\Encryption;
 use NewfoldLabs\WP\Module\Data\Helpers\Transient;
+use NewfoldLabs\WP\ModuleLoader\Container;
 
 use function NewfoldLabs\WP\ModuleLoader\register as registerModule;
-use function NewfoldLabs\WP\ModuleLoader\container;
 
 // Do not allow multiple copies of the module to be active
 if ( defined( 'NFD_DATA_MODULE_VERSION' ) ) {
@@ -38,9 +38,6 @@ if ( function_exists( 'add_action' ) ) {
 
 		}
 	);
-}
-
-if ( function_exists( 'add_filter' ) ) {
 
 	// Auto-encrypt token on save.
 	add_filter(
@@ -52,15 +49,16 @@ if ( function_exists( 'add_filter' ) ) {
 		}
 	);
 
-}
-
-// Register activation hook (outside init so it will fire on activation).
-if ( function_exists( 'register_activation_hook' ) ) {
-
-	register_activation_hook(
-		container()->plugin()->basename,
-		function () {
-			Transient::set( 'nfd_plugin_activated', container()->plugin()->basename );
+	// Register activation hook
+	add_action(
+		'newfold_container_set',
+		function ( Container $container ) {
+			register_activation_hook(
+				$container->plugin()->file,
+				function () use ( $container ) {
+					Transient::set( 'nfd_plugin_activated', $container->plugin()->basename );
+				}
+			);
 		}
 	);
 
