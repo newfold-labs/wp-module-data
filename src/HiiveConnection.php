@@ -271,7 +271,7 @@ class HiiveConnection implements SubscriberInterface {
 	public function get_core_data() {
 		global $wpdb, $wp_version;
 
-		return array(
+		$data = array(
 			'brand'       => sanitize_title( get_option( 'mm_brand', 'false' ) ),
 			'cache_level' => intval( get_option( 'newfold_cache_level', 2 ) ),
 			'cloudflare'  => get_option( 'newfold_cloudflare_enabled', false ),
@@ -285,6 +285,8 @@ class HiiveConnection implements SubscriberInterface {
 			'url'         => get_site_url(),
 			'wp'          => $wp_version,
 		);
+
+		return apply_filters( 'newfold_wp_data_module_core_data_filter', $data );
 
 	}
 }
