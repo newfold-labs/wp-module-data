@@ -43,6 +43,21 @@ class Data {
 		add_action( 'init', array( $this, 'init' ) );
 		add_action( 'rest_authentication_errors', array( $this, 'authenticate' ) );
 
+		// If we ever get a 401 response from the Hiive API, delete the token.
+		add_filter(
+			'http_response',
+			function ( $response, $args, $url ) {
+
+				if ( strpos( $url, NFD_HIIVE_URL ) === 0 && absint( wp_remote_retrieve_response_code( $response ) ) === 401 ) {
+					delete_option( 'nfd_data_token' );
+				}
+
+				return $response;
+			},
+			10,
+			3
+		);
+
 	}
 
 	/**
@@ -86,7 +101,7 @@ class Data {
 	/**
 	 * Authenticate incoming REST API requests.
 	 *
-	 * @param bool|null|\WP_Error $status
+	 * @param  bool|null|\WP_Error  $status
 	 *
 	 * @return bool|null|\WP_Error
 	 */
