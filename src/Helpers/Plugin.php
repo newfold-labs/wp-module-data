@@ -44,6 +44,11 @@ class Plugin {
 			array_push( $plugins, self::get_data( $slug, $data, true ) );
 		}
 
+		// Collect dropin plugins
+		foreach ( get_dropins() as $slug => $data ) {
+			array_push( $plugins, self::get_data( $slug, $data, true ) );
+		}
+
 		return $plugins;
 	}
 
