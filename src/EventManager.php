@@ -18,6 +18,7 @@ class EventManager {
 		'\\NewfoldLabs\\WP\\Module\\Data\\Listeners\\Cron',
 		'\\NewfoldLabs\\WP\\Module\\Data\\Listeners\\Jetpack',
 		'\\NewfoldLabs\\WP\\Module\\Data\\Listeners\\Plugin',
+		'\\NewfoldLabs\\WP\\Module\\Data\\Listeners\\BluehostPlugin',
 		'\\NewfoldLabs\\WP\\Module\\Data\\Listeners\\SiteHealth',
 		'\\NewfoldLabs\\WP\\Module\\Data\\Listeners\\Theme',
 	);
