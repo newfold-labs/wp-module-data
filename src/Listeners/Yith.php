@@ -34,6 +34,6 @@ class Yith extends Listener {
 				)
 			);
 		}
-		return $value;
+		return $new_option;
 	}
 }
