@@ -21,6 +21,7 @@ class EventManager {
 		'\\NewfoldLabs\\WP\\Module\\Data\\Listeners\\BluehostPlugin',
 		'\\NewfoldLabs\\WP\\Module\\Data\\Listeners\\SiteHealth',
 		'\\NewfoldLabs\\WP\\Module\\Data\\Listeners\\Theme',
+		'\\NewfoldLabs\\WP\\Module\\Data\\Listeners\\Yith',
 	);
 
 	/**
