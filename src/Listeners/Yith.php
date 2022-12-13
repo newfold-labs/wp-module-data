@@ -20,8 +20,8 @@ class Yith extends Listener {
 	/**
 	 * PayPal connected
 	 *
-	 * @param  string  $new_option  New value of the yith_ppwc_merchant_data_production option
-	 * @param  string  $old_option  Old value of the yith_ppwc_merchant_data_production option
+	 * @param string $new_option New value of the yith_ppwc_merchant_data_production option
+	 * @param string $old_option Old value of the yith_ppwc_merchant_data_production option
 	 *
 	 * @return string The new option value
 	 */
@@ -34,6 +34,7 @@ class Yith extends Listener {
 				)
 			);
 		}
+
 		return $new_option;
 	}
 }
