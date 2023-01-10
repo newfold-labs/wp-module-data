@@ -120,9 +120,12 @@ class SiteHealth {
 	public static function calculate_score( $results ) {
 		$results = json_decode( $results, true );
 
-		$total_tests = array_reduce( $results, function( $total, $item ) {
-			return $total += (int) $item;
-		});
+		$total_tests = array_reduce(
+			$results,
+			function( $total, $item ) {
+				return $total += (int) $item;
+			}
+		);
 
 		// Report a -1 when there are no Site Health tests
 		if ( 0 >= $total_tests ) {

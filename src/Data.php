@@ -101,7 +101,7 @@ class Data {
 	/**
 	 * Authenticate incoming REST API requests.
 	 *
-	 * @param  bool|null|\WP_Error  $status
+	 * @param  bool|null|\WP_Error $status
 	 *
 	 * @return bool|null|\WP_Error
 	 */
@@ -124,12 +124,12 @@ class Data {
 
 		$token = str_replace( 'Bearer ', '', $_SERVER['HTTP_AUTHORIZATION'] );
 
-		$data = [
+		$data = array(
 			'method'    => $_SERVER['REQUEST_METHOD'],
 			'url'       => Url::getCurrentUrl(),
 			'body'      => file_get_contents( 'php://input' ),
 			'timestamp' => data_get( getallheaders(), 'X-Timestamp' ),
-		];
+		);
 
 		$hash = hash( 'sha256', wp_json_encode( $data ) );
 		$salt = hash( 'sha256', strrev( HiiveConnection::get_auth_token() ) );

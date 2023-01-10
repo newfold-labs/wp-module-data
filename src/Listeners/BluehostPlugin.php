@@ -31,8 +31,8 @@ class BluehostPlugin extends Listener {
 	/**
 	 * Disable Coming Soon
 	 *
-	 * @param  string  $new_option  New value of the mm_coming_soon option
-	 * @param  string  $old_option  Old value of the mm_coming_soon option
+	 * @param  string $new_option  New value of the mm_coming_soon option
+	 * @param  string $old_option  Old value of the mm_coming_soon option
 	 *
 	 * @return string The new option value
 	 */
@@ -54,8 +54,8 @@ class BluehostPlugin extends Listener {
 	/**
 	 * Successful SSO
 	 *
-	 * @param  \WP_User  $user  User who logged in
-	 * @param  string  $redirect  URL redirected to after login
+	 * @param  \WP_User $user  User who logged in
+	 * @param  string   $redirect  URL redirected to after login
 	 *
 	 * @return void
 	 */
@@ -79,7 +79,7 @@ class BluehostPlugin extends Listener {
 	/**
 	 * Staging commands executed
 	 *
-	 * @param  string  $command  The staging command executed
+	 * @param  string $command  The staging command executed
 	 *
 	 * @return void
 	 */

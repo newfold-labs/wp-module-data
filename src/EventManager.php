@@ -22,6 +22,7 @@ class EventManager {
 		'\\NewfoldLabs\\WP\\Module\\Data\\Listeners\\SiteHealth',
 		'\\NewfoldLabs\\WP\\Module\\Data\\Listeners\\Theme',
 		'\\NewfoldLabs\\WP\\Module\\Data\\Listeners\\Yith',
+		'\\NewfoldLabs\\WP\\Module\\Data\\Listeners\\Commerce',
 	);
 
 	/**
