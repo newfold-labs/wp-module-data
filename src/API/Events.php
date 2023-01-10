@@ -31,7 +31,7 @@ class Events extends WP_REST_Controller {
 	 * Events constructor.
 	 *
 	 * @param HiiveConnection $hiive           Instance of the HiiveConnection class.
-	 * @param EventManager  $event_manager Instance of the EventManager class.
+	 * @param EventManager    $event_manager Instance of the EventManager class.
 	 */
 	public function __construct( HiiveConnection $hiive, EventManager $event_manager ) {
 		$this->event_manager = $event_manager;
@@ -78,7 +78,7 @@ class Events extends WP_REST_Controller {
 						'type'              => 'boolean',
 						'sanitize_callback' => function ( $value ) {
 							return filter_var( $value, FILTER_VALIDATE_BOOLEAN );
-						}
+						},
 					),
 				),
 				array(
@@ -108,8 +108,8 @@ class Events extends WP_REST_Controller {
 
 		// If request isn't to be queued, we want the realtime response.
 		if ( ! $request['queue'] ) {
-			$notifications  = [];
-			$hiive_response = $this->hiive->notify( [ $event ], true );
+			$notifications  = array();
+			$hiive_response = $this->hiive->notify( array( $event ), true );
 
 			if ( is_wp_error( $hiive_response ) ) {
 				return new \WP_REST_Response( $hiive_response->get_error_message(), 401 );

@@ -61,10 +61,10 @@ class Plugin extends Listener {
 			'plugin'       => PluginHelper::collect( $plugin ),
 			'network_wide' => $network_wide,
 		);
-		
+
 		// set the active state to false since it is collected while still active
 		$data['plugin']['active'] = false;
-		
+
 		$this->push( 'plugin_deactivated', $data );
 	}
 

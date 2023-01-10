@@ -13,15 +13,15 @@ class Yith extends Listener {
 	 * @return void
 	 */
 	public function register_hooks() {
-		//Paypal Connection
+		// Paypal Connection
 		add_filter( 'pre_update_option_yith_ppwc_merchant_data_production', array( $this, 'paypal_connection' ), 10, 2 );
 	}
 
 	/**
 	 * PayPal connected
 	 *
-	 * @param  string  $new_option  New value of the yith_ppwc_merchant_data_production option
-	 * @param  string  $old_option  Old value of the yith_ppwc_merchant_data_production option
+	 * @param string $new_option New value of the yith_ppwc_merchant_data_production option
+	 * @param string $old_option Old value of the yith_ppwc_merchant_data_production option
 	 *
 	 * @return string The new option value
 	 */
@@ -30,10 +30,11 @@ class Yith extends Listener {
 			$this->push(
 				'yith_payment_connected',
 				array(
-					'provider' => 'paypal'
+					'provider' => 'paypal',
 				)
 			);
 		}
+
 		return $new_option;
 	}
 }
