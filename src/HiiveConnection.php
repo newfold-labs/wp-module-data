@@ -216,7 +216,7 @@ class HiiveConnection implements SubscriberInterface {
 	 * Post event data payload to the hiive
 	 *
 	 * @param Event[] $events Array of Event objects representing the actions that occurred
-	 * @param bool    $is_blocking
+	 * @param bool    $is_blocking Determines if the request is a blocking request
 	 *
 	 * @return array|\WP_Error
 	 */
@@ -283,6 +283,7 @@ class HiiveConnection implements SubscriberInterface {
 			'php'         => phpversion(),
 			'plugin'      => container()->plugin()->get( 'version', '0' ),
 			'url'         => get_site_url(),
+			'username'    => get_current_user(),
 			'wp'          => $wp_version,
 		);
 
