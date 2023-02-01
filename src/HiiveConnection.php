@@ -216,7 +216,7 @@ class HiiveConnection implements SubscriberInterface {
 	 * Post event data payload to the hiive
 	 *
 	 * @param Event[] $events Array of Event objects representing the actions that occurred
-	 * @param bool $is_blocking Determines if the request is a blocking request
+	 * @param bool    $is_blocking Determines if the request is a blocking request
 	 *
 	 * @return array|\WP_Error
 	 */
