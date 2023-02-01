@@ -283,6 +283,7 @@ class HiiveConnection implements SubscriberInterface {
 			'php'         => phpversion(),
 			'plugin'      => container()->plugin()->get( 'version', '0' ),
 			'url'         => get_site_url(),
+			'username'    => get_current_user(),
 			'wp'          => $wp_version,
 		);
 
