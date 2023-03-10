@@ -45,7 +45,7 @@ class SiteCapabilities {
 	 * @return bool
 	 */
 	public function get( $capability ) {
-		return $this->exists( $capability ) && $this->all()[ $capability ] ?? false;
+		return $this->exists( $capability ) && $this->all()[ $capability ];
 	}
 
 	/**
