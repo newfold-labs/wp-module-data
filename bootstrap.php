@@ -3,6 +3,7 @@
 use NewfoldLabs\WP\Module\Data\Data;
 use NewfoldLabs\WP\Module\Data\Helpers\Encryption;
 use NewfoldLabs\WP\Module\Data\Helpers\Transient;
+use NewfoldLabs\WP\Module\Data\SiteCapabilities;
 use NewfoldLabs\WP\ModuleLoader\Container;
 
 use function NewfoldLabs\WP\ModuleLoader\register as registerModule;
@@ -65,12 +66,23 @@ if ( function_exists( 'add_action' ) ) {
 	add_action(
 		'newfold_container_set',
 		function ( Container $container ) {
+
 			register_activation_hook(
 				$container->plugin()->file,
 				function () use ( $container ) {
 					Transient::set( 'nfd_plugin_activated', $container->plugin()->basename );
 				}
 			);
+
+			$container->set(
+				'capabilities',
+				$container->service(
+					function () {
+						return new SiteCapabilities();
+					}
+				)
+			);
+
 		}
 	);
 
