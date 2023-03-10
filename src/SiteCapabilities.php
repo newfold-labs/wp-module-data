@@ -29,7 +29,7 @@ class SiteCapabilities {
 	/**
 	 * Check if a capability exists.
 	 *
-	 * @param  string  $capability
+	 * @param  string $capability Capability name.
 	 *
 	 * @return bool
 	 */
@@ -40,7 +40,7 @@ class SiteCapabilities {
 	/**
 	 * Get the value of a capability.
 	 *
-	 * @param  string  $capability
+	 * @param  string $capability Capability name.
 	 *
 	 * @return bool
 	 */
