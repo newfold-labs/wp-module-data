@@ -11,6 +11,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Validate version number
+        if: ${{ (github.repository == 'newfold-labs/wp-module-data') && (github.event.release.prerelease == false) }}
+        run: |
+          taggedVersion=${{ env.VERSION }}
+          moduleVersion=`grep "NFD_DATA_MODULE_VERSION" bootstrap.php | grep -Eo "[0-9\.]*"`
+          echo "Tagged version: $taggedVersion"
+          echo "Module version: $moduleVersion"
+          [[ "$taggedVersion" == "$moduleVersion" ]] || exit 1
+
       - name: Set Package
         id: package
         env:
