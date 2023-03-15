@@ -13,7 +13,7 @@ if ( defined( 'NFD_DATA_MODULE_VERSION' ) ) {
 	exit;
 }
 
-define( 'NFD_DATA_MODULE_VERSION', '2.2.5' );
+define( 'NFD_DATA_MODULE_VERSION', '2.3' );
 
 /**
  * Register the data module
