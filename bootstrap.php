@@ -21,7 +21,7 @@ if ( defined( 'NFD_DATA_MODULE_VERSION' ) ) {
 
 define( 'NFD_DATA_MODULE_VERSION', '2.3.1' );
 
-if ( is_admin() ) {
+if ( function_exists( 'is_admin' ) && is_admin() ) {
 	$upgrade_handler = new UpgradeHandler(
 		__DIR__ . '/upgrades',
 		get_option( 'nfd_data_module_version' ),
