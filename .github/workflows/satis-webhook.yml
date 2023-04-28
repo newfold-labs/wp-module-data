@@ -5,6 +5,9 @@ on:
     types:
       - created
 
+env:
+  VERSION: ${GITHUB_REF#refs/tags/*}
+
 jobs:
   webhook:
     name: Send Webhook
