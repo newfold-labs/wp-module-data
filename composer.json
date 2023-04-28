@@ -20,8 +20,11 @@
       "bootstrap.php"
     ]
   },
-  "require-dev": {
-    "newfold-labs/wp-php-standards": "^1.2"
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    },
+    "platform-check": false
   },
   "scripts": {
     "fix": [
@@ -36,11 +39,12 @@
     "lint": "Check files against coding standards."
   },
   "require": {
-    "wpscholar/url": "^1.2"
+    "wpscholar/url": "^1.2",
+    "wp-forge/wp-upgrade-handler": "^1.0",
+    "sultann/wp-query-builder": "dev-master#daf9b1057ae54032ece363f7314c4de57b5b17b0",
+    "wp-forge/container": "^2.0"
   },
-  "config": {
-    "allow-plugins": {
-      "dealerdirect/phpcodesniffer-composer-installer": true
-    }
+  "require-dev": {
+    "newfold-labs/wp-php-standards": "^1.2"
   }
 }

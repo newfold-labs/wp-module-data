@@ -4,8 +4,180 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "745f8fc4081d04d94e4bbfa8848f156f",
+    "content-hash": "918635d973388ea8aec58fbb05b18ccf",
     "packages": [
+        {
+            "name": "psr/container",
+            "version": "1.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/container.git",
+                "reference": "513e0666f7216c7459170d56df27dfcefe1689ea"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/container/zipball/513e0666f7216c7459170d56df27dfcefe1689ea",
+                "reference": "513e0666f7216c7459170d56df27dfcefe1689ea",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Container\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "https://www.php-fig.org/"
+                }
+            ],
+            "description": "Common Container Interface (PHP FIG PSR-11)",
+            "homepage": "https://github.com/php-fig/container",
+            "keywords": [
+                "PSR-11",
+                "container",
+                "container-interface",
+                "container-interop",
+                "psr"
+            ],
+            "support": {
+                "issues": "https://github.com/php-fig/container/issues",
+                "source": "https://github.com/php-fig/container/tree/1.1.2"
+            },
+            "time": "2021-11-05T16:50:12+00:00"
+        },
+        {
+            "name": "sultann/wp-query-builder",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sultann/wp-query-builder.git",
+                "reference": "daf9b1057ae54032ece363f7314c4de57b5b17b0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sultann/wp-query-builder/zipball/daf9b1057ae54032ece363f7314c4de57b5b17b0",
+                "reference": "daf9b1057ae54032ece363f7314c4de57b5b17b0",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PluginEver\\QueryBuilder\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "MD Sultan Nasir Uddin",
+                    "email": "manikdrmc@gmail.com"
+                }
+            ],
+            "description": "WP Query Builder is a lightweight and efficient SQL Query Builder based on wpdb for WordPress. It supports complicated query generation.",
+            "keywords": [
+                "database",
+                "query builder",
+                "wordpress"
+            ],
+            "support": {
+                "issues": "https://github.com/sultann/wp-query-builder/issues",
+                "source": "https://github.com/sultann/wp-query-builder/tree/master"
+            },
+            "time": "2020-09-04T17:20:34+00:00"
+        },
+        {
+            "name": "wp-forge/container",
+            "version": "2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/wp-forge/container.git",
+                "reference": "a4f48079eff2d7e3f31acb09d199d1c1e39de74a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/wp-forge/container/zipball/a4f48079eff2d7e3f31acb09d199d1c1e39de74a",
+                "reference": "a4f48079eff2d7e3f31acb09d199d1c1e39de74a",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0",
+                "psr/container": "^1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "WP_Forge\\Container\\": "includes"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Micah Wood",
+                    "email": "micah@wpscholar.com"
+                }
+            ],
+            "description": "A lightweight, PHP 7.0+ compatible, PSR-11 dependency injection container.",
+            "support": {
+                "issues": "https://github.com/wp-forge/container/issues",
+                "source": "https://github.com/wp-forge/container/tree/2.0"
+            },
+            "time": "2022-08-10T20:22:58+00:00"
+        },
+        {
+            "name": "wp-forge/wp-upgrade-handler",
+            "version": "1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/wp-forge/wp-upgrade-handler.git",
+                "reference": "b0a7f4c66710f95b4c5702fea3af505ea72fb215"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/wp-forge/wp-upgrade-handler/zipball/b0a7f4c66710f95b4c5702fea3af505ea72fb215",
+                "reference": "b0a7f4c66710f95b4c5702fea3af505ea72fb215",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "WP_Forge\\UpgradeHandler\\": "includes"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Micah Wood",
+                    "email": "micah@wpscholar.com"
+                }
+            ],
+            "description": "A drop-in library for handling upgrade routines in WordPress plugins and themes.",
+            "support": {
+                "issues": "https://github.com/wp-forge/wp-upgrade-handler/issues",
+                "source": "https://github.com/wp-forge/wp-upgrade-handler/tree/1.0"
+            },
+            "time": "2020-05-21T00:04:44+00:00"
+        },
         {
             "name": "wpscholar/url",
             "version": "1.2.2",
@@ -446,7 +618,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "sultann/wp-query-builder": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
