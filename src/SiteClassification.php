@@ -2,7 +2,6 @@
 
 namespace NewfoldLabs\WP\Module\Data;
 
-
 class SiteClassification {
 
 	public function get() {
@@ -22,8 +21,8 @@ class SiteClassification {
 			NFD_HIIVE_BASE_URL . '/workers/site-classification',
 			array(
 				'headers' => array(
-					'Content-Type'  => 'application/json',
-					'Accept'        => 'application/json',
+					'Content-Type' => 'application/json',
+					'Accept'       => 'application/json',
 				),
 			)
 		);
