@@ -21,10 +21,6 @@ if ( defined( 'NFD_DATA_MODULE_VERSION' ) ) {
 
 define( 'NFD_DATA_MODULE_VERSION', '2.3.1' );
 
-if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
-	require_once __DIR__ . '/vendor/autoload.php';
-}
-
 if ( is_admin() ) {
 	$upgrade_handler = new UpgradeHandler(
 		__DIR__ . '/upgrades',
