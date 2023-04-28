@@ -43,10 +43,6 @@ class HiiveConnection implements SubscriberInterface {
 			define( 'NFD_HIIVE_URL', 'https://hiive.cloud/api' );
 		}
 
-		if ( ! defined( 'NFD_HIIVE_BASE_URL' ) ) {
-			define( 'NFD_HIIVE_BASE_URL', 'https://hiive.cloud' );
-		}
-
 		$this->api = NFD_HIIVE_URL;
 
 	}
