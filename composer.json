@@ -41,7 +41,7 @@
   "require": {
     "wpscholar/url": "^1.2",
     "wp-forge/wp-upgrade-handler": "^1.0",
-    "sultann/wp-query-builder": "dev-master#daf9b1057ae54032ece363f7314c4de57b5b17b0",
+    "sultann/wp-query-builder": "@dev",
     "wp-forge/container": "^2.0"
   },
   "require-dev": {
