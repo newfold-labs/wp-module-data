@@ -117,16 +117,16 @@ if ( function_exists( 'add_action' ) && function_exists( 'add_filter' ) ) {
 function nfd_create_event_queue_table() {
 	global $wpdb;
 
-	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+	if ( ! function_exists( 'dbDelta' ) ) {
+		require ABSPATH . 'wp-admin/includes/upgrade.php';
+	}
 
 	$wpdb->hide_errors();
 
 	$charset_collate = $wpdb->get_charset_collate();
 
-	$table = "{$wpdb->prefix}nfd_data_event_queue";
-
 	$sql = <<<SQL
-CREATE TABLE {$table} (
+CREATE TABLE {$wpdb->prefix}nfd_data_event_queue (
 	id bigint(20) NOT NULL AUTO_INCREMENT,
 	event longtext NOT NULL,
 	attempts tinyint(3) NOT NULL DEFAULT 0,
@@ -145,6 +145,5 @@ SQL;
  */
 function nfd_drop_event_queue_table() {
 	global $wpdb;
-	$table = "{$wpdb->prefix}nfd_data_event_queue";
-	$wpdb->query( "DROP TABLE IF EXISTS {$table}" );
+	$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}nfd_data_event_queue" );
 }
