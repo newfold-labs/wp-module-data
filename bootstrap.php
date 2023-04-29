@@ -10,7 +10,7 @@ use WP_Forge\UpgradeHandler\UpgradeHandler;
 use function NewfoldLabs\WP\ModuleLoader\register as registerModule;
 
 // Exit if accessed directly
-if ( defined( 'ABSPATH' ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
