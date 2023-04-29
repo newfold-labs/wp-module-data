@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "52bec60d10b349914b982956cfc766e3",
+    "content-hash": "8faa9519e5282d952cbc140975de3ccc",
     "packages": [
         {
             "name": "psr/container",
@@ -55,52 +55,6 @@
             "time": "2021-11-05T16:50:12+00:00"
         },
         {
-            "name": "sultann/wp-query-builder",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/sultann/wp-query-builder.git",
-                "reference": "daf9b1057ae54032ece363f7314c4de57b5b17b0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/sultann/wp-query-builder/zipball/daf9b1057ae54032ece363f7314c4de57b5b17b0",
-                "reference": "daf9b1057ae54032ece363f7314c4de57b5b17b0",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4"
-            },
-            "default-branch": true,
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "PluginEver\\QueryBuilder\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "MD Sultan Nasir Uddin",
-                    "email": "manikdrmc@gmail.com"
-                }
-            ],
-            "description": "WP Query Builder is a lightweight and efficient SQL Query Builder based on wpdb for WordPress. It supports complicated query generation.",
-            "keywords": [
-                "database",
-                "query builder",
-                "wordpress"
-            ],
-            "support": {
-                "issues": "https://github.com/sultann/wp-query-builder/issues",
-                "source": "https://github.com/sultann/wp-query-builder/tree/master"
-            },
-            "time": "2020-09-04T17:20:34+00:00"
-        },
-        {
             "name": "wp-forge/container",
             "version": "2.0",
             "source": {
@@ -140,6 +94,51 @@
                 "source": "https://github.com/wp-forge/container/tree/2.0"
             },
             "time": "2022-08-10T20:22:58+00:00"
+        },
+        {
+            "name": "wp-forge/wp-query-builder",
+            "version": "1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/wp-forge/wp-query-builder.git",
+                "reference": "34959e5618969afd8350a8206744a7810d9f253b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/wp-forge/wp-query-builder/zipball/34959e5618969afd8350a8206744a7810d9f253b",
+                "reference": "34959e5618969afd8350a8206744a7810d9f253b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "WP_Forge\\QueryBuilder\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Micah Wood",
+                    "email": "micah@wpscholar.com"
+                }
+            ],
+            "description": "A lightweight and efficient SQL query builder for WordPress.",
+            "keywords": [
+                "database",
+                "query builder",
+                "wordpress"
+            ],
+            "support": {
+                "issues": "https://github.com/wp-forge/wp-query-builder/issues",
+                "source": "https://github.com/wp-forge/wp-query-builder/tree/1.0.3"
+            },
+            "time": "2023-04-29T19:26:54+00:00"
         },
         {
             "name": "wp-forge/wp-upgrade-handler",
@@ -618,9 +617,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "sultann/wp-query-builder": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],

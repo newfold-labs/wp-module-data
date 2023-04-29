@@ -7,7 +7,7 @@ trait Queryable {
 	/**
 	 * Get a new query instance
 	 *
-	 * @return \PluginEver\QueryBuilder\Query
+	 * @return \WP_Forge\QueryBuilder\Query
 	 */
 	protected function query() {
 		return $this->container->get( 'query' );
