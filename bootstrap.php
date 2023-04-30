@@ -93,6 +93,7 @@ if ( function_exists( 'add_action' ) && function_exists( 'add_filter' ) ) {
 			register_deactivation_hook(
 				$container->plugin()->file,
 				function () use ( $container ) {
+					delete_option( 'nfd_data_module_version' );
 					nfd_drop_event_queue_table();
 				}
 			);
