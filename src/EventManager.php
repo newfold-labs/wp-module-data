@@ -213,7 +213,7 @@ class EventManager {
 
 		$queue = EventQueue::getInstance()->queue();
 
-		$events = $queue->pull( 50 );
+		$events = $queue->pull( 100 );
 
 		// If queue is empty, do nothing.
 		if ( empty( $events ) ) {
