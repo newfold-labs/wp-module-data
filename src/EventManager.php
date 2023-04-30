@@ -188,7 +188,7 @@ class EventManager {
 	 */
 	public function push( Event $event ) {
 		do_action( 'nfd_event_log', $event->key, $event );
-		array_push( $this->queue, $event );
+		$this->queue[] = $event;
 	}
 
 	/**
