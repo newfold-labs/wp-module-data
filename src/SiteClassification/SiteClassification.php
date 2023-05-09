@@ -26,7 +26,7 @@ class SiteClassification {
 	 */
 	public static function get() {
 		// Checks the transient for data.
-		$classification = get_transient( 'nfd_site_classification' );
+		$classification = get_transient( self::$transient_name );
 		if ( false !== $classification ) {
 			return $classification;
 		}
