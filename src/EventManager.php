@@ -169,7 +169,7 @@ class EventManager {
 	 * @return void
 	 */
 	public function initialize_listeners() {
-		if ( defined( 'SITE_UNDER_LOAD' ) && SITE_UNDER_LOAD ) {
+		if ( defined( 'BURST_SAFETY_MODE' ) && BURST_SAFETY_MODE ) {
 			// Disable listeners when site is under heavy load
 			return;
 		}
