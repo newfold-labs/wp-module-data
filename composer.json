@@ -41,7 +41,6 @@
     "lint": "Check files against coding standards."
   },
   "require": {
-    "newfold-labs/container": "^1.2",
     "wp-forge/wp-upgrade-handler": "^1.0",
     "wp-forge/wp-query-builder": "^1.0",
     "wpscholar/url": "^1.2"
