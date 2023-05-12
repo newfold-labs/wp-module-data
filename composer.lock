@@ -4,81 +4,31 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8faa9519e5282d952cbc140975de3ccc",
+    "content-hash": "fce7009b4cc757bbe954267979f05347",
     "packages": [
         {
-            "name": "psr/container",
-            "version": "1.1.2",
+            "name": "newfold-labs/container",
+            "version": "1.2.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/php-fig/container.git",
-                "reference": "513e0666f7216c7459170d56df27dfcefe1689ea"
+                "url": "https://github.com/newfold-labs/container.git",
+                "reference": "19bb75bb4a64a282f7d142fff9f3418177022851"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/container/zipball/513e0666f7216c7459170d56df27dfcefe1689ea",
-                "reference": "513e0666f7216c7459170d56df27dfcefe1689ea",
+                "url": "https://api.github.com/repos/newfold-labs/container/zipball/19bb75bb4a64a282f7d142fff9f3418177022851",
+                "reference": "19bb75bb4a64a282f7d142fff9f3418177022851",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.4.0"
+                "php": ">=7.0"
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Psr\\Container\\": "src/"
+                    "NewfoldLabs\\Container\\": "includes"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "PHP-FIG",
-                    "homepage": "https://www.php-fig.org/"
-                }
-            ],
-            "description": "Common Container Interface (PHP FIG PSR-11)",
-            "homepage": "https://github.com/php-fig/container",
-            "keywords": [
-                "PSR-11",
-                "container",
-                "container-interface",
-                "container-interop",
-                "psr"
-            ],
-            "support": {
-                "issues": "https://github.com/php-fig/container/issues",
-                "source": "https://github.com/php-fig/container/tree/1.1.2"
-            },
-            "time": "2021-11-05T16:50:12+00:00"
-        },
-        {
-            "name": "wp-forge/container",
-            "version": "2.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/wp-forge/container.git",
-                "reference": "a4f48079eff2d7e3f31acb09d199d1c1e39de74a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/wp-forge/container/zipball/a4f48079eff2d7e3f31acb09d199d1c1e39de74a",
-                "reference": "a4f48079eff2d7e3f31acb09d199d1c1e39de74a",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.0",
-                "psr/container": "^1.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "WP_Forge\\Container\\": "includes"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0-or-later"
             ],
@@ -90,10 +40,9 @@
             ],
             "description": "A lightweight, PHP 7.0+ compatible, PSR-11 dependency injection container.",
             "support": {
-                "issues": "https://github.com/wp-forge/container/issues",
-                "source": "https://github.com/wp-forge/container/tree/2.0"
+                "source": "https://github.com/newfold-labs/container/tree/1.2.2"
             },
-            "time": "2022-08-10T20:22:58+00:00"
+            "time": "2022-08-26T17:23:54+00:00"
         },
         {
             "name": "wp-forge/wp-query-builder",
@@ -622,5 +571,8 @@
     "prefer-lowest": false,
     "platform": [],
     "platform-dev": [],
+    "platform-overrides": {
+        "php": "7.1.0"
+    },
     "plugin-api-version": "2.3.0"
 }
