@@ -4,7 +4,7 @@ namespace NewfoldLabs\WP\Module\Data\EventQueue\Queues;
 
 use NewfoldLabs\WP\Module\Data\Event;
 use NewfoldLabs\WP\Module\Data\EventQueue\Queryable;
-use WP_Forge\Container\Container;
+use NewfoldLabs\WP\ModuleLoader\Container;
 
 class BatchQueue implements BatchQueueInterface {
 

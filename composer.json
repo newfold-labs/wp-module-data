@@ -41,8 +41,8 @@
   "require": {
     "wpscholar/url": "^1.2",
     "wp-forge/wp-upgrade-handler": "^1.0",
-    "wp-forge/container": "^2.0",
-    "wp-forge/wp-query-builder": "^1.0"
+    "wp-forge/wp-query-builder": "^1.0",
+    "newfold-labs/container": "^1.2"
   },
   "require-dev": {
     "newfold-labs/wp-php-standards": "^1.2"
