@@ -26,13 +26,6 @@
     },
     "optimize-autoloader": true,
     "platform-check": false,
-    "platform": {
-      "php": "7.1.0"
-    },
-    "preferred-install": {
-      "newfold-labs/*": "source",
-      "*": "dist"
-    },
     "sort-packages": true
   },
   "scripts": {
