@@ -3,8 +3,8 @@
 namespace NewfoldLabs\WP\Module\Data\EventQueue;
 
 use NewfoldLabs\WP\Module\Data\EventQueue\Queues\BatchQueue;
+use NewfoldLabs\WP\ModuleLoader\Container;
 use WP_Forge\QueryBuilder\Query;
-use WP_Forge\Container\Container;
 
 class EventQueue {
 

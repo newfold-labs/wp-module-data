@@ -24,7 +24,9 @@
     "allow-plugins": {
       "dealerdirect/phpcodesniffer-composer-installer": true
     },
-    "platform-check": false
+    "optimize-autoloader": true,
+    "platform-check": false,
+    "sort-packages": true
   },
   "scripts": {
     "fix": [
@@ -39,10 +41,9 @@
     "lint": "Check files against coding standards."
   },
   "require": {
-    "wpscholar/url": "^1.2",
     "wp-forge/wp-upgrade-handler": "^1.0",
-    "wp-forge/container": "^2.0",
-    "wp-forge/wp-query-builder": "^1.0"
+    "wp-forge/wp-query-builder": "^1.0",
+    "wpscholar/url": "^1.2"
   },
   "require-dev": {
     "newfold-labs/wp-php-standards": "^1.2"
