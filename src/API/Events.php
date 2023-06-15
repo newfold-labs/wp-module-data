@@ -54,7 +54,7 @@ class Events extends WP_REST_Controller {
 				'args' => array(
 					'action'   => array(
 						'required'          => true,
-						'description'       => __( 'Event action' ),
+						'description'       => __( 'Event action. For the "pageview" action/key, Hiive tries to read the page URL and page title only from the "page" and "page_title" keys in the data arg.' ),
 						'type'              => 'string',
 						'sanitize_callback' => function ( $value ) {
 							return sanitize_title( $value );
