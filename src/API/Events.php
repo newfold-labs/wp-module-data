@@ -89,6 +89,18 @@ class Events extends WP_REST_Controller {
 			)
 		);
 
+		\register_rest_route(
+			$this->namespace,
+			'/' . $this->rest_base . '/batch',
+			array(
+				array(
+					'methods'             => \WP_REST_Server::CREATABLE,
+					'callback'            => array( $this, 'create_items' ),
+					'permission_callback' => array( $this, 'create_item_permissions_check' ),
+				),
+			)
+		);
+
 	}
 
 	/**
@@ -163,5 +175,55 @@ class Events extends WP_REST_Controller {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Manages sending a batch of events to the single event API.
+	 *
+	 * @param \WP_REST_Request $request A request containing an array of events.
+	 * @return \WP_REST_Response|\WP_Error Response object on success, or WP_Error object on failure.
+	 */
+	public function create_items( $request ) {
+		$events = $request->get_json_params();
+		if ( ! rest_is_array( $events ) ) {
+			return new \WP_Error(
+				'rest_cannot_log_event',
+				__( 'Request does not contain an array of events.' )
+			);
+		}
+
+		$errors = array();
+		foreach ( $events as $index => $event ) {
+			$event_request = new \WP_REST_Request(
+				\WP_REST_Server::CREATABLE,
+				"/{$this->namespace}/{$this->rest_base}"
+			);
+			$event_request->set_body_params( $event );
+			$response = \rest_do_request( $event_request );
+			if ( $response->is_error() ) {
+				array_push(
+					$errors,
+					array(
+						'index' => $index,
+						'data'  => $response->as_error(),
+					)
+				);
+			}
+		}
+
+		if ( ! empty( $errors ) ) {
+			return new \WP_Error(
+				'rest_cannot_log_event',
+				__( 'Some events failed.' ),
+				array(
+					'errors' => $errors,
+				)
+			);
+		}
+
+		return new \WP_REST_Response(
+			array(),
+			202
+		);
 	}
 }
