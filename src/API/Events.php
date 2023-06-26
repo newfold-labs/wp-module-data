@@ -84,7 +84,7 @@ class Events extends WP_REST_Controller {
 				array(
 					'methods'             => WP_REST_Server::CREATABLE,
 					'callback'            => array( $this, 'create_item' ),
-					// 'permission_callback' => array( $this, 'create_item_permissions_check' ),
+					'permission_callback' => array( $this, 'create_item_permissions_check' ),
 				),
 			)
 		);
@@ -96,7 +96,7 @@ class Events extends WP_REST_Controller {
 				array(
 					'methods'             => \WP_REST_Server::CREATABLE,
 					'callback'            => array( $this, 'create_items' ),
-					// 'permission_callback' => array( $this, 'create_item_permissions_check' ),
+					'permission_callback' => array( $this, 'create_item_permissions_check' ),
 				),
 			)
 		);
