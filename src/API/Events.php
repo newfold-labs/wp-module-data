@@ -84,7 +84,7 @@ class Events extends WP_REST_Controller {
 				array(
 					'methods'             => WP_REST_Server::CREATABLE,
 					'callback'            => array( $this, 'create_item' ),
-					'permission_callback' => array( $this, 'create_item_permissions_check' ),
+					// 'permission_callback' => array( $this, 'create_item_permissions_check' ),
 				),
 			)
 		);
@@ -96,7 +96,7 @@ class Events extends WP_REST_Controller {
 				array(
 					'methods'             => \WP_REST_Server::CREATABLE,
 					'callback'            => array( $this, 'create_items' ),
-					'permission_callback' => array( $this, 'create_item_permissions_check' ),
+					// 'permission_callback' => array( $this, 'create_item_permissions_check' ),
 				),
 			)
 		);
@@ -187,7 +187,7 @@ class Events extends WP_REST_Controller {
 		$events = $request->get_json_params();
 		if ( ! rest_is_array( $events ) ) {
 			return new \WP_Error(
-				'rest_cannot_log_event',
+				'rest_cannot_log_events',
 				__( 'Request does not contain an array of events.' )
 			);
 		}
@@ -213,7 +213,7 @@ class Events extends WP_REST_Controller {
 
 		if ( ! empty( $errors ) ) {
 			return new \WP_Error(
-				'rest_cannot_log_event',
+				'rest_cannot_log_events',
 				__( 'Some events failed.' ),
 				array(
 					'errors' => $errors,
