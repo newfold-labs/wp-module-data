@@ -32,7 +32,7 @@ class WonderBlocks {
 			return false;
 		}
 		// Populate valid request arguments.
-		$args           = $request->get_args();
+		$args['body']   = $request->get_args();
 		$args['method'] = \WP_REST_Server::READABLE;
 
 		$response = wp_remote_request(
