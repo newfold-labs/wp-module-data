@@ -20,9 +20,10 @@ class WonderBlocks {
 	 */
 	public static function fetch( Fetch $request ) {
 		// Generate a unique hash for the request object.
-		$hash = md5( serialize( $request ) );
-		// If the transient exists, return data from the transient.
-		$data = get_transient( "nfd_data_wb_{$hash}" );
+		$hash     = $request->get_md5_hash();
+		$endpoint = $request->get_endpoint();
+		// If the transient exists, return data from the transient. Add endpoint for batch clearing endpoint transients.
+		$data = get_transient( "nfd_data_wb_{$endpoint}_{$hash}" );
 		if ( ! empty( $data ) ) {
 			return $data;
 		}
@@ -52,7 +53,7 @@ class WonderBlocks {
 
 		// Cache the response data if specified.
 		if ( $request->should_cache() ) {
-			set_transient( "nfd_data_wb_{$hash}", $data['data'], $request->get_cache_timeout() );
+			set_transient( "nfd_data_wb_{$endpoint}_{$hash}", $data['data'], $request->get_cache_timeout() );
 		}
 
 		return $data['data'];
@@ -65,7 +66,9 @@ class WonderBlocks {
 	 * @return boolean
 	 */
 	public static function clear_cache( Request $request ) {
-		$hash = md5( serialize( $request ) );
-		return delete_transient( "nfd_data_wb_{$hash}" );
+		$endpoint = $request->get_endpoint();
+		$hash     = $request->get_md5_hash();
+		return delete_transient( "nfd_data_wb_{$endpoint}_{$hash}" );
 	}
+
 }

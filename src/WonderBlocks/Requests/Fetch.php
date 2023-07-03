@@ -8,12 +8,6 @@ namespace NewfoldLabs\WP\Module\Data\WonderBlocks\Requests;
  * Defines the structure of a WonderBlock fetch request.
  */
 class Fetch extends Request {
-	/**
-	 * The endpoint to fetch the data from.
-	 *
-	 * @var string
-	 */
-	private $endpoint;
 
 	/**
 	 * The type of data to fetch.
@@ -122,6 +116,18 @@ class Fetch extends Request {
 	 */
 	public function get_cache_timeout() {
 		return $this->cache_timeout;
+	}
+
+	/**
+	 * Get the MD5 hash to easily identify a request.
+	 *
+	 * @return string
+	 */
+	public function get_md5_hash() {
+		$args = $this->get_args();
+		// Slug is not part of args as it becomes a part of the URL path.
+		$args['slug'] = $this->slug;
+		return md5( serialize( $args ) );
 	}
 
 }
