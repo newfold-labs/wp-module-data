@@ -26,8 +26,8 @@ class Content extends Listener {
 	 * Post status transition
 	 *
 	 * @param string  $new_status The new post status
-	 * @param string  $old_status The new post status
-	 * @param WP_Post $post       Post object
+	 * @param string  $old_status The old post status
+	 * @param \WP_Post $post       Post object
 	 * @return void
 	 */
 	public function post_status( $new_status, $old_status, $post ) {
