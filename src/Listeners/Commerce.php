@@ -35,7 +35,7 @@ class Commerce extends Listener {
 			'payment_method_title' => $order->get_payment_method_title(),
 		);
 
-		$this->push( 'woocommerce_order_processing', $data );
+		$this->push( 'woocommerce_order_status_processing', $data );
 
 	}
 
