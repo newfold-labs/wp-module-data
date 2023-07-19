@@ -35,9 +35,7 @@ class Commerce extends Listener {
 			'payment_method_title' => $order->get_payment_method_title(),
 		);
 
-		error_log( wp_json_encode( $data ) );
-
-		$this->push( 'woocommerce_payment_method', $data );
+		$this->push( 'woocommerce_order_processing', $data );
 
 	}
 
