@@ -20,7 +20,7 @@ class SiteCapabilities {
 		$capabilities = get_transient( 'nfd_site_capabilities' );
 		if ( false === $capabilities ) {
 			$capabilities = $this->fetch();
-			set_transient( 'nfd_site_capabilities', $capabilities, 30 * DAY_IN_SECONDS );
+			set_transient( 'nfd_site_capabilities', $capabilities, 4 * HOUR_IN_SECONDS );
 		}
 
 		return $capabilities;
