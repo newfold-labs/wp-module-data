@@ -249,17 +249,10 @@ class HiiveConnection implements SubscriberInterface {
 	/**
 	 * Try to return the auth token
 	 *
-	 * @return string|null The decrypted token if it's set
+	 * @return string|false The decrypted token if it's set
 	 */
 	public static function get_auth_token() {
-		$encrypted_token = get_option( 'nfd_data_token' );
-		if ( false !== $encrypted_token ) {
-			$encryption = new Encryption();
-
-			return $encryption->decrypt( $encrypted_token );
-		}
-
-		return null;
+		return get_option( 'nfd_data_token' );
 	}
 
 

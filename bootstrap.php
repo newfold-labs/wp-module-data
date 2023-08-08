@@ -67,15 +67,13 @@ if ( function_exists( 'add_action' ) && function_exists( 'add_filter' ) ) {
 		}
 	);
 
-	// Auto-decrypt token when fetched via WP-CLI
-	if ( defined( 'WP_CLI' ) && WP_CLI ) {
-		add_filter(
-			'option_nfd_data_token',
-			function ( $value ) {
-				return ( new Encryption() )->decrypt( $value );
-			}
-		);
-	}
+	// Auto-decrypt token when fetched
+	add_filter(
+		'option_nfd_data_token',
+		function ( $value ) {
+			return ( new Encryption() )->decrypt( $value );
+		}
+	);
 
 	// Register activation/deactivation hooks
 	add_action(
