@@ -17,8 +17,7 @@ class Yith extends Listener {
 		add_filter( 'pre_update_option_yith_ppwc_merchant_data_production', array( $this, 'paypal_connection' ), 10, 2 );
 		add_filter( 'pre_update_option_nfd_ecommerce_captive_flow_razorpay', array( $this, 'razorpay_connection' ), 10, 2 );
 		add_filter( 'pre_update_option_nfd_ecommerce_captive_flow_shippo', array( $this, 'shippo_connection' ), 10, 2 );
-
-		add_filter( 'registered_post_type_yith_campaign', array( $this, 'campaign_created' ));
+		add_action('rest_after_insert_yith_campaign', array( $this, 'register_campaign' ), 10 );
 	}
 
 	/**
@@ -70,7 +69,7 @@ class Yith extends Listener {
 				"label_key" => "provider",
 				"provider" 	=> "razorpay",
 				"page" 		=> $url
-			), 
+			),
 		);
 		if ( $new_option !== $old_option && ! empty( $new_option ) ) {	
 			$this->push(
@@ -108,5 +107,24 @@ class Yith extends Listener {
 		}
 
 		return $new_option;
+	}
+
+	public function register_campaign( $post){
+		$campaign   = yith_sales_get_campaign( $post->ID );
+		if ($campaign){
+			$type = $campaign->get_type();
+			$data = array( 
+					"action"=> "campaign_created", 
+					"category"=> "wonder_cart", 
+					"data"=> array(
+					  "label_key"=> "type",
+					  "type"=> $type,
+			),		
+			);
+			$this->push(
+				$data
+			);
+		}
+		return $post;
 	}
 }

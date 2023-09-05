@@ -89,12 +89,7 @@ class Commerce extends Listener {
 				"currency" 		=> get_woocommerce_currency(),
 			), 
 		);
-		echo '
-		<script type="text/javascript">
-			var carnr;        
-			carnr = '.json_encode($data).'
-			console.log({carnr});
-		</script>';
+		
 		$this->push(
 			$data
 		);
@@ -117,12 +112,7 @@ class Commerce extends Listener {
 				"payment_method" 	=> WC()->payment_gateways()->get_available_payment_gateways()
 			), 
 		);
-		echo '
-		<script type="text/javascript">
-			var carnr;        
-			carnr = '.json_encode($data).'
-			console.log({carnr});
-		</script>';
+		
 		$this->push(
 			$data
 		);
@@ -152,12 +142,7 @@ class Commerce extends Listener {
 				"currency" 		=> get_woocommerce_currency(),
 			), 
 		);
-		echo '
-		<script type="text/javascript">
-			var carnr;        
-			carnr = '.json_encode($data).'
-			console.log({carnr});
-		</script>';
+		
 		$this->push(
 			$data
 		);
