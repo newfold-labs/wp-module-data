@@ -74,18 +74,18 @@ class Data {
 
 		// If not connected, attempt to connect and
 		// bail before registering the subscribers/listeners
-		// if ( ! $this->hiive::is_connected() ) {
+		if ( ! $this->hiive::is_connected() ) {
 
-		// 	// Initialize the required verification endpoints
-		// 	$this->hiive->register_verification_hooks();
+			// Initialize the required verification endpoints
+			$this->hiive->register_verification_hooks();
 
-		// 	// Attempt to connect
-		// 	if ( ! $this->hiive->is_throttled() ) {
-		// 		$this->hiive->connect();
-		// 	}
+			// Attempt to connect
+			if ( ! $this->hiive->is_throttled() ) {
+				$this->hiive->connect();
+			}
 
-		// 	return;
-		// }
+			return;
+		}
 
 		$manager->init();
 

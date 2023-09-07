@@ -81,7 +81,6 @@ class Commerce extends Listener {
 	 */
 	public function site_cart_views() { 
 		$data = array(
-			"action" 	=> "site_cart_view", 
 			"category" 	=> "commerce", 
 			"data" 		=> array( 
 				"product_count" => WC()->cart->get_cart_contents_count(),
@@ -91,6 +90,7 @@ class Commerce extends Listener {
 		);
 		
 		$this->push(
+			"site_cart_view",
 			$data
 		);
 	} 
@@ -103,7 +103,6 @@ class Commerce extends Listener {
 	 */
 	public function checkout_views() { 
 		$data = array(
-			"action" 	=> "site_checkout_view", 
 			"category" 	=> "commerce", 
 			"data" 		=> array( 
 				"product_count" 	=> WC()->cart->get_cart_contents_count(),
@@ -114,6 +113,7 @@ class Commerce extends Listener {
 		);
 		
 		$this->push(
+			"site_checkout_view",
 			$data
 		);
 	}
@@ -134,7 +134,6 @@ class Commerce extends Listener {
 			$qty = $item['qty'];
 		}
 		$data = array(
-			"action" 	=> "site_thank_you_view", 
 			"category" 	=> "commerce", 
 			"data" 		=> array( 
 				"product_count" => $qty,
@@ -144,6 +143,7 @@ class Commerce extends Listener {
 		);
 		
 		$this->push(
+			"site_thank_you_view",
 			$data
 		);
 	}

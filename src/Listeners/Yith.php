@@ -33,7 +33,6 @@ class Yith extends Listener {
 		$_SERVER['HTTPS'] === 'on' ? "https://" : "http://"; 
 		$url .= $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 		$data = array(
-			"action" 	=> "payment_connected", 
 			"category" 	=> "commerce", 
 			"data" 		=> array( 
 				"label_key" => "provider",
@@ -43,6 +42,7 @@ class Yith extends Listener {
 		);
 		if ( $new_option !== $old_option && ! empty( $new_option ) ) {	
 			$this->push(
+				"payment_connected",
 				$data
 			);
 		}
@@ -63,7 +63,6 @@ class Yith extends Listener {
 		$_SERVER['HTTPS'] === 'on' ? "https://" : "http://"; 
 		$url .= $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 		$data = array(
-			"action" 	=> "payment_connected", 
 			"category" 	=> "commerce", 
 			"data" 		=> array( 
 				"label_key" => "provider",
@@ -73,6 +72,7 @@ class Yith extends Listener {
 		);
 		if ( $new_option !== $old_option && ! empty( $new_option ) ) {	
 			$this->push(
+				"payment_connected",
 				$data
 			);
 		}
@@ -92,7 +92,6 @@ class Yith extends Listener {
 		$url =  isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https://" : "http://"; 
 		$url .= $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 		$data = array(
-			"action" 	=> "shpping_connected", 
 			"category" 	=> "commerce", 
 			"data" 		=> array( 
 				"label_key" => "provider",
@@ -102,6 +101,7 @@ class Yith extends Listener {
 		);
 		if ( $new_option !== $old_option && ! empty( $new_option ) ) {	
 			$this->push(
+				"shpping_connected",
 				$data
 			);
 		}
@@ -114,7 +114,6 @@ class Yith extends Listener {
 		if ($campaign){
 			$type = $campaign->get_type();
 			$data = array( 
-					"action"=> "campaign_created", 
 					"category"=> "wonder_cart", 
 					"data"=> array(
 					  "label_key"=> "type",
@@ -122,6 +121,7 @@ class Yith extends Listener {
 			),		
 			);
 			$this->push(
+				"campaign_created",
 				$data
 			);
 		}
