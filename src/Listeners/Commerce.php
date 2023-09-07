@@ -80,6 +80,7 @@ class Commerce extends Listener {
 	 * @return void
 	 */
 	public function site_cart_views() { 
+		if( WC()->cart->get_cart_contents_count() !== 0){
 		$data = array(
 			"category" 	=> "commerce", 
 			"data" 		=> array( 
@@ -93,6 +94,7 @@ class Commerce extends Listener {
 			"site_cart_view",
 			$data
 		);
+		}
 	} 
 
 	
