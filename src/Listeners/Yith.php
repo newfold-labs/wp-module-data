@@ -17,6 +17,7 @@ class Yith extends Listener {
 		add_filter( 'pre_update_option_yith_ppwc_merchant_data_production', array( $this, 'paypal_connection' ), 10, 2 );
 		add_filter( 'pre_update_option_nfd_ecommerce_captive_flow_razorpay', array( $this, 'razorpay_connection' ), 10, 2 );
 		add_filter( 'pre_update_option_nfd_ecommerce_captive_flow_shippo', array( $this, 'shippo_connection' ), 10, 2 );
+		add_filter( 'pre_update_option_nfd_ecommerce_captive_flow_stripe', array( $this, 'stripe_connection' ), 10, 2 );
 		add_action('rest_after_insert_yith_campaign', array( $this, 'register_campaign' ), 10 );
 	}
 
@@ -109,6 +110,43 @@ class Yith extends Listener {
 		return $new_option;
 	}
 
+	/**
+	 * Stripe connected
+	 *
+	 * @param string $new_option New value of the stripe_data_production option
+	 * @param string $old_option Old value of the stripe_data_production option
+	 *
+	 * @return string The new option value
+	 */
+	public function stripe_connection( $new_option, $old_option ) {
+		$url =  isset($_SERVER['HTTPS']) &&
+		$_SERVER['HTTPS'] === 'on' ? "https://" : "http://"; 
+		$url .= $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+		$data = array(
+			"category" 	=> "commerce", 
+			"data" 		=> array( 
+				"label_key" => "provider",
+				"provider" 	=> "stripe",
+				"page" 		=> $url
+			),
+		);
+		if ( $new_option !== $old_option && ! empty( $new_option ) ) {	
+			$this->push(
+				"payment_connected",
+				$data
+			);
+		}
+
+		return $new_option;
+	}
+
+	/**
+	 * Campaign created
+	 *
+	 * @param string $post
+	 *
+	 * @return string The post value
+	 */
 	public function register_campaign( $post){
 		$campaign   = yith_sales_get_campaign( $post->ID );
 		if ($campaign){
