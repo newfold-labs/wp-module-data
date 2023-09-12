@@ -16,6 +16,9 @@ class Commerce extends Listener {
 		add_action( 'woocommerce_order_status_processing', array( $this, 'on_payment' ), 10, 2 );
 		add_filter( 'newfold_wp_data_module_cron_data_filter', array( $this, 'products_count' ) );
 		add_filter( 'newfold_wp_data_module_cron_data_filter', array( $this, 'orders_count' ) );
+		add_filter('woocommerce_before_cart', array( $this, 'site_cart_views'));
+		add_filter('woocommerce_before_checkout_form', array( $this, 'checkout_views'));
+		add_filter('woocommerce_thankyou', array( $this, 'thank_you_page'));
 	}
 
 	/**
@@ -69,5 +72,81 @@ class Commerce extends Listener {
 		$data['meta']['orders_count'] = (int) wp_count_posts( 'shop_order' )->publish;
 
 		return $data;
+	}
+
+	/**
+	 * Site Cart View, send data to Hiive
+	 *
+	 * @return void
+	 */
+	public function site_cart_views() { 
+		if( WC()->cart->get_cart_contents_count() !== 0){
+		$data = array(
+			"category" 	=> "commerce", 
+			"data" 		=> array( 
+				"product_count" => WC()->cart->get_cart_contents_count(),
+				"cart_total" 	=> floatval(WC()->cart->get_cart_contents_total()),
+				"currency" 		=> get_woocommerce_currency(),
+			), 
+		);
+		
+		$this->push(
+			"site_cart_view",
+			$data
+		);
+		}
+	} 
+
+	
+	/**
+	 * Checkout view, send data to Hiive
+	 *
+	 * @return void
+	 */
+	public function checkout_views() { 
+		$data = array(
+			"category" 	=> "commerce", 
+			"data" 		=> array( 
+				"product_count" 	=> WC()->cart->get_cart_contents_count(),
+				"cart_total" 		=> floatval(WC()->cart->get_cart_contents_total()),
+				"currency" 			=> get_woocommerce_currency(),
+				"payment_method" 	=> WC()->payment_gateways()->get_available_payment_gateways()
+			), 
+		);
+		
+		$this->push(
+			"site_checkout_view",
+			$data
+		);
+	}
+
+	/**
+	 * Thank you page, send data to Hiive
+	 *
+	 * @param  int  $order_id
+	 * 
+	 * @return void
+	 */
+	public function thank_you_page($order_id ) { 
+		$order = wc_get_order( $order_id );
+		$line_items = $order->get_items();
+
+		// This loops over line items
+		foreach ( $line_items as $item ) {
+			$qty = $item['qty'];
+		}
+		$data = array(
+			"category" 	=> "commerce", 
+			"data" 		=> array( 
+				"product_count" => $qty,
+				"order_total" 	=> floatval($order->get_total()),
+				"currency" 		=> get_woocommerce_currency(),
+			), 
+		);
+		
+		$this->push(
+			"site_thank_you_view",
+			$data
+		);
 	}
 }
