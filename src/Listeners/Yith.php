@@ -19,6 +19,7 @@ class Yith extends Listener {
 		add_filter( 'pre_update_option_nfd_ecommerce_captive_flow_shippo', array( $this, 'shippo_connection' ), 10, 2 );
 		add_filter( 'pre_update_option_nfd_ecommerce_captive_flow_stripe', array( $this, 'stripe_connection' ), 10, 2 );
 		add_action('rest_after_insert_yith_campaign', array( $this, 'register_campaign' ), 10 );
+		add_filter('toplevel_page_newfold-ecomdash', array($this, 'ecomdash_connected'));
 	}
 
 	/**
@@ -30,8 +31,7 @@ class Yith extends Listener {
 	 * @return string The new option value
 	 */
 	public function paypal_connection( $new_option, $old_option ) {
-		$url =  isset($_SERVER['HTTPS']) &&
-		$_SERVER['HTTPS'] === 'on' ? "https://" : "http://"; 
+		$url =  is_ssl() ? "https://" : "http://"; 
 		$url .= $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 		$data = array(
 			"category" 	=> "commerce", 
@@ -60,8 +60,7 @@ class Yith extends Listener {
 	 * @return string The new option value
 	 */
 	public function razorpay_connection( $new_option, $old_option ) {
-		$url =  isset($_SERVER['HTTPS']) &&
-		$_SERVER['HTTPS'] === 'on' ? "https://" : "http://"; 
+		$url =  is_ssl() ? "https://" : "http://"; 
 		$url .= $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 		$data = array(
 			"category" 	=> "commerce", 
@@ -90,7 +89,7 @@ class Yith extends Listener {
 	 * @return string The new option value
 	 */
 	public function shippo_connection( $new_option, $old_option ) {
-		$url =  isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https://" : "http://"; 
+		$url =  is_ssl() ? "https://" : "http://"; 
 		$url .= $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 		$data = array(
 			"category" 	=> "commerce", 
@@ -119,8 +118,7 @@ class Yith extends Listener {
 	 * @return string The new option value
 	 */
 	public function stripe_connection( $new_option, $old_option ) {
-		$url =  isset($_SERVER['HTTPS']) &&
-		$_SERVER['HTTPS'] === 'on' ? "https://" : "http://"; 
+		$url =  is_ssl() ? "https://" : "http://"; 
 		$url .= $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 		$data = array(
 			"category" 	=> "commerce", 
@@ -138,6 +136,30 @@ class Yith extends Listener {
 		}
 
 		return $new_option;
+	}
+
+	/**
+	 * Ecomdash connected
+	 *
+	 * @return void 
+	 */
+	public function ecomdash_connected() {
+		$isecomdash_connected = \get_option( 'ewc4wp_sso_account_status', '' );
+		if($isecomdash_connected === 'connected'){
+			$url =  is_ssl() ? "https://" : "http://"; 
+			$url .= $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+			$data = array(
+				"category" 	=> "commerce", 
+				"data" 		=> array( 
+				"url"		=> $url
+				), 
+			);
+		
+			$this->push(
+				"ecomdash_connected",
+				$data
+			);
+		}
 	}
 
 	/**
