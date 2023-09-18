@@ -97,8 +97,12 @@ class SiteClassification {
 	public static function fetch_from_static_file( $locale = 'en-US' ) {
 		$filename = realpath( __DIR__ . "/../Data/Static/site-classification-{$locale}.json" );
 
-		// If the file does not exist and the locale is not en-US then default to the en-US file.
-		if ( ! file_exists( $filename ) && 'en-US' !== $locale ) {
+		if ( ! file_exists( $filename ) ) {
+			if ( 'en-US' === $locale ) {
+				return array();
+			}
+
+			// If the file does not exist and the locale is not en-US, then default to the en-US file.
 			$filename = realpath( __DIR__ . '/../Data/Static/site-classification-en-US.json' );
 			if ( ! file_exists( $filename ) ) {
 				return array();
