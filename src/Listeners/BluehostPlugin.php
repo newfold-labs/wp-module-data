@@ -61,6 +61,7 @@ class BluehostPlugin extends Listener {
 	 */
 	public function sso_success( $user, $redirect ) {
 		$data = array(
+			'label_key'    => 'status',
 			'status'       => 'success',
 			'landing_page' => $redirect,
 		);
@@ -73,7 +74,7 @@ class BluehostPlugin extends Listener {
 	 * @return void
 	 */
 	public function sso_fail() {
-		$this->push( 'sso', array( 'status' => 'fail' ) );
+		$this->push( 'sso', array( 'label_key' => 'status', 'status' => 'fail' ) );
 	}
 
 	/**
@@ -84,6 +85,6 @@ class BluehostPlugin extends Listener {
 	 * @return void
 	 */
 	public function staging( $command ) {
-		$this->push( 'staging', array( 'command' => $command ) );
+		$this->push( 'staging', array( 'label_key' => 'command', 'command' => $command ) );
 	}
 }
