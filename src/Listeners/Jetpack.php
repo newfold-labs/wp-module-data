@@ -49,7 +49,7 @@ class Jetpack extends Listener {
 	 * @return void
 	 */
 	public function module_enabled( $module ) {
-		$this->push( 'jetpack_module_enabled', array( 'module' => $module ) );
+		$this->push( 'jetpack_module_enabled', array( 'label_key' => 'module', 'module' => $module ) );
 	}
 
 	/**
@@ -59,7 +59,7 @@ class Jetpack extends Listener {
 	 * @return void
 	 */
 	public function module_disabled( $module ) {
-		$this->push( 'jetpack_module_disabled', array( 'module' => $module ) );
+		$this->push( 'jetpack_module_disabled', array( 'label_key' => 'module', 'module' => $module ) );
 	}
 
 	/**
@@ -76,6 +76,6 @@ class Jetpack extends Listener {
 		if ( ! $submit_post ) {
 			return;
 		}
-		$this->push( 'jetpack_publicized', array( 'service' => $service_name ) );
+		$this->push( 'jetpack_publicized', array( 'label_key' => 'service', 'service' => $service_name ) );
 	}
 }
