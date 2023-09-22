@@ -42,6 +42,7 @@ class Content extends Listener {
 		);
 		if ( $new_status !== $old_status && in_array( $new_status, $allowed_statuses, true ) ) {
 			$data = array(
+				'label_key'  => 'new_status',
 				'old_status' => $old_status,
 				'new_status' => $new_status,
 				'post'       => $post,
@@ -95,6 +96,7 @@ class Content extends Listener {
 		);
 		if ( $new_status !== $old_status && in_array( $new_status, $allowed_statuses, true ) ) {
 			$data = array(
+				'label_key'  => 'new_status',
 				'old_status' => $old_status,
 				'new_status' => $new_status,
 				'comment'    => $comment,
