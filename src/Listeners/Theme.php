@@ -36,6 +36,7 @@ class Theme extends Listener {
 	public function theme_changed( $new_option, $old_option ) {
 		if ( $new_option !== $old_option ) {
 			$data = array(
+				'label_key' => 'new_theme',
 				'old_theme' => $old_option,
 				'new_theme' => $new_option,
 			);
@@ -53,7 +54,7 @@ class Theme extends Listener {
 	public function mojo_preview() {
 		global $theme;
 		if ( isset( $_GET['page'] ) && 'mojo-theme-preview' === $_GET['page'] && ! is_wp_error( $theme ) ) {
-			$this->push( 'mojo_theme_preview', array( 'theme' => $theme ) );
+			$this->push( 'mojo_theme_preview', array( 'label_key' => 'theme', 'theme' => $theme ) );
 		}
 	}
 
@@ -64,6 +65,6 @@ class Theme extends Listener {
 	 */
 	public function browse_wporg_themes() {
 		$category = ( isset( $_GET['browse'] ) ) ? esc_attr( $_GET['browse'] ) : 'featured';
-		$this->push( 'browse_wporg_themes', array( 'category' => $category ) );
+		$this->push( 'browse_wporg_themes', array( 'label_key' => 'category', 'category' => $category ) );
 	}
 }
