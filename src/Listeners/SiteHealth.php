@@ -33,6 +33,7 @@ class SiteHealth extends Listener {
 		$this->push(
 			'site_health_score',
 			array(
+				'label_key' => 'score', 
 				'score' => SiteHealthHelper::calculate_score( $value ),
 			)
 		);
