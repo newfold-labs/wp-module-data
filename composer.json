@@ -14,7 +14,7 @@
   ],
   "autoload": {
     "psr-4": {
-      "NewfoldLabs\\WP\\Module\\Data\\": "src/"
+      "NewfoldLabs\\WP\\Module\\Data\\": "includes/"
     },
     "files": [
       "bootstrap.php"
