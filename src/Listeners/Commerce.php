@@ -19,6 +19,9 @@ class Commerce extends Listener {
 		add_filter('woocommerce_before_cart', array( $this, 'site_cart_views'));
 		add_filter('woocommerce_before_checkout_form', array( $this, 'checkout_views'));
 		add_filter('woocommerce_thankyou', array( $this, 'thank_you_page'));
+		add_filter( 'pre_update_option_nfd_ecommerce_captive_flow_razorpay', array( $this, 'razorpay_connection' ), 10, 2 );
+		add_filter( 'pre_update_option_nfd_ecommerce_captive_flow_shippo', array( $this, 'shippo_connection' ), 10, 2 );
+		add_filter( 'pre_update_option_nfd_ecommerce_captive_flow_stripe', array( $this, 'stripe_connection' ), 10, 2 );
 	}
 
 	/**
@@ -81,14 +84,11 @@ class Commerce extends Listener {
 	 */
 	public function site_cart_views() { 
 		if( WC()->cart->get_cart_contents_count() !== 0){
-		$data = array(
-			"category" 	=> "commerce", 
-			"data" 		=> array( 
-				"product_count" => WC()->cart->get_cart_contents_count(),
-				"cart_total" 	=> floatval(WC()->cart->get_cart_contents_total()),
-				"currency" 		=> get_woocommerce_currency(),
-			), 
-		);
+		$data = array( 
+			"product_count" => WC()->cart->get_cart_contents_count(),
+			"cart_total" 	=> floatval(WC()->cart->get_cart_contents_total()),
+			"currency" 		=> get_woocommerce_currency(),
+		); 
 		
 		$this->push(
 			"site_cart_view",
@@ -104,15 +104,12 @@ class Commerce extends Listener {
 	 * @return void
 	 */
 	public function checkout_views() { 
-		$data = array(
-			"category" 	=> "commerce", 
-			"data" 		=> array( 
-				"product_count" 	=> WC()->cart->get_cart_contents_count(),
-				"cart_total" 		=> floatval(WC()->cart->get_cart_contents_total()),
-				"currency" 			=> get_woocommerce_currency(),
-				"payment_method" 	=> WC()->payment_gateways()->get_available_payment_gateways()
-			), 
-		);
+		$data = array( 
+			"product_count" 	=> WC()->cart->get_cart_contents_count(),
+			"cart_total" 		=> floatval(WC()->cart->get_cart_contents_total()),
+			"currency" 			=> get_woocommerce_currency(),
+			"payment_method" 	=> WC()->payment_gateways()->get_available_payment_gateways()
+		); 
 		
 		$this->push(
 			"site_checkout_view",
@@ -135,18 +132,93 @@ class Commerce extends Listener {
 		foreach ( $line_items as $item ) {
 			$qty = $item['qty'];
 		}
-		$data = array(
-			"category" 	=> "commerce", 
-			"data" 		=> array( 
-				"product_count" => $qty,
-				"order_total" 	=> floatval($order->get_total()),
-				"currency" 		=> get_woocommerce_currency(),
-			), 
+		$data = array( 
+			"product_count" => $qty,
+			"order_total" 	=> floatval($order->get_total()),
+			"currency" 		=> get_woocommerce_currency(),
 		);
 		
 		$this->push(
 			"site_thank_you_view",
 			$data
 		);
+	}
+
+	/**
+	 * Razorpay connected
+	 *
+	 * @param string $new_option New value of the razorpay_data_production option
+	 * @param string $old_option Old value of the razorpay_data_production option
+	 *
+	 * @return string The new option value
+	 */
+	public function razorpay_connection( $new_option, $old_option ) {
+		$url =  is_ssl() ? "https://" : "http://"; 
+		$url .= $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+		$data = array( 
+			"label_key" => "provider",
+			"provider" 	=> "razorpay",
+			"page" 		=> $url
+		);
+		if ( $new_option !== $old_option && ! empty( $new_option ) ) {	
+			$this->push(
+				"payment_connected",
+				$data
+			);
+		}
+
+		return $new_option;
+	}
+
+	/**
+	 * Shippo connected
+	 *
+	 * @param string $new_option New value of the shippo_data option
+	 * @param string $old_option Old value of the shippo_data option
+	 *
+	 * @return string The new option value
+	 */
+	public function shippo_connection( $new_option, $old_option ) {
+		$url =  is_ssl() ? "https://" : "http://"; 
+		$url .= $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+		$data = array( 
+			"label_key" => "provider",
+			"provider" 	=> "shippo",
+			"page"		=> $url
+		);
+		if ( $new_option !== $old_option && ! empty( $new_option ) ) {	
+			$this->push(
+				"shpping_connected",
+				$data
+			);
+		}
+
+		return $new_option;
+	}
+
+	/**
+	 * Stripe connected
+	 *
+	 * @param string $new_option New value of the stripe_data_production option
+	 * @param string $old_option Old value of the stripe_data_production option
+	 *
+	 * @return string The new option value
+	 */
+	public function stripe_connection( $new_option, $old_option ) {
+		$url =  is_ssl() ? "https://" : "http://"; 
+		$url .= $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+		$data = array( 
+			"label_key" => "provider",
+			"provider" 	=> "stripe",
+			"page" 		=> $url
+		);
+		if ( $new_option !== $old_option && ! empty( $new_option ) ) {	
+			$this->push(
+				"payment_connected",
+				$data
+			);
+		}
+
+		return $new_option;
 	}
 }
