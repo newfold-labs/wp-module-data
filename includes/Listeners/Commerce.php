@@ -22,6 +22,8 @@ class Commerce extends Listener {
 		add_filter( 'pre_update_option_nfd_ecommerce_captive_flow_razorpay', array( $this, 'razorpay_connection' ), 10, 2 );
 		add_filter( 'pre_update_option_nfd_ecommerce_captive_flow_shippo', array( $this, 'shippo_connection' ), 10, 2 );
 		add_filter( 'pre_update_option_nfd_ecommerce_captive_flow_stripe', array( $this, 'stripe_connection' ), 10, 2 );
+		// Paypal Connection
+		add_filter( 'pre_update_option_yith_ppwc_merchant_data_production', array( $this, 'paypal_connection' ), 10, 2 );
 	}
 
 	/**
@@ -210,6 +212,32 @@ class Commerce extends Listener {
 		$data = array( 
 			"label_key" => "provider",
 			"provider" 	=> "stripe",
+			"page" 		=> $url
+		);
+		if ( $new_option !== $old_option && ! empty( $new_option ) ) {	
+			$this->push(
+				"payment_connected",
+				$data
+			);
+		}
+
+		return $new_option;
+	}
+
+	/**
+	 * PayPal connected
+	 *
+	 * @param string $new_option New value of the yith_ppwc_merchant_data_production option
+	 * @param string $old_option Old value of the yith_ppwc_merchant_data_production option
+	 *
+	 * @return string The new option value
+	 */
+	public function paypal_connection( $new_option, $old_option ) {
+		$url =  is_ssl() ? "https://" : "http://"; 
+		$url .= $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+		$data = array( 
+			"label_key" => "provider",
+			"provider" 	=> "yith_paypal",
 			"page" 		=> $url
 		);
 		if ( $new_option !== $old_option && ! empty( $new_option ) ) {	
