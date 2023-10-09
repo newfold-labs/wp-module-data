@@ -13,11 +13,17 @@ use function NewfoldLabs\WP\ModuleLoader\container;
  */
 class DeactivationSurvey {
 
+    /**
+     * DeactivationSurvey constructor.
+     */
     public function __construct() {
         $this->deactivation_survey_assets();
         $this->deactivation_survey_runtime();
     }
 
+    /**
+     * Enqueue deactivation survey assets.
+     */
     public function deactivation_survey_assets() {
         $assetsDir = container()->plugin()->url . 'vendor/newfold-labs/wp-module-data/includes/assets/';
 
@@ -47,6 +53,9 @@ class DeactivationSurvey {
 		);
     }
 
+    /**
+     * Localize deactivation survey runtime.
+     */
     public function deactivation_survey_runtime() {
         $plugin_slug = explode( '/', container()->plugin()->basename )[0];
 
