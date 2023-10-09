@@ -54,13 +54,13 @@ class DeactivationSurvey {
 			'nfd-data-deactivation-survey',
 			'newfoldDataDeactivationSurvey',
 			array(
-				'restApiRoot'  => \get_home_url() . '/index.php?rest_route=',
-				'restApiNonce' => wp_create_nonce( 'wp_rest' ),
-                'brand'        => ucwords( container()->plugin()->id ),
-				'pluginSlug'   => $plugin_slug,
-                'strings'      => array(
+				'eventsEndpoint' => \esc_url_raw( \get_home_url() . '/index.php?rest_route=/newfold-data/v1/events/' ),
+				'restApiNonce'   => wp_create_nonce( 'wp_rest' ),
+                'brand'          => container()->plugin()->brand,
+				'pluginSlug'     => $plugin_slug,
+                'strings'        => array(
                     'surveyTitle'     => __( 'Plugin Deactivation Survey', $plugin_slug ),
-                    'dialogTitle'     => __( 'Thank You for Using the ' . ucwords( container()->plugin()->id ) . ' Plugin!', $plugin_slug ),
+                    'dialogTitle'     => __( 'Thank You for Using the ' . ucwords( container()->plugin()->brand ) . ' Plugin!', $plugin_slug ),
                     'dialogDesc'      => __( 'Please take a moment to let us know why you\'re deactivating this plugin.', $plugin_slug ),
                     'formAriaLabel'   => __( 'Plugin Deactivation Form', $plugin_slug ),
                     'label'           => __( 'Why are you deactivating this plugin?', $plugin_slug ),

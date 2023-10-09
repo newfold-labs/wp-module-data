@@ -25,27 +25,33 @@
                     <h3>${newfoldDataDeactivationSurvey.strings.dialogTitle}</h3>
                     <p>${newfoldDataDeactivationSurvey.strings.dialogDesc}</p>
                 </div>
-                <form aria-label="${newfoldDataDeactivationSurvey.strings.formAriaLabel}">
-                    <fieldset>
-                        <label for="nfd-deactivation-survey__input">${newfoldDataDeactivationSurvey.strings.label}</label>
-                        <textarea id="nfd-deactivation-survey__input" placeholder="${newfoldDataDeactivationSurvey.strings.placeholder}"></textarea>
-                    </fieldset>
-                    <div class="nfd-deactivation-survey__content-actions">
-                        <div>
-                            <input type="submit" value="${newfoldDataDeactivationSurvey.strings.submit}" nfd-deactivation-survey-submit class="button button-primary" aria-label="${newfoldDataDeactivationSurvey.strings.submitAriaLabel}"/>
-                            <button type="button" class="nfd-deactivation-survey-action" nfd-deactivation-survey-destroy aria-label="${newfoldDataDeactivationSurvey.strings.cancelAriaLabel}">${newfoldDataDeactivationSurvey.strings.cancel}</button>
-                        </div>
-                        <div>
-                            <button type="button" class="nfd-deactivation-survey-action" nfd-deactivation-survey-skip aria-label="${newfoldDataDeactivationSurvey.strings.skipAriaLabel}">${newfoldDataDeactivationSurvey.strings.skip}</button>
-                        </div>
-                    </div>
-                </form>
+                ${getSurveyFormHTML()}
                 <span class="nfd-deactivation-survey_loading nfd-hidden"></span>
             </div>
         </div>
         <div class="nfd-deactivation-survey__disabled nfd-hidden"></div>
         `;
         return dialogHTML;
+    }
+
+    const getSurveyFormHTML = () => {
+        return `
+        <form aria-label="${newfoldDataDeactivationSurvey.strings.formAriaLabel}">
+            <fieldset>
+                <label for="nfd-deactivation-survey__input">${newfoldDataDeactivationSurvey.strings.label}</label>
+                <textarea id="nfd-deactivation-survey__input" placeholder="${newfoldDataDeactivationSurvey.strings.placeholder}"></textarea>
+            </fieldset>
+            <div class="nfd-deactivation-survey__content-actions">
+                <div>
+                    <input type="submit" value="${newfoldDataDeactivationSurvey.strings.submit}" nfd-deactivation-survey-submit class="button button-primary" aria-label="${newfoldDataDeactivationSurvey.strings.submitAriaLabel}"/>
+                    <button type="button" class="nfd-deactivation-survey-action" nfd-deactivation-survey-destroy aria-label="${newfoldDataDeactivationSurvey.strings.cancelAriaLabel}">${newfoldDataDeactivationSurvey.strings.cancel}</button>
+                </div>
+                <div>
+                    <button type="button" class="nfd-deactivation-survey-action" nfd-deactivation-survey-skip aria-label="${newfoldDataDeactivationSurvey.strings.skipAriaLabel}">${newfoldDataDeactivationSurvey.strings.skip}</button>
+                </div>
+            </div>
+        </form>
+        `;
     }
 
     const destroyDialog = () => {
@@ -68,7 +74,7 @@
         }
     }
 
-    isSubmitting = () => {
+    const isSubmitting = () => {
         const dialogDisabledOverlay = document.querySelector('.nfd-deactivation-survey__disabled');
         dialogDisabledOverlay.classList.remove('nfd-hidden');
         const dialogLoading = document.querySelector('.nfd-deactivation-survey_loading');
@@ -87,13 +93,31 @@
         });
     }
 
-    submitSurvey = () => {
+    const submitSurvey = async () => {
         isSubmitting();
         const surveyInput = document.getElementById('nfd-deactivation-survey__input').value;
-        setTimeout(() => {
-            console.log(surveyInput);
-            deactivatePlugin();
-        }, 3000);
+
+        const send = await sendEvent(surveyInput);
+        deactivatePlugin();
+    }
+
+    const sendEvent = async (surveyInput) => {
+        await fetch(newfoldDataDeactivationSurvey.eventsEndpoint, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-WP-Nonce': newfoldDataDeactivationSurvey.restApiNonce
+            },
+            body: JSON.stringify({
+                action: 'deactivation_survey_freeform',
+                data: {
+                    surveyInput: surveyInput.length > 0 ? surveyInput : 'No input',
+                    brand: newfoldDataDeactivationSurvey.brand,
+                    page: window.location.href
+                }
+            })
+        });
+        return true;
     }
 
     // Attach events listeners
