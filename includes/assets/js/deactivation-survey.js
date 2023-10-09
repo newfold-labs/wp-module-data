@@ -16,6 +16,9 @@
         const wpAdmin = document.querySelector('body.wp-admin');
         wpAdmin.appendChild(surveyDialog);
 
+        // Disable body scroll
+        document.body.classList.add('nfd-noscroll');
+
         // Create dialog instance
         deactivationSurveyDialog = new A11yDialog(surveyDialog);
         deactivationSurveyDialog.show();
@@ -70,6 +73,9 @@
         if (dialog) {
             dialog.remove();
         }
+
+        // Enable body scroll
+        document.body.classList.remove('nfd-noscroll');
     }
 
     const deactivatePlugin = () => {

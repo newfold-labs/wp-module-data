@@ -1,3 +1,17 @@
+/* Utility classes */
+.nfd-hidden {
+    display: none !important;
+}
+
+.nfd-visually-hidden {
+    visibility: hidden;
+}
+
+.nfd-noscroll {
+    overflow-y: hidden !important;
+}
+/* End utility classes */
+
 #nfd-deactivation-survey {
     z-index: 100000;
     display: flex;
@@ -122,14 +136,6 @@
 
 .nfd-deactivation-survey-action:disabled {
     opacity: .55;
-}
-
-.nfd-hidden {
-    display: none !important;
-}
-
-.nfd-visually-hidden {
-    visibility: hidden;
 }
 
 .nfd-deactivation-survey_loading {
