@@ -127,7 +127,7 @@
             body: JSON.stringify({
                 action: 'deactivation_survey_freeform',
                 data: {
-                    surveyInput: surveyInput.length > 0 ? surveyInput : 'No input',
+                    survey_input: surveyInput.length > 0 ? surveyInput : 'No input',
                     brand: runtimeData.brand,
                     page: window.location.href
                 }
