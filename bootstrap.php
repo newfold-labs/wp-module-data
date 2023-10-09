@@ -1,6 +1,7 @@
 <?php
 
 use NewfoldLabs\WP\Module\Data\Data;
+use NewfoldLabs\WP\Module\Data\DeactivationSurvey;
 use NewfoldLabs\WP\Module\Data\Helpers\Encryption;
 use NewfoldLabs\WP\Module\Data\Helpers\Transient;
 use NewfoldLabs\WP\Module\Data\SiteCapabilities;
@@ -105,6 +106,14 @@ if ( function_exists( 'add_action' ) && function_exists( 'add_filter' ) ) {
 				)
 			);
 
+		}
+	);
+
+	// Register the deactivation survey
+	add_action(
+		'admin_head-plugins.php',
+		function () {
+			return new DeactivationSurvey();
 		}
 	);
 
