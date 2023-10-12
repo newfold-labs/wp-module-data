@@ -24,6 +24,7 @@ class Commerce extends Listener {
 		add_filter( 'pre_update_option_nfd_ecommerce_captive_flow_stripe', array( $this, 'stripe_connection' ), 10, 2 );
 		// Paypal Connection
 		add_filter( 'pre_update_option_yith_ppwc_merchant_data_production', array( $this, 'paypal_connection' ), 10, 2 );
+		add_filter('toplevel_page_newfold-ecomdash', array($this, 'ecomdash_connected'));
 	}
 
 	/**
@@ -249,4 +250,35 @@ class Commerce extends Listener {
 
 		return $new_option;
 	}
+	
+	/**
+	 * Ecomdash connection, send data to Hiive
+	 *
+	 * @return void
+	 */
+	public function ecomdash_connected() {
+        $isecomdash_connected = \get_option( 'ewc4wp_sso_account_status', '' );
+        $localVar = $_COOKIE["ecomdash_counter"];
+        if($isecomdash_connected === 'disconnected' || !isset($localVar)){
+            setcookie("ecomdash_counter", 0);
+        }
+        if($isecomdash_connected === 'connected'){
+            $localVar = (int)$localVar+1;
+            setcookie("ecomdash_counter",$localVar);
+            if($localVar==1){
+            $WC_Product = 'hellow';
+                echo '<script type="text/javascript">
+                    console.log("inside the logic");
+        		</script>';
+            $url =  is_ssl() ? "https://" : "http://";
+            $url .= $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+            $data = array(
+                "url"       => $url
+            );
+            $this->push(
+			  "ecomdash_connected",
+                $data
+            );}
+        }
+    }
 }
