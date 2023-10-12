@@ -260,11 +260,11 @@ class Commerce extends Listener {
         $isecomdash_connected = \get_option( 'ewc4wp_sso_account_status', '' );
         $localVar = $_COOKIE["ecomdash_counter"];
         if($isecomdash_connected === 'disconnected' || !isset($localVar)){
-            setcookie("ecomdash_counter", 0);
+            setcookie("ecomdash_counter", 0, time() + (365 * 24 * 60 * 60));
         }
         if($isecomdash_connected === 'connected'){
             $localVar = (int)$localVar+1;
-            setcookie("ecomdash_counter",$localVar);
+            setcookie("ecomdash_counter",$localVar, time() + (365 * 24 * 60 * 60));
             if($localVar==1){
             $url =  is_ssl() ? "https://" : "http://";
             $url .= $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
