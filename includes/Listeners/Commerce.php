@@ -266,10 +266,6 @@ class Commerce extends Listener {
             $localVar = (int)$localVar+1;
             setcookie("ecomdash_counter",$localVar);
             if($localVar==1){
-            $WC_Product = 'hellow';
-                echo '<script type="text/javascript">
-                    console.log("inside the logic");
-        		</script>';
             $url =  is_ssl() ? "https://" : "http://";
             $url .= $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
             $data = array(
