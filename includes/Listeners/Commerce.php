@@ -24,6 +24,7 @@ class Commerce extends Listener {
 		add_filter( 'pre_update_option_nfd_ecommerce_captive_flow_stripe', array( $this, 'stripe_connection' ), 10, 2 );
 		// Paypal Connection
 		add_filter( 'pre_update_option_yith_ppwc_merchant_data_production', array( $this, 'paypal_connection' ), 10, 2 );
+		add_filter( 'transition_post_status', array( $this, 'add_edit_product' ), 10, 3 );
 	}
 
 	/**
@@ -248,5 +249,47 @@ class Commerce extends Listener {
 		}
 
 		return $new_option;
+	}
+
+	function add_update_product_method($product_data){
+		$product_type = $product_data->get_type();
+		$product_id = $product_data->get_id();
+
+		$data = array( 
+			"label_key" => "product_type",
+			"product_type" 	=> $product_type,
+			"post_id" 		=> $product_id
+		);
+		$this->push(
+			"product_created",
+			$data
+		);
+	}
+
+	/**
+	 * Product added, send data to Hiive
+	 * @param string $new_option New value of the yith_ppwc_merchant_data_production option
+	 * @param string $old_option Old value of the yith_ppwc_merchant_data_production option
+	 * @return void
+	 */
+	public function add_edit_product($new_status, $old_status, $post) { 
+		global $product;
+		$product = wc_get_product( $post );
+	
+		if ( 'product' !== $post->post_type ) {
+			return;
+		}
+		if ( 'publish' !== $new_status ) {
+			return;
+		}
+		if ( 'publish' === $old_status ) {
+			if ( $new_option !== $old_option && ! empty( $new_option ) ) {	
+				$this->add_update_product_method($product);
+			}
+		} else {
+			if ( $new_option !== $old_option && ! empty( $new_option ) ) {	
+				$this->add_update_product_method($product);
+			}
+		}
 	}
 }
