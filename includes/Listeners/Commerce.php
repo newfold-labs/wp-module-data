@@ -256,7 +256,6 @@ class Commerce extends Listener {
 	 * @param string 	$new_status 	New post status.
 	 * @param string  	$old_status 	Old post status.
 	 * @param WP_Post 	$post 			Post object.
-	 * @return void
 	 */
 	public function add_edit_product($new_status, $old_status, $post) { 
 		global $product;
@@ -275,6 +274,6 @@ class Commerce extends Listener {
 				"product_created",
 				$data
 			);
-		 }
+		}
 	}
 }
