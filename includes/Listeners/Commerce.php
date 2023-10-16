@@ -276,20 +276,8 @@ class Commerce extends Listener {
 		global $product;
 		$product = wc_get_product( $post );
 	
-		if ( 'product' !== $post->post_type ) {
-			return;
-		}
-		if ( 'publish' !== $new_status ) {
-			return;
-		}
-		if ( 'publish' === $old_status ) {
-			if ( $new_option !== $old_option && ! empty( $new_option ) ) {	
-				$this->add_update_product_method($product);
-			}
-		} else {
-			if ( $new_option !== $old_option && ! empty( $new_option ) ) {	
-				$this->add_update_product_method($product);
-			}
-		}
+		if ( ('product' === $post->post_type) && ('publish' === $new_status) && ('publish' !== $old_status) ) {
+			$this->add_update_product_method($product);
+		 }
 	}
 }
