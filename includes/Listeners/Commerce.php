@@ -24,6 +24,7 @@ class Commerce extends Listener {
 		add_filter( 'pre_update_option_nfd_ecommerce_captive_flow_stripe', array( $this, 'stripe_connection' ), 10, 2 );
 		// Paypal Connection
 		add_filter( 'pre_update_option_yith_ppwc_merchant_data_production', array( $this, 'paypal_connection' ), 10, 2 );
+		add_filter( 'transition_post_status', array( $this, 'add_edit_product' ), 10, 3 );
 	}
 
 	/**
@@ -248,5 +249,32 @@ class Commerce extends Listener {
 		}
 
 		return $new_option;
+	}
+
+	/**
+	 * When New Product is added, send data to Hiive
+	 * @param string 	$new_status 	New post status.
+	 * @param string  	$old_status 	Old post status.
+	 * @param WP_Post 	$post 			Post object.
+	 * @return void
+	 */
+	public function add_edit_product($new_status, $old_status, $post) { 
+		global $product;
+		$product = wc_get_product( $post );
+
+		if ( ('product' === $post->post_type) && ('publish' === $new_status) && ('publish' !== $old_status) ) {
+			$product_type = $product->get_type();
+			$product_id = $product->get_id();
+
+			$data = array( 
+				"label_key" => "product_type",
+				"product_type" 	=> $product_type,
+				"post_id" 		=> $product_id
+			);
+			$this->push(
+				"product_created",
+				$data
+			);
+		 }
 	}
 }
