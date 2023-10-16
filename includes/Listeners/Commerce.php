@@ -258,23 +258,25 @@ class Commerce extends Listener {
 	 */
 	public function ecomdash_connected() {
         $isecomdash_connected = \get_option( 'ewc4wp_sso_account_status', '' );
-        $localVar = $_COOKIE["ecomdash_counter"];
-        if($isecomdash_connected === 'disconnected' || !isset($localVar)){
+        $ecomdash_counter = isset($_COOKIE["ecomdash_counter"]) ? $_COOKIE["ecomdash_counter"] : 0;
+		$ecomdash_counter = filter_var($ecomdash_counter, FILTER_SANITIZE_NUMBER_INT);
+        if($isecomdash_connected === 'disconnected'){
             setcookie("ecomdash_counter", 0, time() + (365 * 24 * 60 * 60));
         }
         if($isecomdash_connected === 'connected'){
-            $localVar = (int)$localVar+1;
-            setcookie("ecomdash_counter",$localVar, time() + (365 * 24 * 60 * 60));
-            if($localVar==1){
-            $url =  is_ssl() ? "https://" : "http://";
-            $url .= $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-            $data = array(
-                "url"       => $url
-            );
-            $this->push(
-			  "ecomdash_connected",
-                $data
-            );}
+            $ecomdash_counter = $ecomdash_counter+1;
+            setcookie("ecomdash_counter",$ecomdash_counter, time() + (365 * 24 * 60 * 60));
+            if($ecomdash_counter === 1){
+				$url =  is_ssl() ? "https://" : "http://";
+				$url .= $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+				$data = array(
+					"url"	=> $url
+				);
+				$this->push(
+					"ecomdash_connected",
+					$data
+				);
+			}
         }
     }
 }
