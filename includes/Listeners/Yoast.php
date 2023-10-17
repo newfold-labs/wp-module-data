@@ -22,7 +22,7 @@ class Yoast extends Listener {
 	private $social_profiles_map         = [
 		'facebook_site'     => 'facebook_profile',
 		'twitter_site'      => 'twitter_profile',
-		'other_social_urls' => 'other_social_urls',
+		'other_social_urls' => 'other_profiles',
 	];
 
 	/**
@@ -57,7 +57,7 @@ class Yoast extends Listener {
 		$mapped_failures   = $this->map_failures_to_hiive_names( $failures, $this->site_representation_map, $this->site_representation_skip_fields );
 
 		foreach ($mapped_new_values as $key => $value) {
-			$this->maybe_push_event( $key, $value, $mapped_old_values[ $key ], \in_array( $key, $mapped_failures ), 'ftc_site_representation' );
+			$this->maybe_push_site_representation_event( $key, $value, $mapped_old_values[ $key ], \in_array( $key, $mapped_failures ) );
 		}
 	}
 
@@ -81,12 +81,27 @@ class Yoast extends Listener {
 			return;
 		}
 
-		$mapped_new_values = $this->map_params_names_to_hiive_names( $new_values, $this->social_profiles_map );
-		$mapped_old_values = $this->map_params_names_to_hiive_names( $old_values, $this->social_profiles_map );
-		$mapped_failures   = $this->map_failures_to_hiive_names( $failures, $this->social_profiles_map );
+		// Remove multiple occurences of other_social_urls;
+		$cleaned_failures = $this->clean_social_profiles_failures( $failures );
 
-		foreach ($mapped_new_values as $key => $value) {
-			$this->maybe_push_event( $key, $value, $mapped_old_values[ $key ], \in_array( $key, $mapped_failures ), 'ftc_personal_profiles' );
+		$mapped_values     = $this->map_params_names_to_hiive_names( $new_values, $this->social_profiles_map );
+		$mapped_old_values = $this->map_params_names_to_hiive_names( $old_values, $this->social_profiles_map );
+		$mapped_failures   = $this->map_failures_to_hiive_names( $cleaned_failures, $this->social_profiles_map );
+
+		foreach ($mapped_values as $key => $value) {
+			// The option update failed
+			if ( \in_array( $key, $mapped_failures ) ) {
+				$this->push( "failed_$key", [ 'category' => 'ftc_personal_profiles' ] );
+				return;
+			}
+
+			if ( $value !== $mapped_old_values[ $key ] ) {
+				if ( $key === 'other_profiles' ) {
+					$this->maybe_push_other_social_profiles( $key, $value, $mapped_old_values[ $key ] );
+					return;
+				}
+				$this->push( "changed_$key", [ 'category' => 'ftc_personal_profiles' ] );
+			}
 		}
 	}
 
@@ -105,7 +120,7 @@ class Yoast extends Listener {
 			return;
 		}
 
-		$this->maybe_push_event( 'usage_tracking', $new_value, $old_value, $failed, 'ftc_tracking' );
+		$failed ? $this->push( "failed_usage_tracking", [ 'category' => 'ftc_tracking' ] ) : $this->push( "changed_usage_tracking", [ 'category' => 'ftc_tracking' ] );
 	}
 
 	/**
@@ -115,11 +130,12 @@ class Yoast extends Listener {
 	 * @param string $value     The new option value
 	 * @param string $old_value The old option value
 	 * @param bool   $failure   Whether the option update failed
-	 * @param string $category  The category of the event
 	 *
 	 * @return void
 	 */
-	private function maybe_push_event( $key, $value, $old_value, $failure, $category ) {
+	private function maybe_push_site_representation_event( $key, $value, $old_value, $failure ) {
+		$category = 'ftc_site_representation';
+
 		// The option update failed
 		if ( $failure ) {
 			$this->push( "failed_$key", [ 'category' => $category] );
@@ -164,6 +180,39 @@ class Yoast extends Listener {
 	}
 
 	/**
+	 * A method used to (maybe) push the other_profiles event
+	 *
+	 * @param string $key       The option key (other_profiles)
+	 * @param array  $new_value The array of new social profiles
+	 * @param array  $old_value The array of old social profiles
+	 *
+	 * @return void
+	 */
+	private function maybe_push_other_social_profiles( $key, $new_value, $old_value ) {
+		if ($new_value === $old_value ) {
+			return;
+		}
+
+		$changed_profiles = \array_map(
+			function( $value ) {
+				return $this->get_base_url( \wp_unslash( $value ) );
+			},
+			$new_value
+		);
+
+		// The option was updated
+		$data = array(
+			'category' => 'ftc_personal_profiles',
+			'data'     => array(
+				'label_key' => $key,
+				'new_value' => $changed_profiles
+				),
+			);
+		
+		$this->push( "changed_other_profiles", $data );
+	}
+
+	/**
 	 * Maps the param names to the names used for Hiive events tracking.
 	 *
 	 * @param array $params      The params to map.
@@ -199,12 +248,12 @@ class Yoast extends Listener {
 	private function map_failures_to_hiive_names( $failures, $map, $skip_fields=[] ) {
 		$mapped_failures = [];
 
-		foreach ( $failures as $failed_filed_name) {
-			if ( in_array( $failed_filed_name, $skip_fields, true ) ) {
+		foreach ( $failures as $failed_field_name) {
+			if ( in_array( $failed_field_name, $skip_fields, true ) ) {
 				continue;
 			}
 
-			$mapped_failures = $map[ $failed_filed_name ];
+			$mapped_failures[] = $map[ $failed_field_name ];
 		}
 
 		return $mapped_failures;
@@ -223,5 +272,44 @@ class Yoast extends Listener {
 		}
 
 		return ( strlen( $param ) === 0 );
+	}
+
+	/**
+	 * Gets the base url of a given url.
+	 *
+	 * @param string $url The url.
+	 *
+	 * @return string The base url.
+	 */
+	private function get_base_url( $url ) {
+		$parts = \parse_url( $url );
+
+		return $parts['scheme'] . '://' . $parts['host'];
+	}
+
+	/**
+	 * Removes multiple occurences of other_social_urls from the failures array
+	 *
+	 * @param array $failures The failures array
+	 *
+	 * @return array The cleaned failures array
+	 */
+	private function clean_social_profiles_failures ( $failures ) {
+		$cleaned_failures = [];
+		$other_social_profiles_failed = false;
+
+		foreach ( $failures as $failure ) {
+			if ( strpos( $failure, 'other_social_urls' ) === 0 ) {
+				$other_social_profiles_failed = true;
+				continue;
+			}
+			$cleaned_failures[] = $failure;
+		}
+
+		if ( $other_social_profiles_failed ) {
+			$cleaned_failures[] = 'other_social_urls';
+		}
+
+		return $cleaned_failures;
 	}
 }
