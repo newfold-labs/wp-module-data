@@ -24,7 +24,7 @@ class Commerce extends Listener {
 		add_filter( 'pre_update_option_nfd_ecommerce_captive_flow_stripe', array( $this, 'stripe_connection' ), 10, 2 );
 		// Paypal Connection
 		add_filter( 'pre_update_option_yith_ppwc_merchant_data_production', array( $this, 'paypal_connection' ), 10, 2 );
-		add_filter('toplevel_page_newfold-ecomdash', array($this, 'ecomdash_connected'));
+		add_filter('update_option_ewc4wp_sso_account_status', array($this, 'ecomdash_connected'));
 	}
 
 	/**
@@ -254,29 +254,23 @@ class Commerce extends Listener {
 	/**
 	 * Ecomdash connection, send data to Hiive
 	 *
-	 * @return void
+	 * @param string $new_option New value of the update_option_ewc4wp_sso_account_status option
+	 * @param string $old_option Old value of the update_option_ewc4wp_sso_account_status option
+	 *
+	 * @return string The new option value
 	 */
-	public function ecomdash_connected() {
-        $isecomdash_connected = \get_option( 'ewc4wp_sso_account_status', '' );
-        $ecomdash_counter = isset($_COOKIE["ecomdash_counter"]) ? $_COOKIE["ecomdash_counter"] : 0;
-		$ecomdash_counter = filter_var($ecomdash_counter, FILTER_SANITIZE_NUMBER_INT);
-        if($isecomdash_connected === 'disconnected'){
-            setcookie("ecomdash_counter", 0, time() + (365 * 24 * 60 * 60));
-        }
-        if($isecomdash_connected === 'connected'){
-            $ecomdash_counter = $ecomdash_counter+1;
-            setcookie("ecomdash_counter",$ecomdash_counter, time() + (365 * 24 * 60 * 60));
-            if($ecomdash_counter === 1){
-				$url =  is_ssl() ? "https://" : "http://";
-				$url .= $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-				$data = array(
-					"url"	=> $url
-				);
-				$this->push(
-					"ecomdash_connected",
-					$data
-				);
-			}
-        }
-    }
+	public function ecomdash_connected($new_option, $old_option) {
+		if ( $new_option !== $old_option && ! empty( $new_option ) && $new_option === 'connected' ) {
+			$url =  is_ssl() ? "https://" : "http://";
+			$url .= $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+			$data = array(
+				"url"	=> $url
+			);
+			$this->push(
+				"ecomdash_connected",
+				$data
+			);
+    	}
+		return $new_option;
+	}
 }
