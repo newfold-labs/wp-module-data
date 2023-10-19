@@ -96,17 +96,13 @@ class Yoast extends Listener {
 			}
 
 			if ( $value !== $mapped_old_values[ $key ] ) {
-				if ( $key === 'other_profiles' ) {
-					$this->maybe_push_other_social_profiles( $key, $value, $mapped_old_values[ $key ] );
-					return;
-				}
-				$this->push( "changed_$key", [ 'category' => 'ftc_personal_profiles' ] );
+				$this->maybe_push_social_profiles_event( $key, $value, $mapped_old_values[ $key ], \in_array( $key, $mapped_failures ) );
 			}
 		}
 	}
 
 	/**
-	 * The user updated their tracking preference
+	 * The user updated their tracking preferences
 	 *
 	 * @param string $new_value The new value for the option related to tracking
 	 * @param string $old_value The old value for the option related to tracking
@@ -115,7 +111,7 @@ class Yoast extends Listener {
 	 * @return void
 	 */
 	public function tracking_updated( $new_value, $old_value, $failed ) {
-		// All the options are unchanged, opt out
+		// Option unchanged, opt out
 		if ( $new_value === $old_value ) {
 			return;
 		}
@@ -124,7 +120,7 @@ class Yoast extends Listener {
 	}
 
 	/**
-	 * A method used to (maybe) push an event to the queue
+	 * A method used to (maybe) push a site representation-related event to the queue.
 	 *
 	 * @param string $key       The option key
 	 * @param string $value     The new option value
@@ -180,16 +176,57 @@ class Yoast extends Listener {
 	}
 
 	/**
-	 * A method used to (maybe) push the other_profiles event
+	 * A method used to (maybe) push a social profile-related event to the queue.
+	 *
+	 * @param string $key       The option key
+	 * @param string $value     The new option value
+	 * @param string $old_value The old option value
+	 * @param bool   $failure   Whether the option update failed
+	 *
+	 * @return void
+	 */
+	private function maybe_push_social_profiles_event( $key, $value, $old_value, $failure ) {
+		$category = 'ftc_personal_profiles';
+
+		// The option update failed
+		if ( $failure ) {
+			$this->push( "failed_$key", [ 'category' => $category] );
+			return;
+		}
+
+		// The option value changed
+		if ( $value !== $old_value ) {
+			if ( $key === 'other_profiles' ) {
+				$this->push_other_social_profiles( $key, $value, $old_value, $category );
+				return;
+			}
+
+			// The option was set for the first time
+			if ( $this->is_param_empty( $old_value) ){
+				$this->push( "set_$key", [ 'category' => $category] );
+				return;
+			}
+
+			// The option was updated
+			$this->push( "changed_$key", [ 'category' => $category ] );
+		}
+	}
+
+
+	/**
+	 * A method used to (maybe) push the other_profiles-related event to the queue.
 	 *
 	 * @param string $key       The option key (other_profiles)
 	 * @param array  $new_value The array of new social profiles
 	 * @param array  $old_value The array of old social profiles
+	 * @param string $category  The category of the event
 	 *
 	 * @return void
 	 */
-	private function maybe_push_other_social_profiles( $key, $new_value, $old_value ) {
-		if ($new_value === $old_value ) {
+	private function push_other_social_profiles( $key, $new_value, $old_value, $category ) {
+		// The option was set for the first time
+		if ( $this->is_param_empty( $old_value) ){
+			$this->push( "set_$key", [ 'category' => $category] );
 			return;
 		}
 
@@ -202,7 +239,7 @@ class Yoast extends Listener {
 
 		// The option was updated
 		$data = array(
-			'category' => 'ftc_personal_profiles',
+			'category' => $category,
 			'data'     => array(
 				'label_key' => $key,
 				'new_value' => $changed_profiles
