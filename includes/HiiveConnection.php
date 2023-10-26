@@ -263,18 +263,19 @@ class HiiveConnection implements SubscriberInterface {
 	 */
 	public function get_core_data() {
 		global $wpdb, $wp_version;
+		$container = container();
 
 		$data = array(
-			'brand'       => sanitize_title( get_option( 'mm_brand', 'false' ) ),
+			'brand'       => $container->plugin()->brand,
 			'cache_level' => intval( get_option( 'newfold_cache_level', 2 ) ),
-			'cloudflare'  => get_option( 'newfold_cloudflare_enabled', false ),
+			'cloudflare'   => get_option( 'newfold_cloudflare_enabled', false ),
 			'data'        => NFD_DATA_MODULE_VERSION,
 			'email'       => get_option( 'admin_email' ),
 			'hostname'    => gethostname(),
 			'mysql'       => $wpdb->db_version(),
-			'origin'      => container()->plugin()->get( 'id', 'error' ),
+			'origin'      => $container->plugin()->get( 'id', 'error' ),
 			'php'         => phpversion(),
-			'plugin'      => container()->plugin()->get( 'version', '0' ),
+			'plugin'      => $container->plugin()->get( 'version', '0' ),
 			'url'         => get_site_url(),
 			'username'    => get_current_user(),
 			'wp'          => $wp_version,
