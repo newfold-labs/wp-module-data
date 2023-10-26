@@ -266,7 +266,7 @@ class HiiveConnection implements SubscriberInterface {
 		$container = container();
 
 		$data = array(
-			'brand'       => $container->plugin()->brand,
+			'brand'       => sanitize_title( $container->plugin()->brand ),
 			'cache_level' => intval( get_option( 'newfold_cache_level', 2 ) ),
 			'cloudflare'   => get_option( 'newfold_cloudflare_enabled', false ),
 			'data'        => NFD_DATA_MODULE_VERSION,
