@@ -25,7 +25,7 @@ class Commerce extends Listener {
 		// Paypal Connection
 		add_filter( 'pre_update_option_yith_ppwc_merchant_data_production', array( $this, 'paypal_connection' ), 10, 2 );
 		add_filter('update_option_ewc4wp_sso_account_status', array($this, 'ecomdash_connected'));
-		add_filter( 'woocommerce_update_product', array( $this, 'create_product' ), 100, 2 );
+		add_filter( 'woocommerce_update_product', array( $this, 'product_created_or_updated' ), 100, 2 );
 	}
 
 	/**
@@ -281,7 +281,7 @@ class Commerce extends Listener {
      * @param WP_POST $product details of the product
      * @return void
      */
-    public function create_product($product_id, $product) {
+    public function product_created_or_updated($product_id, $product) {
         $data = array(
                 "label_key" => "product_type",
                 "product_type"  => $product->product_type,
