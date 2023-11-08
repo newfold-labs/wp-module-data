@@ -191,7 +191,7 @@ class Commerce extends Listener {
 		);
 		if ( $new_option !== $old_option && ! empty( $new_option ) ) {	
 			$this->push(
-				"shpping_connected",
+				"shipping_connected",
 				$data
 			);
 		}
