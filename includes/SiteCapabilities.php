@@ -29,7 +29,7 @@ class SiteCapabilities {
 	/**
 	 * Check if a capability exists.
 	 *
-	 * @param  string $capability Capability name.
+	 * @param string $capability Capability name.
 	 *
 	 * @return bool
 	 */
@@ -40,7 +40,7 @@ class SiteCapabilities {
 	/**
 	 * Get the value of a capability.
 	 *
-	 * @param  string $capability Capability name.
+	 * @param string $capability Capability name.
 	 *
 	 * @return bool
 	 */
@@ -67,7 +67,7 @@ class SiteCapabilities {
 			)
 		);
 
-		if ( ! is_wp_error( $response ) ) {
+		if ( wp_remote_retrieve_response_code( $response ) === 200 && ! is_wp_error( $response ) ) {
 			$body = wp_remote_retrieve_body( $response );
 			$data = json_decode( $body, true );
 			if ( $data && is_array( $data ) ) {
