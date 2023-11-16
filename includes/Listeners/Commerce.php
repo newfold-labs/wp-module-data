@@ -18,6 +18,7 @@ class Commerce extends Listener {
 		add_filter( 'newfold_wp_data_module_cron_data_filter', array( $this, 'orders_count' ) );
 		add_filter('woocommerce_before_cart', array( $this, 'site_cart_views'));
 		add_filter('woocommerce_before_checkout_form', array( $this, 'checkout_views'));
+		add_action('woocommerce_cart_updated',array( $this, 'site_product_add_to_cart_data'));
 		add_filter('woocommerce_thankyou', array( $this, 'thank_you_page'));
 		add_filter( 'pre_update_option_nfd_ecommerce_captive_flow_razorpay', array( $this, 'razorpay_connection' ), 10, 2 );
 		add_filter( 'pre_update_option_nfd_ecommerce_captive_flow_shippo', array( $this, 'shippo_connection' ), 10, 2 );
@@ -117,6 +118,24 @@ class Commerce extends Listener {
 		
 		$this->push(
 			"site_checkout_view",
+			$data
+		);
+	}
+
+     /**
+	 * Added to cart, send data to Hiive
+	 *
+	 * @return void
+	 */
+	public function site_product_add_to_cart_data() {
+		$data = array(
+			"product_count" 	=> WC()->cart->get_cart_contents_count(),
+		    "cart_total" 		=> floatval(WC()->cart->get_cart_contents_total()),
+			"currency" 			=> get_woocommerce_currency(),
+		);
+
+	    $this->push(
+			"site_product_add_to_cart",
 			$data
 		);
 	}
