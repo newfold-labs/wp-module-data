@@ -25,12 +25,23 @@ class Content extends Listener {
 	/**
 	 * Post status transition
 	 *
-	 * @param string  $new_status The new post status
-	 * @param string  $old_status The old post status
-	 * @param \WP_Post $post       Post object
+	 * @param string $new_status The new post status
+	 * @param string $old_status The old post status
+	 * @param \WP_Post $post Post object
+	 *
 	 * @return void
 	 */
 	public function post_status( $new_status, $old_status, $post ) {
+
+		/**
+		 * Ignore all logging from the "Rest API Log" plugin
+		 *
+		 * @link https://wordpress.org/plugins/wp-rest-api-log/
+		 */
+		if ( 'wp-rest-api-log' === $post->post_type ) {
+			return;
+		}
+
 		$allowed_statuses = array(
 			'draft',
 			'pending',
@@ -76,15 +87,17 @@ class Content extends Listener {
 			'post__not_in' => array( 1, 2, 3 ),
 		);
 		$query = new WP_Query( $args );
+
 		return $query->post_count;
 	}
 
 	/**
 	 * Comment status transition
 	 *
-	 * @param string     $new_status The new comment status
-	 * @param string     $old_status The new comment status
+	 * @param string $new_status The new comment status
+	 * @param string $old_status The new comment status
 	 * @param WP_Comment $comment Comment object
+	 *
 	 * @return void
 	 */
 	public function comment_status( $new_status, $old_status, $comment ) {
