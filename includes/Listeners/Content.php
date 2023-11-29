@@ -33,12 +33,12 @@ class Content extends Listener {
 	 */
 	public function post_status( $new_status, $old_status, $post ) {
 
+		$post_type = get_post_type_object( $post->post_type );
+
 		/**
-		 * Ignore all logging from the "Rest API Log" plugin
-		 *
-		 * @link https://wordpress.org/plugins/wp-rest-api-log/
+		 * Ignore all post types that aren't public
 		 */
-		if ( 'wp-rest-api-log' === $post->post_type ) {
+		if ( $post_type->public !== true ) {
 			return;
 		}
 
