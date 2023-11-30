@@ -26,6 +26,7 @@ class Commerce extends Listener {
 		add_filter( 'pre_update_option_yith_ppwc_merchant_data_production', array( $this, 'paypal_connection' ), 10, 2 );
 		add_filter('update_option_ewc4wp_sso_account_status', array($this, 'ecomdash_connected'));
 		add_filter( 'woocommerce_update_product', array( $this, 'product_created_or_updated' ), 100, 2 );
+		add_action('update_option_woocommerce_custom_orders_table_enabled', array($this, 'woocommerce_hpos_enabled'), 10, 3 );
 	}
 
 	/**
@@ -293,4 +294,33 @@ class Commerce extends Listener {
                 $data
             );
     }
+
+	/**
+	* HPOS (High Performance Order Storage) is enabled
+	* Send data to hiive
+
+	* @param string $old_value Old value of woocommerce_custom_orders_table_enabled
+	* @param string $new_value New value of woocommerce_custom_orders_table_enabled
+	* @param option name of the option being updated
+
+	* @return void
+	*/
+	public function woocommerce_hpos_enabled($old_value, $new_value, $option) {
+		if ( $new_value !== $old_value && ! empty( $new_value )) {
+			$url =  is_ssl() ? "https://" : "http://";
+			$url .= $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+			$type = ($new_value === 'yes') ? 'hpos':'legacy';
+
+			$data = array(
+				"label_key" => $option,
+				"type"      => $type,
+				"page"      => $url
+			);
+
+			$this->push(
+				"changed_woo_order_storage_type",
+				$data
+			);
+		}
+   }
 }
