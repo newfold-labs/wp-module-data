@@ -18,7 +18,6 @@ class Commerce extends Listener {
 		add_filter( 'newfold_wp_data_module_cron_data_filter', array( $this, 'orders_count' ) );
 		add_filter('woocommerce_before_cart', array( $this, 'site_cart_views'));
 		add_filter('woocommerce_before_checkout_form', array( $this, 'checkout_views'));
-		add_action('woocommerce_cart_updated',array( $this, 'site_product_add_to_cart_data'));
 		add_filter('woocommerce_thankyou', array( $this, 'thank_you_page'));
 		add_filter( 'pre_update_option_nfd_ecommerce_captive_flow_razorpay', array( $this, 'razorpay_connection' ), 10, 2 );
 		add_filter( 'pre_update_option_nfd_ecommerce_captive_flow_shippo', array( $this, 'shippo_connection' ), 10, 2 );
@@ -88,55 +87,37 @@ class Commerce extends Listener {
 	 *
 	 * @return void
 	 */
-	public function site_cart_views() { 
+	public function site_cart_views() {
 		if( WC()->cart->get_cart_contents_count() !== 0){
-		$data = array( 
+		$data = array(
 			"product_count" => WC()->cart->get_cart_contents_count(),
 			"cart_total" 	=> floatval(WC()->cart->get_cart_contents_total()),
 			"currency" 		=> get_woocommerce_currency(),
-		); 
-		
+		);
+
 		$this->push(
 			"site_cart_view",
 			$data
 		);
 		}
-	} 
+	}
 
-	
+
 	/**
 	 * Checkout view, send data to Hiive
 	 *
 	 * @return void
 	 */
-	public function checkout_views() { 
-		$data = array( 
+	public function checkout_views() {
+		$data = array(
 			"product_count" 	=> WC()->cart->get_cart_contents_count(),
 			"cart_total" 		=> floatval(WC()->cart->get_cart_contents_total()),
 			"currency" 			=> get_woocommerce_currency(),
 			"payment_method" 	=> WC()->payment_gateways()->get_available_payment_gateways()
-		); 
-		
+		);
+
 		$this->push(
 			"site_checkout_view",
-			$data
-		);
-	}
-
-     /**
-	 * Added to cart, send data to Hiive
-	 *
-	 * @return void
-	 */
-	public function site_product_add_to_cart_data() {
-		$data = array(
-			"product_count" 	=> WC()->cart->get_cart_contents_count(),
-		    "cart_total" 		=> floatval(WC()->cart->get_cart_contents_total()),
-			"currency" 			=> get_woocommerce_currency(),
-		);
-
-	    $this->push(
-			"site_product_add_to_cart",
 			$data
 		);
 	}
@@ -145,10 +126,10 @@ class Commerce extends Listener {
 	 * Thank you page, send data to Hiive
 	 *
 	 * @param  int  $order_id
-	 * 
+	 *
 	 * @return void
 	 */
-	public function thank_you_page($order_id ) { 
+	public function thank_you_page($order_id ) {
 		$order = wc_get_order( $order_id );
 		$line_items = $order->get_items();
 
@@ -156,12 +137,12 @@ class Commerce extends Listener {
 		foreach ( $line_items as $item ) {
 			$qty = $item['qty'];
 		}
-		$data = array( 
+		$data = array(
 			"product_count" => $qty,
 			"order_total" 	=> floatval($order->get_total()),
 			"currency" 		=> get_woocommerce_currency(),
 		);
-		
+
 		$this->push(
 			"site_thank_you_view",
 			$data
@@ -177,14 +158,14 @@ class Commerce extends Listener {
 	 * @return string The new option value
 	 */
 	public function razorpay_connection( $new_option, $old_option ) {
-		$url =  is_ssl() ? "https://" : "http://"; 
+		$url =  is_ssl() ? "https://" : "http://";
 		$url .= $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-		$data = array( 
+		$data = array(
 			"label_key" => "provider",
 			"provider" 	=> "razorpay",
 			"page" 		=> $url
 		);
-		if ( $new_option !== $old_option && ! empty( $new_option ) ) {	
+		if ( $new_option !== $old_option && ! empty( $new_option ) ) {
 			$this->push(
 				"payment_connected",
 				$data
@@ -203,14 +184,14 @@ class Commerce extends Listener {
 	 * @return string The new option value
 	 */
 	public function shippo_connection( $new_option, $old_option ) {
-		$url =  is_ssl() ? "https://" : "http://"; 
+		$url =  is_ssl() ? "https://" : "http://";
 		$url .= $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-		$data = array( 
+		$data = array(
 			"label_key" => "provider",
 			"provider" 	=> "shippo",
 			"page"		=> $url
 		);
-		if ( $new_option !== $old_option && ! empty( $new_option ) ) {	
+		if ( $new_option !== $old_option && ! empty( $new_option ) ) {
 			$this->push(
 				"shipping_connected",
 				$data
@@ -229,14 +210,14 @@ class Commerce extends Listener {
 	 * @return string The new option value
 	 */
 	public function stripe_connection( $new_option, $old_option ) {
-		$url =  is_ssl() ? "https://" : "http://"; 
+		$url =  is_ssl() ? "https://" : "http://";
 		$url .= $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-		$data = array( 
+		$data = array(
 			"label_key" => "provider",
 			"provider" 	=> "stripe",
 			"page" 		=> $url
 		);
-		if ( $new_option !== $old_option && ! empty( $new_option ) ) {	
+		if ( $new_option !== $old_option && ! empty( $new_option ) ) {
 			$this->push(
 				"payment_connected",
 				$data
@@ -255,14 +236,14 @@ class Commerce extends Listener {
 	 * @return string The new option value
 	 */
 	public function paypal_connection( $new_option, $old_option ) {
-		$url =  is_ssl() ? "https://" : "http://"; 
+		$url =  is_ssl() ? "https://" : "http://";
 		$url .= $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-		$data = array( 
+		$data = array(
 			"label_key" => "provider",
 			"provider" 	=> "yith_paypal",
 			"page" 		=> $url
 		);
-		if ( $new_option !== $old_option && ! empty( $new_option ) ) {	
+		if ( $new_option !== $old_option && ! empty( $new_option ) ) {
 			$this->push(
 				"payment_connected",
 				$data
@@ -271,7 +252,7 @@ class Commerce extends Listener {
 
 		return $new_option;
 	}
-	
+
 	/**
 	 * Ecomdash connection, send data to Hiive
 	 *
