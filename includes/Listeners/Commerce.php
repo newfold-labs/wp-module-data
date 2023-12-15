@@ -27,6 +27,7 @@ class Commerce extends Listener {
 		add_filter('update_option_ewc4wp_sso_account_status', array($this, 'ecomdash_connected'));
 		add_filter( 'woocommerce_update_product', array( $this, 'product_created_or_updated' ), 100, 2 );
 		add_action('update_option_woocommerce_custom_orders_table_enabled', array($this, 'woocommerce_hpos_enabled'), 10, 3 );
+		add_action( 'woocommerce_cart_updated', array( $this, 'cart_updated') );
 	}
 
 	/**
@@ -323,4 +324,24 @@ class Commerce extends Listener {
 			);
 		}
    }
+
+   /**
+	* Update to cart, send data to Hiive
+	*
+	* @return void
+	*/
+	public function cart_updated() {
+		if (WC()->session->previous_cart_count != WC()->cart->get_cart_contents_count()) {
+			$data = array(
+				"product_count" 	=> WC()->cart->get_cart_contents_count(),
+				"cart_total" 		=> floatval(WC()->cart->get_cart_contents_total()),
+				"currency" 			=> get_woocommerce_currency(),
+			);
+			WC()->session->previous_cart_count = WC()->cart->get_cart_contents_count();
+			$this->push(
+				"site_product_add_to_cart",
+				$data
+			);
+		}
+	}
 }
