@@ -55,7 +55,6 @@ if ( function_exists( 'add_action' ) && function_exists( 'add_filter' ) ) {
 					'isHidden' => true,
 				)
 			);
-
 		}
 	);
 
@@ -104,7 +103,6 @@ if ( function_exists( 'add_action' ) && function_exists( 'add_filter' ) ) {
 					}
 				)
 			);
-
 		}
 	);
 
