@@ -11,12 +11,12 @@ use function NewfoldLabs\WP\ModuleLoader\register as registerModule;
 
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+	return;
 }
 
 // Do not allow multiple copies of the module to be active
 if ( defined( 'NFD_DATA_MODULE_VERSION' ) ) {
-	exit;
+	return;
 }
 
 define( 'NFD_DATA_MODULE_VERSION', '2.4.15' );
