@@ -31,14 +31,14 @@ class BluehostPlugin extends Listener {
 	/**
 	 * Disable Coming Soon
 	 *
-	 * @param  string $new_option  New value of the mm_coming_soon option
-	 * @param  string $old_option  Old value of the mm_coming_soon option
+	 * @param string $new_option New value of the mm_coming_soon option
+	 * @param string $old_option Old value of the mm_coming_soon option
 	 *
 	 * @return string The new option value
 	 */
 	public function site_launch( $new_option, $old_option ) {
 		// Ensure it only fires when Coming Soon is disabled
-		if ( $new_option !== $old_option && 'false' === $new_option ) {
+		if ( $new_option !== $old_option && false === wp_validate_boolean( $new_option ) ) {
 			$mm_install_time = get_option( 'mm_install_date', gmdate( 'M d, Y' ) );
 			$install_time    = apply_filters( 'nfd_install_date_filter', strtotime( $mm_install_time ) );
 
@@ -54,8 +54,8 @@ class BluehostPlugin extends Listener {
 	/**
 	 * Successful SSO
 	 *
-	 * @param  \WP_User $user  User who logged in
-	 * @param  string   $redirect  URL redirected to after login
+	 * @param \WP_User $user User who logged in
+	 * @param string $redirect URL redirected to after login
 	 *
 	 * @return void
 	 */
@@ -80,7 +80,7 @@ class BluehostPlugin extends Listener {
 	/**
 	 * Staging commands executed
 	 *
-	 * @param  string $command  The staging command executed
+	 * @param string $command The staging command executed
 	 *
 	 * @return void
 	 */
