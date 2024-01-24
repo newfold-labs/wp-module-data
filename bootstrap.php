@@ -19,7 +19,7 @@ if ( defined( 'NFD_DATA_MODULE_VERSION' ) ) {
 	return;
 }
 
-define( 'NFD_DATA_MODULE_VERSION', '2.4.17' );
+define( 'NFD_DATA_MODULE_VERSION', '2.4.18' );
 
 if ( function_exists( 'is_admin' ) && is_admin() ) {
 	$upgrade_handler = new UpgradeHandler(
