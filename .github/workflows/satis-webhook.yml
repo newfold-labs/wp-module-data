@@ -15,7 +15,7 @@ jobs:
     steps:
 
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Validate version number
         if: ${{ (github.repository == 'newfold-labs/wp-module-data') && (github.event.release.prerelease == false) }}
