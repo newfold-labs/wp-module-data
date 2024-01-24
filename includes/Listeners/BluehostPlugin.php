@@ -71,7 +71,7 @@ class BluehostPlugin extends Listener {
 			'sso',
 			array(
 				'label_key' => 'status',
-				'status'    => 'fail'
+				'status'    => 'fail',
 			)
 		);
 	}
@@ -88,7 +88,7 @@ class BluehostPlugin extends Listener {
 			'staging',
 			array(
 				'label_key' => 'command',
-				'command'   => $command
+				'command'   => $command,
 			)
 		);
 	}
