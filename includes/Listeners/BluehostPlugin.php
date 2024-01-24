@@ -48,7 +48,7 @@ class BluehostPlugin extends Listener {
 	 * Successful SSO
 	 *
 	 * @param \WP_User $user User who logged in
-	 * @param string $redirect URL redirected to after login
+	 * @param string   $redirect URL redirected to after login
 	 *
 	 * @return void
 	 */
