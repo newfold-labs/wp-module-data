@@ -3,9 +3,6 @@
 /**
  * I was having trouble with {@see WP_Mock::expectAction()} so mocked it here. Because we're using PHP 7.1, we're
  * not on the latest version of WP_Mock, which requires 7.4.
- *
- * @param ...$args
- * @return void
  */
 function do_action(...$args) {}
 function apply_filters(...$args) { return $args[1]; }
