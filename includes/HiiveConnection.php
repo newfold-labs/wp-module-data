@@ -268,8 +268,8 @@ class HiiveConnection implements SubscriberInterface {
 		$data = array(
 			'brand'       => sanitize_title( $container->plugin()->brand ),
 			'cache_level' => intval( get_option( 'newfold_cache_level', 2 ) ),
-			'cloudflare'   => get_option( 'newfold_cloudflare_enabled', false ),
-			'data'        => defined('NFD_DATA_MODULE_VERSION' ) ? constant( 'NFD_DATA_MODULE_VERSION' ) : '0.0',
+			'cloudflare'  => get_option( 'newfold_cloudflare_enabled', false ),
+			'data'        => defined( 'NFD_DATA_MODULE_VERSION' ) ? constant( 'NFD_DATA_MODULE_VERSION' ) : '0.0',
 			'email'       => get_option( 'admin_email' ),
 			'hostname'    => gethostname(),
 			'mysql'       => $wpdb->db_version(),
@@ -279,7 +279,7 @@ class HiiveConnection implements SubscriberInterface {
 			'url'         => get_site_url(),
 			'username'    => get_current_user(),
 			'wp'          => $wp_version,
-			'server_path' => defined('ABSPATH' ) ? constant( 'ABSPATH' ) : '',
+			'server_path' => defined( 'ABSPATH' ) ? constant( 'ABSPATH' ) : '',
 		);
 
 		return apply_filters( 'newfold_wp_data_module_core_data_filter', $data );
