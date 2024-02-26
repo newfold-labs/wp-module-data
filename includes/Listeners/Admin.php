@@ -47,16 +47,16 @@ class Admin extends Listener {
 
 	/**
 	 * Login
-	 * 
-	 * @param String  $user_login username
-	 * 
-	 * @param WP_User  $user logged in user info
-	 * 
+	 *
+	 * @param String $user_login username
+	 *
+	 * @param WP_User $user logged in user info
+	 *
 	 * @return void
 	 */
 	public function login( $user_login, $user ) {
-		$is_admin = array_key_exists( "administrator", $user->get_role_caps() );
-		if( ( $is_admin && $user->get_role_caps()["administrator"]) || ( $user->get_role_caps() && $user->get_role_caps()["manage_options"] ) ) {
+		$is_admin = array_key_exists( 'administrator', $user->get_role_caps() );
+		if ( ( $is_admin && $user->get_role_caps()['administrator']) || ( $user->get_role_caps() && $user->get_role_caps()['manage_options'] ) ) {
 			$this->push( 'login' );
 		}
 	}
@@ -69,5 +69,4 @@ class Admin extends Listener {
 	public function logout() {
 		$this->push( 'logout' );
 	}
-
 }
