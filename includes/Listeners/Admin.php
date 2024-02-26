@@ -47,9 +47,10 @@ class Admin extends Listener {
 
 	/**
 	 * Login
-	 * @param String $user_login username
 	 * 
-	 * @param WP_User $user logged in user info
+	 * @param String  $user_login username
+	 * 
+	 * @param WP_User  $user logged in user info
 	 * 
 	 * @return void
 	 */
