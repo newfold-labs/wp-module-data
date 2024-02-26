@@ -18,7 +18,7 @@ class Admin extends Listener {
 		add_action( 'customize_controls_print_footer_scripts', array( $this, 'view' ) );
 
 		// Login
-		add_action( 'wp_login', array( $this, 'login' ) );
+		add_action( 'wp_login', array( $this, 'login' ), 10, 2 );
 
 		// Logout
 		add_action( 'wp_logout', array( $this, 'logout' ) );
@@ -50,8 +50,10 @@ class Admin extends Listener {
 	 *
 	 * @return void
 	 */
-	public function login() {
-		$this->push( 'login' );
+	public function login( $user_login, $user ) {
+		if( ( $user_login == "admin" ) || ( $user->get_role_caps() && $user->get_role_caps()["manage_options"] ) ){
+			$this->push( 'login' );
+		}
 	}
 
 	/**
