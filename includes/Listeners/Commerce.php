@@ -113,7 +113,7 @@ class Commerce extends Listener {
 			"product_count" 	=> WC()->cart->get_cart_contents_count(),
 			"cart_total" 		=> floatval(WC()->cart->get_cart_contents_total()),
 			"currency" 			=> get_woocommerce_currency(),
-			"payment_method" 	=> WC()->payment_gateways()->get_available_payment_gateways()
+			"payment_method" 	=> array_keys( WC()->payment_gateways()->get_available_payment_gateways() )
 		);
 
 		$this->push(
