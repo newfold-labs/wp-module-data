@@ -82,7 +82,7 @@ class Jetpack extends Listener {
 
   public function detect_plugin_activation( $plugin ) {
     $container = container();
-    $brandCode = array('bluehost' => '86241', 'hostgator' => '57686', 'bluehost-india' => '86241', 'hostgator-latam' => '57686');
+    $brandCode = array('bluehost' => '86241', 'hostgator' => '57686', 'hostgator-india' => '57686', 'bluehost-india' => '86241', 'hostgator-latam' => '57686');
     if( $plugin == "jetpack/jetpack.php" ){
       $jetpack_affiliate_code = get_option("jetpack_affiliate_code");
       !$jetpack_affiliate_code && update_option("jetpack_affiliate_code",$brandCode[$container->plugin()->brand]);
