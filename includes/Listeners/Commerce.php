@@ -32,8 +32,8 @@ class Commerce extends Listener {
 	/**
 	 * On Payment, send data to Hiive
 	 *
-	 * @param  int       $order_id
-	 * @param  \WC_Order $order
+	 * @param  int       $order_id  the order id
+	 * @param  \WC_Order $order  the order
 	 *
 	 * @return void
 	 */
@@ -60,7 +60,9 @@ class Commerce extends Listener {
 		if ( ! isset( $data['meta'] ) ) {
 			$data['meta'] = array();
 		}
-		$data['meta']['products_count'] = (int) wp_count_posts( 'product' )->publish;
+		if ( isset( wp_count_posts( 'product' )->publish ) ) {
+			$data['meta']['products_count'] = (int) wp_count_posts( 'product' )->publish;
+		}
 
 		return $data;
 	}
@@ -76,7 +78,9 @@ class Commerce extends Listener {
 		if ( ! isset( $data['meta'] ) ) {
 			$data['meta'] = array();
 		}
-		$data['meta']['orders_count'] = (int) wp_count_posts( 'shop_order' )->publish;
+		if ( isset( wp_count_posts( 'shop_order' )->publish ) ) {
+			$data['meta']['orders_count'] = (int) wp_count_posts( 'shop_order' )->publish;
+		}
 
 		return $data;
 	}
@@ -124,7 +128,7 @@ class Commerce extends Listener {
 	/**
 	 * Thank you page, send data to Hiive
 	 *
-	 * @param  int $order_id
+	 * @param  int $order_id  the order id
 	 *
 	 * @return void
 	 */
@@ -151,8 +155,8 @@ class Commerce extends Listener {
 	/**
 	 * Razorpay connected
 	 *
-	 * @param string $new_option New value of the razorpay_data_production option
-	 * @param string $old_option Old value of the razorpay_data_production option
+	 * @param string $new_option  New value of the razorpay_data_production option
+	 * @param string $old_option  Old value of the razorpay_data_production option
 	 *
 	 * @return string The new option value
 	 */
@@ -177,8 +181,8 @@ class Commerce extends Listener {
 	/**
 	 * Shippo connected
 	 *
-	 * @param string $new_option New value of the shippo_data option
-	 * @param string $old_option Old value of the shippo_data option
+	 * @param string $new_option  New value of the shippo_data option
+	 * @param string $old_option  Old value of the shippo_data option
 	 *
 	 * @return string The new option value
 	 */
@@ -203,8 +207,8 @@ class Commerce extends Listener {
 	/**
 	 * Stripe connected
 	 *
-	 * @param string $new_option New value of the stripe_data_production option
-	 * @param string $old_option Old value of the stripe_data_production option
+	 * @param string $new_option  New value of the stripe_data_production option
+	 * @param string $old_option  Old value of the stripe_data_production option
 	 *
 	 * @return string The new option value
 	 */
@@ -229,8 +233,8 @@ class Commerce extends Listener {
 	/**
 	 * PayPal connected
 	 *
-	 * @param string $new_option New value of the yith_ppwc_merchant_data_production option
-	 * @param string $old_option Old value of the yith_ppwc_merchant_data_production option
+	 * @param string $new_option  New value of the yith_ppwc_merchant_data_production option
+	 * @param string $old_option  Old value of the yith_ppwc_merchant_data_production option
 	 *
 	 * @return string The new option value
 	 */
@@ -255,13 +259,13 @@ class Commerce extends Listener {
 	/**
 	 * Ecomdash connection, send data to Hiive
 	 *
-	 * @param string $new_option New value of the update_option_ewc4wp_sso_account_status option
-	 * @param string $old_option Old value of the update_option_ewc4wp_sso_account_status option
+	 * @param string $new_option  New value of the update_option_ewc4wp_sso_account_status option
+	 * @param string $old_option  Old value of the update_option_ewc4wp_sso_account_status option
 	 *
 	 * @return string The new option value
 	 */
 	public function ecomdash_connected( $new_option, $old_option ) {
-		if ( $new_option !== $old_option && ! empty( $new_option ) && $new_option === 'connected' ) {
+		if ( $new_option !== $old_option && ! empty( $new_option ) && 'connected' === $new_option ) {
 			$url  = is_ssl() ? 'https://' : 'http://';
 			$url .= $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 			$data = array(
@@ -278,8 +282,8 @@ class Commerce extends Listener {
 	/**
 	 * Product added, send data to Hiive
 	 *
-	 * @param string  $product_id id of post which is being savedPost ObjectOld value of the yith_ppwc_merchant_data_production option
-	 * @param WP_POST $product details of the product
+	 * @param string  $product_id  id of post which is being savedPost ObjectOld value of the yith_ppwc_merchant_data_production option
+	 * @param WP_POST $product  details of the product
 	 * @return void
 	 */
 	public function product_created_or_updated( $product_id, $product ) {
@@ -299,9 +303,9 @@ class Commerce extends Listener {
 	 * HPOS (High Performance Order Storage) is enabled
 	 * Send data to hiive
 
-	 * @param string                                  $old_value Old value of woocommerce_custom_orders_table_enabled
-	 * @param string                                  $new_value New value of woocommerce_custom_orders_table_enabled
-	 * @param option name of the option being updated
+	 * @param string $old_value  Old value of woocommerce_custom_orders_table_enabled
+	 * @param string $new_value  New value of woocommerce_custom_orders_table_enabled
+	 * @param string $option  name of the option being updated
 
 	 * @return void
 	 */
@@ -309,7 +313,7 @@ class Commerce extends Listener {
 		if ( $new_value !== $old_value && ! empty( $new_value ) ) {
 			$url  = is_ssl() ? 'https://' : 'http://';
 			$url .= $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-			$type = ( $new_value === 'yes' ) ? 'hpos' : 'legacy';
+			$type = ( 'yes' === $new_value ) ? 'hpos' : 'legacy';
 
 			$data = array(
 				'label_key' => $option,
