@@ -3,6 +3,7 @@
 namespace NewfoldLabs\WP\Module\Data;
 
 use wpscholar\Url;
+use function WP_Forge\Helpers\dataGet;
 
 /**
  * Main class for the data plugin module
@@ -128,7 +129,7 @@ class Data {
 			'method'    => $_SERVER['REQUEST_METHOD'],
 			'url'       => Url::getCurrentUrl(),
 			'body'      => file_get_contents( 'php://input' ),
-			'timestamp' => data_get( getallheaders(), 'X-Timestamp' ),
+			'timestamp' => dataGet( getallheaders(), 'X-Timestamp' ),
 		);
 
 		$hash = hash( 'sha256', wp_json_encode( $data ) );
