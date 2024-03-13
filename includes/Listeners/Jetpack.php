@@ -9,9 +9,16 @@ use function NewfoldLabs\WP\ModuleLoader\container;
  */
 class Jetpack extends Listener {
 
-	private $brandCode = array(
+	/**
+	 * Brand code constants
+	 *
+	 * @var brand_code
+	 */
+	private $brand_code = array(
 		'bluehost'        => '86241',
 		'hostgator'       => '57686',
+		'web'             => '86239',
+		'crazy-domains'   => '57687',
 		'hostgator-india' => '57686',
 		'bluehost-india'  => '86241',
 		'hostgator-latam' => '57686',
@@ -40,15 +47,15 @@ class Jetpack extends Listener {
 	 *
 	 * @param integer        $id Jetpack Site ID
 	 * @param string         $secret Jetpack blog token
-	 * @param integer|boolan $public Whether the site is public
+	 * @param integer|boolan $is_public Whether the site is public
 	 * @return void
 	 */
-	public function connected( $id, $secret, $public ) {
+	public function connected( $id, $secret, $is_public ) {
 		$this->push(
 			'jetpack_connected',
 			array(
 				'id'     => $id,
-				'public' => $public,
+				'public' => $is_public,
 			)
 		);
 	}
@@ -108,13 +115,22 @@ class Jetpack extends Listener {
 		);
 	}
 
+	/**
+	 * Post publicized
+	 *
+	 * @param bool $plugin Plugin information
+	 * @return void
+	 */
 	public function detect_plugin_activation( $plugin ) {
 		$container = container();
-		if ( $plugin == 'jetpack/jetpack.php' ) {
+		if ( 'jetpack/jetpack.php' === $plugin ) {
+			$brand = $container->plugin()->brand;
+			if ( empty( $brand ) || ! array_key_exists( $brand, $this->brand_code ) ) {
+					$brand = 'default';
+			}
 			$jetpack_affiliate_code = get_option( 'jetpack_affiliate_code' );
-			! $jetpack_affiliate_code && $this->brandCode[ $container->plugin()->brand ]
-							? update_option( 'jetpack_affiliate_code', $this->brandCode[ $container->plugin()->brand ] )
-							: update_option( 'jetpack_affiliate_code', $this->brandCode['default'] );
+			! $jetpack_affiliate_code &&
+											update_option( 'jetpack_affiliate_code', $this->brand_code[ $brand ] );
 		}
 	}
 }
