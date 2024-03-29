@@ -3,7 +3,7 @@
 use NewfoldLabs\WP\Module\Data\Data;
 use NewfoldLabs\WP\Module\Data\Helpers\Encryption;
 use NewfoldLabs\WP\Module\Data\Helpers\Transient;
-use NewfoldLabs\WP\Module\Listeners\Jetpack;
+use NewfoldLabs\WP\Module\Data\Listeners\Jetpack;
 use NewfoldLabs\WP\Module\Data\SiteCapabilities;
 use NewfoldLabs\WP\ModuleLoader\Container;
 use WP_Forge\UpgradeHandler\UpgradeHandler;
@@ -80,6 +80,8 @@ if ( function_exists( 'add_action' ) && function_exists( 'add_filter' ) ) {
 		'newfold_container_set',
 		function ( Container $container ) {
 
+			NFD_DATA_MODULE_VERSION === '2.4.21' && nfd_update_options_table( $container );
+
 			register_activation_hook(
 				$container->plugin()->file,
 				function () use ( $container ) {
@@ -140,9 +142,29 @@ SQL;
 
 /**
  * Update affiliation code in option table
+ *
+ * @param object $container Container information
  */
-function nfd_update_options_table() {
-	( new Jetpack() )->auto_upgrade_brand_code();
+function nfd_update_options_table( $container ) {
+	$brand_code = array(
+		'bluehost'        => '86241',
+		'hostgator'       => '57686',
+		'web'             => '86239',
+		'crazy-domains'   => '57687',
+		'hostgator-india' => '57686',
+		'bluehost-india'  => '86241',
+		'hostgator-latam' => '57686',
+		'default'         => '86240',
+	);
+	$brand      = $container->plugin()->id;
+	if ( is_plugin_active( 'jetpack/jetpack.php' ) ) {
+		if ( empty( $brand ) || ! array_key_exists( $brand, $brand_code ) ) {
+				$brand = 'default';
+		}
+		$jetpack_affiliate_code = get_option( 'jetpack_affiliate_code' );
+		! $jetpack_affiliate_code &&
+										update_option( 'jetpack_affiliate_code', $brand_code[ $brand ] );
+	}
 }
 
 /**

@@ -133,32 +133,4 @@ class Jetpack extends Listener {
 											update_option( 'jetpack_affiliate_code', $this->brand_code[ $brand ] );
 		}
 	}
-
-	/**
-	 * Update affiliation code in option table
-	 */
-	public function auto_upgrade_brand_code() {
-		$container        = container();
-		$plugin_brand_map = array(
-			'bluehost-wordpress-plugin/bluehost-wordpress-plugin.php' => 'bluehost',
-			'wp-plugin-hostgator/wp-plugin-hostgator.php' => 'hostgator',
-			'wp-plugin-crazy-domains/wp-plugin-crazy-domains.php' => 'crazy-domains',
-			'wp-plugin-web/wp-plugin-web.php'             => 'web',
-		);
-		$brand            = '';
-		if ( is_plugin_active( 'jetpack/jetpack.php' ) ) {
-			foreach ( $plugin_brand_map as $plugin => $brand_name ) {
-				if ( is_plugin_active( $plugin ) ) {
-						$brand = $brand_name;
-						break;
-				}
-			}
-			if ( empty( $brand ) || ! array_key_exists( $brand, $this->brand_code ) ) {
-					$brand = 'default';
-			}
-			$jetpack_affiliate_code = get_option( 'jetpack_affiliate_code' );
-			! $jetpack_affiliate_code &&
-											update_option( 'jetpack_affiliate_code', $this->brand_code[ $brand ] );
-		}
-	}
 }
