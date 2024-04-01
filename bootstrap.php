@@ -162,8 +162,7 @@ function nfd_update_options_table( $container ) {
 				$brand = 'default';
 		}
 		$jetpack_affiliate_code = get_option( 'jetpack_affiliate_code' );
-		! $jetpack_affiliate_code &&
-										update_option( 'jetpack_affiliate_code', $brand_code[ $brand ] );
+		! $jetpack_affiliate_code && update_option( 'jetpack_affiliate_code', $brand_code[ $brand ] );
 	}
 }
 
