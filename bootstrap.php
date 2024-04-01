@@ -80,7 +80,7 @@ if ( function_exists( 'add_action' ) && function_exists( 'add_filter' ) ) {
 		'newfold_container_set',
 		function ( Container $container ) {
 
-			NFD_DATA_MODULE_VERSION === '2.4.21' && nfd_update_options_table( $container );
+			NFD_DATA_MODULE_VERSION === '2.4.22' && nfd_update_options_table( $container );
 
 			register_activation_hook(
 				$container->plugin()->file,
