@@ -17,6 +17,7 @@ class WonderCart extends Listener {
 		add_action( 'yith_sales_edit_campaign_event_modal_opened', array( $this, 'create_campaign_modal_open' ), 10, 2 );
 		add_action( 'yith_sales_edit_campaign_event_campaign_selected', array( $this, 'campaign_selected' ), 10, 2 );
 		add_action( 'yith_sales_edit_campaign_event_campaign_abandoned', array( $this, 'campaign_abandoned' ), 10, 2 );
+		add_action( 'woocommerce_before_checkout_form', array( $this, 'checkout_campaigns_used' ) );
 	}
 
 	/**
@@ -66,7 +67,6 @@ class WonderCart extends Listener {
 
 		$this->push(
 			'modal_open',
-			'wonder_cart',
 			$data
 		);
 	}
@@ -89,7 +89,6 @@ class WonderCart extends Listener {
 
 		$this->push(
 			'campaign_selected',
-			'wonder_cart',
 			$data
 		);
 	}
@@ -112,7 +111,56 @@ class WonderCart extends Listener {
 
 		$this->push(
 			'campaign_abondoned',
-			'wonder_cart',
+			$data
+		);
+	}
+
+	/**
+	 * Track wonder_cart campaigns used in checkout page
+	 * Send data to hiive
+
+	 * @return void
+	 */
+	public function checkout_campaigns_used() {
+		$campaigns      = array();
+		$campaign_total = 0;
+
+		$cart = WC()->cart;
+
+		// To track Cart Discount
+		foreach ( $cart->get_applied_coupons() as $coupon_item ) {
+			array_push( $campaigns, $coupon_item );
+			$campaign_total += $cart->coupon_discount_totals[ $coupon_item ];
+		}
+
+		// To track free shipping campaign ( Using reflection to access protected properties)
+		$reflection_class          = new \ReflectionClass( $cart );
+		$shipping_methods_property = $reflection_class->getProperty( 'shipping_methods' );
+		$shipping_methods_property->setAccessible( true );
+		$shipping_methods = $shipping_methods_property->getValue( $cart );
+		foreach ( $shipping_methods as $shipping_method ) {
+			if ( 'yith_sales_free_shipping' === $shipping_method->id ) {
+				array_push( $campaigns, 'yith_sales_free_shipping' );
+			}
+		}
+
+		// To track rest of the campaigns
+		foreach ( $cart->get_cart() as $cart_item_key => $cart_item ) {
+			if ( isset( $cart_item['yith_sales'] ) && isset( $cart_item['yith_sales']['campaigns'] ) ) {
+				$campaign_type = $cart_item['yith_sales_discounts']['type'];
+				array_push( $campaigns, $campaign_type );
+				$campaign_total += $cart_item['yith_sales_discounts']['price_base'] - $cart_item['yith_sales_discounts']['price_adjusted'];
+			}
+		}
+
+		$data = array(
+			'label_key'      => 'campaign_type',
+			'campaign_type'  => array_unique( $campaigns ),
+			'campaign_count' => count( $campaigns ),
+			'campaign_total' => '$' . $campaign_total,
+		);
+		$this->push(
+			'checkout_campaign_type',
 			$data
 		);
 	}
