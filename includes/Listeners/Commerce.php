@@ -60,8 +60,9 @@ class Commerce extends Listener {
 		if ( ! isset( $data['meta'] ) ) {
 			$data['meta'] = array();
 		}
-		if ( isset( wp_count_posts( 'product' )->publish ) ) {
-			$data['meta']['products_count'] = (int) wp_count_posts( 'product' )->publish;
+		$product_post_counts = wp_count_posts( 'product' );
+		if ( $product_post_counts && isset( $product_post_counts->publish ) ) {
+			$data['meta']['products_count'] = (int) $product_post_counts->publish;
 		}
 
 		return $data;
@@ -78,8 +79,9 @@ class Commerce extends Listener {
 		if ( ! isset( $data['meta'] ) ) {
 			$data['meta'] = array();
 		}
-		if ( isset( wp_count_posts( 'shop_order' )->publish ) ) {
-			$data['meta']['orders_count'] = (int) wp_count_posts( 'shop_order' )->publish;
+		$shop_order_post_counts = wp_count_posts( 'shop_order' );
+		if ( $shop_order_post_counts && isset( $shop_order_post_counts->publish ) ) {
+			$data['meta']['orders_count'] = (int) $shop_order_post_counts->publish;
 		}
 
 		return $data;
