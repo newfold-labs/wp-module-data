@@ -149,9 +149,6 @@ function nfd_update_options_table( $container ) {
 		'hostgator'       => '57686',
 		'web'             => '86239',
 		'crazy-domains'   => '57687',
-		'hostgator-india' => '57686',
-		'bluehost-india'  => '86241',
-		'hostgator-latam' => '57686',
 		'default'         => '86240',
 	);
 	$brand      = $container->plugin()->id;
