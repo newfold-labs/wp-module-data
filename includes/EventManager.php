@@ -98,10 +98,9 @@ class EventManager {
 	 * @return array
 	 */
 	public function add_minutely_schedule( $schedules ) {
-		if ( ! array_key_exists(
-			'minutely',
-			$schedules
-		) || MINUTE_IN_SECONDS !== $schedules['minutely']['interval'] ) {
+		if ( ! array_key_exists( 'minutely', $schedules ) ||
+			MINUTE_IN_SECONDS !== $schedules['minutely']['interval']
+			) {
 			$schedules['minutely'] = array(
 				'interval' => MINUTE_IN_SECONDS,
 				'display'  => __( 'Once Every Minute' ),
