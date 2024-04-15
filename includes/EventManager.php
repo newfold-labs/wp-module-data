@@ -26,6 +26,7 @@ class EventManager {
 		'\\NewfoldLabs\\WP\\Module\\Data\\Listeners\\Commerce',
 		'\\NewfoldLabs\\WP\\Module\\Data\\Listeners\\Yoast',
 		'\\NewfoldLabs\\WP\\Module\\Data\\Listeners\\WonderCart',
+		'\\NewfoldLabs\\WP\\Module\\Data\\Listeners\\WPMail',
 	);
 
 	/**
@@ -92,13 +93,14 @@ class EventManager {
 	/**
 	 * Add the weekly option to cron schedules if it doesn't exist
 	 *
-	 * @param  array  $schedules  List of cron schedule options
+	 * @param  array $schedules  List of cron schedule options
 	 *
 	 * @return array
 	 */
 	public function add_minutely_schedule( $schedules ) {
-		if ( ! array_key_exists( 'minutely',
-				$schedules ) || MINUTE_IN_SECONDS !== $schedules['minutely']['interval'] ) {
+		if ( ! array_key_exists( 'minutely', $schedules ) ||
+			MINUTE_IN_SECONDS !== $schedules['minutely']['interval']
+			) {
 			$schedules['minutely'] = array(
 				'interval' => MINUTE_IN_SECONDS,
 				'display'  => __( 'Once Every Minute' ),
@@ -138,7 +140,7 @@ class EventManager {
 	/**
 	 * Register a new event subscriber
 	 *
-	 * @param  SubscriberInterface  $subscriber  Class subscribing to event updates
+	 * @param  SubscriberInterface $subscriber  Class subscribing to event updates
 	 *
 	 * @return void
 	 */
@@ -183,7 +185,7 @@ class EventManager {
 	/**
 	 * Push event data onto the queue
 	 *
-	 * @param  Event  $event  Details about the action taken
+	 * @param  Event $event  Details about the action taken
 	 *
 	 * @return void
 	 */
@@ -195,7 +197,7 @@ class EventManager {
 	/**
 	 * Send queued events to all subscribers
 	 *
-	 * @param  array  $events  A list of events
+	 * @param  array $events  A list of events
 	 *
 	 * @return void
 	 */

@@ -24,7 +24,7 @@ class Commerce extends Listener {
 		add_filter( 'pre_update_option_nfd_ecommerce_captive_flow_stripe', array( $this, 'stripe_connection' ), 10, 2 );
 		// Paypal Connection
 		add_filter( 'pre_update_option_yith_ppwc_merchant_data_production', array( $this, 'paypal_connection' ), 10, 2 );
-		add_filter( 'update_option_ewc4wp_sso_account_status', array( $this, 'ecomdash_connected' ) );
+		add_filter( 'update_option_ewc4wp_sso_account_status', array( $this, 'ecomdash_connected' ), 10, 2 );
 		add_filter( 'woocommerce_update_product', array( $this, 'product_created_or_updated' ), 100, 2 );
 		add_action( 'update_option_woocommerce_custom_orders_table_enabled', array( $this, 'woocommerce_hpos_enabled' ), 10, 3 );
 	}
