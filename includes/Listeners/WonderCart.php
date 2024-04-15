@@ -17,7 +17,7 @@ class WonderCart extends Listener {
 		add_action( 'yith_sales_edit_campaign_event_modal_opened', array( $this, 'create_campaign_modal_open' ), 10, 2 );
 		add_action( 'yith_sales_edit_campaign_event_campaign_selected', array( $this, 'campaign_selected' ), 10, 2 );
 		add_action( 'yith_sales_edit_campaign_event_campaign_abandoned', array( $this, 'campaign_abandoned' ), 10, 2 );
-		add_action( 'woocommerce_before_checkout_form', array( $this, 'checkout_campaigns_used' ) );
+		add_action( 'woocommerce_checkout_order_processed', array( $this,'checkout_campaigns_used' ), 10, 1 );
 	}
 
 	/**
@@ -152,16 +152,17 @@ class WonderCart extends Listener {
 				$campaign_total += $cart_item['yith_sales_discounts']['price_base'] - $cart_item['yith_sales_discounts']['price_adjusted'];
 			}
 		}
-
-		$data = array(
-			'label_key'      => 'campaign_type',
-			'campaign_type'  => array_unique( $campaigns ),
-			'campaign_count' => count( $campaigns ),
-			'campaign_total' => '$' . $campaign_total,
-		);
-		$this->push(
-			'checkout_campaign_type',
-			$data
-		);
+		if( count( $campaigns ) > 0 ) {
+			$data = array(
+				'label_key'      => 'campaign_type',
+				'campaign_type'  => array_unique( $campaigns ),
+				'campaign_count' => count( $campaigns ),
+				'campaign_total' => '$' . $campaign_total,
+			);
+			$this->push(
+				'checkout_campaign_type',
+				$data
+			);
+		}
 	}
 }
