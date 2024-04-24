@@ -17,7 +17,7 @@ class WonderCart extends Listener {
 		add_action( 'yith_sales_edit_campaign_event_modal_opened', array( $this, 'create_campaign_modal_open' ), 10, 2 );
 		add_action( 'yith_sales_edit_campaign_event_campaign_selected', array( $this, 'campaign_selected' ), 10, 2 );
 		add_action( 'yith_sales_edit_campaign_event_campaign_abandoned', array( $this, 'campaign_abandoned' ), 10, 2 );
-		add_action( 'woocommerce_checkout_order_processed', array( $this, 'checkout_campaigns_used' ), 10 );
+		add_action( 'woocommerce_payment_complete', array( $this, 'checkout_campaigns_used' ) );
 	}
 
 	/**
