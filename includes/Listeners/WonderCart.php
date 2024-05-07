@@ -83,7 +83,7 @@ class WonderCart extends Listener {
 	public function campaign_selected( $args, $event ) {
 		$data = array(
 			'label_key'     => 'campaign_slug',
-			'campaign_type' => $args['type'],
+			'type' => $args['type'],
 			'campaign_slug' => $args['type'],
 		);
 
@@ -105,7 +105,7 @@ class WonderCart extends Listener {
 	public function campaign_abandoned( $args, $event ) {
 		$data = array(
 			'label_key'     => 'campaign_slug',
-			'campaign_type' => $args['type'],
+			'type' => $args['type'],
 			'campaign_slug' => $args['type'] . '-' . $args['id'],
 		);
 
@@ -154,8 +154,8 @@ class WonderCart extends Listener {
 		}
 		if ( count( $campaigns ) > 0 ) {
 			$data = array(
-				'label_key'      => 'campaign_type',
-				'campaign_type'  => array_unique( $campaigns ),
+				'label_key'      => 'type',
+				'type'  => array_unique( $campaigns ),
 				'campaign_count' => count( $campaigns ),
 				'campaign_total' => '$' . $campaign_total,
 			);
