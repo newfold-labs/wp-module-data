@@ -19,6 +19,7 @@ class Cron extends Listener {
 	public function register_hooks(): void {
 
 		// Ensure there is a weekly option in the cron schedules
+		// phpcs:ignore WordPress.WP.CronInterval.ChangeDetected
 		add_filter( 'cron_schedules', array( $this, 'add_weekly_schedule' ) );
 
 		// Weekly cron hook
