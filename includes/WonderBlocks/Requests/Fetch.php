@@ -77,7 +77,7 @@ class Fetch extends Request {
 	public function get_url() {
 		$url = '';
 		if ( isset( $this->endpoint ) ) {
-			$url = self::$base_url . "/{$this->endpoint}";
+			$url = self::get_base_url() . "/{$this->endpoint}";
 			if ( isset( $this->slug ) ) {
 				$url .= "/{$this->slug}";
 			}
@@ -129,5 +129,4 @@ class Fetch extends Request {
 		$args['slug'] = $this->slug;
 		return md5( serialize( $args ) );
 	}
-
 }
