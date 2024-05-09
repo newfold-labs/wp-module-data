@@ -60,6 +60,7 @@
     "wpscholar/url": "^1.2"
   },
   "require-dev": {
+    "ext-json": "*",
     "10up/wp_mock": "^0.4.2",
     "newfold-labs/wp-php-standards": "^1.2",
     "johnpbloch/wordpress": "*"
