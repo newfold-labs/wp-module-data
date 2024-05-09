@@ -100,7 +100,6 @@ class Events extends WP_REST_Controller {
 				),
 			)
 		);
-
 	}
 
 	/**
