@@ -53,6 +53,7 @@
     "lint": "Check files against coding standards."
   },
   "require": {
+    "ext-json": "*",
     "newfold-labs/wp-module-loader": "^1.0",
     "wp-forge/helpers": "^2.0",
     "wp-forge/wp-query-builder": "^1.0",
@@ -60,7 +61,6 @@
     "wpscholar/url": "^1.2"
   },
   "require-dev": {
-    "ext-json": "*",
     "10up/wp_mock": "^0.4.2",
     "newfold-labs/wp-php-standards": "^1.2",
     "johnpbloch/wordpress": "*"
