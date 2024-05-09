@@ -59,6 +59,9 @@
     "fix": [
       "vendor/bin/phpcbf . --standard=phpcs.xml"
     ],
+    "cs-changes": [
+      "updated_files=$( git status | grep '\\(new file\\|modified\\):\\s.*.php$' | cut -c14- | awk '{ printf(\"%s \", $0) }' ); echo \"\\nChecking\"$(git status | grep '\\(new file\\|modified\\):\\s.*.php$' | tail -n+2 | wc -l)\" files\"; phpcbf $(echo $updated_files); phpcs $(echo $updated_files);"
+    ],
     "lint": [
       "vendor/bin/phpcs . --standard=phpcs.xml -s"
     ],
