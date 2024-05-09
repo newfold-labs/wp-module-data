@@ -151,7 +151,7 @@ class EventManager {
 	/**
 	 * Returns filtered list of registered event subscribers
 	 *
-	 * @return array List of susbscriber classes
+	 * @return array<SubscriberInterface> List of subscriber classes
 	 */
 	public function get_subscribers() {
 		return apply_filters( 'newfold_data_subscribers', $this->subscribers );
@@ -184,6 +184,8 @@ class EventManager {
 
 	/**
 	 * Push event data onto the queue
+	 *
+	 * @see wp-module-notifications/notifications.php
 	 *
 	 * @param  Event $event  Details about the action taken
 	 *

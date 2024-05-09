@@ -19,3 +19,5 @@ WP_Mock::activateStrictMode();
  */
 WP_Mock::setUsePatchwork(true);
 WP_Mock::bootstrap();
+
+require_once dirname( __DIR__, 2 ) . '/wordpress/wp-includes/class-wp-error.php';

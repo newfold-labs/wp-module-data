@@ -2,6 +2,7 @@
 
 namespace NewfoldLabs\WP\Module\Data\Listeners;
 
+use NewfoldLabs\WP\Module\Data\EventManager;
 use NewfoldLabs\WP\Module\Data\Helpers\Plugin;
 
 /**
@@ -12,11 +13,13 @@ class Cron extends Listener {
 	/**
 	 * Register all required hooks for the listener category
 	 *
-	 * @return void
+	 * @see Listener::register_hooks()
+	 * @see EventManager::initialize_listeners()
 	 */
-	public function register_hooks() {
+	public function register_hooks(): void {
 
 		// Ensure there is a weekly option in the cron schedules
+		// phpcs:ignore WordPress.WP.CronInterval.ChangeDetected
 		add_filter( 'cron_schedules', array( $this, 'add_weekly_schedule' ) );
 
 		// Weekly cron hook
@@ -24,17 +27,21 @@ class Cron extends Listener {
 
 		// Register the cron task
 		if ( ! wp_next_scheduled( 'nfd_data_cron' ) ) {
-			wp_schedule_event( time() + DAY_IN_SECONDS, 'weekly', 'nfd_data_cron' );
+			wp_schedule_event(
+				time() + constant( 'DAY_IN_SECONDS' ),
+				'weekly',
+				'nfd_data_cron'
+			);
 		}
-
 	}
 
 	/**
 	 * Cron event
 	 *
-	 * @return void
+	 * @hooked nfd_data_cron
+	 * @see Cron::register_hooks()
 	 */
-	public function update() {
+	public function update(): void {
 		$data = array(
 			'plugins' => Plugin::collect_installed(),
 		);
@@ -47,13 +54,16 @@ class Cron extends Listener {
 	/**
 	 * Add the weekly option to cron schedules if it doesn't exist
 	 *
-	 * @param array $schedules List of cron schedule options
-	 * @return array
+	 * @hooked cron_schedules
+	 * @see wp_get_schedules()
+	 *
+	 * @param array<string, array{interval:int, display:string}> $schedules List of cron schedule options
+	 * @return array<string, array{interval:int, display:string}>
 	 */
-	public function add_weekly_schedule( $schedules ) {
-		if ( ! array_key_exists( 'weekly', $schedules ) || WEEK_IN_SECONDS !== $schedules['weekly']['interval'] ) {
+	public function add_weekly_schedule( $schedules ): array {
+		if ( ! array_key_exists( 'weekly', $schedules ) || constant( 'WEEK_IN_SECONDS' ) !== $schedules['weekly']['interval'] ) {
 			$schedules['weekly'] = array(
-				'interval' => WEEK_IN_SECONDS,
+				'interval' => constant( 'WEEK_IN_SECONDS' ),
 				'display'  => __( 'Once Weekly' ),
 			);
 		}

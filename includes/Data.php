@@ -36,9 +36,10 @@ class Data {
 	 *
 	 * Do this separately so it isn't tied to class creation
 	 *
-	 * @return void
+	 * @see bootstrap.php
+	 * @see \NewfoldLabs\WP\ModuleLoader\register()
 	 */
-	public function start() {
+	public function start(): void {
 
 		// Delays our primary module setup until init
 		add_action( 'init', array( $this, 'init' ) );
@@ -58,27 +59,26 @@ class Data {
 			10,
 			3
 		);
-
 	}
 
 	/**
 	 * Initialize all other module functionality
 	 *
-	 * @return void
+	 * @hooked init
 	 */
-	public function init() {
+	public function init(): void {
 
 		$this->hiive = new HiiveConnection();
 
 		$manager = new EventManager();
 		$manager->initialize_rest_endpoint();
 
+		// Initialize the required verification endpoints
+		$this->hiive->register_verification_hooks();
+
 		// If not connected, attempt to connect and
 		// bail before registering the subscribers/listeners
 		if ( ! $this->hiive::is_connected() ) {
-
-			// Initialize the required verification endpoints
-			$this->hiive->register_verification_hooks();
 
 			// Attempt to connect
 			if ( ! $this->hiive->is_throttled() ) {
@@ -96,11 +96,13 @@ class Data {
 			$this->logger = new Logger();
 			$manager->add_subscriber( $this->logger );
 		}
-
 	}
 
 	/**
 	 * Authenticate incoming REST API requests.
+	 *
+	 * @hooked rest_authentication_errors
+	 * @see WP_REST_Server::check_authentication()
 	 *
 	 * @param  bool|null|\WP_Error $status
 	 *
@@ -114,7 +116,7 @@ class Data {
 		}
 
 		// Make sure this is a REST API request
-		if ( ! defined( 'REST_REQUEST' ) || ! REST_REQUEST ) {
+		if ( ! defined( 'REST_REQUEST' ) || ! constant( 'REST_REQUEST' ) ) {
 			return $status;
 		}
 
@@ -162,7 +164,5 @@ class Data {
 
 		// Don't return false, since we could be interfering with a basic auth implementation.
 		return null;
-
 	}
-
 }

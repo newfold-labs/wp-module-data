@@ -29,7 +29,7 @@ class Plugin {
 	 */
 	public static function collect_installed() {
 		if ( ! function_exists( 'get_plugins' ) ) {
-			require wp_normalize_path( ABSPATH . '/wp-admin/includes/plugin.php' );
+			require wp_normalize_path( constant( 'ABSPATH' ) . '/wp-admin/includes/plugin.php' );
 		}
 
 		$plugins = array();

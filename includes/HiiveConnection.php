@@ -2,7 +2,6 @@
 
 namespace NewfoldLabs\WP\Module\Data;
 
-use NewfoldLabs\WP\Module\Data\Helpers\Encryption;
 use NewfoldLabs\WP\Module\Data\Helpers\Plugin as PluginHelper;
 use NewfoldLabs\WP\Module\Data\Helpers\Transient;
 use function NewfoldLabs\WP\ModuleLoader\container;
@@ -43,8 +42,7 @@ class HiiveConnection implements SubscriberInterface {
 			define( 'NFD_HIIVE_URL', 'https://hiive.cloud/api' );
 		}
 
-		$this->api = NFD_HIIVE_URL;
-
+		$this->api = constant( 'NFD_HIIVE_URL' );
 	}
 
 	/**
@@ -55,15 +53,14 @@ class HiiveConnection implements SubscriberInterface {
 	public function register_verification_hooks() {
 		add_action( 'rest_api_init', array( $this, 'rest_api_init' ) );
 		add_action( 'wp_ajax_nopriv_nfd-hiive-verify', array( $this, 'ajax_verify' ) );
-
 	}
 
 	/**
 	 * Set up REST API routes
 	 *
-	 * @return void
+	 * @hooked rest_api_init
 	 */
-	public function rest_api_init() {
+	public function rest_api_init(): void {
 		$controller = new API\Verify( $this );
 		$controller->register_routes();
 	}
@@ -71,7 +68,11 @@ class HiiveConnection implements SubscriberInterface {
 	/**
 	 * Process the admin-ajax request
 	 *
-	 * @return void
+	 * Hiive will first attempt to verify using the REST API, and fallback to this AJAX endpoint on error.
+	 *
+	 * @hooked wp_ajax_nopriv_nfd-hiive-verify
+	 *
+	 * @return never
 	 */
 	public function ajax_verify() {
 		$valid  = $this->verify_token( $_REQUEST['token'] );
@@ -88,10 +89,8 @@ class HiiveConnection implements SubscriberInterface {
 	 * Confirm whether verification token is valid
 	 *
 	 * @param string $token Token to verify
-	 *
-	 * @return boolean
 	 */
-	public function verify_token( $token ) {
+	public function verify_token( string $token ): bool {
 		$saved_token = Transient::get( 'nfd_data_verify_token' );
 
 		if ( $saved_token && $saved_token === $token ) {
@@ -113,20 +112,18 @@ class HiiveConnection implements SubscriberInterface {
 	}
 
 	/**
-	 * Attempt to connect to hiive
-	 *
-	 * @return void
+	 * Attempt to connect to Hiive
 	 */
-	public function connect() {
+	public function connect( string $path = '/sites/v2/connect', ?string $authorization = null ): bool {
 
 		if ( $this->is_throttled() ) {
-			return;
+			return false;
 		}
 
 		$this->throttle();
 
 		$token = md5( wp_generate_password() );
-		Transient::set( 'nfd_data_verify_token', $token, 5 * MINUTE_IN_SECONDS );
+		Transient::set( 'nfd_data_verify_token', $token, 5 * constant( 'MINUTE_IN_SECONDS' ) );
 
 		$data                 = $this->get_core_data();
 		$data['verify_token'] = $token;
@@ -135,17 +132,21 @@ class HiiveConnection implements SubscriberInterface {
 		$args = array(
 			'body'     => wp_json_encode( $data ),
 			'headers'  => array(
-				'Content-Type' => 'applicaton/json',
-				'Accept'       => 'applicaton/json',
+				'Content-Type' => 'application/json',
+				'Accept'       => 'application/json',
 			),
 			'blocking' => true,
 			'timeout'  => 30,
 		);
 
+		if ( $authorization ) {
+			$args['headers']['Authorization'] = $authorization;
+		}
+
 		$attempts = intval( get_option( 'nfd_data_connection_attempts', 0 ) );
 		update_option( 'nfd_data_connection_attempts', $attempts + 1 );
 
-		$response = wp_remote_post( $this->api . '/sites/v2/connect', $args );
+		$response = wp_remote_post( $this->api . $path, $args );
 		$status   = wp_remote_retrieve_response_code( $response );
 
 		// Created = 201; Updated = 200
@@ -155,10 +156,21 @@ class HiiveConnection implements SubscriberInterface {
 
 				// Token is auto-encrypted using the `pre_update_option_nfd_data_token` hook.
 				update_option( 'nfd_data_token', $body->token );
-
+				return true;
 			}
 		}
+		return false;
+	}
 
+	/**
+	 * Rename the site URL in Hiive.
+	 *
+	 * This performs almost the same request as {@see self::connect} but includes the Site authorization token,
+	 * to verify this site is the owner of the existing site in Hiive, and Hiive pings back the new URL to verify
+	 * the DNS points to this site.
+	 */
+	public function reconnect(): bool {
+		return $this->connect( '/sites/v2/reconnect', 'Bearer ' . self::get_auth_token() );
 	}
 
 	/**
@@ -198,7 +210,6 @@ class HiiveConnection implements SubscriberInterface {
 		} else {
 			return WEEK_IN_SECONDS;
 		}
-
 	}
 
 	/**
@@ -214,6 +225,8 @@ class HiiveConnection implements SubscriberInterface {
 
 	/**
 	 * Post event data payload to the hiive
+	 *
+	 * @used-by EventManager::send()
 	 *
 	 * @param Event[] $events Array of Event objects representing the actions that occurred
 	 * @param bool    $is_blocking Determines if the request is a blocking request
@@ -243,7 +256,20 @@ class HiiveConnection implements SubscriberInterface {
 			'timeout'  => $is_blocking ? 10 : .5,
 		);
 
-		return wp_remote_post( $this->api . '/sites/v1/events', $args );
+		$request_reponse = wp_remote_post( $this->api . '/sites/v1/events', $args );
+
+		if ( 403 === $request_reponse['response']['code'] ) {
+			$body = json_decode( $request_reponse['body'], true );
+			if ( 'Invalid token for url' === $body['message'] ) {
+				if ( $this->reconnect() ) {
+					$this->notify( $events, $is_blocking );
+				} else {
+					return new \WP_Error( 'hiive_connection', __( 'This site is not connected to the hiive.' ) );
+				}
+			}
+		}
+
+		return $request_reponse;
 	}
 
 	/**
@@ -283,6 +309,5 @@ class HiiveConnection implements SubscriberInterface {
 		);
 
 		return apply_filters( 'newfold_wp_data_module_core_data_filter', $data );
-
 	}
 }

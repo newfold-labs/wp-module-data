@@ -100,7 +100,6 @@ class Events extends WP_REST_Controller {
 				),
 			)
 		);
-
 	}
 
 	/**
@@ -223,7 +222,7 @@ class Events extends WP_REST_Controller {
 
 		return new \WP_REST_Response(
 			array(),
-			202
+			202 // Accepted. The request has been accepted for processing, but the processing has not been completed.
 		);
 	}
 }

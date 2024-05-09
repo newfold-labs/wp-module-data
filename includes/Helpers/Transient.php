@@ -15,7 +15,7 @@ class Transient {
 	 * @return boolean
 	 */
 	public static function should_use_transients() {
-		require_once ABSPATH . '/wp-admin/includes/plugin.php';
+		require_once constant( 'ABSPATH' ) . '/wp-admin/includes/plugin.php';
 		return ! array_key_exists( 'object-cache.php', get_dropins() );
 	}
 
