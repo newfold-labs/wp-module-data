@@ -20,8 +20,9 @@ class WonderBlocks {
 	 * @return array|false
 	 */
 	public static function fetch( Fetch $request ) {
-		if ( ! ( defined( 'NFD_DATA_WB_DEV_MODE' ) && NFD_DATA_WB_DEV_MODE ) ) {
-					// Generate a unique hash for the request object.
+		// Do not use cache in development mode.
+		if ( ! self::is_dev_mode() ) {
+			// Generate a unique hash for the request object.
 			$hash     = $request->get_md5_hash();
 			$endpoint = $request->get_endpoint();
 			// If the transient exists, return data from the transient. Add endpoint for batch clearing endpoint transients.
@@ -69,12 +70,19 @@ class WonderBlocks {
 	}
 
 	/**
+	 * Check is the NFD_DATA_WB_DEV_MODE defined and defined as true.
+	 */
+	protected static function is_dev_mode(): bool {
+		return ! defined( 'NFD_DATA_WB_DEV_MODE' )
+			|| ! constant( 'NFD_DATA_WB_DEV_MODE' );
+	}
+
+	/**
 	 * Clear the cache related a particular request object.
 	 *
 	 * @param Request $request An instance of the Request class.
-	 * @return boolean
 	 */
-	public static function clear_cache( Request $request ) {
+	public static function clear_cache( Request $request ): bool {
 		$endpoint = $request->get_endpoint();
 		$hash     = $request->get_md5_hash();
 		return delete_transient( "nfd_data_wb_{$endpoint}_{$hash}" );
