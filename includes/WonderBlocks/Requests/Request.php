@@ -29,11 +29,9 @@ abstract class Request {
 
 	/**
 	 * Get the base URL
-	 *
-	 * @return string
 	 */
-	public static function get_base_url() {
-		if ( defined( 'NFD_DATA_WB_DEV_MODE' ) && NFD_DATA_WB_DEV_MODE ) {
+	public function get_base_url(): string {
+		if ( defined( 'NFD_DATA_WB_DEV_MODE' ) && constant( 'NFD_DATA_WB_DEV_MODE' ) ) {
 			return self::$local_base_url;
 		}
 
@@ -42,17 +40,13 @@ abstract class Request {
 
 	/**
 	 * Get the request endpoint.
-	 *
-	 * @return string
 	 */
-	public function get_endpoint() {
+	public function get_endpoint(): string {
 		return $this->endpoint;
 	}
 
 	/**
 	 * This function should return a MD5 hashed string of the request parameters that can uniquely identify it.
-	 *
-	 * @return void
 	 */
-	abstract public function get_md5_hash();
+	abstract public function get_md5_hash(): string;
 }
