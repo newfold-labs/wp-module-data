@@ -3,10 +3,8 @@
 namespace NewfoldLabs\WP\Module\Data\WonderBlocks;
 
 use Mockery;
-use NewfoldLabs\WP\Module\Data\Listeners\Plugin;
 use WP_Mock;
 use WP_Mock\Tools\TestCase;
-use function NewfoldLabs\WP\ModuleLoader\container;
 
 /**
  * @coversDefaultClass \NewfoldLabs\WP\Module\Data\WonderBlocks\WonderBlocks
