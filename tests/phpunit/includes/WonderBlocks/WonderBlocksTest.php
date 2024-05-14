@@ -15,6 +15,13 @@ class WonderBlocksTest extends TestCase {
 
 		$fetch_request = Mockery::mock(Requests\Fetch::class);
 
+		$md5_hash = 'a1b2c3d4e5f6..........32hexchars';
+		$fetch_request->shouldReceive('get_md5_hash')
+		              ->andReturn($md5_hash);
+
+		$fetch_request->shouldReceive('get_endpoint')
+		              ->andReturn('test-endpoint');
+
 		\Patchwork\redefine(
 			'defined',
 			function ( string $constant_name ) {
