@@ -74,8 +74,8 @@ class WonderBlocks {
 	 * Check is the NFD_DATA_WB_DEV_MODE defined and defined as true.
 	 */
 	protected static function is_dev_mode(): bool {
-		return ! defined( 'NFD_DATA_WB_DEV_MODE' )
-			|| ! constant( 'NFD_DATA_WB_DEV_MODE' );
+		return defined( 'NFD_DATA_WB_DEV_MODE' )
+			&& constant( 'NFD_DATA_WB_DEV_MODE' );
 	}
 
 	/**
