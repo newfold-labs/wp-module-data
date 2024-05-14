@@ -20,11 +20,12 @@ class WonderBlocks {
 	 * @return array|false
 	 */
 	public static function fetch( Fetch $request ) {
+
+		// Generate a unique hash for the request object.
+		$hash     = $request->get_md5_hash();
+		$endpoint = $request->get_endpoint();
 		// Do not use cache in development mode.
 		if ( ! self::is_dev_mode() ) {
-			// Generate a unique hash for the request object.
-			$hash     = $request->get_md5_hash();
-			$endpoint = $request->get_endpoint();
 			// If the transient exists, return data from the transient. Add endpoint for batch clearing endpoint transients.
 			$data = get_transient( "nfd_data_wb_{$endpoint}_{$hash}" );
 			if ( ! empty( $data ) ) {
