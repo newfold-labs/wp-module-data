@@ -2,3 +2,5 @@
 debug.log
 .DS_Store
 /wordpress
+/wp-content
+/node_modules
