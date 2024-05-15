@@ -104,6 +104,8 @@ class Data {
 	 * @hooked rest_authentication_errors
 	 * @see WP_REST_Server::check_authentication()
 	 *
+	 * @used-by ConnectSite::verifyToken() in Hiive.
+	 *
 	 * @param  bool|null|\WP_Error $status
 	 *
 	 * @return bool|null|\WP_Error
@@ -156,7 +158,7 @@ class Data {
 			}
 
 			if ( ! empty( $user ) && is_a( $user, \WP_User::class ) ) {
-				wp_set_current_user( $user->id );
+				wp_set_current_user( $user->ID );
 
 				return true;
 			}
