@@ -4,3 +4,4 @@ debug.log
 /wordpress
 /wp-content
 /node_modules
+/tests/_support/_generated

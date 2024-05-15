@@ -35,7 +35,10 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "NewfoldLabs\\WP\\Module\\Data\\": "tests/phpunit/includes/"
+      "NewfoldLabs\\WP\\Module\\Data\\": [
+        "tests/phpunit/includes/",
+        "tests/wpunit/includes"
+      ]
     }
   },
   "config": {
