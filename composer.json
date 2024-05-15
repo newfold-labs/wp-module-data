@@ -39,7 +39,10 @@
         "tests/phpunit/includes/",
         "tests/wpunit/includes"
       ]
-    }
+    },
+    "classmap": [
+      "wordpress"
+    ]
   },
   "config": {
     "allow-plugins": {
@@ -107,7 +110,6 @@
   },
   "extra": {
     "symlinks": {
-      "wp-content": "wordpress/wp-content",
       ".": "wp-content/plugins/bluehost-wordpress-plugin/vendor/newfold-labs/wp-module-data"
     }
   },
