@@ -2,6 +2,9 @@
 
 namespace NewfoldLabs\WP\Module\Data\WonderBlocks\Requests;
 
+use NewfoldLabs\WP\Module\Data\SiteClassification\PrimaryType;
+use NewfoldLabs\WP\Module\Data\SiteClassification\SecondaryType;
+
 /**
  * Class Fetch
  *
@@ -24,14 +27,14 @@ class Fetch extends Request {
 	private $slug;
 
 	/**
-	 * The primary type query parameter. See SiteClassification/PrimaryType for information on primary types.
+	 * The primary type query parameter. {@see PrimaryType} for information on primary types.
 	 *
 	 * @var string
 	 */
 	private $primary_type;
 
 	/**
-	 * The secondary type query parameter. See SiteClassification/SecondaryType for information on secondary types.
+	 * The secondary type query parameter. {@see SecondaryType} for information on secondary types.
 	 *
 	 * @var string
 	 */
@@ -47,23 +50,24 @@ class Fetch extends Request {
 	/**
 	 * Defines whether or not the handler should cache the response data.
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	private $should_cache = true;
 
 	/**
 	 * Defines the timeout for the cache.
 	 *
-	 * @var integer
+	 * @var int
 	 */
-	private $cache_timeout = DAY_IN_SECONDS;
+	private $cache_timeout;
 
 	/**
 	 * Constructor for the Fetch class.
 	 *
-	 * @param array $args An array of arguments that map to the class variables.
+	 * @param array{endpoint?:string,type?:string,slug?:string,primary_type?:string,secondary_string:string,category?:string,should_cache?:bool,cache_timeout?:int} $args An array of arguments that map to the class variables.
 	 */
 	public function __construct( $args = array() ) {
+		$this->cache_timeout = constant( 'DAY_IN_SECONDS' );
 		foreach ( $args as $arg => $value ) {
 			$this->$arg = $value;
 		}
@@ -77,7 +81,7 @@ class Fetch extends Request {
 	public function get_url() {
 		$url = '';
 		if ( isset( $this->endpoint ) ) {
-			$url = self::$base_url . "/{$this->endpoint}";
+			$url = $this->get_base_url() . "/{$this->endpoint}";
 			if ( isset( $this->slug ) ) {
 				$url .= "/{$this->slug}";
 			}
@@ -102,32 +106,25 @@ class Fetch extends Request {
 
 	/**
 	 * Determines whether the response for this request should be cached.
-	 *
-	 * @return boolean
 	 */
-	public function should_cache() {
+	public function should_cache(): bool {
 		return $this->should_cache;
 	}
 
 	/**
 	 * Get the cache timeout.
-	 *
-	 * @return integer
 	 */
-	public function get_cache_timeout() {
+	public function get_cache_timeout(): int {
 		return $this->cache_timeout;
 	}
 
 	/**
 	 * Get the MD5 hash to easily identify a request.
-	 *
-	 * @return string
 	 */
-	public function get_md5_hash() {
+	public function get_md5_hash(): string {
 		$args = $this->get_args();
 		// Slug is not part of args as it becomes a part of the URL path.
 		$args['slug'] = $this->slug;
 		return md5( serialize( $args ) );
 	}
-
 }

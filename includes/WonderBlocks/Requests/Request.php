@@ -7,11 +7,18 @@ namespace NewfoldLabs\WP\Module\Data\WonderBlocks\Requests;
  */
 abstract class Request {
 	/**
-	 * The base URL.
+	 * The production base URL.
 	 *
 	 * @var string
 	 */
-	protected static $base_url = 'https://patterns.hiive.cloud';
+	protected static $production_base_url = 'https://patterns.hiive.cloud';
+
+	/**
+	 * The local base URL.
+	 *
+	 * @var string
+	 */
+	protected static $local_base_url = 'http://localhost:8888';
 
 	/**
 	 * The endpoint to request.
@@ -22,26 +29,24 @@ abstract class Request {
 
 	/**
 	 * Get the base URL
-	 *
-	 * @return string
 	 */
-	public static function get_base_url() {
-		return self::$base_url;
+	public function get_base_url(): string {
+		if ( defined( 'NFD_DATA_WB_DEV_MODE' ) && constant( 'NFD_DATA_WB_DEV_MODE' ) ) {
+			return self::$local_base_url;
+		}
+
+		return self::$production_base_url;
 	}
 
 	/**
 	 * Get the request endpoint.
-	 *
-	 * @return string
 	 */
-	public function get_endpoint() {
+	public function get_endpoint(): string {
 		return $this->endpoint;
 	}
 
 	/**
 	 * This function should return a MD5 hashed string of the request parameters that can uniquely identify it.
-	 *
-	 * @return void
 	 */
-	abstract public function get_md5_hash();
+	abstract public function get_md5_hash(): string;
 }
