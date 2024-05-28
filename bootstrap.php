@@ -3,7 +3,6 @@
 use NewfoldLabs\WP\Module\Data\Data;
 use NewfoldLabs\WP\Module\Data\Helpers\Encryption;
 use NewfoldLabs\WP\Module\Data\Helpers\Transient;
-use NewfoldLabs\WP\Module\Data\Listeners\Jetpack;
 use NewfoldLabs\WP\Module\Data\SiteCapabilities;
 use NewfoldLabs\WP\ModuleLoader\Container;
 use WP_Forge\UpgradeHandler\UpgradeHandler;
