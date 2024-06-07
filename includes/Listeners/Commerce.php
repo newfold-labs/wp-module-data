@@ -318,7 +318,7 @@ class Commerce extends Listener {
 			$type = ( 'yes' === $new_value ) ? 'hpos' : 'legacy';
 
 			$data = array(
-				'label_key' => $option,
+				'label_key' => 'type',
 				'type'      => $type,
 				'page'      => $url,
 			);
