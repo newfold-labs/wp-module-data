@@ -44,6 +44,13 @@ class EventManager {
 	private $queue = array();
 
 	/**
+	 * The error of events logged in the current request
+	 *
+	 * @var array
+	 */
+	private $error = array();
+
+	/**
 	 * Initialize the Event Manager
 	 *
 	 * @return void
@@ -205,7 +212,10 @@ class EventManager {
 	 */
 	public function send( $events ) {
 		foreach ( $this->get_subscribers() as $subscriber ) {
-			$subscriber->notify( $events );
+			$response = $subscriber->notify( $events );
+			if(is_wp_error($response)){
+				$this->error[] = $response;
+			}
 		}
 	}
 
@@ -231,6 +241,9 @@ class EventManager {
 
 		$this->send( $events );
 
-		$queue->remove( $ids );
+		if(sizeof($this->error) < 1){
+			$queue->remove( $ids );
+		}
+
 	}
 }
