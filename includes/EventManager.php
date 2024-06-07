@@ -213,7 +213,7 @@ class EventManager {
 	public function send( $events ) {
 		foreach ( $this->get_subscribers() as $subscriber ) {
 			$response = $subscriber->notify( $events );
-			if(is_wp_error($response)){
+			if ( is_wp_error( $response ) ) {
 				$this->error[] = $response;
 			}
 		}
@@ -241,9 +241,8 @@ class EventManager {
 
 		$this->send( $events );
 
-		if(sizeof($this->error) < 1){
+		if ( count( $this->error ) < 1 ) {
 			$queue->remove( $ids );
 		}
-
 	}
 }
