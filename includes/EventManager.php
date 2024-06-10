@@ -249,8 +249,10 @@ class EventManager {
 
 		$this->send( $events );
 
-		if ( $this->error["retryCount"] < 3 ) {
-			$queue->remove( $ids );
+		$queue->remove( $ids );
+
+		if ( $this->error["retryCount"] > 1 ) {
+			$queue->push( $events );
 		}
 	}
 }
