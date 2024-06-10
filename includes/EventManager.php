@@ -48,7 +48,9 @@ class EventManager {
 	 *
 	 * @var array
 	 */
-	private $error = array();
+	private $error = array(
+		"retryCount"	=> 0
+	);
 
 	/**
 	 * Initialize the Event Manager
@@ -214,7 +216,13 @@ class EventManager {
 		foreach ( $this->get_subscribers() as $subscriber ) {
 			$response = $subscriber->notify( $events );
 			if ( is_wp_error( $response ) ) {
-				$this->error[] = $response;
+				$this->error = array(
+					"retryCount" => $this->error["retryCount"] + 1,
+				);
+			}else{
+				$this->error = array(
+					"retryCount" => 0,
+				);
 			}
 		}
 	}
@@ -241,7 +249,7 @@ class EventManager {
 
 		$this->send( $events );
 
-		if ( count( $this->error ) < 1 ) {
+		if ( $this->error["retryCount"] < 3 ) {
 			$queue->remove( $ids );
 		}
 	}
