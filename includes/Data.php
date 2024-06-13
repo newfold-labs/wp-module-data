@@ -43,7 +43,7 @@ class Data {
 
 		// Delays our primary module setup until init
 		add_action( 'init', array( $this, 'init' ) );
-		add_action( 'rest_authentication_errors', array( $this, 'authenticate' ) );
+		add_filter( 'rest_authentication_errors', array( $this, 'authenticate' ) );
 
 		// If we ever get a 401 response from the Hiive API, delete the token.
 		add_filter(
@@ -102,24 +102,25 @@ class Data {
 	 * Authenticate incoming REST API requests.
 	 *
 	 * @hooked rest_authentication_errors
+	 *
+	 * @param  bool|null|\WP_Error $errors
+	 *
+	 * @return bool|null|\WP_Error
 	 * @see WP_REST_Server::check_authentication()
 	 *
 	 * @used-by ConnectSite::verifyToken() in Hiive.
 	 *
-	 * @param  bool|null|\WP_Error $status
-	 *
-	 * @return bool|null|\WP_Error
 	 */
-	public function authenticate( $status ) {
+	public function authenticate( $errors ) {
 
 		// Make sure there wasn't a different authentication method used before this
-		if ( ! is_null( $status ) ) {
-			return $status;
+		if ( ! is_null( $errors ) ) {
+			return $errors;
 		}
 
 		// Make sure this is a REST API request
 		if ( ! defined( 'REST_REQUEST' ) || ! constant( 'REST_REQUEST' ) ) {
-			return $status;
+			return $errors;
 		}
 
 		// If no auth header included, bail to allow a different auth method
@@ -165,6 +166,6 @@ class Data {
 		}
 
 		// Don't return false, since we could be interfering with a basic auth implementation.
-		return null;
+		return $errors;
 	}
 }
