@@ -252,6 +252,7 @@ class EventManager {
 		$queue->remove( $ids );
 
 		if ( $this->error['retryCount'] >= 1 ) {
+			\sleep( 15 );
 			$queue->push( $events );
 		}
 	}
