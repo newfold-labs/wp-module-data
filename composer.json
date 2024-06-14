@@ -3,15 +3,28 @@
   "description": "Newfold Data Module",
   "type": "library",
   "license": "GPL-2.0-or-later",
-  "repositories": [
-    {
+  "repositories": {
+    "newfold-labs/*": {
       "type": "composer",
       "url": "https://newfold-labs.github.io/satis/",
       "only": [
         "newfold-labs/*"
       ]
+    },
+    "bluehost/bluehost-wordpress-plugin": {
+      "type": "package",
+      "package": {
+        "name": "bluehost/bluehost-wordpress-plugin",
+        "type": "wordpress-plugin",
+        "version": "3.1.0",
+        "dist": {
+          "url": "https://github.com/bluehost/bluehost-wordpress-plugin/releases/latest/download/bluehost-wordpress-plugin.zip",
+          "type": "zip"
+        },
+        "installation-source": "dist"
+      }
     }
-  ],
+  },
   "autoload": {
     "psr-4": {
       "NewfoldLabs\\WP\\Module\\Data\\": "includes/"
@@ -22,17 +35,25 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "NewfoldLabs\\WP\\Module\\Data\\": "tests/phpunit/includes/"
-    }
+      "NewfoldLabs\\WP\\Module\\Data\\": [
+        "tests/phpunit/includes/",
+        "tests/wpunit/includes"
+      ]
+    },
+    "classmap": [
+      "wordpress"
+    ]
   },
   "config": {
     "allow-plugins": {
       "dealerdirect/phpcodesniffer-composer-installer": true,
-      "johnpbloch/wordpress-core-installer": true
+      "johnpbloch/wordpress-core-installer": true,
+      "composer/installers": true,
+      "brianhenryie/composer-fallback-to-git": true
     },
     "optimize-autoloader": true,
     "platform": {
-      "php": "7.1"
+      "php": "7.3"
     },
     "platform-check": false,
     "sort-packages": true
@@ -46,11 +67,28 @@
     ],
     "lint": [
       "vendor/bin/phpcs . --standard=phpcs.xml -s"
+    ],
+    "create-symlinks": [
+      "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks"
+    ],
+    "post-install-cmd": [
+      "@create-symlinks",
+      "@configure-phpstorm"
+    ],
+    "post-update-cmd": [
+      "@create-symlinks",
+      "@configure-phpstorm"
+    ],
+    "configure-phpstorm": [
+      "BrianHenryIE\\ComposerPhpStorm\\ExcludeFolders::update",
+      "BrianHenryIE\\ComposerPhpStorm\\PHPUnitRunConfigurations::update"
     ]
   },
   "scripts-descriptions": {
     "fix": "Automatically fix coding standards issues where possible.",
-    "lint": "Check files against coding standards."
+    "lint": "Check files against coding standards.",
+    "create-symlinks": "Create sylimks between /wordpress, /wp-content and the root plugin for convenience.",
+    "configure-phpstorm": "Add directories to PhpStorm's excluded folders list and add PHPUnit run configurations."
   },
   "require": {
     "ext-json": "*",
@@ -62,7 +100,19 @@
   },
   "require-dev": {
     "10up/wp_mock": "^0.4.2",
-    "newfold-labs/wp-php-standards": "^1.2",
-    "johnpbloch/wordpress": "*"
-  }
+    "bluehost/bluehost-wordpress-plugin": "*",
+    "brianhenryie/composer-fallback-to-git": "^0.5",
+    "brianhenryie/composer-phpstorm": "*",
+    "johnpbloch/wordpress": "*",
+    "kporras07/composer-symlinks": "^1.2",
+    "lucatume/wp-browser": "^3",
+    "newfold-labs/wp-php-standards": "^1.2"
+  },
+  "extra": {
+    "symlinks": {
+      ".": "wp-content/plugins/bluehost-wordpress-plugin/vendor/newfold-labs/wp-module-data"
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
 }
