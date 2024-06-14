@@ -1,7 +1,7 @@
-.github           export-ignore
-tests             export-ignore
-.editorconfig     export-ignore
-.gitignore        export-ignore
-patchwork.json    export-ignore
-phpcs.xml         export-ignore
-phpunit.xml.dist  export-ignore
+/.github           export-ignore
+/tests             export-ignore
+/.editorconfig     export-ignore
+/.gitignore        export-ignore
+/patchwork.json    export-ignore
+/phpcs.xml         export-ignore
+/phpunit.xml.dist  export-ignore
