@@ -11,6 +11,14 @@
         "newfold-labs/*"
       ]
     },
+    "outlandishideas/wpackagist": {
+      "type": "composer",
+      "url": "https://wpackagist.org",
+      "only": [
+        "wpackagist-plugin/*",
+        "wpackagist-theme/*"
+      ]
+    },
     "bluehost/bluehost-wordpress-plugin": {
       "type": "package",
       "package": {
