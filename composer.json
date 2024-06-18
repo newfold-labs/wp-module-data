@@ -49,7 +49,7 @@
       "dealerdirect/phpcodesniffer-composer-installer": true,
       "johnpbloch/wordpress-core-installer": true,
       "composer/installers": true,
-      "brianhenryie/composer-fallback-to-git": true
+      "brianhenryie/composer-phpstorm": true
     },
     "optimize-autoloader": true,
     "platform": {
@@ -72,23 +72,16 @@
       "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks"
     ],
     "post-install-cmd": [
-      "@create-symlinks",
-      "@configure-phpstorm"
+      "@create-symlinks"
     ],
     "post-update-cmd": [
-      "@create-symlinks",
-      "@configure-phpstorm"
-    ],
-    "configure-phpstorm": [
-      "BrianHenryIE\\ComposerPhpStorm\\ExcludeFolders::update",
-      "BrianHenryIE\\ComposerPhpStorm\\PHPUnitRunConfigurations::update"
+      "@create-symlinks"
     ]
   },
   "scripts-descriptions": {
     "fix": "Automatically fix coding standards issues where possible.",
     "lint": "Check files against coding standards.",
-    "create-symlinks": "Create sylimks between /wordpress, /wp-content and the root plugin for convenience.",
-    "configure-phpstorm": "Add directories to PhpStorm's excluded folders list and add PHPUnit run configurations."
+    "create-symlinks": "Create sylimks between /wordpress, /wp-content and the root plugin for convenience."
   },
   "require": {
     "ext-json": "*",
@@ -101,7 +94,6 @@
   "require-dev": {
     "10up/wp_mock": "^0.4.2",
     "bluehost/bluehost-wordpress-plugin": "*",
-    "brianhenryie/composer-fallback-to-git": "^0.5",
     "brianhenryie/composer-phpstorm": "*",
     "johnpbloch/wordpress": "*",
     "kporras07/composer-symlinks": "^1.2",

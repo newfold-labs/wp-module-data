@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5a2938899238f1e48eafd2e303bc67ee",
+    "content-hash": "480513ab0b0b1b3069ce5b3e2badfdad",
     "packages": [
         {
             "name": "doctrine/inflector",
@@ -630,60 +630,32 @@
             "type": "wordpress-plugin"
         },
         {
-            "name": "brianhenryie/composer-fallback-to-git",
-            "version": "0.5.1",
+            "name": "brianhenryie/composer-phpstorm",
+            "version": "0.4",
             "source": {
                 "type": "git",
-                "url": "https://github.com/BrianHenryIE/composer-fallback-to-git.git",
-                "reference": "8369974df114f7d24900955ef1508e27dcde2e10"
+                "url": "https://github.com/BrianHenryIE/composer-phpstorm.git",
+                "reference": "793b2f5dfaaef78dacf06fb6a933e4a6ac0b6afc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BrianHenryIE/composer-fallback-to-git/zipball/8369974df114f7d24900955ef1508e27dcde2e10",
-                "reference": "8369974df114f7d24900955ef1508e27dcde2e10",
+                "url": "https://api.github.com/repos/BrianHenryIE/composer-phpstorm/zipball/793b2f5dfaaef78dacf06fb6a933e4a6ac0b6afc",
+                "reference": "793b2f5dfaaef78dacf06fb6a933e4a6ac0b6afc",
                 "shasum": ""
             },
             "require": {
-                "composer-plugin-api": "^2.0"
-            },
-            "require-dev": {
-                "composer/composer": "^2.6",
-                "phpunit/phpunit": "^9.0"
-            },
-            "type": "composer-plugin",
-            "extra": {
-                "class": "BrianHenryIE\\ComposerFallbackToGit\\FallbackPlugin"
-            },
-            "autoload": {
-                "psr-4": {
-                    "BrianHenryIE\\ComposerFallbackToGit\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "support": {
-                "issues": "https://github.com/BrianHenryIE/composer-fallback-to-git/issues",
-                "source": "https://github.com/BrianHenryIE/composer-fallback-to-git/tree/0.5.1"
-            },
-            "time": "2024-05-14T23:04:26+00:00"
-        },
-        {
-            "name": "brianhenryie/composer-phpstorm",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/brianhenryie/composer-phpstorm",
-                "reference": "5bfecc9ba0a04db0f763995e73854f01f20700c3"
-            },
-            "require": {
+                "composer-plugin-api": "^2.0",
                 "symfony/filesystem": "*"
             },
             "require-dev": {
-                "composer/composer": "*",
+                "composer/composer": "^2.0",
                 "phpunit/phpunit": "*",
                 "squizlabs/php_codesniffer": "*"
             },
-            "default-branch": true,
-            "type": "library",
+            "type": "composer-plugin",
+            "extra": {
+                "class": "\\BrianHenryIE\\ComposerPhpStorm\\ComposerPhpStorm"
+            },
             "autoload": {
                 "psr-4": {
                     "BrianHenryIE\\ComposerPhpStorm\\": "src/"
@@ -692,19 +664,7 @@
                     "/tests/"
                 ]
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "BrianHenryIE\\ComposerPhpStorm\\Tests\\": "tests/"
-                }
-            },
-            "scripts": {
-                "post-install-cmd": [
-                    "BrianHenryIE\\ComposerPhpStorm\\PHPUnitRunConfigurations::update"
-                ],
-                "post-update-cmd": [
-                    "BrianHenryIE\\ComposerPhpStorm\\PHPUnitRunConfigurations::update"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -721,7 +681,11 @@
                 "excludefolder",
                 "phpstorm"
             ],
-            "time": "2023-10-06T19:45:27+00:00"
+            "support": {
+                "issues": "https://github.com/BrianHenryIE/composer-phpstorm/issues",
+                "source": "https://github.com/BrianHenryIE/composer-phpstorm/tree/0.4"
+            },
+            "time": "2024-06-18T19:16:34+00:00"
         },
         {
             "name": "codeception/codeception",
@@ -5814,10 +5778,12 @@
     "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "ext-json": "*"
+    },
     "platform-dev": [],
     "platform-overrides": {
-        "php": "7.1"
+        "php": "7.3"
     },
     "plugin-api-version": "2.6.0"
 }
