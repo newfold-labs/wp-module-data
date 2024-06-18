@@ -58,17 +58,6 @@
     "platform-check": false,
     "sort-packages": true
   },
-  "archive": {
-    "exclude": [
-      ".github",
-      "tests",
-      ".editorconfig",
-      ".gitignore",
-      "patchwork.json",
-      "phpcs.xml",
-      "phpunit.xml.dist"
-    ]
-  },
   "scripts": {
     "fix": [
       "vendor/bin/phpcbf . --standard=phpcs.xml"
