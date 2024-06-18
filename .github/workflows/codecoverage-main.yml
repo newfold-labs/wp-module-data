@@ -62,7 +62,7 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
           coverage: xdebug
-          tools: composer
+          tools: composer, jaschilz/php-coverage-badger
           extensions: zip
 
       - name: Read .env.testing
@@ -99,7 +99,7 @@ jobs:
           git add -- .nojekyll *
 
       - name: Update README badge
-        run: vendor/bin/php-coverage-badger tests/_output/clover.xml gh-pages/phpunit/coverage.svg
+        run: php-coverage-badger tests/_output/clover.xml gh-pages/phpunit/coverage.svg
 
       - name: Commit code coverage to gh-pages
         uses: stefanzweifel/git-auto-commit-action@v5
