@@ -13,3 +13,4 @@
 /patchwork.json         export-ignore
 /phpcs.xml              export-ignore
 /phpunit.xml.dist       export-ignore
+/readme.md              export-ignore
