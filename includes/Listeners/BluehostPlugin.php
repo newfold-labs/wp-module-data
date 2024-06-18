@@ -27,6 +27,10 @@ class BluehostPlugin extends Listener {
 
 		// Staging
 		add_action( 'bh_staging_command', array( $this, 'staging' ) );
+
+		// Features
+		add_action( 'newfold/features/action/onEnable', array( $this, 'feature_enable' ) );
+		add_action( 'newfold/features/action/onDisable', array( $this, 'feature_disable' ) );
 	}
 
 	/**
@@ -89,6 +93,40 @@ class BluehostPlugin extends Listener {
 			array(
 				'label_key' => 'command',
 				'command'   => $command,
+			)
+		);
+	}
+
+	/**
+	 * Feature Enable event
+	 *
+	 * @param string $name The feature name
+	 *
+	 * @return void
+	 */
+	public function feature_enable( $name ) {
+		$this->push(
+			'features',
+			array(
+				'label_key' => 'enabled',
+				'feature'   => $name,
+			)
+		);
+	}
+
+	/**
+	 * Feature Disable event
+	 *
+	 * @param string $name The feature name
+	 *
+	 * @return void
+	 */
+	public function feature_disable( $name ) {
+		$this->push(
+			'features',
+			array(
+				'label_key' => 'disabled',
+				'feature'   => $name,
 			)
 		);
 	}

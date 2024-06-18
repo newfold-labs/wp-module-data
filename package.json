@@ -1,7 +1,7 @@
 {
   "name": "wp-module-data",
   "version": "1.0.0",
-  "description": "<div style=\"text-align: center;\">  <a href=\"https://newfold.com/\" target=\"_blank\">   <img src=\"https://newfold.com/content/experience-fragments/newfold/site-header/master/_jcr_content/root/header/logo.coreimg.svg/1621395071423/newfold-digital.svg\" alt=\"Newfold Logo\" title=\"Newfold Digital\" height=\"42\" />  </a> </div>",
+  "description": "",
   "main": "index.js",
   "directories": {
     "test": "tests"
@@ -11,7 +11,7 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "GPL-2.0-or-later",
   "devDependencies": {
     "@wordpress/env": "^9.9.0"
   }
