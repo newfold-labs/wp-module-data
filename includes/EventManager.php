@@ -3,6 +3,7 @@
 namespace NewfoldLabs\WP\Module\Data;
 
 use NewfoldLabs\WP\Module\Data\EventQueue\EventQueue;
+use NewfoldLabs\WP\Module\Data\Listeners\Listener;
 
 /**
  * Class to manage event subscriptions
@@ -12,7 +13,7 @@ class EventManager {
 	/**
 	 * List of default listener category classes
 	 *
-	 * @var array
+	 * @var Listener[]
 	 */
 	const LISTENERS = array(
 		'\\NewfoldLabs\\WP\\Module\\Data\\Listeners\\Admin',
@@ -54,10 +55,8 @@ class EventManager {
 
 	/**
 	 * Initialize the Event Manager
-	 *
-	 * @return void
 	 */
-	public function init() {
+	public function init(): void {
 		$this->initialize_listeners();
 		$this->initialize_cron();
 
@@ -75,10 +74,8 @@ class EventManager {
 
 	/**
 	 * Handle setting up the scheduled job for sending updates
-	 *
-	 * @return void
 	 */
-	public function initialize_cron() {
+	protected function initialize_cron(): void {
 		// Ensure there is a minutely option in the cron schedules
 		add_filter( 'cron_schedules', array( $this, 'add_minutely_schedule' ) );
 
@@ -87,7 +84,7 @@ class EventManager {
 
 		// Register the cron task
 		if ( ! wp_next_scheduled( 'nfd_data_sync_cron' ) ) {
-			wp_schedule_event( time() + MINUTE_IN_SECONDS, 'minutely', 'nfd_data_sync_cron' );
+			wp_schedule_event( time() + constant('MINUTE_IN_SECONDS' ), 'minutely', 'nfd_data_sync_cron' );
 		}
 	}
 
@@ -102,9 +99,11 @@ class EventManager {
 	/**
 	 * Add the weekly option to cron schedules if it doesn't exist
 	 *
-	 * @param  array $schedules  List of cron schedule options
+	 * @hooked cron_schedules
 	 *
-	 * @return array
+	 * @param  array<string, array{interval:int, display:string}> $schedules  List of defined cron schedule options.
+	 *
+	 * @return array<string, array{interval:int, display:string}>
 	 */
 	public function add_minutely_schedule( $schedules ) {
 		if ( ! array_key_exists( 'minutely', $schedules ) ||
@@ -122,7 +121,7 @@ class EventManager {
 	/**
 	 * Sends or saves all queued events at the end of the request
 	 *
-	 * @return void
+	 * @hooked shutdown
 	 */
 	public function shutdown() {
 
@@ -169,7 +168,7 @@ class EventManager {
 	/**
 	 * Return an array of registered listener classes
 	 *
-	 * @return array List of listener classes
+	 * @return Listener[] List of listener classes
 	 */
 	public function get_listeners() {
 		return apply_filters( 'newfold_data_listeners', $this::LISTENERS );
@@ -177,11 +176,9 @@ class EventManager {
 
 	/**
 	 * Initialize event listener classes
-	 *
-	 * @return void
 	 */
-	public function initialize_listeners() {
-		if ( defined( 'BURST_SAFETY_MODE' ) && BURST_SAFETY_MODE ) {
+	protected function initialize_listeners(): void {
+		if ( defined( 'BURST_SAFETY_MODE' ) && constant( 'BURST_SAFETY_MODE' ) ) {
 			// Disable listeners when site is under heavy load
 			return;
 		}
