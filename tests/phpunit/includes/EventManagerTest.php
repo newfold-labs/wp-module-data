@@ -171,8 +171,6 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 		$this->expectNotToPerformAssertions();
 	}
 
-
-	
 	/**
 	 * @covers ::send_batch
 	 * @covers ::send
@@ -283,13 +281,10 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 
 		$hiive_connection_subscriber->expects('notify')
 			->once()
-			->andReturn(
-				array('response' => array('code' => 200))
-			);
+			->andReturn( new WP_Error() );
 
 		WP_Mock::userFunction('is_wp_error')
 			->once()
-			->with(array('response' => array('code' => 200)))
 			->andReturnTrue();
 
 		WP_Mock::userFunction('absint')
