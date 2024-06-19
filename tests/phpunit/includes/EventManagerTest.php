@@ -3,6 +3,8 @@
 namespace NewfoldLabs\WP\Module\Data;
 
 use Mockery;
+use NewfoldLabs\WP\Module\Data\EventQueue\EventQueue;
+use NewfoldLabs\WP\Module\Data\EventQueue\Queues\BatchQueue;
 use NewfoldLabs\WP\Module\Data\Listeners\Admin;
 use WP_Mock;
 
@@ -170,4 +172,204 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 
 
 	
+	/**
+	 * @covers ::send_batch
+	 * @covers ::send
+	 */
+	public function test_send_batch_happy_path(): void {
+
+		$batch_queue_mock = Mockery::mock( BatchQueue::class );
+
+		\Patchwork\redefine(
+			array( EventQueue::class, '__construct' ),
+			function () {}
+		);
+		\Patchwork\redefine(
+			array( EventQueue::class, 'queue' ),
+			function () use ($batch_queue_mock) {
+				return $batch_queue_mock;
+			}
+		);
+
+		$sut = Mockery::mock(EventManager::class )->makePartial();
+
+		$event = Mockery::mock(Event::class);
+
+		$batch_queue_mock->expects('pull')
+		                 ->once()
+		                 ->with(100)
+		                 ->andReturn(
+							 [
+								 0 => $event
+							 ]
+		                 );
+
+		$batch_queue_mock->expects('reserve')
+		                 ->once()
+		                 ->with(array(0));
+
+		$hiive_connection_subscriber = Mockery::mock(HiiveConnection::class);
+
+		$sut->expects('get_subscribers')
+			->once()
+			->andReturn(array($hiive_connection_subscriber));
+
+		$hiive_connection_subscriber->expects('notify')
+			->once()
+			->andReturn(
+				array('response' => array('code' => 200))
+			);
+
+		WP_Mock::userFunction('is_wp_error')
+			->once()
+			->with(array('response' => array('code' => 200)))
+			->andReturnFalse();
+
+		WP_Mock::userFunction('absint')
+			->once()
+			->andReturn(2);
+
+		$batch_queue_mock->expects('remove')
+		                 ->once()
+		                 ->with(array(0));
+
+		$sut->send_batch();
+
+		$this->expectNotToPerformAssertions();
+	}
+
+	/**
+	 * @covers ::send_batch
+	 * @covers ::send
+	 */
+	public function test_send_batch_wp_error_from_hiive_connection(): void {
+
+		$batch_queue_mock = Mockery::mock( BatchQueue::class );
+
+		\Patchwork\redefine(
+			array( EventQueue::class, '__construct' ),
+			function () {}
+		);
+		\Patchwork\redefine(
+			array( EventQueue::class, 'queue' ),
+			function () use ($batch_queue_mock) {
+				return $batch_queue_mock;
+			}
+		);
+
+		$sut = Mockery::mock(EventManager::class )->makePartial();
+
+		$event = Mockery::mock(Event::class);
+
+		$batch_queue_mock->expects('pull')
+		                 ->once()
+		                 ->with(100)
+		                 ->andReturn(
+							 [
+								 0 => $event
+							 ]
+		                 );
+
+		$batch_queue_mock->expects('reserve')
+		                 ->once()
+		                 ->with(array(0));
+
+		$hiive_connection_subscriber = Mockery::mock(HiiveConnection::class);
+
+		$sut->expects('get_subscribers')
+			->once()
+			->andReturn(array($hiive_connection_subscriber));
+
+		$hiive_connection_subscriber->expects('notify')
+			->once()
+			->andReturn(
+				array('response' => array('code' => 200))
+			);
+
+		WP_Mock::userFunction('is_wp_error')
+			->once()
+			->with(array('response' => array('code' => 200)))
+			->andReturnTrue();
+
+		WP_Mock::userFunction('absint')
+			->never();
+
+		$batch_queue_mock->expects('remove')->never();
+
+		$batch_queue_mock->expects('release')
+		                 ->once()
+		                 ->with(array(0));
+
+		$sut->send_batch();
+
+		$this->expectNotToPerformAssertions();
+	}
+
+	/**
+	 * @covers ::send_batch
+	 * @covers ::send
+	 */
+	public function test_send_batch_500_from_hiive_connection(): void {
+
+		$batch_queue_mock = Mockery::mock( BatchQueue::class );
+
+		\Patchwork\redefine(
+			array( EventQueue::class, '__construct' ),
+			function () {}
+		);
+		\Patchwork\redefine(
+			array( EventQueue::class, 'queue' ),
+			function () use ($batch_queue_mock) {
+				return $batch_queue_mock;
+			}
+		);
+
+		$sut = Mockery::mock(EventManager::class )->makePartial();
+
+		$event = Mockery::mock(Event::class);
+
+		$batch_queue_mock->expects('pull')
+		                 ->once()
+		                 ->with(100)
+		                 ->andReturn(
+							 [
+								 0 => $event
+							 ]
+		                 );
+
+		$batch_queue_mock->expects('reserve')
+		                 ->once()
+		                 ->with(array(0));
+
+		$hiive_connection_subscriber = Mockery::mock(HiiveConnection::class);
+
+		$sut->expects('get_subscribers')
+			->once()
+			->andReturn(array($hiive_connection_subscriber));
+
+		$hiive_connection_subscriber->expects('notify')
+			->once()
+			->andReturn(
+				array('response' => array('code' => 200))
+			);
+
+		WP_Mock::userFunction('is_wp_error')
+			->once()
+			->with(array('response' => array('code' => 200)))
+			->andReturnFalse();
+
+		WP_Mock::userFunction('absint')
+		       ->once()
+		       ->andReturn(5);
+
+		$batch_queue_mock->expects('remove')->never();
+
+		$batch_queue_mock->expects('release')
+		                 ->once()
+		                 ->with(array(0));
+
+		$sut->send_batch();
+
+		$this->expectNotToPerformAssertions();
+	}
 }

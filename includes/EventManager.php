@@ -205,31 +205,34 @@ class EventManager {
 	/**
 	 * Send queued events to all subscribers
 	 *
-	 * @param  array $events  A list of events
+	 * @used-by EventManager::send_batch()
+	 * @used-by EventManager::shutdown()
 	 *
-	 * @return void
+	 * @param  Event[] $events  A list of events
+	 *
+	 * @throws Exception When the response is not a 2xx status code.
 	 */
-	public function send( $events ) {
+	public function send( array $events ): void {
 		foreach ( $this->get_subscribers() as $subscriber ) {
+			/**
+			 * A {@see WP_Http::request()} response array, or a {@see WP_Error} when it was already seen to be 403.
+			 *
+			 * @var array|WP_Error $response
+			 */
 			$response = $subscriber->notify( $events );
-			if ( is_wp_error( $response ) ) {
-				$this->error = array(
-					'retryCount' => $this->error['retryCount'] + 1,
-				);
-			} else {
-				$this->error = array(
-					'retryCount' => 0,
-				);
+
+			if ( $subscriber instanceof HiiveConnection &&
+				( is_wp_error( $response ) || absint( $response['response']['code'] / 100 ) !== 2 )
+			) {
+				throw new Exception();
 			}
 		}
 	}
 
 	/**
 	 * Send queued events to all subscribers
-	 *
-	 * @return void
 	 */
-	public function send_batch() {
+	public function send_batch(): void {
 
 		$queue = EventQueue::getInstance()->queue();
 
@@ -244,13 +247,11 @@ class EventManager {
 
 		$queue->reserve( $ids );
 
-		$this->send( $events );
-
-		$queue->remove( $ids );
-
-		if ( $this->error['retryCount'] >= 1 && $this->error['retryCount'] < 4 ) {
-			\sleep( 5 );
-			$queue->push( $events );
+		try {
+			$this->send( $events );
+			$queue->remove( $ids );
+		} catch ( \Exception $exception ) {
+			$queue->release( $ids );
 		}
 	}
 }
