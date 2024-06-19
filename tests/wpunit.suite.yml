@@ -7,7 +7,7 @@ modules:
       WPLoader:
         wpRootFolder: "%WP_ROOT_FOLDER%"
         dbName: "%TEST_DB_NAME%"
-        dbHost: "%TEST_DB_HOST%"
+        dbHost: "%TEST_DB_HOST%:%TEST_DB_PORT%"
         dbUser: "%TEST_DB_USER%"
         dbPassword: "%TEST_DB_PASSWORD%"
 
