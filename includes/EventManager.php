@@ -43,18 +43,9 @@ class EventManager {
 	/**
 	 * The queue of events logged in the current request
 	 *
-	 * @var array
+	 * @var Event[]
 	 */
 	private $queue = array();
-
-	/**
-	 * The error of events logged in the current request
-	 *
-	 * @var array
-	 */
-	private $error = array(
-		'retryCount' => 0,
-	);
 
 	/**
 	 * Initialize the Event Manager
@@ -69,6 +60,8 @@ class EventManager {
 
 	/**
 	 * Initialize the REST API endpoint.
+	 *
+	 * @see Data::init()
 	 */
 	public function initialize_rest_endpoint() {
 		// Register REST endpoint.
@@ -87,7 +80,7 @@ class EventManager {
 
 		// Register the cron task
 		if ( ! wp_next_scheduled( 'nfd_data_sync_cron' ) ) {
-			wp_schedule_event( time() + constant('MINUTE_IN_SECONDS' ), 'minutely', 'nfd_data_sync_cron' );
+			wp_schedule_event( time() + constant( 'MINUTE_IN_SECONDS' ), 'minutely', 'nfd_data_sync_cron' );
 		}
 	}
 
@@ -156,10 +149,8 @@ class EventManager {
 	 * Register a new event subscriber
 	 *
 	 * @param  SubscriberInterface $subscriber  Class subscribing to event updates
-	 *
-	 * @return void
 	 */
-	public function add_subscriber( SubscriberInterface $subscriber ) {
+	public function add_subscriber( SubscriberInterface $subscriber ): void {
 		$this->subscribers[] = $subscriber;
 	}
 
@@ -173,7 +164,7 @@ class EventManager {
 	}
 
 	/**
-	 * Return an array of registered listener classes
+	 * Return an array of listener classes
 	 *
 	 * @return Listener[] List of listener classes
 	 */
@@ -198,13 +189,12 @@ class EventManager {
 	/**
 	 * Push event data onto the queue
 	 *
-	 * @see wp-module-notifications/notifications.php
-	 *
 	 * @param  Event $event  Details about the action taken
-	 *
-	 * @return void
 	 */
-	public function push( Event $event ) {
+	public function push( Event $event ): void {
+		/**
+		 * @see wp-module-notifications/notifications.php
+		 */
 		do_action( 'nfd_event_log', $event->key, $event );
 		$this->queue[] = $event;
 	}
