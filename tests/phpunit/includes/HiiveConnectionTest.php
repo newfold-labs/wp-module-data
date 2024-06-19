@@ -19,7 +19,7 @@ class HiiveConnectionTest extends TestCase {
 
 		WP_Mock::passthruFunction('__');
 
-		WP_Mock::userFunction('wp_json_encode')->andReturn(function($input) {
+		WP_Mock::userFunction('wp_json_encode')->andReturnUsing(function($input) {
 			return json_encode($input);
 		});
 	}

@@ -3,7 +3,9 @@
 namespace NewfoldLabs\WP\Module\Data\API;
 
 use NewfoldLabs\WP\Module\Data\HiiveConnection;
+use WP_Error;
 use WP_REST_Controller;
+use WP_REST_Request;
 use WP_REST_Server;
 use WP_REST_Response;
 
@@ -37,6 +39,7 @@ class Verify extends WP_REST_Controller {
 	 * @since 4.7.0
 	 *
 	 * @see register_rest_route()
+	 * @see HiiveConnection::rest_api_init()
 	 */
 	public function register_routes() {
 
@@ -53,11 +56,10 @@ class Verify extends WP_REST_Controller {
 				array(
 					'methods'             => WP_REST_Server::READABLE,
 					'callback'            => array( $this, 'get_items' ),
-					'permission_callback' => array( $this, 'get_items_permissions_check' ),
+					'permission_callback' => '__return_true',
 				),
 			)
 		);
-
 	}
 
 	/**
@@ -65,8 +67,8 @@ class Verify extends WP_REST_Controller {
 	 *
 	 * @since 1.0
 	 *
-	 * @param \WP_REST_Request $request Full details about the request.
-	 * @return \WP_REST_Response|\WP_Error Response object on success, or WP_Error object on failure.
+	 * @param WP_REST_Request $request Full details about the request.
+	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function get_items( $request ) {
 		$valid  = $this->hiive->verify_token( $request['token'] );
@@ -81,17 +83,5 @@ class Verify extends WP_REST_Controller {
 		);
 
 		return $response;
-	}
-
-	/**
-	 * No authentication required for this endpoint
-	 *
-	 * @since 1.0
-	 *
-	 * @param WP_REST_Request $request Full details about the request.
-	 * @return true|WP_Error
-	 */
-	public function get_items_permissions_check( $request ) {
-		return true;
 	}
 }
