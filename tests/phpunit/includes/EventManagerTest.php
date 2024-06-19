@@ -6,6 +6,7 @@ use Mockery;
 use NewfoldLabs\WP\Module\Data\EventQueue\EventQueue;
 use NewfoldLabs\WP\Module\Data\EventQueue\Queues\BatchQueue;
 use NewfoldLabs\WP\Module\Data\Listeners\Admin;
+use WP_Error;
 use WP_Mock;
 
 /**
@@ -369,6 +370,158 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 		                 ->with(array(0));
 
 		$sut->send_batch();
+
+		$this->expectNotToPerformAssertions();
+	}
+
+	/**
+	 * @covers ::shutdown
+	 * @covers ::send
+	 */
+	public function test_shutdown_happy_path(): void {
+
+		$sut = new EventManager();
+
+		$event = Mockery::mock( Event::class )->makePartial();
+		$event->key = 'test';
+
+		$sut->push( $event );
+
+		$batch_queue_mock = Mockery::mock( BatchQueue::class );
+
+		\Patchwork\redefine(
+			array( EventQueue::class, '__construct' ),
+			function () {}
+		);
+		\Patchwork\redefine(
+			array( EventQueue::class, 'queue' ),
+			function () use ($batch_queue_mock) {
+				return $batch_queue_mock;
+			}
+		);
+
+		$hiive_connection_subscriber = Mockery::mock(HiiveConnection::class);
+
+		$sut->add_subscriber($hiive_connection_subscriber);
+
+		$hiive_connection_subscriber->expects('notify')
+		                            ->once()
+		                            ->andReturn(
+			                            array('response' => array('code' => 200))
+		                            );
+
+		WP_Mock::userFunction('is_wp_error')
+		       ->once()
+		       ->with(array('response' => array('code' => 200)))
+		       ->andReturnFalse();
+
+		WP_Mock::userFunction('absint')
+		       ->once()
+		       ->andReturn(2);
+
+		$batch_queue_mock->expects('push' )->never();
+
+		$sut->shutdown();
+
+		$this->expectNotToPerformAssertions();
+	}
+
+	/**
+	 * @covers ::shutdown
+	 * @covers ::send
+	 */
+	public function test_shutdown_hiive_connection_wp_error(): void {
+
+		$sut = new EventManager();
+
+		$event = Mockery::mock( Event::class )->makePartial();
+		$event->key = 'test';
+
+		$sut->push( $event );
+
+		$batch_queue_mock = Mockery::mock( BatchQueue::class );
+
+		\Patchwork\redefine(
+			array( EventQueue::class, '__construct' ),
+			function () {}
+		);
+		\Patchwork\redefine(
+			array( EventQueue::class, 'queue' ),
+			function () use ($batch_queue_mock) {
+				return $batch_queue_mock;
+			}
+		);
+
+		$hiive_connection_subscriber = Mockery::mock(HiiveConnection::class);
+
+		$sut->add_subscriber($hiive_connection_subscriber);
+
+		$hiive_connection_subscriber->expects('notify')
+		                            ->once()
+		                            ->andReturn( new WP_Error() );
+
+		WP_Mock::userFunction('is_wp_error')
+		       ->once()
+		       ->andReturnTrue();
+
+		WP_Mock::userFunction('absint')
+		       ->never();
+
+		$batch_queue_mock->expects('push' )->once();
+
+		$sut->shutdown();
+
+		$this->expectNotToPerformAssertions();
+	}
+
+	/**
+	 * @covers ::shutdown
+	 * @covers ::send
+	 */
+	public function test_shutdown_hiive_500_error(): void {
+
+		$sut = new EventManager();
+
+		$event = Mockery::mock( Event::class )->makePartial();
+		$event->key = 'test';
+
+		$sut->push( $event );
+
+		$batch_queue_mock = Mockery::mock( BatchQueue::class );
+
+		\Patchwork\redefine(
+			array( EventQueue::class, '__construct' ),
+			function () {}
+		);
+		\Patchwork\redefine(
+			array( EventQueue::class, 'queue' ),
+			function () use ($batch_queue_mock) {
+				return $batch_queue_mock;
+			}
+		);
+
+		$hiive_connection_subscriber = Mockery::mock(HiiveConnection::class);
+
+		$sut->add_subscriber($hiive_connection_subscriber);
+
+		$hiive_connection_subscriber->expects('notify')
+		                            ->once()
+		                            ->andReturn(
+			                            array('response' => array('code' => 500))
+		                            );
+
+		WP_Mock::userFunction('is_wp_error')
+		       ->once()
+		       ->with(array('response' => array('code' => 500)))
+		       ->andReturnFalse();
+
+		WP_Mock::userFunction('absint')
+		       ->once()
+		       ->andReturn(5);
+
+		$batch_queue_mock->expects('push' )->once();
+
+		$sut->shutdown();
 
 		$this->expectNotToPerformAssertions();
 	}

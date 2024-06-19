@@ -2,8 +2,11 @@
 
 namespace NewfoldLabs\WP\Module\Data;
 
+use Exception;
 use NewfoldLabs\WP\Module\Data\EventQueue\EventQueue;
 use NewfoldLabs\WP\Module\Data\Listeners\Listener;
+use NewFoldLabs\WP\Module\Notifications\Notification;
+use WP_Error;
 
 /**
  * Class to manage event subscriptions
@@ -123,7 +126,7 @@ class EventManager {
 	 *
 	 * @hooked shutdown
 	 */
-	public function shutdown() {
+	public function shutdown(): void {
 
 		// Separate out the async events
 		$async = array();
@@ -141,7 +144,11 @@ class EventManager {
 
 		// Any remaining items in the queue should be sent now
 		if ( ! empty( $this->queue ) ) {
-			$this->send( $this->queue );
+			try {
+				$this->send( $this->queue );
+			} catch ( Exception $exception ) {
+				EventQueue::getInstance()->queue()->push( $this->queue );
+			}
 		}
 	}
 
