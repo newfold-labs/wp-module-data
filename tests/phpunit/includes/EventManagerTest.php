@@ -24,30 +24,28 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 	 */
 	public function test_initialize_listeners_register_hooks() {
 
-		$this->markTestSkipped('WP_Mock AnyInstance not available in until PHP 7.4.');
+		$this->markTestSkipped( 'WP_Mock AnyInstance not available in until PHP 7.4.' );
 
-		$sut = Mockery::mock(EventManager::class)->makePartial();
-		$sut->expects('get_listeners')->andReturn( array( '\\NewfoldLabs\\WP\\Module\\Data\\Listeners\\WP_Mail' ) );
+		$sut = Mockery::mock( EventManager::class )->makePartial();
+		$sut->expects( 'get_listeners' )->andReturn( array( '\\NewfoldLabs\\WP\\Module\\Data\\Listeners\\WP_Mail' ) );
+		$sut->expects( 'initialize_cron' );
 
 		\Patchwork\redefine(
 			'defined',
 			function ( string $constant_name ) {
-				switch ($constant_name) {
+				switch ( $constant_name ) {
 					case 'BURST_SAFETY_MODE':
 						return false;
 					default:
-						return \Patchwork\relay(func_get_args());
+						return \Patchwork\relay( func_get_args() );
 				}
 			}
 		);
 
-		WP_Mock::expectFilterAdded( 'cron_schedules', array( $sut, 'add_minutely_schedule' ) );
-		WP_Mock::expectActionAdded('nfd_data_sync_cron', array( $sut, 'send_batch'));
-		WP_Mock::userFunction('wp_next_scheduled' )->andReturnTrue();
-		WP_Mock::expectActionAdded('shutdown', array( $sut, 'shutdown'));
+		WP_Mock::expectActionAdded( 'shutdown', array( $sut, 'shutdown' ) );
 
 		// WP_Mock AnyInstance not available in until PHP 7.4.
-		WP_Mock::expectActionAdded('admin_footer', array( new AnyInstance( \NewfoldLabs\WP\Module\Data\Listeners\WPMail::class ), 'mail_succeeded') );
+		WP_Mock::expectActionAdded( 'admin_footer', array( new AnyInstance( \NewfoldLabs\WP\Module\Data\Listeners\WPMail::class ), 'mail_succeeded' ) );
 
 		$sut->init();
 	}
@@ -56,16 +54,17 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 	 * @covers ::initialize_listeners
 	 */
 	public function test_initialize_listeners_burst_safety_enabled_no_listeners_hooks_registered() {
-		$sut = new EventManager();
+		$sut = Mockery::mock( EventManager::class )->makePartial()->shouldAllowMockingProtectedMethods();
+		$sut->expects( 'initialize_cron' );
 
 		\Patchwork\redefine(
 			'defined',
 			function ( string $constant_name ) {
-				switch ($constant_name) {
+				switch ( $constant_name ) {
 					case 'BURST_SAFETY_MODE':
 						return true;
 					default:
-						return \Patchwork\relay(func_get_args());
+						return \Patchwork\relay( func_get_args() );
 				}
 			}
 		);
@@ -73,19 +72,16 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 		\Patchwork\redefine(
 			'constant',
 			function ( string $constant_name ) {
-				switch ($constant_name) {
+				switch ( $constant_name ) {
 					case 'BURST_SAFETY_MODE':
 						return true;
 					default:
-						return \Patchwork\relay(func_get_args());
+						return \Patchwork\relay( func_get_args() );
 				}
 			}
 		);
 
-		WP_Mock::expectFilterAdded( 'cron_schedules', array( $sut, 'add_minutely_schedule' ) );
-		WP_Mock::expectActionAdded('nfd_data_sync_cron', array( $sut, 'send_batch'));
-		WP_Mock::userFunction('wp_next_scheduled' )->andReturnTrue();
-		WP_Mock::expectActionAdded('shutdown', array( $sut, 'shutdown'));
+		WP_Mock::expectActionAdded( 'shutdown', array( $sut, 'shutdown' ) );
 
 		$sut->init();
 
@@ -101,55 +97,40 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 	 * @covers ::initialize_cron
 	 */
 	public function test_initialize_cron(): void {
-		$sut = new EventManager();
+		$sut = Mockery::mock( EventManager::class )->makePartial()->shouldAllowMockingProtectedMethods();
+		$sut->expects( 'initialize_listeners' );
 
-		/**
-		 * @see EventManager::initialize_listeners()
-		 */
+		WP_Mock::expectFilterAdded( 'cron_schedules', array( $sut, 'add_minutely_schedule' ) );
+		WP_Mock::expectActionAdded( 'nfd_data_sync_cron', array( $sut, 'send_batch' ) );
+
+		WP_Mock::userFunction( 'wp_next_scheduled' )
+				->once()
+				->with( 'nfd_data_sync_cron' )
+				->andReturnFalse();
+
 		\Patchwork\redefine(
-			'defined',
-			function ( string $constant_name ) {
-				switch ($constant_name) {
-					case 'BURST_SAFETY_MODE':
-						return true;
-					default:
-						return \Patchwork\relay(func_get_args());
-				}
-			}
+			'time',
+			function () {
+				return 0; }
 		);
 
 		\Patchwork\redefine(
 			'constant',
 			function ( string $constant_name ) {
-				switch ($constant_name) {
-					case 'BURST_SAFETY_MODE':
-						return true;
+				switch ( $constant_name ) {
 					case 'MINUTE_IN_SECONDS':
 						return 60;
 					default:
-						return \Patchwork\relay(func_get_args());
+						return \Patchwork\relay( func_get_args() );
 				}
 			}
 		);
 
-		WP_Mock::expectFilterAdded( 'cron_schedules', array( $sut, 'add_minutely_schedule' ) );
-		WP_Mock::expectActionAdded('nfd_data_sync_cron', array( $sut, 'send_batch'));
+		WP_Mock::userFunction( 'wp_schedule_event' )
+				->once()
+				->with( 60, 'minutely', 'nfd_data_sync_cron' );
 
-		WP_Mock::userFunction('wp_next_scheduled' )
-		       ->once()
-		       ->with('nfd_data_sync_cron')
-		       ->andReturnFalse();
-
-		\Patchwork\redefine(
-			'time',
-			function() { return 0; }
-		);
-
-		WP_Mock::userFunction('wp_schedule_event' )
-		       ->once()
-		       ->with(60, 'minutely', 'nfd_data_sync_cron' );
-
-		WP_Mock::expectActionAdded('shutdown', array( $sut, 'shutdown'));
+		WP_Mock::expectActionAdded( 'shutdown', array( $sut, 'shutdown' ) );
 
 		$sut->init();
 
@@ -160,11 +141,11 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 	 * @covers ::init
 	 */
 	public function test_init(): void {
-		$sut = Mockery::mock(EventManager::class)->makePartial()->shouldAllowMockingProtectedMethods();
-		$sut->expects('initialize_listeners');
-		$sut->expects('initialize_cron');
+		$sut = Mockery::mock( EventManager::class )->makePartial()->shouldAllowMockingProtectedMethods();
+		$sut->expects( 'initialize_listeners' );
+		$sut->expects( 'initialize_cron' );
 
-		WP_Mock::expectActionAdded('shutdown', array( $sut, 'shutdown'));
+		WP_Mock::expectActionAdded( 'shutdown', array( $sut, 'shutdown' ) );
 
 		$sut->init();
 
@@ -185,52 +166,52 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 		);
 		\Patchwork\redefine(
 			array( EventQueue::class, 'queue' ),
-			function () use ($batch_queue_mock) {
+			function () use ( $batch_queue_mock ) {
 				return $batch_queue_mock;
 			}
 		);
 
-		$sut = Mockery::mock(EventManager::class )->makePartial();
+		$sut = Mockery::mock( EventManager::class )->makePartial();
 
-		$event = Mockery::mock(Event::class);
+		$event = Mockery::mock( Event::class );
 
-		$batch_queue_mock->expects('pull')
-		                 ->once()
-		                 ->with(100)
-		                 ->andReturn(
-							 [
-								 0 => $event
-							 ]
-		                 );
+		$batch_queue_mock->expects( 'pull' )
+						->once()
+						->with( 100 )
+						->andReturn(
+							array(
+								0 => $event,
+							)
+						);
 
-		$batch_queue_mock->expects('reserve')
-		                 ->once()
-		                 ->with(array(0));
+		$batch_queue_mock->expects( 'reserve' )
+						->once()
+						->with( array( 0 ) );
 
-		$hiive_connection_subscriber = Mockery::mock(HiiveConnection::class);
+		$hiive_connection_subscriber = Mockery::mock( HiiveConnection::class );
 
-		$sut->expects('get_subscribers')
+		$sut->expects( 'get_subscribers' )
 			->once()
-			->andReturn(array($hiive_connection_subscriber));
+			->andReturn( array( $hiive_connection_subscriber ) );
 
-		$hiive_connection_subscriber->expects('notify')
+		$hiive_connection_subscriber->expects( 'notify' )
 			->once()
 			->andReturn(
-				array('response' => array('code' => 200))
+				array( 'response' => array( 'code' => 200 ) )
 			);
 
-		WP_Mock::userFunction('is_wp_error')
+		WP_Mock::userFunction( 'is_wp_error' )
 			->once()
-			->with(array('response' => array('code' => 200)))
+			->with( array( 'response' => array( 'code' => 200 ) ) )
 			->andReturnFalse();
 
-		WP_Mock::userFunction('absint')
+		WP_Mock::userFunction( 'absint' )
 			->once()
-			->andReturn(2);
+			->andReturn( 2 );
 
-		$batch_queue_mock->expects('remove')
-		                 ->once()
-		                 ->with(array(0));
+		$batch_queue_mock->expects( 'remove' )
+						->once()
+						->with( array( 0 ) );
 
 		$sut->send_batch();
 
@@ -251,50 +232,50 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 		);
 		\Patchwork\redefine(
 			array( EventQueue::class, 'queue' ),
-			function () use ($batch_queue_mock) {
+			function () use ( $batch_queue_mock ) {
 				return $batch_queue_mock;
 			}
 		);
 
-		$sut = Mockery::mock(EventManager::class )->makePartial();
+		$sut = Mockery::mock( EventManager::class )->makePartial();
 
-		$event = Mockery::mock(Event::class);
+		$event = Mockery::mock( Event::class );
 
-		$batch_queue_mock->expects('pull')
-		                 ->once()
-		                 ->with(100)
-		                 ->andReturn(
-							 [
-								 0 => $event
-							 ]
-		                 );
+		$batch_queue_mock->expects( 'pull' )
+						->once()
+						->with( 100 )
+						->andReturn(
+							array(
+								0 => $event,
+							)
+						);
 
-		$batch_queue_mock->expects('reserve')
-		                 ->once()
-		                 ->with(array(0));
+		$batch_queue_mock->expects( 'reserve' )
+						->once()
+						->with( array( 0 ) );
 
-		$hiive_connection_subscriber = Mockery::mock(HiiveConnection::class);
+		$hiive_connection_subscriber = Mockery::mock( HiiveConnection::class );
 
-		$sut->expects('get_subscribers')
+		$sut->expects( 'get_subscribers' )
 			->once()
-			->andReturn(array($hiive_connection_subscriber));
+			->andReturn( array( $hiive_connection_subscriber ) );
 
-		$hiive_connection_subscriber->expects('notify')
+		$hiive_connection_subscriber->expects( 'notify' )
 			->once()
 			->andReturn( new WP_Error() );
 
-		WP_Mock::userFunction('is_wp_error')
+		WP_Mock::userFunction( 'is_wp_error' )
 			->once()
 			->andReturnTrue();
 
-		WP_Mock::userFunction('absint')
+		WP_Mock::userFunction( 'absint' )
 			->never();
 
-		$batch_queue_mock->expects('remove')->never();
+		$batch_queue_mock->expects( 'remove' )->never();
 
-		$batch_queue_mock->expects('release')
-		                 ->once()
-		                 ->with(array(0));
+		$batch_queue_mock->expects( 'release' )
+						->once()
+						->with( array( 0 ) );
 
 		$sut->send_batch();
 
@@ -315,54 +296,54 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 		);
 		\Patchwork\redefine(
 			array( EventQueue::class, 'queue' ),
-			function () use ($batch_queue_mock) {
+			function () use ( $batch_queue_mock ) {
 				return $batch_queue_mock;
 			}
 		);
 
-		$sut = Mockery::mock(EventManager::class )->makePartial();
+		$sut = Mockery::mock( EventManager::class )->makePartial();
 
-		$event = Mockery::mock(Event::class);
+		$event = Mockery::mock( Event::class );
 
-		$batch_queue_mock->expects('pull')
-		                 ->once()
-		                 ->with(100)
-		                 ->andReturn(
-							 [
-								 0 => $event
-							 ]
-		                 );
+		$batch_queue_mock->expects( 'pull' )
+						->once()
+						->with( 100 )
+						->andReturn(
+							array(
+								0 => $event,
+							)
+						);
 
-		$batch_queue_mock->expects('reserve')
-		                 ->once()
-		                 ->with(array(0));
+		$batch_queue_mock->expects( 'reserve' )
+						->once()
+						->with( array( 0 ) );
 
-		$hiive_connection_subscriber = Mockery::mock(HiiveConnection::class);
+		$hiive_connection_subscriber = Mockery::mock( HiiveConnection::class );
 
-		$sut->expects('get_subscribers')
+		$sut->expects( 'get_subscribers' )
 			->once()
-			->andReturn(array($hiive_connection_subscriber));
+			->andReturn( array( $hiive_connection_subscriber ) );
 
-		$hiive_connection_subscriber->expects('notify')
+		$hiive_connection_subscriber->expects( 'notify' )
 			->once()
 			->andReturn(
-				array('response' => array('code' => 200))
+				array( 'response' => array( 'code' => 200 ) )
 			);
 
-		WP_Mock::userFunction('is_wp_error')
+		WP_Mock::userFunction( 'is_wp_error' )
 			->once()
-			->with(array('response' => array('code' => 200)))
+			->with( array( 'response' => array( 'code' => 200 ) ) )
 			->andReturnFalse();
 
-		WP_Mock::userFunction('absint')
-		       ->once()
-		       ->andReturn(5);
+		WP_Mock::userFunction( 'absint' )
+				->once()
+				->andReturn( 5 );
 
-		$batch_queue_mock->expects('remove')->never();
+		$batch_queue_mock->expects( 'remove' )->never();
 
-		$batch_queue_mock->expects('release')
-		                 ->once()
-		                 ->with(array(0));
+		$batch_queue_mock->expects( 'release' )
+						->once()
+						->with( array( 0 ) );
 
 		$sut->send_batch();
 
@@ -377,7 +358,7 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 
 		$sut = new EventManager();
 
-		$event = Mockery::mock( Event::class )->makePartial();
+		$event      = Mockery::mock( Event::class )->makePartial();
 		$event->key = 'test';
 
 		$sut->push( $event );
@@ -390,31 +371,31 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 		);
 		\Patchwork\redefine(
 			array( EventQueue::class, 'queue' ),
-			function () use ($batch_queue_mock) {
+			function () use ( $batch_queue_mock ) {
 				return $batch_queue_mock;
 			}
 		);
 
-		$hiive_connection_subscriber = Mockery::mock(HiiveConnection::class);
+		$hiive_connection_subscriber = Mockery::mock( HiiveConnection::class );
 
-		$sut->add_subscriber($hiive_connection_subscriber);
+		$sut->add_subscriber( $hiive_connection_subscriber );
 
-		$hiive_connection_subscriber->expects('notify')
-		                            ->once()
-		                            ->andReturn(
-			                            array('response' => array('code' => 200))
-		                            );
+		$hiive_connection_subscriber->expects( 'notify' )
+									->once()
+									->andReturn(
+										array( 'response' => array( 'code' => 200 ) )
+									);
 
-		WP_Mock::userFunction('is_wp_error')
-		       ->once()
-		       ->with(array('response' => array('code' => 200)))
-		       ->andReturnFalse();
+		WP_Mock::userFunction( 'is_wp_error' )
+				->once()
+				->with( array( 'response' => array( 'code' => 200 ) ) )
+				->andReturnFalse();
 
-		WP_Mock::userFunction('absint')
-		       ->once()
-		       ->andReturn(2);
+		WP_Mock::userFunction( 'absint' )
+				->once()
+				->andReturn( 2 );
 
-		$batch_queue_mock->expects('push' )->never();
+		$batch_queue_mock->expects( 'push' )->never();
 
 		$sut->shutdown();
 
@@ -429,7 +410,7 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 
 		$sut = new EventManager();
 
-		$event = Mockery::mock( Event::class )->makePartial();
+		$event      = Mockery::mock( Event::class )->makePartial();
 		$event->key = 'test';
 
 		$sut->push( $event );
@@ -442,27 +423,27 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 		);
 		\Patchwork\redefine(
 			array( EventQueue::class, 'queue' ),
-			function () use ($batch_queue_mock) {
+			function () use ( $batch_queue_mock ) {
 				return $batch_queue_mock;
 			}
 		);
 
-		$hiive_connection_subscriber = Mockery::mock(HiiveConnection::class);
+		$hiive_connection_subscriber = Mockery::mock( HiiveConnection::class );
 
-		$sut->add_subscriber($hiive_connection_subscriber);
+		$sut->add_subscriber( $hiive_connection_subscriber );
 
-		$hiive_connection_subscriber->expects('notify')
-		                            ->once()
-		                            ->andReturn( new WP_Error() );
+		$hiive_connection_subscriber->expects( 'notify' )
+									->once()
+									->andReturn( new WP_Error() );
 
-		WP_Mock::userFunction('is_wp_error')
-		       ->once()
-		       ->andReturnTrue();
+		WP_Mock::userFunction( 'is_wp_error' )
+				->once()
+				->andReturnTrue();
 
-		WP_Mock::userFunction('absint')
-		       ->never();
+		WP_Mock::userFunction( 'absint' )
+				->never();
 
-		$batch_queue_mock->expects('push' )->once();
+		$batch_queue_mock->expects( 'push' )->once();
 
 		$sut->shutdown();
 
@@ -477,7 +458,7 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 
 		$sut = new EventManager();
 
-		$event = Mockery::mock( Event::class )->makePartial();
+		$event      = Mockery::mock( Event::class )->makePartial();
 		$event->key = 'test';
 
 		$sut->push( $event );
@@ -490,31 +471,31 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 		);
 		\Patchwork\redefine(
 			array( EventQueue::class, 'queue' ),
-			function () use ($batch_queue_mock) {
+			function () use ( $batch_queue_mock ) {
 				return $batch_queue_mock;
 			}
 		);
 
-		$hiive_connection_subscriber = Mockery::mock(HiiveConnection::class);
+		$hiive_connection_subscriber = Mockery::mock( HiiveConnection::class );
 
-		$sut->add_subscriber($hiive_connection_subscriber);
+		$sut->add_subscriber( $hiive_connection_subscriber );
 
-		$hiive_connection_subscriber->expects('notify')
-		                            ->once()
-		                            ->andReturn(
-			                            array('response' => array('code' => 500))
-		                            );
+		$hiive_connection_subscriber->expects( 'notify' )
+									->once()
+									->andReturn(
+										array( 'response' => array( 'code' => 500 ) )
+									);
 
-		WP_Mock::userFunction('is_wp_error')
-		       ->once()
-		       ->with(array('response' => array('code' => 500)))
-		       ->andReturnFalse();
+		WP_Mock::userFunction( 'is_wp_error' )
+				->once()
+				->with( array( 'response' => array( 'code' => 500 ) ) )
+				->andReturnFalse();
 
-		WP_Mock::userFunction('absint')
-		       ->once()
-		       ->andReturn(5);
+		WP_Mock::userFunction( 'absint' )
+				->once()
+				->andReturn( 5 );
 
-		$batch_queue_mock->expects('push' )->once();
+		$batch_queue_mock->expects( 'push' )->once();
 
 		$sut->shutdown();
 
