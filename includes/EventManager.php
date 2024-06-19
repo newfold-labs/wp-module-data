@@ -73,6 +73,7 @@ class EventManager {
 	 */
 	protected function initialize_cron(): void {
 		// Ensure there is a minutely option in the cron schedules
+		// phpcs:disable WordPress.WP.CronInterval.CronSchedulesInterval
 		add_filter( 'cron_schedules', array( $this, 'add_minutely_schedule' ) );
 
 		// Minutely cron hook
@@ -193,6 +194,8 @@ class EventManager {
 	 */
 	public function push( Event $event ): void {
 		/**
+		 * The `nfd_event_log` action is handled in the notification module.
+		 *
 		 * @see wp-module-notifications/notifications.php
 		 */
 		do_action( 'nfd_event_log', $event->key, $event );
