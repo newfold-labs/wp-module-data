@@ -94,7 +94,7 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 		 *
 		 * `Unexpected use of add_action for action admin_footer with callback NewfoldLabs\WP\Module\Data\Listeners\Admin::view`
 		 */
-		$this->expectNotToPerformAssertions();
+		$this->assertConditionsMet();
 	}
 
 	/**
@@ -153,7 +153,7 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 
 		$sut->init();
 
-		$this->expectNotToPerformAssertions();
+		$this->assertConditionsMet();
 	}
 
 	/**
@@ -168,7 +168,7 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 
 		$sut->init();
 
-		$this->expectNotToPerformAssertions();
+		$this->assertConditionsMet();
 	}
 
 	/**
@@ -234,7 +234,7 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 
 		$sut->send_batch();
 
-		$this->expectNotToPerformAssertions();
+		$this->assertConditionsMet();
 	}
 
 	/**
@@ -298,7 +298,7 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 
 		$sut->send_batch();
 
-		$this->expectNotToPerformAssertions();
+		$this->assertConditionsMet();
 	}
 
 	/**
@@ -366,7 +366,7 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 
 		$sut->send_batch();
 
-		$this->expectNotToPerformAssertions();
+		$this->assertConditionsMet();
 	}
 
 	/**
@@ -418,7 +418,7 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 
 		$sut->shutdown();
 
-		$this->expectNotToPerformAssertions();
+		$this->assertConditionsMet();
 	}
 
 	/**
@@ -466,7 +466,7 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 
 		$sut->shutdown();
 
-		$this->expectNotToPerformAssertions();
+		$this->assertConditionsMet();
 	}
 
 	/**
@@ -518,6 +518,6 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 
 		$sut->shutdown();
 
-		$this->expectNotToPerformAssertions();
+		$this->assertConditionsMet();
 	}
 }
