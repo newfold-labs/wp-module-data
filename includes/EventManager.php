@@ -228,6 +228,8 @@ class EventManager {
 
 	/**
 	 * Send queued events to all subscribers
+	 *
+	 * @hooked nfd_data_sync_cron
 	 */
 	public function send_batch(): void {
 
