@@ -14,4 +14,10 @@
             <directory>tests/phpunit</directory>
         </testsuite>
     </testsuites>
+	<filter>
+		<whitelist>
+			<directory suffix=".php">includes/</directory>
+			<directory suffix=".php">upgrades/</directory>
+		</whitelist>
+	</filter>
 </phpunit>

@@ -79,6 +79,16 @@
     "create-symlinks": [
       "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks"
     ],
+    "test": [
+      "phpunit --bootstrap tests/phpunit/bootstrap.php",
+      "codecept run wpunit"
+    ],
+    "test-coverage": [
+      "phpunit --bootstrap tests/phpunit/bootstrap.php --coverage-php tests/_output/unit.cov",
+      "codecept run wpunit --coverage wpunit.cov",
+      "phpcov merge --php tests/_output/merged.cov --html tests/_output/html tests/_output;",
+      "echo \"open tests/_output/html/index.html\" to view the report"
+    ],
     "post-install-cmd": [
       "@create-symlinks"
     ],
@@ -107,6 +117,7 @@
     "kporras07/composer-symlinks": "^1.2",
     "lucatume/wp-browser": "^3",
     "newfold-labs/wp-php-standards": "^1.2",
+    "phpunit/phpcov": "^5.0",
     "wpackagist-plugin/woocommerce": "*"
   },
   "extra": {
