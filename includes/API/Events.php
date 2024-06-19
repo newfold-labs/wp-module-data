@@ -43,7 +43,8 @@ class Events extends WP_REST_Controller {
 	/**
 	 * Registers the routes for the objects of the controller.
 	 *
-	 * @see   register_rest_route()
+	 * @see register_rest_route()
+	 * @see EventManager::rest_api_init()
 	 */
 	public function register_routes() {
 

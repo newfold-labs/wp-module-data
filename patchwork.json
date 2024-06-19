@@ -1,6 +1,7 @@
 {
   "redefinable-internals": [
     "defined",
-    "constant"
+    "constant",
+    "file_get_contents"
   ]
 }

@@ -303,22 +303,22 @@ class Commerce extends Listener {
 
 	/**
 	 * HPOS (High Performance Order Storage) is enabled
-	 * Send data to hiive
-
-	 * @param string $old_value  Old value of woocommerce_custom_orders_table_enabled
-	 * @param string $new_value  New value of woocommerce_custom_orders_table_enabled
-	 * @param string $option  name of the option being updated
-
-	 * @return void
+	 * Send data to Hiive containing "hpos" or "legacy", and the page URL.
+	 *
+	 * @hooked update_option_woocommerce_custom_orders_table_enabled
+	 *
+	 * @param mixed|string $old_value  Old value of woocommerce_custom_orders_table_enabled.
+	 * @param mixed|string $new_value  New value of woocommerce_custom_orders_table_enabled, 'yes'|'no'.
+	 * @param string       $option  Name of the option being updated, always 'woocommerce_custom_orders_table_enabled'.
 	 */
-	public function woocommerce_hpos_enabled( $old_value, $new_value, $option ) {
+	public function woocommerce_hpos_enabled( $old_value, $new_value, string $option ): void {
 		if ( $new_value !== $old_value && ! empty( $new_value ) ) {
 			$url  = is_ssl() ? 'https://' : 'http://';
 			$url .= $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 			$type = ( 'yes' === $new_value ) ? 'hpos' : 'legacy';
 
 			$data = array(
-				'label_key' => $option,
+				'label_key' => 'type',
 				'type'      => $type,
 				'page'      => $url,
 			);
