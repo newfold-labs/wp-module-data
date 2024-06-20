@@ -258,6 +258,10 @@ class HiiveConnection implements SubscriberInterface {
 
 		$request_reponse = wp_remote_post( $this->api . '/sites/v1/events', $args );
 
+		if ( is_wp_error( $request_reponse ) ) {
+			return $request_reponse;
+		}
+
 		if ( 403 === $request_reponse['response']['code'] ) {
 			$body = json_decode( $request_reponse['body'], true );
 			if ( 'Invalid token for url' === $body['message'] ) {
