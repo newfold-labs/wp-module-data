@@ -78,9 +78,9 @@ jobs:
         run: sudo chmod -R a+w wp-content
 
       - name: Clear previous code coverage
-        working-directory: gh-pages/phpunit
         run: |
-          rm -rf *
+          rm -rf gh-pages/phpunit || true;
+          mkdir gh-pages/phpunit || true;
 
       - name: Run unit tests
         run: XDEBUG_MODE=coverage phpunit --bootstrap tests/phpunit/bootstrap.php --coverage-php tests/_output/unit.cov || true;
