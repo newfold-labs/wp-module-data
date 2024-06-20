@@ -6,7 +6,7 @@ name: Codecoverage-Main
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
 
