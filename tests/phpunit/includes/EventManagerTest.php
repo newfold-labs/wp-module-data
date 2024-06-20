@@ -501,4 +501,62 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 
 		$this->assertConditionsMet();
 	}
+
+	/**
+	 * @covers ::shutdown
+	 * @covers ::send
+	 */
+	public function test_shutdown_non_blocking_request_does_not_preserve_event(): void {
+
+		$sut = new EventManager();
+
+		$event      = Mockery::mock( Event::class )->makePartial();
+		$event->key = 'test';
+
+		$sut->push( $event );
+
+		$batch_queue_mock = Mockery::mock( BatchQueue::class );
+
+		\Patchwork\redefine(
+			array( EventQueue::class, '__construct' ),
+			function () {}
+		);
+		\Patchwork\redefine(
+			array( EventQueue::class, 'queue' ),
+			function () use ( $batch_queue_mock ) {
+				return $batch_queue_mock;
+			}
+		);
+
+		$hiive_connection_subscriber = Mockery::mock( HiiveConnection::class );
+
+		$sut->add_subscriber( $hiive_connection_subscriber );
+
+		$hiive_connection_subscriber->expects( 'notify' )
+									->once()
+									->andReturn(
+										array(
+											'headers'  => array(),
+											'body'     => '',
+											'response' => array(
+												'code'    => false,
+												'message' => false,
+											),
+											'cookies'  => array(),
+											'http_response' => null,
+										)
+									);
+
+		WP_Mock::userFunction( 'is_wp_error' )
+				->never();
+
+		WP_Mock::userFunction( 'absint' )
+				->never();
+
+		$batch_queue_mock->expects( 'push' )->never();
+
+		$sut->shutdown();
+
+		$this->assertConditionsMet();
+	}
 }

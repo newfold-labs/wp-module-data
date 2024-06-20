@@ -221,8 +221,15 @@ class EventManager {
 			 */
 			$response = $subscriber->notify( $events );
 
-			if ( $subscriber instanceof HiiveConnection &&
-				( is_wp_error( $response ) || absint( $response['response']['code'] / 100 ) !== 2 )
+			if ( ! ( $subscriber instanceof HiiveConnection ) ) {
+				continue;
+			}
+			// A non-blocking request. We cannot know if it was successful/unsuccessful.
+			if ( is_array( $response ) && false === $response['response']['code'] ) {
+				continue;
+			}
+
+			if ( is_wp_error( $response ) || absint( $response['response']['code'] / 100 ) !== 2
 			) {
 				throw new Exception();
 			}
