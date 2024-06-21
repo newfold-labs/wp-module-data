@@ -57,7 +57,6 @@ class Products extends WP_REST_Controller {
 	 */
 	public function get_items( $request ) {
 
-
 		$products  = array();
 		$hiive_response = $this->hiive->get_products( );
 
@@ -71,7 +70,7 @@ class Products extends WP_REST_Controller {
 		if ( 200 !== $status_code ) {
 			return new \WP_REST_Response( wp_remote_retrieve_response_message( $hiive_response ), $status_code );
 		}
-		error_log("hello again");
+
 		$payload = json_decode( wp_remote_retrieve_body( $hiive_response ) );
 		if ( $payload && is_array( $payload ) ) {
 			$products = $payload;

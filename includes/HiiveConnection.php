@@ -294,7 +294,6 @@ class HiiveConnection implements SubscriberInterface {
 		);
 
 		$request_reponse = wp_remote_get( $this->api . '/sites/v1/customer/products', $args );
-		// $request_reponse = wp_remote_get( $this->api . '/products', $args );
 
 		if ( 403 === $request_reponse['response']['code'] ) {
 			$body = json_decode( $request_reponse['body'], true );
