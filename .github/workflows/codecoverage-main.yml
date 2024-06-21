@@ -51,6 +51,9 @@ jobs:
           allow_empty_commit: true
           commit_message: "🤖 Creating gh-pages branch"
 
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
       - name: Checkout GitHub Pages branch for code coverage report
         uses: actions/checkout@v3
         with:
@@ -83,7 +86,7 @@ jobs:
           mkdir gh-pages/phpunit || true;
 
       - name: Run unit tests
-        run: XDEBUG_MODE=coverage phpunit --bootstrap tests/phpunit/bootstrap.php --coverage-php tests/_output/unit.cov || true;
+        run: XDEBUG_MODE=coverage vendor/bin/phpunit --bootstrap tests/phpunit/bootstrap.php --coverage-php tests/_output/unit.cov || true;
 
       - name: Run wpunit tests
         run: XDEBUG_MODE=coverage vendor/bin/codecept run wpunit --coverage tests/_output/wpunit.cov --debug || true;
