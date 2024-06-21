@@ -2,7 +2,11 @@
 
 namespace NewfoldLabs\WP\Module\Data;
 
+use Exception;
 use NewfoldLabs\WP\Module\Data\EventQueue\EventQueue;
+use NewfoldLabs\WP\Module\Data\Listeners\Listener;
+use NewFoldLabs\WP\Module\Notifications\Notification;
+use WP_Error;
 
 /**
  * Class to manage event subscriptions
@@ -12,7 +16,7 @@ class EventManager {
 	/**
 	 * List of default listener category classes
 	 *
-	 * @var array
+	 * @var Listener[]
 	 */
 	const LISTENERS = array(
 		'\\NewfoldLabs\\WP\\Module\\Data\\Listeners\\Admin',
@@ -39,16 +43,14 @@ class EventManager {
 	/**
 	 * The queue of events logged in the current request
 	 *
-	 * @var array
+	 * @var Event[]
 	 */
 	private $queue = array();
 
 	/**
 	 * Initialize the Event Manager
-	 *
-	 * @return void
 	 */
-	public function init() {
+	public function init(): void {
 		$this->initialize_listeners();
 		$this->initialize_cron();
 
@@ -58,6 +60,8 @@ class EventManager {
 
 	/**
 	 * Initialize the REST API endpoint.
+	 *
+	 * @see Data::init()
 	 */
 	public function initialize_rest_endpoint() {
 		// Register REST endpoint.
@@ -66,11 +70,10 @@ class EventManager {
 
 	/**
 	 * Handle setting up the scheduled job for sending updates
-	 *
-	 * @return void
 	 */
-	public function initialize_cron() {
+	protected function initialize_cron(): void {
 		// Ensure there is a minutely option in the cron schedules
+		// phpcs:disable WordPress.WP.CronInterval.CronSchedulesInterval
 		add_filter( 'cron_schedules', array( $this, 'add_minutely_schedule' ) );
 
 		// Minutely cron hook
@@ -78,7 +81,7 @@ class EventManager {
 
 		// Register the cron task
 		if ( ! wp_next_scheduled( 'nfd_data_sync_cron' ) ) {
-			wp_schedule_event( time() + MINUTE_IN_SECONDS, 'minutely', 'nfd_data_sync_cron' );
+			wp_schedule_event( time() + constant( 'MINUTE_IN_SECONDS' ), 'minutely', 'nfd_data_sync_cron' );
 		}
 	}
 
@@ -93,9 +96,11 @@ class EventManager {
 	/**
 	 * Add the weekly option to cron schedules if it doesn't exist
 	 *
-	 * @param  array $schedules  List of cron schedule options
+	 * @hooked cron_schedules
 	 *
-	 * @return array
+	 * @param  array<string, array{interval:int, display:string}> $schedules  List of defined cron schedule options.
+	 *
+	 * @return array<string, array{interval:int, display:string}>
 	 */
 	public function add_minutely_schedule( $schedules ) {
 		if ( ! array_key_exists( 'minutely', $schedules ) ||
@@ -113,9 +118,9 @@ class EventManager {
 	/**
 	 * Sends or saves all queued events at the end of the request
 	 *
-	 * @return void
+	 * @hooked shutdown
 	 */
-	public function shutdown() {
+	public function shutdown(): void {
 
 		// Separate out the async events
 		$async = array();
@@ -133,7 +138,11 @@ class EventManager {
 
 		// Any remaining items in the queue should be sent now
 		if ( ! empty( $this->queue ) ) {
-			$this->send( $this->queue );
+			try {
+				$this->send( $this->queue );
+			} catch ( Exception $exception ) {
+				EventQueue::getInstance()->queue()->push( $this->queue );
+			}
 		}
 	}
 
@@ -141,10 +150,8 @@ class EventManager {
 	 * Register a new event subscriber
 	 *
 	 * @param  SubscriberInterface $subscriber  Class subscribing to event updates
-	 *
-	 * @return void
 	 */
-	public function add_subscriber( SubscriberInterface $subscriber ) {
+	public function add_subscriber( SubscriberInterface $subscriber ): void {
 		$this->subscribers[] = $subscriber;
 	}
 
@@ -158,9 +165,9 @@ class EventManager {
 	}
 
 	/**
-	 * Return an array of registered listener classes
+	 * Return an array of listener classes
 	 *
-	 * @return array List of listener classes
+	 * @return Listener[] List of listener classes
 	 */
 	public function get_listeners() {
 		return apply_filters( 'newfold_data_listeners', $this::LISTENERS );
@@ -168,11 +175,9 @@ class EventManager {
 
 	/**
 	 * Initialize event listener classes
-	 *
-	 * @return void
 	 */
-	public function initialize_listeners() {
-		if ( defined( 'BURST_SAFETY_MODE' ) && BURST_SAFETY_MODE ) {
+	protected function initialize_listeners(): void {
+		if ( defined( 'BURST_SAFETY_MODE' ) && constant( 'BURST_SAFETY_MODE' ) ) {
 			// Disable listeners when site is under heavy load
 			return;
 		}
@@ -185,13 +190,14 @@ class EventManager {
 	/**
 	 * Push event data onto the queue
 	 *
-	 * @see wp-module-notifications/notifications.php
-	 *
 	 * @param  Event $event  Details about the action taken
-	 *
-	 * @return void
 	 */
-	public function push( Event $event ) {
+	public function push( Event $event ): void {
+		/**
+		 * The `nfd_event_log` action is handled in the notification module.
+		 *
+		 * @see wp-module-notifications/notifications.php
+		 */
 		do_action( 'nfd_event_log', $event->key, $event );
 		$this->queue[] = $event;
 	}
@@ -199,22 +205,43 @@ class EventManager {
 	/**
 	 * Send queued events to all subscribers
 	 *
-	 * @param  array $events  A list of events
+	 * @used-by EventManager::send_batch()
+	 * @used-by EventManager::shutdown()
 	 *
-	 * @return void
+	 * @param  Event[] $events  A list of events
+	 *
+	 * @throws Exception When the response is not a 2xx status code.
 	 */
-	public function send( $events ) {
+	public function send( array $events ): void {
 		foreach ( $this->get_subscribers() as $subscriber ) {
-			$subscriber->notify( $events );
+			/**
+			 * A {@see WP_Http::request()} response array, or a {@see WP_Error} when it was already seen to be 403.
+			 *
+			 * @var array|WP_Error $response
+			 */
+			$response = $subscriber->notify( $events );
+
+			if ( ! ( $subscriber instanceof HiiveConnection ) ) {
+				continue;
+			}
+			// A non-blocking request. We cannot know if it was successful/unsuccessful.
+			if ( is_array( $response ) && false === $response['response']['code'] ) {
+				continue;
+			}
+
+			if ( is_wp_error( $response ) || absint( $response['response']['code'] / 100 ) !== 2
+			) {
+				throw new Exception();
+			}
 		}
 	}
 
 	/**
 	 * Send queued events to all subscribers
 	 *
-	 * @return void
+	 * @hooked nfd_data_sync_cron
 	 */
-	public function send_batch() {
+	public function send_batch(): void {
 
 		$queue = EventQueue::getInstance()->queue();
 
@@ -229,8 +256,11 @@ class EventManager {
 
 		$queue->reserve( $ids );
 
-		$this->send( $events );
-
-		$queue->remove( $ids );
+		try {
+			$this->send( $events );
+			$queue->remove( $ids );
+		} catch ( \Exception $exception ) {
+			$queue->release( $ids );
+		}
 	}
 }
