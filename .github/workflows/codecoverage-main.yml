@@ -51,6 +51,9 @@ jobs:
           allow_empty_commit: true
           commit_message: "🤖 Creating gh-pages branch"
 
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
       - name: Checkout GitHub Pages branch for code coverage report
         uses: actions/checkout@v3
         with:
