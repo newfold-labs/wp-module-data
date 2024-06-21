@@ -275,10 +275,9 @@ class HiiveConnection implements SubscriberInterface {
 	/**
 	 * Get products data from the hiive
 	 *
-	 *
 	 * @return array|\WP_Error
 	 */
-	public function get_products( ) {
+	public function get_products() {
 
 		// If for some reason we are not connected, bail out now.
 		if ( ! self::is_connected() ) {
@@ -286,7 +285,7 @@ class HiiveConnection implements SubscriberInterface {
 		}
 
 		$args = array(
-			'headers'  => array(
+			'headers' => array(
 				'Content-Type'  => 'applicaton/json',
 				'Accept'        => 'applicaton/json',
 				'Authorization' => 'Bearer ' . self::get_auth_token(),
@@ -299,7 +298,7 @@ class HiiveConnection implements SubscriberInterface {
 			$body = json_decode( $request_reponse['body'], true );
 			if ( 'Invalid token for url' === $body['message'] ) {
 				if ( $this->reconnect() ) {
-					$this->get_products( );
+					$this->get_products();
 				} else {
 					return new \WP_Error( 'hiive_connection', __( 'This site is not connected to the hiive.' ) );
 				}

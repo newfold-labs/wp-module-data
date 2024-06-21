@@ -23,9 +23,9 @@ class Products extends WP_REST_Controller {
 	 * @param HiiveConnection $hiive           Instance of the HiiveConnection class.
 	 */
 	public function __construct( HiiveConnection $hiive ) {
-		$this->hiive         = $hiive;
-		$this->namespace     = 'newfold-data/v1';
-		$this->rest_base     = 'customer/products';
+		$this->hiive     = $hiive;
+		$this->namespace = 'newfold-data/v1';
+		$this->rest_base = 'customer/products';
 	}
 
 	/**
@@ -57,9 +57,8 @@ class Products extends WP_REST_Controller {
 	 */
 	public function get_items( $request ) {
 
-		$products  = array();
-		$hiive_response = $this->hiive->get_products( );
-
+		$products       = array();
+		$hiive_response = $this->hiive->get_products();
 
 		if ( is_wp_error( $hiive_response ) ) {
 			return new \WP_REST_Response( $hiive_response->get_error_message(), 401 );
