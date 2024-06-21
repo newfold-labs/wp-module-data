@@ -53,6 +53,8 @@ jobs:
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
+        with:
+          enablement: true
 
       - name: Checkout GitHub Pages branch for code coverage report
         uses: actions/checkout@v3
