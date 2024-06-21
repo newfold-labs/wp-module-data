@@ -59,6 +59,6 @@ class CommerceTest extends \WP_Mock\Tools\TestCase {
 
 		$sut->woocommerce_hpos_enabled( '', 'yes', 'woocommerce_custom_orders_table_enabled' );
 
-		$this->expectNotToPerformAssertions();
+		$this->assertConditionsMet();
 	}
 }

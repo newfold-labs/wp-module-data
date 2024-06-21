@@ -13,6 +13,6 @@
   "author": "",
   "license": "GPL-2.0-or-later",
   "devDependencies": {
-    "@wordpress/env": "^9.9.0"
+    "@wordpress/env": "^10.1"
   }
 }

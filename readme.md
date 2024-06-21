@@ -1,4 +1,4 @@
-[![PHPUnit ](https://newfold-labs.github.io/wp-module-data/phpunit/coverage.svg)](https://newfold-labs.github.io/wp-module-data)
+[![PHPUnit ](https://newfold-labs.github.io/wp-module-data/phpunit/coverage.svg)](https://newfold-labs.github.io/wp-module-data/phpunit/html)
 
 <a href="https://newfold.com/" target="_blank">
   <img src="https://newfold.com/content/experience-fragments/newfold/site-header/master/_jcr_content/root/header/logo.coreimg.svg/1621395071423/newfold-digital.svg" alt="Newfold Logo" title="Newfold Digital" align="right" height="42" />
