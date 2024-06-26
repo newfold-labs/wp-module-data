@@ -19,9 +19,9 @@ class Commerce extends Listener {
 		add_filter( 'woocommerce_before_cart', array( $this, 'site_cart_views' ) );
 		add_filter( 'woocommerce_before_checkout_form', array( $this, 'checkout_views' ) );
 		add_filter( 'woocommerce_thankyou', array( $this, 'thank_you_page' ) );
-		add_filter( 'pre_update_option_nfd_ecommerce_captive_flow_razorpay', array( $this, 'razorpay_connection' ), 10, 2 );
-		add_filter( 'pre_update_option_nfd_ecommerce_captive_flow_shippo', array( $this, 'shippo_connection' ), 10, 2 );
-		add_filter( 'pre_update_option_nfd_ecommerce_captive_flow_stripe', array( $this, 'stripe_connection' ), 10, 2 );
+		add_filter( 'pre_update_option_nfd-ecommerce-captive-flow-razorpay', array( $this, 'razorpay_connection' ), 10, 2 );
+		add_filter( 'pre_update_option_nfd-ecommerce-captive-flow-shippo', array( $this, 'shippo_connection' ), 10, 2 );
+		add_filter( 'pre_update_option_nfd-ecommerce-captive-flow-stripe', array( $this, 'stripe_connection' ), 10, 2 );
 		// Paypal Connection
 		add_filter( 'pre_update_option_yith_ppwc_merchant_data_production', array( $this, 'paypal_connection' ), 10, 2 );
 		add_filter( 'update_option_ewc4wp_sso_account_status', array( $this, 'ecomdash_connected' ), 10, 2 );
@@ -193,7 +193,7 @@ class Commerce extends Listener {
 		$url .= $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 		$data = array(
 			'label_key' => 'provider',
-			'provider'  => 'shippo',
+			'provider'  => 'yith_shippo',
 			'page'      => $url,
 		);
 		if ( $new_option !== $old_option && ! empty( $new_option ) ) {
@@ -219,7 +219,7 @@ class Commerce extends Listener {
 		$url .= $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 		$data = array(
 			'label_key' => 'provider',
-			'provider'  => 'stripe',
+			'provider'  => 'yith_stripe',
 			'page'      => $url,
 		);
 		if ( $new_option !== $old_option && ! empty( $new_option ) ) {
