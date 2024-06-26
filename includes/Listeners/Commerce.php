@@ -167,7 +167,7 @@ class Commerce extends Listener {
 		$url .= $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 		$data = array(
 			'label_key' => 'provider',
-			'provider'  => 'yith_razorpay',
+			'provider'  => 'razorpay',
 			'page'      => $url,
 		);
 		if ( $new_option !== $old_option && ! empty( $new_option ) ) {
