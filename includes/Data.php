@@ -92,10 +92,21 @@ class Data {
 
 		$manager->add_subscriber( $this->hiive );
 
+		// Initialize the Hiive APIs
+		$this->initialize_hiive_apis();
+
 		if ( defined( 'NFD_DATA_DEBUG' ) && NFD_DATA_DEBUG ) {
 			$this->logger = new Logger();
 			$manager->add_subscriber( $this->logger );
 		}
+	}
+
+	/**
+	 * Initialize Hiive APIs
+	 */
+	public function initialize_hiive_apis(): void {
+		$controller = new API\Products( $this->hiive );
+		$controller->register_routes();
 	}
 
 	/**
