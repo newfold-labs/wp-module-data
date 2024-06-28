@@ -15,7 +15,7 @@ class Products extends WP_REST_Controller {
 	 *
 	 * @var HiiveConnection
 	 */
-	public $hiive;
+	private $hiive;
 
 	/**
 	 * Products constructor.
