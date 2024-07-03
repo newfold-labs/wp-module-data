@@ -46,6 +46,15 @@ class HiiveConnection implements SubscriberInterface {
 	}
 
 	/**
+	 * Return the Hiive API URL
+	 *
+	 * @return string The Hiive API URL
+	 */
+	protected function get_api_url() {
+		return $this->api;
+	}
+
+	/**
 	 * Register the hooks required for site verification
 	 *
 	 * @return void
