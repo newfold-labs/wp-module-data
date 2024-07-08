@@ -46,19 +46,7 @@ class Data {
 		add_filter( 'rest_authentication_errors', array( $this, 'authenticate' ) );
 
 		// If we ever get a 401 response from the Hiive API, delete the token.
-		add_filter(
-			'http_response',
-			function ( $response, $args, $url ) {
-
-				if ( strpos( $url, NFD_HIIVE_URL ) === 0 && absint( wp_remote_retrieve_response_code( $response ) ) === 401 ) {
-					delete_option( 'nfd_data_token' );
-				}
-
-				return $response;
-			},
-			10,
-			3
-		);
+		add_filter( 'http_response', array( $this, 'delete_token_on_401_response' ), 10, 3 );
 	}
 
 	/**
@@ -81,9 +69,7 @@ class Data {
 		if ( ! $this->hiive::is_connected() ) {
 
 			// Attempt to connect
-			if ( ! $this->hiive->is_throttled() ) {
-				$this->hiive->connect();
-			}
+			$this->hiive->connect();
 
 			return;
 		}
@@ -99,6 +85,27 @@ class Data {
 	}
 
 	/**
+	 * Check HTTP responses for 401 authentication errors from Hiive, delete the invalid token.
+	 *
+	 * @hooked http_response
+	 * @see WP_Http::request()
+	 *
+	 * @param array  $response The successful HTTP response.
+	 * @param array  $args HTTP request arguments.
+	 * @param string $url The request URL.
+	 *
+	 * @return array
+	 */
+	public function delete_token_on_401_response( array $response, array $args, string $url ): array {
+
+		if ( strpos( $url, constant( 'NFD_HIIVE_URL' ) ) === 0 && absint( wp_remote_retrieve_response_code( $response ) ) === 401 ) {
+			delete_option( 'nfd_data_token' );
+		}
+
+		return $response;
+	}
+
+	/**
 	 * Authenticate incoming REST API requests.
 	 *
 	 * @hooked rest_authentication_errors
@@ -109,7 +116,6 @@ class Data {
 	 * @see WP_REST_Server::check_authentication()
 	 *
 	 * @used-by ConnectSite::verifyToken() in Hiive.
-	 *
 	 */
 	public function authenticate( $errors ) {
 

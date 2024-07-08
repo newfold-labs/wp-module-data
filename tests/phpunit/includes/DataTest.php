@@ -29,6 +29,8 @@ class DataTest extends TestCase {
 		\Patchwork\restoreAll();
 
 		unset($_SERVER['HTTP_AUTHORIZATION']);
+
+		forceWpMockStrictModeOn();
 	}
 
 	/**
@@ -185,5 +187,151 @@ class DataTest extends TestCase {
 		$result = $sut->authenticate(true);
 
 		self::assertTrue($result);
+	}
+
+	/**
+	 * @covers ::start
+	 */
+	public function test_delete_token_on_401_response_is_added(): void {
+		forceWpMockStrictModeOff();
+
+		$sut = new Data();
+
+		WP_Mock::expectFilterAdded(
+			'http_response',
+			array( $sut, 'delete_token_on_401_response' ),
+			10,
+			3
+		);
+
+		$sut->start();
+
+		$this->assertConditionsMet();
+	}
+
+	/**
+	 * @covers ::delete_token_on_401_response
+	 */
+	public function test_deletes_hiive_token_on_401(): void {
+
+		$sut = new Data();
+
+		$request_response = array(
+			'response' => array(
+				'code' => 401,
+			),
+		);
+
+		\Patchwork\redefine(
+			'constant',
+			function ( string $constant_name ) {
+				switch ($constant_name) {
+					case 'NFD_HIIVE_URL':
+						return 'https://hiive.cloud/api';
+					default:
+						return \Patchwork\relay(func_get_args());
+				}
+			}
+		);
+
+		WP_Mock::userFunction('wp_remote_retrieve_response_code')
+		       ->once()
+				->with(\WP_Mock\Functions::type('array'))
+				->andReturn($request_response['response']['code']);
+
+		WP_Mock::userFunction('absint')
+		       ->once()
+		       ->with(401)
+				->andReturn( 401);
+
+		WP_Mock::userFunction('delete_option')
+		       ->once()
+		       ->with('nfd_data_token');
+
+		$sut->delete_token_on_401_response($request_response, array(), 'https://hiive.cloud/api/sites/v1/events' );
+
+		$this->assertConditionsMet();
+	}
+
+	/**
+	 * @covers ::delete_token_on_401_response
+	 */
+	public function test_does_not_delete_hiive_token_on_hiive_200(): void {
+
+		$sut = new Data();
+
+		$request_response = array(
+			'response' => array(
+				'code' => 200,
+			),
+		);
+
+		\Patchwork\redefine(
+			'constant',
+			function ( string $constant_name ) {
+				switch ($constant_name) {
+					case 'NFD_HIIVE_URL':
+						return 'https://hiive.cloud/api';
+					default:
+						return \Patchwork\relay(func_get_args());
+				}
+			}
+		);
+
+		WP_Mock::userFunction('wp_remote_retrieve_response_code')
+		       ->once()
+				->with(\WP_Mock\Functions::type('array'))
+				->andReturn($request_response['response']['code']);
+
+		WP_Mock::userFunction('absint')
+		       ->once()
+		       ->with(200)
+		       ->andReturn( 200);
+
+		WP_Mock::userFunction('delete_option')
+		       ->never();
+
+		$sut->delete_token_on_401_response($request_response, array(), 'https://hiive.cloud/api/sites/v1/events' );
+
+		$this->assertConditionsMet();
+	}
+
+	/**
+	 * @covers ::delete_token_on_401_response
+	 */
+	public function test_does_not_delete_hiive_token_on_401_other_domain(): void {
+
+		$sut = new Data();
+
+		$request_response = array(
+			'response' => array(
+				'code' => 401,
+			),
+		);
+
+		\Patchwork\redefine(
+			'constant',
+			function ( string $constant_name ) {
+				switch ($constant_name) {
+					case 'NFD_HIIVE_URL':
+						return 'https://hiive.cloud/api';
+					default:
+						return \Patchwork\relay(func_get_args());
+				}
+			}
+		);
+
+		WP_Mock::userFunction('wp_remote_retrieve_response_code')
+		       ->never();
+
+		WP_Mock::userFunction('absint')
+		       ->never();
+
+		WP_Mock::userFunction('delete_option')
+		       ->never();
+
+		$sut->delete_token_on_401_response($request_response, array(), 'https://example.org' );
+
+		$this->assertConditionsMet();
 	}
 }
