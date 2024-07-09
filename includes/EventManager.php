@@ -77,7 +77,7 @@ class EventManager {
 		add_filter( 'cron_schedules', array( $this, 'add_minutely_schedule' ) );
 
 		// Minutely cron hook
-		add_action( 'nfd_data_sync_cron', array( $this, 'send_batch' ) );
+		add_action( 'nfd_data_sync_cron', array( $this, 'send_saved_events' ) );
 
 		// Register the cron task
 		if ( ! wp_next_scheduled( 'nfd_data_sync_cron' ) ) {
@@ -138,11 +138,7 @@ class EventManager {
 
 		// Any remaining items in the queue should be sent now
 		if ( ! empty( $this->queue ) ) {
-			try {
-				$this->send( $this->queue );
-			} catch ( Exception $exception ) {
-				EventQueue::getInstance()->queue()->push( $this->queue );
-			}
+			$this->send_queued_events( $this->queue );
 		}
 	}
 
@@ -203,48 +199,48 @@ class EventManager {
 	}
 
 	/**
-	 * Send queued events to all subscribers
+	 * Send queued events to all subscribers; store them if they fail
 	 *
-	 * @used-by EventManager::send_batch()
 	 * @used-by EventManager::shutdown()
 	 *
 	 * @param  Event[] $events  A list of events
-	 *
-	 * @throws Exception When the response is not a 2xx status code.
 	 */
-	public function send( array $events ): void {
+	protected function send_queued_events( array $events ): void {
 		foreach ( $this->get_subscribers() as $subscriber ) {
 			/**
-			 * A {@see WP_Http::request()} response array, or a {@see WP_Error} when it was already seen to be 403.
-			 *
-			 * @var array|WP_Error $response
+			 * @var array{succeededEvents:array,failedEvents:array}|WP_Error $response
 			 */
 			$response = $subscriber->notify( $events );
 
 			if ( ! ( $subscriber instanceof HiiveConnection ) ) {
 				continue;
 			}
-			// A non-blocking request. We cannot know if it was successful/unsuccessful.
-			if ( is_array( $response ) && false === $response['response']['code'] ) {
+
+			$queue = EventQueue::getInstance()->queue();
+
+			if ( is_wp_error( $response ) ) {
+				EventQueue::getInstance()->queue()->push( $events );
 				continue;
 			}
 
-			if ( is_wp_error( $response ) || absint( $response['response']['code'] / 100 ) !== 2
-			) {
-				throw new Exception();
-			}
+			EventQueue::getInstance()->queue()->push( $response['failedEvents'] );
 		}
 	}
 
 	/**
-	 * Send queued events to all subscribers
+	 * Send stored events to all subscribers; remove/release them from the store aftewards.
 	 *
 	 * @hooked nfd_data_sync_cron
 	 */
-	public function send_batch(): void {
+	public function send_saved_events(): void {
 
 		$queue = EventQueue::getInstance()->queue();
 
+		/**
+		 * Array indexed by the table row id.
+		 *
+		 * @var Event[] $events
+		 */
 		$events = $queue->pull( 100 );
 
 		// If queue is empty, do nothing.
@@ -252,15 +248,30 @@ class EventManager {
 			return;
 		}
 
-		$ids = array_keys( $events );
+		$queue->reserve( array_keys( $events ) );
 
-		$queue->reserve( $ids );
+		foreach ( $this->get_subscribers() as $subscriber ) {
+			/**
+			 * @var array{succeededEvents:array,failedEvents:array}|WP_Error $response
+			 */
+			$response = $subscriber->notify( $events );
 
-		try {
-			$this->send( $events );
-			$queue->remove( $ids );
-		} catch ( \Exception $exception ) {
-			$queue->release( $ids );
+			if ( ! ( $subscriber instanceof HiiveConnection ) ) {
+				continue;
+			}
+
+			$queue = EventQueue::getInstance()->queue();
+
+			if ( is_wp_error( $response ) ) {
+				$queue->release( array_keys( $events ) );
+				continue;
+			}
+
+			// Remove from the queue.
+			$queue->remove( array_keys( $response['succeededEvents'] ) );
+
+			// Release the 'reserve' we placed on the entry, so it will be tried again later.
+			$queue->release( array_keys( $response['failedEvents'] ) );
 		}
 	}
 }
