@@ -129,7 +129,7 @@ class Events extends WP_REST_Controller {
 			$hiive_response_notifications = $this->hiive->send_event( $event );
 
 			if ( is_wp_error( $hiive_response_notifications ) ) {
-				return new \WP_REST_Response( $hiive_response_notifications->get_error_message(), $hiive_response_notifications->get_error_code() );
+				return new \WP_REST_Response( $hiive_response_notifications->get_error_message(), 500 );
 			}
 
 			return new \WP_REST_Response( array( 'data' => $hiive_response_notifications ), 201 );
