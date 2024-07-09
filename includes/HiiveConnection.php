@@ -236,7 +236,8 @@ class HiiveConnection implements SubscriberInterface {
 	 *
 	 * @param Event $event
 	 *
-	 * @return array{data:array{id:string,locations:array,query:string|null,expiration:int,content:string}}|WP_Error
+	 * @phpstan-type Notification_Array array{id:string,locations:array,query:string|null,expiration:int,content:string}
+	 * @return array<Notification_Array>|WP_Error
 	 */
 	public function send_event( Event $event ) {
 

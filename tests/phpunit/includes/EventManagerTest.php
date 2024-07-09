@@ -101,7 +101,7 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 		$sut->expects( 'initialize_listeners' );
 
 		WP_Mock::expectFilterAdded( 'cron_schedules', array( $sut, 'add_minutely_schedule' ) );
-		WP_Mock::expectActionAdded( 'nfd_data_sync_cron', array( $sut, 'send_saved_events' ) );
+		WP_Mock::expectActionAdded( 'nfd_data_sync_cron', array( $sut, 'send_saved_events_batch' ) );
 
 		WP_Mock::userFunction( 'wp_next_scheduled' )
 				->once()
@@ -153,7 +153,7 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 	}
 
 	/**
-	 * @covers ::send_saved_events
+	 * @covers ::send_saved_events_batch
 	 * @covers ::send
 	 */
 	public function test_send_saved_events_happy_path(): void {
@@ -212,13 +212,13 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 						->once()
 						->with( array() );
 
-		$sut->send_saved_events();
+		$sut->send_saved_events_batch();
 
 		$this->assertConditionsMet();
 	}
 
 	/**
-	 * @covers ::send_saved_events
+	 * @covers ::send_saved_events_batch
 	 * @covers ::send
 	 */
 	public function test_send_saved_events_wp_error_from_hiive_connection(): void {
@@ -273,13 +273,13 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 						->once()
 						->with( array( 15 ) );
 
-		$sut->send_saved_events();
+		$sut->send_saved_events_batch();
 
 		$this->assertConditionsMet();
 	}
 
 	/**
-	 * @covers ::send_saved_events
+	 * @covers ::send_saved_events_batch
 	 * @covers ::send
 	 */
 	public function test_send_saved_events_failures_from_hiive(): void {
@@ -337,7 +337,7 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 		$batch_queue_mock->expects( 'remove' )->once()
 			->with( array() );
 
-		$sut->send_saved_events();
+		$sut->send_saved_events_batch();
 
 		$this->assertConditionsMet();
 	}

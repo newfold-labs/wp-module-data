@@ -5,7 +5,6 @@ namespace NewfoldLabs\WP\Module\Data;
 use Exception;
 use NewfoldLabs\WP\Module\Data\EventQueue\EventQueue;
 use NewfoldLabs\WP\Module\Data\Listeners\Listener;
-use NewFoldLabs\WP\Module\Notifications\Notification;
 use WP_Error;
 
 /**
@@ -77,7 +76,7 @@ class EventManager {
 		add_filter( 'cron_schedules', array( $this, 'add_minutely_schedule' ) );
 
 		// Minutely cron hook
-		add_action( 'nfd_data_sync_cron', array( $this, 'send_saved_events' ) );
+		add_action( 'nfd_data_sync_cron', array( $this, 'send_saved_events_batch' ) );
 
 		// Register the cron task
 		if ( ! wp_next_scheduled( 'nfd_data_sync_cron' ) ) {
@@ -138,7 +137,7 @@ class EventManager {
 
 		// Any remaining items in the queue should be sent now
 		if ( ! empty( $this->queue ) ) {
-			$this->send_queued_events( $this->queue );
+			$this->send_request_events( $this->queue );
 		}
 	}
 
@@ -205,7 +204,7 @@ class EventManager {
 	 *
 	 * @param  Event[] $events  A list of events
 	 */
-	protected function send_queued_events( array $events ): void {
+	protected function send_request_events( array $events ): void {
 		foreach ( $this->get_subscribers() as $subscriber ) {
 			/**
 			 * @var array{succeededEvents:array,failedEvents:array}|WP_Error $response
@@ -232,14 +231,14 @@ class EventManager {
 	 *
 	 * @hooked nfd_data_sync_cron
 	 */
-	public function send_saved_events(): void {
+	public function send_saved_events_batch(): void {
 
 		$queue = EventQueue::getInstance()->queue();
 
 		/**
 		 * Array indexed by the table row id.
 		 *
-		 * @var Event[] $events
+		 * @var array<int,Event> $events
 		 */
 		$events = $queue->pull( 100 );
 
