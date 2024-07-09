@@ -260,8 +260,6 @@ class EventManager {
 				continue;
 			}
 
-			$queue = EventQueue::getInstance()->queue();
-
 			if ( is_wp_error( $response ) ) {
 				$queue->release( array_keys( $events ) );
 				continue;
