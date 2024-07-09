@@ -11,9 +11,12 @@ use function NewfoldLabs\WP\ModuleLoader\container;
 class HiiveConnectionWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase {
 
 	/**
+	 * Previously, choosing to use a non-blocking request was an option. Now the test is kept to
+	 * ensure an error is returned when the response is invalid.
+	 *
 	 * @covers ::notify
 	 */
-	public function test_notify_non_blocking(): void {
+	public function test_notify_non_blocking_returns_error(): void {
 
 		$sut = new HiiveConnection();
 
@@ -52,9 +55,9 @@ class HiiveConnectionWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase 
 			}
 		);
 
-		$result = $sut->notify( array( $event ), false );
+		$result = $sut->notify( array( $event ) );
 
-		$this->assertFalse($result['response']['code']);
+		$this->assertWPError( $result );
 	}
 
 	/**
@@ -91,11 +94,78 @@ class HiiveConnectionWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase 
 		);
 
 		try {
-			$sut->notify( array( $event ), false );
+			$sut->notify( array( $event ) );
 		} catch ( \Error $error ) {
 			$this->fail( $error->getMessage() . PHP_EOL . $error->getTraceAsString() );
 		}
 
 		$this->assertTrue( true );
+	}
+
+	/**
+	 * @covers ::send_event
+	 * @covers ::hiive_request
+	 */
+	public function test_plugin_search(): void {
+
+		$sut = new HiiveConnection();
+
+		update_option( 'nfd_data_token', 'appear-connected' );
+
+		/**
+		 * For {@see HiiveConnection::get_core_data()} to work, it needs this.
+		 */
+		$container = new \NewfoldLabs\WP\ModuleLoader\Container();
+		container( $container );
+
+		$plugin = Mockery::mock( \NewfoldLabs\WP\ModuleLoader\Plugin::class );
+		$plugin->shouldReceive( 'get' )->andReturnUsing(
+			function () {
+				$args = func_get_args();
+				return $args[1] ?? $args[0];
+			}
+		);
+		$container->set( 'plugin', $plugin );
+
+		/**
+		 * @see WP_Http::request()
+		 */
+		add_filter(
+			'pre_http_request',
+			function () {
+				return array(
+					'body'          => json_encode(
+						array(
+							'data' => array(
+								array(
+									'id'         => 'notification123',
+									'locations'  => array(),
+									'query'      => null,
+									'expiration' => time(),
+									'content'    => '<p>Some content</p>',
+								),
+							),
+						)
+					),
+					'response'      => array(
+						'code'    => 200,
+						'message' => 'OK',
+					),
+				);
+			}
+		);
+
+		$event = new Event(
+			'admin',
+			'plugin_search',
+			array(
+				'type'  => 'term',
+				'query' => 'seo',
+			),
+		);
+
+		$result = $sut->send_event( $event );
+
+		$this->assertEquals( 'notification123', $result[0]['id'] );
 	}
 }
