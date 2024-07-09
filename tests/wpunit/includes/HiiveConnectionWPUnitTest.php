@@ -93,13 +93,9 @@ class HiiveConnectionWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase 
 			}
 		);
 
-		try {
-			$sut->notify( array( $event ) );
-		} catch ( \Error $error ) {
-			$this->fail( $error->getMessage() . PHP_EOL . $error->getTraceAsString() );
-		}
+		$result = $sut->notify( array( $event ) );
 
-		$this->assertTrue( true );
+		$this->assertWPError( $result );
 	}
 
 	/**
