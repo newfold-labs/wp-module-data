@@ -106,7 +106,13 @@ class Events extends WP_REST_Controller {
 	/**
 	 * Dispatches a new event.
 	 *
+	 * `wp-json/newfold-data/v1/events`
+	 *
 	 * @param \WP_REST_Request $request Full details about the request.
+	 *
+	 * @used-by newfold-notifications/v1/notifications/
+	 * @used-by NotificationsApi::registerRoutes() (in callback)
+	 * @used-by wp-module-notifications/assets/js/realtime-notices.js:189
 	 *
 	 * @return \WP_REST_Response|\WP_Error Response object on success, or WP_Error object on failure.
 	 */
@@ -120,25 +126,13 @@ class Events extends WP_REST_Controller {
 
 		// If request isn't to be queued, we want the realtime response.
 		if ( ! $request['queue'] ) {
-			$notifications  = array();
-			$hiive_response = $this->hiive->notify( array( $event ), true );
+			$hiive_response_notifications = $this->hiive->send_event( $event );
 
-			if ( is_wp_error( $hiive_response ) ) {
-				return new \WP_REST_Response( $hiive_response->get_error_message(), 401 );
+			if ( is_wp_error( $hiive_response_notifications ) ) {
+				return new \WP_REST_Response( $hiive_response_notifications->get_error_code(), $hiive_response_notifications->get_error_message() );
 			}
 
-			$status_code = wp_remote_retrieve_response_code( $hiive_response );
-
-			if ( 200 !== $status_code ) {
-				return new \WP_REST_Response( wp_remote_retrieve_response_message( $hiive_response ), $status_code );
-			}
-
-			$payload = json_decode( wp_remote_retrieve_body( $hiive_response ) );
-			if ( $payload && is_array( $payload->data ) ) {
-				$notifications = $payload;
-			}
-
-			return new \WP_REST_Response( $notifications, 201 );
+			return new \WP_REST_Response( array( 'data' => $hiive_response_notifications ), 201 );
 		}
 
 		// Otherwise, queue the event.
@@ -151,6 +145,7 @@ class Events extends WP_REST_Controller {
 				'data'     => $data,
 			)
 		);
+		// 202 – "The request has been accepted for processing, but the processing has not been completed.".
 		$response->set_status( 202 );
 
 		return $response;
