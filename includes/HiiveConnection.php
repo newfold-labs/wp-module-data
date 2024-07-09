@@ -254,7 +254,7 @@ class HiiveConnection implements SubscriberInterface {
 
 		$status_code = wp_remote_retrieve_response_code( $hiive_response );
 
-		if ( 200 !== $status_code ) {
+		if ( ! in_array( $status_code, array( 200, 201 ), true ) ) {
 			return new \WP_Error( $status_code, wp_remote_retrieve_response_message( $hiive_response ) );
 		}
 
