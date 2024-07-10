@@ -17,4 +17,6 @@ modules:
         title: "wp-module-data"
         plugins: []
         activatePlugins: []
+
+        WP_HTTP_BLOCK_EXTERNAL: true
 bootstrap: _bootstrap.php

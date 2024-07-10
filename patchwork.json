@@ -2,6 +2,7 @@
   "redefinable-internals": [
     "defined",
     "constant",
-    "file_get_contents"
+    "file_get_contents",
+    "time"
   ]
 }
