@@ -214,6 +214,9 @@ class HiiveConnectionTest extends TestCase {
 					$body = json_decode( $args['body'], true );
 					assert( 'seo' === $body['events'][0]['data']['query'] );
 
+					assert( 'application/json' === $args['headers']['Content-Type'] );
+					assert( 'application/json' === $args['headers']['Accept'] );
+
 					return true;
 				}
 			)

@@ -319,8 +319,8 @@ class HiiveConnection implements SubscriberInterface {
 		$defaults = array(
 			'method'  => 'POST',
 			'headers' => array(
-				'Content-Type'  => 'applicaton/json',
-				'Accept'        => 'applicaton/json',
+				'Content-Type'  => 'application/json',
+				'Accept'        => 'application/json',
 				'Authorization' => 'Bearer ' . self::get_auth_token(),
 			),
 			'timeout' => wp_is_serving_rest_request() ? 15 : 60, // If we're responding to the frontend, we need to be quick.
