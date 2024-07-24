@@ -292,11 +292,18 @@ class HiiveConnection implements SubscriberInterface {
 			return new WP_Error( wp_remote_retrieve_response_code( $hiive_response ), wp_remote_retrieve_response_message( $hiive_response ) );
 		}
 
-		return json_decode( wp_remote_retrieve_body( $hiive_response ), true );
+		$response_body = json_decode( wp_remote_retrieve_body( $hiive_response ), true );
+
+		// If the response from Hiive is not shaped as expected, e.g. a more serious 500 error, return as an error, not as the expected array.
+		if ( ! is_array( $response_body ) || ! array_key_exists( 'succeededEvents', $response_body ) || ! array_key_exists( 'failedEvents', $response_body ) ) {
+			return new WP_Error( 'hiive_response', 'Response body does not contain succeededEvents and failedEvents keys.' );
+		}
+
+		return $response_body;
 	}
 
 	/**
-	 * Send a HTTP request to Hiive and return the body of the request.
+	 * Send an HTTP request to Hiive and return the body of the request.
 	 *
 	 * Handles throttling and reconnection, clients should handle queueing if necessary.
 	 *
