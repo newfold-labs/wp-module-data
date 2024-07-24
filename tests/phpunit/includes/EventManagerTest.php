@@ -474,8 +474,7 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 						->once()
 						->with( array( 19 ) );
 
-		$batch_queue_mock->expects( 'remove' )->once()
-			->with( array() );
+		$batch_queue_mock->expects( 'remove' )->never();
 
 		$sut->send_saved_events_batch();
 
