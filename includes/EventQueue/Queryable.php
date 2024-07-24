@@ -27,7 +27,7 @@ trait Queryable {
 	 * Returns number of affected (inserted) rows.
 	 *
 	 * @param  string  $table
-	 * @param  array[]  $rows
+	 * @param  non-empty-array  $rows
 	 *
 	 * @return bool|int
 	 */

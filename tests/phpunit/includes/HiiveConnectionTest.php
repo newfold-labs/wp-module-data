@@ -25,7 +25,11 @@ class HiiveConnectionTest extends TestCase {
 		);
 		WP_Mock::userFunction( 'wp_parse_args' )->andReturnUsing(
 			function () {
-				return array_merge( func_get_args() );
+				$merged = array();
+				foreach ( func_get_args() as $arr ) {
+					$merged = array_merge( $merged, $arr );
+				}
+				return $merged;
 			}
 		);
 	}
@@ -182,7 +186,13 @@ class HiiveConnectionTest extends TestCase {
 	public function test_notify_bad_token(): void {
 		$sut = Mockery::mock( HiiveConnection::class )->makePartial();
 
-		$event = Mockery::mock( Event::class );
+		$event           = Mockery::mock( Event::class );
+		$event->category = 'admin';
+		$event->key      = 'plugin_search';
+		$event->data     = array(
+			'type'  => 'term',
+			'query' => 'seo',
+		);
 
 		WP_Mock::userFunction( 'get_option' )
 			->with( 'nfd_data_token' )
@@ -197,8 +207,21 @@ class HiiveConnectionTest extends TestCase {
 		$sut->expects( 'get_core_data' )->times( 2 )->andReturn( array( 'brand' => 'etc' ) );
 
 		WP_Mock::userFunction( 'wp_remote_request' )
-			->with( '/sites/v2/events', \WP_Mock\Functions::type( 'array' ) )
-			->twice()->andReturnValues(
+			->withArgs(
+				function ( $url, $args ) {
+					assert( '/sites/v2/events' === $url );
+
+					$body = json_decode( $args['body'], true );
+					assert( 'seo' === $body['events'][0]['data']['query'] );
+
+					assert( 'application/json' === $args['headers']['Content-Type'] );
+					assert( 'application/json' === $args['headers']['Accept'] );
+
+					return true;
+				}
+			)
+			->twice()
+			->andReturnValues(
 				array(
 					array(
 						'response' => array(

@@ -130,7 +130,7 @@ class HiiveConnectionWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase 
 			'pre_http_request',
 			function () {
 				return array(
-					'body'          => json_encode(
+					'body'     => json_encode(
 						array(
 							'data' => array(
 								array(
@@ -143,7 +143,7 @@ class HiiveConnectionWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase 
 							),
 						)
 					),
-					'response'      => array(
+					'response' => array(
 						'code'    => 200,
 						'message' => 'OK',
 					),
@@ -163,5 +163,95 @@ class HiiveConnectionWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase 
 		$result = $sut->send_event( $event );
 
 		$this->assertEquals( 'notification123', $result[0]['id'] );
+	}
+
+	/**
+	 * Hiive may return a 500 error which contains data `succeededEvents` and `failedEvents` which can be acted upon.
+	 * If those keys are absent, treat it as a more serious 500 error.
+	 */
+	public function test_500_error_without_data(): void {
+
+		$sut = Mockery::mock( HiiveConnection::class )->makePartial();
+		$sut->expects('get_core_data')->andReturn(array());
+		update_option( 'nfd_data_token', 'appear-connected' );
+
+		/**
+		 * @see WP_Http::request()
+		 */
+		add_filter(
+			'pre_http_request',
+			function () {
+				return array(
+					'body'     => 'Internal Server Error',
+					'response' => array(
+						'code'    => 500,
+						'message' => 'OK',
+					),
+				);
+			}
+		);
+
+		$event = new Event(
+			'admin',
+			'plugin_search',
+			array(
+				'type'  => 'term',
+				'query' => 'seo',
+			),
+		);
+
+		$result = $sut->notify( array( $event ) );
+
+		$this->assertWPError( $result );
+	}
+
+	/**
+	 * Hiive may return a 500 error which contains data `succeededEvents` and `failedEvents` which can be acted upon.
+	 * If those keys are absent, treat it as a more serious 500 error.
+	 */
+	public function test_500_error_with_data(): void {
+
+		$sut = Mockery::mock( HiiveConnection::class )->makePartial();
+		$sut->expects('get_core_data')->andReturn(array());
+		update_option( 'nfd_data_token', 'appear-connected' );
+
+		$event = new Event(
+			'admin',
+			'plugin_search',
+			array(
+				'type'  => 'term',
+				'query' => 'seo',
+			),
+		);
+
+		/**
+		 * @see WP_Http::request()
+		 */
+		add_filter(
+			'pre_http_request',
+			function () use ( $event ) {
+				return array(
+					'body'     => json_encode(
+						array(
+							'succeededEvents' => array( 1 => $event ),
+							'failedEvents'    => array( 2 => $event ),
+						)
+					),
+					'response' => array(
+						'code'    => 500,
+						'message' => 'OK',
+					),
+				);
+			}
+		);
+
+		$result = $sut->notify(
+			array(
+				1 => $event,
+				2 => $event,
+			)
+		);
+
+		$this->assertIsArray( $result );
 	}
 }

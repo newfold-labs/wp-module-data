@@ -292,11 +292,18 @@ class HiiveConnection implements SubscriberInterface {
 			return new WP_Error( wp_remote_retrieve_response_code( $hiive_response ), wp_remote_retrieve_response_message( $hiive_response ) );
 		}
 
-		return json_decode( wp_remote_retrieve_body( $hiive_response ), true );
+		$response_body = json_decode( wp_remote_retrieve_body( $hiive_response ), true );
+
+		// If the response from Hiive is not shaped as expected, e.g. a more serious 500 error, return as an error, not as the expected array.
+		if ( ! is_array( $response_body ) || ! array_key_exists( 'succeededEvents', $response_body ) || ! array_key_exists( 'failedEvents', $response_body ) ) {
+			return new WP_Error( 'hiive_response', 'Response body does not contain succeededEvents and failedEvents keys.' );
+		}
+
+		return $response_body;
 	}
 
 	/**
-	 * Send a HTTP request to Hiive and return the body of the request.
+	 * Send an HTTP request to Hiive and return the body of the request.
 	 *
 	 * Handles throttling and reconnection, clients should handle queueing if necessary.
 	 *
@@ -319,8 +326,8 @@ class HiiveConnection implements SubscriberInterface {
 		$defaults = array(
 			'method'  => 'POST',
 			'headers' => array(
-				'Content-Type'  => 'applicaton/json',
-				'Accept'        => 'applicaton/json',
+				'Content-Type'  => 'application/json',
+				'Accept'        => 'application/json',
 				'Authorization' => 'Bearer ' . self::get_auth_token(),
 			),
 			'timeout' => wp_is_serving_rest_request() ? 15 : 60, // If we're responding to the frontend, we need to be quick.
@@ -344,7 +351,7 @@ class HiiveConnection implements SubscriberInterface {
 			$body = json_decode( $request_response['body'], true );
 			if ( 'Invalid token for url' === $body['message'] ) {
 				if ( $this->reconnect() ) {
-					$this->hiive_request( $path, $args );
+					$this->hiive_request( $path, $payload, $args );
 				} else {
 					return new WP_Error( 'hiive_connection', __( 'This site is not connected to the hiive.' ) );
 				}

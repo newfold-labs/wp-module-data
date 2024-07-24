@@ -215,14 +215,14 @@ class EventManager {
 				continue;
 			}
 
-			$queue = EventQueue::getInstance()->queue();
-
 			if ( is_wp_error( $response ) ) {
 				EventQueue::getInstance()->queue()->push( $events );
 				continue;
 			}
 
-			EventQueue::getInstance()->queue()->push( $response['failedEvents'] );
+			if ( ! empty( $response['failedEvents'] ) ) {
+				EventQueue::getInstance()->queue()->push( $response['failedEvents'] );
+			}
 		}
 	}
 
@@ -265,10 +265,14 @@ class EventManager {
 			}
 
 			// Remove from the queue.
-			$queue->remove( array_keys( $response['succeededEvents'] ) );
+			if ( ! empty( $response['succeededEvents'] ) ) {
+				$queue->remove( array_keys( $response['succeededEvents'] ) );
+			}
 
 			// Release the 'reserve' we placed on the entry, so it will be tried again later.
-			$queue->release( array_keys( $response['failedEvents'] ) );
+			if ( ! empty( $response['failedEvents'] ) ) {
+				$queue->release( array_keys( $response['failedEvents'] ) );
+			}
 		}
 	}
 }
