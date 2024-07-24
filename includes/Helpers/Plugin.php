@@ -50,9 +50,9 @@ class Plugin {
 	/**
 	 * Grab relevant data from plugin data - and only what we want
 	 *
-	 * @param array $slug The slug for the plugin
-	 * @param array $data The plugin meta data from the header
-	 * @param array $mu   Whether the plugin is installed as an mu
+	 * @param string $slug The slug for the plugin.
+	 * @param array  $data The plugin meta-data from its header.
+	 * @param array  $mu   Whether the plugin is installed as a must-use plugin.
 	 *
 	 * @return array Hiive relevant plugin details
 	 */

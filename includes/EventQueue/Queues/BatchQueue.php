@@ -29,7 +29,7 @@ class BatchQueue implements BatchQueueInterface {
 	/**
 	 * Push events onto the queue
 	 *
-	 * @param  Event[]  $events
+	 * @param  non-empty-array<Event>  $events
 	 *
 	 * @return bool
 	 */
