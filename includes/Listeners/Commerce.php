@@ -27,9 +27,8 @@ class Commerce extends Listener {
 		add_filter( 'update_option_ewc4wp_sso_account_status', array( $this, 'ecomdash_connected' ), 10, 2 );
 		add_filter( 'woocommerce_update_product', array( $this, 'product_created_or_updated' ), 100, 2 );
 		add_action( 'update_option_woocommerce_custom_orders_table_enabled', array( $this, 'woocommerce_hpos_enabled' ), 10, 3 );
-		//Store page events
-		//add_action('admin_init', array( $this, 'check_if_current_page_is_store' ), 10);		
-		add_action('current_screen', array( $this, 'store_page_tracking' ), 10);
+		//Store page events			
+		add_action('current_screen', array( $this, 'ecommerce_exclusive_tools_settings_click_tracking' ), 10);
 	}
 
 	/**
@@ -40,7 +39,7 @@ class Commerce extends Listener {
 	 * 
 	 */
 
-	 public function store_page_tracking($data)
+	 public function ecommerce_exclusive_tools_settings_click_tracking($data)
 	 {
  				
 		$screen = get_current_screen();
@@ -52,8 +51,8 @@ class Commerce extends Listener {
 		$url .= $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 		$is_yith_plugin_settings_page = true;
 
-
 		switch ($screen_id) {
+			//Gift Cards
 			case 'edit-gift_card':
 				$data = array(
 					'label_key' => 'manage_nfd_slug_yith_woocommerce_gift_card_clicked',
@@ -61,6 +60,7 @@ class Commerce extends Listener {
 					'page'      => $url,
 				);
 				break;
+			//Wishlists
 			case 'yith-plugins_page_yith_wcwl_panel':
 				$data = array(
 					'label_key' => 'manage_nfd_slug_yith_woocommerce_wishlist_clicked',
@@ -68,6 +68,7 @@ class Commerce extends Listener {
 					'page'      => $url,
 				);
 				break;
+			//Booking and Appointments
 			case 'edit-yith_booking':
 				$data = array(
 					'label_key' => 'manage_nfd_slug_yith_woocommerce_booking_clicked',
@@ -75,6 +76,7 @@ class Commerce extends Listener {
 					'page'      => $url,
 				);
 				break;
+			//Product Filters
 			case 'yith-plugins_page_yith_wcan_panel':
 				$data = array(
 					'label_key' => 'manage_nfd_slug_yith_woocommerce_ajax_product_filter_clicked',
@@ -82,6 +84,7 @@ class Commerce extends Listener {
 					'page'      => $url,
 				);
 				break;
+			//Product Search
 			case 'yith-plugins_page_yith_wcas_panel':
 				$data = array(
 					'label_key' => 'manage_yith-woocommerce-ajax-search_clicked',
@@ -89,6 +92,7 @@ class Commerce extends Listener {
 					'page'      => $url,
 				);
 				break;
+			//Customize My Account Page
 			case 'yith-plugins_page_yith_wcmap_panel':
 				$data = array(
 					'label_key' => 'manage_nfd_slug_yith_woocommerce_customize_myaccount_page_clicked',
@@ -96,17 +100,11 @@ class Commerce extends Listener {
 					'page'      => $url,
 				);
 				break;
+			//EcomDash
 			case 'toplevel_page_newfold-ecomdash':
 				$data = array(
 					'label_key' => 'manage_nfd_slug_ecomdash_wordpress_plugin_clicked',
 					'provider'  => 'newfold_ecomdash_wordpress_plugin',
-					'page'      => $url,
-				);
-				break;
-			case 'toplevel_page_bluehost':
-				$data = array(
-					'label_key' => 'manage_nfd_slug_ecomdash_wordpress_plugin_clicked',
-					'provider'  => 'nfd_ecomdash_wordpress_plugin',
 					'page'      => $url,
 				);
 				break;
@@ -115,7 +113,6 @@ class Commerce extends Listener {
 		}
 		
 		if($is_yith_plugin_settings_page){
-			\do_action('qm/debug',"is store page");
 			$this->push(
 				'ecommerce_exclusive_tools_settings_clicked',
 				$data
