@@ -27,7 +27,63 @@ class Commerce extends Listener {
 		add_filter( 'update_option_ewc4wp_sso_account_status', array( $this, 'ecomdash_connected' ), 10, 2 );
 		add_filter( 'woocommerce_update_product', array( $this, 'product_created_or_updated' ), 100, 2 );
 		add_action( 'update_option_woocommerce_custom_orders_table_enabled', array( $this, 'woocommerce_hpos_enabled' ), 10, 3 );
+		//Store page events
+		//add_action('admin_init', array( $this, 'check_if_current_page_is_store' ), 10);		
+		add_action('current_screen', array( $this, 'store_page_tracking' ), 10);
 	}
+
+	/**
+	 * Store page view
+	 *
+	 * @param  string $data  Array of data to be sent to Hiive
+	 *
+	 * @return string Array of data
+	 */
+
+	 public function store_page_tracking( )
+	 {
+ 
+		 \do_action('qm/debug','test');
+		$request_uri = $_SERVER['REQUEST_URI'];	
+		\do_action('qm/debug',$request_uri);
+
+		$screen = get_current_screen();
+    	if ($screen) {
+			$screen_id = $screen->id;
+		}
+		echo "ID: ".$screen_id;
+
+		switch ($screen_id) {
+			case 'edit-gift_card':
+				//echo 'Giftcards';
+				break;
+			case 'yith-plugins_page_yith_wcwl_panel':
+				//echo 'Wishlists';
+				break;
+			case 'edit-yith_booking':
+				//echo 'Bookings & appointments';
+				break;
+			case 'yith-plugins_page_yith_wcan_panel':
+				//echo 'Product Filter';
+				break;
+			case 'yith-plugins_page_yith_wcas_panel':
+				//echo 'Product search';
+				break;
+			case 'yith-plugins_page_yith_wcmap_panel':
+				//echo 'Customize My a/c';
+				break;
+			case 'toplevel_page_newfold-ecomdash':
+				//echo 'Ecomdash';
+				break;
+			case 'toplevel_page_bluehost':
+				//echo 'Wondercart';
+				break;
+			default:
+				//echo 'Invalid day.';
+		}
+
+		return true;
+	 }
 
 	/**
 	 * On Payment, send data to Hiive
