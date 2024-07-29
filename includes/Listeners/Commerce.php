@@ -33,56 +33,95 @@ class Commerce extends Listener {
 	}
 
 	/**
-	 * Store page view
+	 * Store page events
 	 *
 	 * @param  string $data  Array of data to be sent to Hiive
 	 *
-	 * @return string Array of data
+	 * 
 	 */
 
-	 public function store_page_tracking( )
+	 public function store_page_tracking($data)
 	 {
- 
-		 \do_action('qm/debug','test');
-		$request_uri = $_SERVER['REQUEST_URI'];	
-		\do_action('qm/debug',$request_uri);
-
+ 				
 		$screen = get_current_screen();
     	if ($screen) {
 			$screen_id = $screen->id;
 		}
-		echo "ID: ".$screen_id;
+
+		$url  = is_ssl() ? 'https://' : 'http://';
+		$url .= $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+		$is_yith_plugin_settings_page = true;
+
 
 		switch ($screen_id) {
 			case 'edit-gift_card':
-				//echo 'Giftcards';
+				$data = array(
+					'label_key' => 'manage_nfd_slug_yith_woocommerce_gift_card_clicked',
+					'provider'  => 'yith_giftcards',
+					'page'      => $url,
+				);
 				break;
 			case 'yith-plugins_page_yith_wcwl_panel':
-				//echo 'Wishlists';
+				$data = array(
+					'label_key' => 'manage_nfd_slug_yith_woocommerce_wishlist_clicked',
+					'provider'  => 'yith_wishlists',
+					'page'      => $url,
+				);
 				break;
 			case 'edit-yith_booking':
-				//echo 'Bookings & appointments';
+				$data = array(
+					'label_key' => 'manage_nfd_slug_yith_woocommerce_booking_clicked',
+					'provider'  => 'yith_bookings_and_appointments',
+					'page'      => $url,
+				);
 				break;
 			case 'yith-plugins_page_yith_wcan_panel':
-				//echo 'Product Filter';
+				$data = array(
+					'label_key' => 'manage_nfd_slug_yith_woocommerce_ajax_product_filter_clicked',
+					'provider'  => 'yith_product_filters',
+					'page'      => $url,
+				);
 				break;
 			case 'yith-plugins_page_yith_wcas_panel':
-				//echo 'Product search';
+				$data = array(
+					'label_key' => 'manage_yith-woocommerce-ajax-search_clicked',
+					'provider'  => 'yith_product_search',
+					'page'      => $url,
+				);
 				break;
 			case 'yith-plugins_page_yith_wcmap_panel':
-				//echo 'Customize My a/c';
+				$data = array(
+					'label_key' => 'manage_nfd_slug_yith_woocommerce_customize_myaccount_page_clicked',
+					'provider'  => 'yith_customize_my_account_page',
+					'page'      => $url,
+				);
 				break;
 			case 'toplevel_page_newfold-ecomdash':
-				//echo 'Ecomdash';
+				$data = array(
+					'label_key' => 'manage_nfd_slug_ecomdash_wordpress_plugin_clicked',
+					'provider'  => 'newfold_ecomdash_wordpress_plugin',
+					'page'      => $url,
+				);
 				break;
 			case 'toplevel_page_bluehost':
-				//echo 'Wondercart';
+				$data = array(
+					'label_key' => 'manage_nfd_slug_ecomdash_wordpress_plugin_clicked',
+					'provider'  => 'nfd_ecomdash_wordpress_plugin',
+					'page'      => $url,
+				);
 				break;
 			default:
-				//echo 'Invalid day.';
+				$is_yith_plugin_settings_page = false;
 		}
-
-		return true;
+		
+		if($is_yith_plugin_settings_page){
+			\do_action('qm/debug',"is store page");
+			$this->push(
+				'ecommerce_exclusive_tools_settings_clicked',
+				$data
+			);
+		}
+		
 	 }
 
 	/**
