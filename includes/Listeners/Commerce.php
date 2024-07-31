@@ -108,16 +108,6 @@ class Commerce extends Listener {
 					'page'      => $url,
 				);
 				break;
-			//View all analytics	
-			case 'woocommerce_page_wc-admin':
-				if(strpos($_SERVER['REQUEST_URI'], 'analytics')){
-					$data = array(
-						'label_key' => 'view_all_analytics_clicked',
-						'provider'  => 'woocommerce',
-						'page'      => $url,
-					);					
-				}
-				break;			
 			default:
 				$is_yith_plugin_settings_page = false;
 		}
