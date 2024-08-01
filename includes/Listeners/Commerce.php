@@ -28,8 +28,49 @@ class Commerce extends Listener {
 		add_filter( 'woocommerce_update_product', array( $this, 'product_created_or_updated' ), 100, 2 );
 		add_action( 'update_option_woocommerce_custom_orders_table_enabled', array( $this, 'woocommerce_hpos_enabled' ), 10, 3 );
 		//Store page events			
-		add_action('current_screen', array( $this, 'ecommerce_exclusive_tools_settings_click_tracking' ), 10);
+		add_action('admin_enqueue_scripts', array( $this, 'ecommerce_enqueue_scripts' ), 10);
+		add_action('current_screen', array( $this, 'ecommerce_exclusive_tools_settings_click_tracking' ), 10);	
+		add_action('wp_ajax_store_page_button_click', array($this, 'handle_store_page_button_click'), 10);				
 	}
+
+	/**
+	 * Enqueue script tracking for Store page button/link click
+	 *
+	 * @return void
+	 */
+
+	 public function ecommerce_enqueue_scripts() {
+        wp_enqueue_script('ecommerce-tracking-script', plugin_dir_url(__FILE__) . '/js/ecommerce-tracking-scripts.js', array('jquery'), null, true);
+        wp_localize_script('ecommerce-tracking-script', 'myAjax', array(
+            'ajaxurl' => admin_url('admin-ajax.php')
+        ));
+    }
+
+	/**
+	 * Handle event tracking for Store page button/link click
+	 * 	 
+	 * @param  string $data  Array of data to be sent to Hiive
+	 * 	
+	 * @return void
+	 */
+
+	public function handle_store_page_button_click($data){
+		if(isset($_REQUEST)){
+			print_r($_REQUEST);
+			if($_REQUEST['clicked']){
+				$data = array(
+					'label_key' => $_REQUEST['label'],
+					'provider'  => $_REQUEST['provider'],
+					'page'      => $_REQUEST['url'],
+				);
+				$this->push(
+					$_REQUEST['eventName'],
+					$data
+				);
+			}
+		}
+		die();
+	}	
 
 	/**
 	 * Store page events
