@@ -6,6 +6,7 @@ use NewfoldLabs\WP\Module\Data\Helpers\Transient;
 use NewfoldLabs\WP\Module\Data\SiteCapabilities;
 use NewfoldLabs\WP\ModuleLoader\Container;
 use WP_Forge\UpgradeHandler\UpgradeHandler;
+use function NewfoldLabs\WP\ModuleLoader\container;
 
 use function NewfoldLabs\WP\ModuleLoader\register as registerModule;
 
@@ -72,6 +73,22 @@ if ( function_exists( 'add_action' ) && function_exists( 'add_filter' ) ) {
 		function ( $value ) {
 			return ( new Encryption() )->decrypt( $value );
 		}
+	);
+
+	// Temporary filter, as the migrate capability isn't working as expected.
+	add_filter(
+		'pre_set_transient_nfd_site_capabilities',
+		function ( $transient ) {
+			if ( empty( $transient ) && 'bluehost' === container()->plugin()->brand ) {
+				return array(
+					'canMigrateSite' => true,
+					'hasAISiteGen'   => true,
+				);
+			}
+			return $transient;
+		},
+		10,
+		2
 	);
 
 	// Register activation/deactivation hooks
