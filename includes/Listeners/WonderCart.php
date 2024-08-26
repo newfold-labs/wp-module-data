@@ -17,7 +17,7 @@ class WonderCart extends Listener {
 		add_action( 'yith_sales_edit_campaign_event_modal_opened', array( $this, 'create_campaign_modal_open' ), 10, 2 );
 		add_action( 'yith_sales_edit_campaign_event_campaign_selected', array( $this, 'campaign_selected' ), 10, 2 );
 		add_action( 'yith_sales_edit_campaign_event_campaign_abandoned', array( $this, 'campaign_abandoned' ), 10, 2 );
-		add_action( 'woocommerce_payment_complete', array( $this, 'checkout_campaigns_used' ) );
+		add_action( 'woocommerce_payment_complete', array( $this, 'checkout_campaigns_used' ), 10, 1 );
 	}
 
 	/**
@@ -121,7 +121,7 @@ class WonderCart extends Listener {
 
 	 * @return void
 	 */
-	public function checkout_campaigns_used() {
+	public function checkout_campaigns_used( $order_id ) {
 		$campaigns      = array();
 		$campaign_total = 0;
 
@@ -161,6 +161,20 @@ class WonderCart extends Listener {
 			);
 			$this->push(
 				'checkout_campaign_type',
+				$data
+			);
+		} else  {
+			$order = wc_get_order( $order_id );
+			$order_id = $order->get_id();
+			$order_status = $order->get_status();
+
+			$data = array(
+				'label_key' => 'order_id',
+				'order_id' =>  $order_id,
+				'status' => $order_status 
+			);
+			$this->push(
+				'ecommerce_checkout',
 				$data
 			);
 		}
