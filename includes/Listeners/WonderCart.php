@@ -83,7 +83,7 @@ class WonderCart extends Listener {
 	public function campaign_selected( $args, $event ) {
 		$data = array(
 			'label_key'     => 'campaign_slug',
-			'type' => $args['type'],
+			'type'          => $args['type'],
 			'campaign_slug' => $args['type'],
 		);
 
@@ -105,7 +105,7 @@ class WonderCart extends Listener {
 	public function campaign_abandoned( $args, $event ) {
 		$data = array(
 			'label_key'     => 'campaign_slug',
-			'type' => $args['type'],
+			'type'          => $args['type'],
 			'campaign_slug' => $args['type'] . '-' . $args['id'],
 		);
 
@@ -118,6 +118,8 @@ class WonderCart extends Listener {
 	/**
 	 * Track wonder_cart campaigns used in checkout page
 	 * Send data to hiive
+
+	 * @param string $order_id complete order details.
 
 	 * @return void
 	 */
@@ -155,7 +157,7 @@ class WonderCart extends Listener {
 		if ( count( $campaigns ) > 0 ) {
 			$data = array(
 				'label_key'      => 'type',
-				'type'  => array_unique( $campaigns ),
+				'type'           => array_unique( $campaigns ),
 				'campaign_count' => count( $campaigns ),
 				'campaign_total' => '$' . $campaign_total,
 			);
@@ -163,20 +165,20 @@ class WonderCart extends Listener {
 				'checkout_campaign_type',
 				$data
 			);
-		} else  {
-			$order = wc_get_order( $order_id );
-			$order_id = $order->get_id();
+		}
+
+			$order        = wc_get_order( $order_id );
+			$order_id     = $order->get_id();
 			$order_status = $order->get_status();
 
 			$data = array(
 				'label_key' => 'order_id',
-				'order_id' =>  $order_id,
-				'status' => $order_status 
+				'order_id'  => $order_id,
+				'status'    => $order_status,
 			);
 			$this->push(
-				'ecommerce_checkout',
+				'order_status_update',
 				$data
 			);
-		}
 	}
 }
