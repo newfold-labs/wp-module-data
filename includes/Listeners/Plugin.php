@@ -102,8 +102,8 @@ class Plugin extends Listener {
 	/**
 	 * Plugin install or update completed
 	 *
-	 * @param \WP_Upgrader                                                             $wp_upgrader Upgrader object from upgrade hook.
-	 * @param array{type:string, action:string, plugins?:array<string>, plugin:string} $options     Options from upgrade hook including type, action & plugins.
+	 * @param \WP_Upgrader                                                              $wp_upgrader Upgrader object from upgrade hook.
+	 * @param array{type:string, action:string, plugins?:array<string>, plugin?:string} $options     Options from upgrade hook including type, action & plugins.
 	 *
 	 * @hooked upgrader_process_complete
 	 * @see \Plugin_Upgrader::bulk_upgrade()
@@ -129,7 +129,7 @@ class Plugin extends Listener {
 	/**
 	 * One or more plugins were updated
 	 *
-	 * @param array{type:string, action:string, plugins?:array<string>, plugin:string} $options List of update details
+	 * @param array{type:string, action:string, plugins?:array<string>, plugin?:string} $options List of update details
 	 */
 	protected function updated( array $options ): void {
 		$plugins = array();
