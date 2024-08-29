@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "792505b99e4c7a65d707cb92cd1f03ae",
+    "content-hash": "487baf4658a4c1edb478db67f77eeebc",
     "packages": [
         {
             "name": "doctrine/inflector",
@@ -343,16 +343,16 @@
         },
         {
             "name": "wp-forge/wp-query-builder",
-            "version": "1.0.3",
+            "version": "1.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wp-forge/wp-query-builder.git",
-                "reference": "34959e5618969afd8350a8206744a7810d9f253b"
+                "reference": "131dcfee2d3ebf84cec9bd6ce07d3f2c854b4984"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wp-forge/wp-query-builder/zipball/34959e5618969afd8350a8206744a7810d9f253b",
-                "reference": "34959e5618969afd8350a8206744a7810d9f253b",
+                "url": "https://api.github.com/repos/wp-forge/wp-query-builder/zipball/131dcfee2d3ebf84cec9bd6ce07d3f2c854b4984",
+                "reference": "131dcfee2d3ebf84cec9bd6ce07d3f2c854b4984",
                 "shasum": ""
             },
             "require": {
@@ -382,9 +382,9 @@
             ],
             "support": {
                 "issues": "https://github.com/wp-forge/wp-query-builder/issues",
-                "source": "https://github.com/wp-forge/wp-query-builder/tree/1.0.3"
+                "source": "https://github.com/wp-forge/wp-query-builder/tree/1.0.4"
             },
-            "time": "2023-04-29T19:26:54+00:00"
+            "time": "2024-08-22T21:49:41+00:00"
         },
         {
             "name": "wp-forge/wp-upgrade-handler",
