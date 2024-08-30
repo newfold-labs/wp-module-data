@@ -102,14 +102,17 @@ class Plugin extends Listener {
 	/**
 	 * Plugin install or update completed
 	 *
-	 * @param \WP_Upgrader $wp_upgrader Upgrader Object from upgrade hook
-	 * @param boolean      $options     Options from upgrade hook including type, action & plugins.
+	 * @param \WP_Upgrader                                                              $wp_upgrader Upgrader object from upgrade hook.
+	 * @param array{type:string, action:string, plugins?:array<string>, plugin?:string} $options     Options from upgrade hook including type, action & plugins.
 	 *
-	 * @return void
+	 * @hooked upgrader_process_complete
+	 * @see \Plugin_Upgrader::bulk_upgrade()
 	 */
-	public function installed_or_updated( $wp_upgrader, $options ) {
-		// Bail if not a plugin install or update
-		if ( 'plugin' !== $options['type'] ) {
+	public function installed_or_updated( $wp_upgrader, array $options ): void {
+		// Bail if not a plugin install or update.
+		if ( 'plugin' !== $options['type']
+			// Or if the plugins array is set but empty.
+			|| ( ! empty( $options['plugins'] ) && empty( $options['plugins'][0] ) ) ) {
 			return;
 		}
 
@@ -126,11 +129,9 @@ class Plugin extends Listener {
 	/**
 	 * One or more plugins were updated
 	 *
-	 * @param array $options List of update details
-	 *
-	 * @return void
+	 * @param array{type:string, action:string, plugins?:array<string>, plugin?:string} $options List of update details
 	 */
-	public function updated( $options ) {
+	protected function updated( array $options ): void {
 		$plugins = array();
 
 		// Manual updates always return array of plugin slugs
