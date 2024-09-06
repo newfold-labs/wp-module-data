@@ -12,11 +12,29 @@ namespace NewfoldLabs\WP\Module\Data;
 class SiteCapabilities {
 
 	/**
+	 * Get the value of a capability.
+	 *
+	 * @used-by \NewfoldLabs\WP\Module\AI\SiteGen\SiteGen::check_capabilities()
+	 * @used-by \NewfoldLabs\WP\Module\AI\Utils\AISearchUtil::check_capabilities()
+	 * @used-by \NewfoldLabs\WP\Module\AI\Utils\AISearchUtil::check_help_capability()
+	 * @used-by \NewfoldLabs\WP\Module\ECommerce\ECommerce::__construct()
+	 * @used-by \NewfoldLabs\WP\Module\HelpCenter\CapabilityController::get_capability()
+	 * @used-by \NewfoldLabs\WP\Module\Onboarding\Data\Config::get_site_capability()
+	 *
+	 * @param string $capability Capability name.
+	 *
+	 * @return bool
+	 */
+	public function get( $capability ) {
+		return $this->exists( $capability ) && $this->all()[ $capability ];
+	}
+
+	/**
 	 * Get all capabilities.
 	 *
 	 * @return array
 	 */
-	public function all() {
+	protected function all() {
 		$capabilities = get_transient( 'nfd_site_capabilities' );
 		if ( false === $capabilities ) {
 			$capabilities = $this->fetch();
@@ -33,19 +51,8 @@ class SiteCapabilities {
 	 *
 	 * @return bool
 	 */
-	public function exists( $capability ) {
+	protected function exists( $capability ) {
 		return array_key_exists( $capability, $this->all() );
-	}
-
-	/**
-	 * Get the value of a capability.
-	 *
-	 * @param string $capability Capability name.
-	 *
-	 * @return bool
-	 */
-	public function get( $capability ) {
-		return $this->exists( $capability ) && $this->all()[ $capability ];
 	}
 
 	/**
@@ -53,7 +60,7 @@ class SiteCapabilities {
 	 *
 	 * @return array
 	 */
-	public function fetch() {
+	protected function fetch() {
 		$capabilities = array();
 
 		$response = wp_remote_get(
