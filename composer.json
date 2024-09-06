@@ -97,9 +97,11 @@
     ]
   },
   "scripts-descriptions": {
+    "create-symlinks": "Create sylimks between /wordpress, /wp-content and the root plugin for convenience.",
     "fix": "Automatically fix coding standards issues where possible.",
     "lint": "Check files against coding standards.",
-    "create-symlinks": "Create sylimks between /wordpress, /wp-content and the root plugin for convenience."
+    "test": "Run tests.",
+    "test-coverage": "Run tests with coverage, merge coverage and create HTML report."
   },
   "require": {
     "ext-json": "*",

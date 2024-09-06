@@ -30,9 +30,14 @@ class HiiveConnection implements SubscriberInterface {
 	/**
 	 * Whether connection attempts are currently throttled
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	private $throttled;
+
+	/**
+	 * @var bool
+	 */
+	protected $throttle;
 
 	/**
 	 * Construct
@@ -313,7 +318,7 @@ class HiiveConnection implements SubscriberInterface {
 	 * @param array|null $payload
 	 * @param array|null $args
 	 *
-	 * @return array|WP_Error
+	 * @return array|WP_Error The response array or a WP_Error when no Hiive connection, no network connection, network requests disabled.
 	 */
 	public function hiive_request( string $path, ?array $payload = array(), ?array $args = array() ) {
 

@@ -1,8 +1,8 @@
-/vendor
-debug.log
 .DS_Store
+/node_modules
+/tests/_output
+/tests/_support/_generated
+/vendor
 /wordpress
 /wp-content
-/node_modules
-/tests/_support/_generated
-/tests/_output
+debug.log
