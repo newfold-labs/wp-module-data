@@ -22,19 +22,15 @@ class SiteCapabilities {
 	 * @used-by \NewfoldLabs\WP\Module\Onboarding\Data\Config::get_site_capability()
 	 *
 	 * @param string $capability Capability name.
-	 *
-	 * @return bool
 	 */
-	public function get( $capability ) {
+	public function get( string $capability ): bool {
 		return $this->exists( $capability ) && $this->all()[ $capability ];
 	}
 
 	/**
 	 * Get all capabilities.
-	 *
-	 * @return array
 	 */
-	protected function all() {
+	protected function all(): array {
 		$capabilities = get_transient( 'nfd_site_capabilities' );
 		if ( false === $capabilities ) {
 			$capabilities = $this->fetch();
@@ -48,10 +44,8 @@ class SiteCapabilities {
 	 * Check if a capability exists.
 	 *
 	 * @param string $capability Capability name.
-	 *
-	 * @return bool
 	 */
-	protected function exists( $capability ) {
+	protected function exists( string $capability ): bool {
 		return array_key_exists( $capability, $this->all() );
 	}
 
@@ -60,7 +54,7 @@ class SiteCapabilities {
 	 *
 	 * @return array
 	 */
-	protected function fetch() {
+	protected function fetch(): array {
 		$capabilities = array();
 
 		$response = wp_remote_get(
