@@ -21,6 +21,8 @@ class Transient {
 	 * Wrapper for get_transient() with Options API fallback
 	 *
 	 * @see \get_transient()
+	 * @see \get_option()
+	 * @see \delete_option()
 	 *
 	 * @param string $key The key of the transient to retrieve
 	 * @return mixed The value of the transient
@@ -33,7 +35,7 @@ class Transient {
 		/**
 		 * @var array{value:mixed, expires_at:int} $data The saved value and the Unix time it expires at.
 		 */
-		$data = get_option( $key );
+		$data = \get_option( $key );
 		if ( is_array( $data ) && isset( $data['expires_at'], $data['value'] ) ) {
 			if ( $data['expires_at'] > time() ) {
 				return $data['value'];
