@@ -129,8 +129,8 @@ class TransientTest extends TestCase {
 				->with( $test_transient_name, )
 				->andReturn(
 					array(
-						'value'   => 'value',
-						'expires' => time() + 999,
+						'value'      => 'value',
+						'expires_at' => time() + 999,
 					)
 				);
 
@@ -158,8 +158,8 @@ class TransientTest extends TestCase {
 				->with( $test_transient_name, )
 				->andReturn(
 					array(
-						'value'   => 'value',
-						'expires' => time() - 999,
+						'value'      => 'value',
+						'expires_at' => time() - 999,
 					)
 				);
 
