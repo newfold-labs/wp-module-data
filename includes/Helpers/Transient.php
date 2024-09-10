@@ -87,4 +87,20 @@ class Transient {
 
 		return \delete_option( $key );
 	}
+
+	/**
+	 * Make the static functions callable as instance methods.
+	 *
+	 * @param string $name The function name being called.
+	 * @param array  $arguments The arguments passed to that function.
+	 *
+	 * @return mixed
+	 * @throws \BadMethodCallException If the method does not exist.
+	 */
+	public function __call( $name, $arguments ) {
+		if ( ! method_exists( __CLASS__, $name ) ) {
+			throw new \BadMethodCallException( "Method $name does not exist" );
+		}
+		return self::$name( ...$arguments );
+	}
 }

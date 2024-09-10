@@ -172,4 +172,28 @@ class TransientTest extends TestCase {
 
 		$this->assertFalse( $result );
 	}
+
+	/**
+	 * Test does calling `get` on the instance of Transient class call the static method.
+	 *
+	 * @covers ::__call
+	 */
+	public function test_instance_call_method(): void {
+
+		$sut = new Transient();
+
+		\WP_Mock::userFunction( 'get_dropins' )
+				->once()
+				->andReturn( array( 'not-object-cache.php' => array() ) );
+
+		$return_value = uniqid( __FUNCTION__ );
+
+		\WP_Mock::userFunction( 'get_transient' )
+				->once()
+				->andReturn( $return_value );
+
+		$result = $sut->get( 'test' );
+
+		$this->assertEquals( $return_value, $result );
+	}
 }
