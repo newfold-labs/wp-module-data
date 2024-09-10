@@ -47,8 +47,10 @@ class SiteCapabilities {
 
 	/**
 	 * Get all capabilities.
+	 *
+	 * @used-by \NewfoldLabs\WP\Module\Runtime\Runtime::prepareRuntime()
 	 */
-	protected function all(): array {
+	public function all(): array {
 		$capabilities = $this->transient->get( 'nfd_site_capabilities' );
 		if ( false === $capabilities ) {
 			$capabilities = $this->fetch();
