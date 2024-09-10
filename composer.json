@@ -24,7 +24,7 @@
       "package": {
         "name": "bluehost/bluehost-wordpress-plugin",
         "type": "wordpress-plugin",
-        "version": "3.1.0",
+        "version": "3.14.8",
         "dist": {
           "url": "https://github.com/bluehost/bluehost-wordpress-plugin/releases/latest/download/bluehost-wordpress-plugin.zip",
           "type": "zip"

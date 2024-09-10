@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "487baf4658a4c1edb478db67f77eeebc",
+    "content-hash": "7a75eec37307a4ffa0828fe4af334619",
     "packages": [
         {
             "name": "doctrine/inflector",
@@ -622,7 +622,7 @@
         },
         {
             "name": "bluehost/bluehost-wordpress-plugin",
-            "version": "3.1.0",
+            "version": "3.14.8",
             "dist": {
                 "type": "zip",
                 "url": "https://github.com/bluehost/bluehost-wordpress-plugin/releases/latest/download/bluehost-wordpress-plugin.zip"
