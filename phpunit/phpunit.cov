@@ -1,0 +1,6036 @@
+<?php
+$coverage = new SebastianBergmann\CodeCoverage\CodeCoverage;
+$coverage->setData(array (
+  '/home/runner/work/wp-module-data/wp-module-data/includes/SubscriberInterface.php' => 
+  array (
+  ),
+  '/home/runner/work/wp-module-data/wp-module-data/includes/Data.php' => 
+  array (
+    31 => 
+    array (
+    ),
+    32 => 
+    array (
+    ),
+    45 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\DataTest::test_delete_token_on_401_response_is_added',
+    ),
+    46 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\DataTest::test_delete_token_on_401_response_is_added',
+    ),
+    49 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\DataTest::test_delete_token_on_401_response_is_added',
+    ),
+    50 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\DataTest::test_delete_token_on_401_response_is_added',
+    ),
+    59 => 
+    array (
+    ),
+    61 => 
+    array (
+    ),
+    62 => 
+    array (
+    ),
+    65 => 
+    array (
+    ),
+    69 => 
+    array (
+    ),
+    72 => 
+    array (
+    ),
+    74 => 
+    array (
+    ),
+    77 => 
+    array (
+    ),
+    79 => 
+    array (
+    ),
+    81 => 
+    array (
+    ),
+    82 => 
+    array (
+    ),
+    83 => 
+    array (
+    ),
+    85 => 
+    array (
+    ),
+    101 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\DataTest::test_deletes_hiive_token_on_401',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\DataTest::test_does_not_delete_hiive_token_on_hiive_200',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\DataTest::test_does_not_delete_hiive_token_on_401_other_domain',
+    ),
+    102 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\DataTest::test_deletes_hiive_token_on_401',
+    ),
+    105 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\DataTest::test_deletes_hiive_token_on_401',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\DataTest::test_does_not_delete_hiive_token_on_hiive_200',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\DataTest::test_does_not_delete_hiive_token_on_401_other_domain',
+    ),
+    106 => NULL,
+    123 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\DataTest::test_authenticate',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\DataTest::test_authenticate_returns_early_when_no_auth_header',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\DataTest::test_authenticate_returns_early_when_not_a_rest_request',
+      3 => 'NewfoldLabs\\WP\\Module\\Data\\DataTest::test_authenticate_returns_early_when_already_authenticated',
+    ),
+    124 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\DataTest::test_authenticate_returns_early_when_already_authenticated',
+    ),
+    128 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\DataTest::test_authenticate',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\DataTest::test_authenticate_returns_early_when_no_auth_header',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\DataTest::test_authenticate_returns_early_when_not_a_rest_request',
+    ),
+    129 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\DataTest::test_authenticate_returns_early_when_not_a_rest_request',
+    ),
+    133 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\DataTest::test_authenticate',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\DataTest::test_authenticate_returns_early_when_no_auth_header',
+    ),
+    134 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\DataTest::test_authenticate_returns_early_when_no_auth_header',
+    ),
+    137 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\DataTest::test_authenticate',
+    ),
+    140 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\DataTest::test_authenticate',
+    ),
+    141 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\DataTest::test_authenticate',
+    ),
+    142 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\DataTest::test_authenticate',
+    ),
+    143 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\DataTest::test_authenticate',
+    ),
+    146 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\DataTest::test_authenticate',
+    ),
+    147 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\DataTest::test_authenticate',
+    ),
+    149 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\DataTest::test_authenticate',
+    ),
+    152 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\DataTest::test_authenticate',
+    ),
+    154 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\DataTest::test_authenticate',
+    ),
+    157 => 
+    array (
+    ),
+    162 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\DataTest::test_authenticate',
+    ),
+    163 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\DataTest::test_authenticate',
+    ),
+    167 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\DataTest::test_authenticate',
+    ),
+    168 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\DataTest::test_authenticate',
+    ),
+    170 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\DataTest::test_authenticate',
+    ),
+    175 => 
+    array (
+    ),
+    176 => NULL,
+    6 => 
+    array (
+    ),
+    75 => 
+    array (
+    ),
+    84 => 
+    array (
+    ),
+    103 => 
+    array (
+    ),
+    125 => 
+    array (
+    ),
+    130 => 
+    array (
+    ),
+    135 => 
+    array (
+    ),
+    139 => 
+    array (
+    ),
+    144 => 
+    array (
+    ),
+    159 => 
+    array (
+    ),
+    165 => 
+    array (
+    ),
+    171 => 
+    array (
+    ),
+    172 => 
+    array (
+    ),
+  ),
+  '/home/runner/work/wp-module-data/wp-module-data/includes/HiiveConnection.php' => 
+  array (
+    47 => 
+    array (
+    ),
+    48 => 
+    array (
+    ),
+    51 => 
+    array (
+    ),
+    52 => 
+    array (
+    ),
+    60 => 
+    array (
+    ),
+    61 => 
+    array (
+    ),
+    62 => 
+    array (
+    ),
+    70 => 
+    array (
+    ),
+    71 => 
+    array (
+    ),
+    72 => 
+    array (
+    ),
+    84 => 
+    array (
+    ),
+    85 => 
+    array (
+    ),
+    88 => 
+    array (
+    ),
+    89 => 
+    array (
+    ),
+    91 => 
+    array (
+    ),
+    92 => 
+    array (
+    ),
+    100 => 
+    array (
+    ),
+    102 => 
+    array (
+    ),
+    103 => 
+    array (
+    ),
+    105 => 
+    array (
+    ),
+    108 => 
+    array (
+    ),
+    109 => NULL,
+    119 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_fails_to_reconnect',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_without_data',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_with_data',
+    ),
+    120 => NULL,
+    130 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_notify_bad_token',
+    ),
+    131 => 
+    array (
+    ),
+    134 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_notify_bad_token',
+    ),
+    136 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_notify_bad_token',
+    ),
+    137 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_notify_bad_token',
+    ),
+    139 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_notify_bad_token',
+    ),
+    140 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_notify_bad_token',
+    ),
+    141 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_notify_bad_token',
+    ),
+    144 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_notify_bad_token',
+    ),
+    150 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_notify_bad_token',
+    ),
+    153 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_notify_bad_token',
+    ),
+    154 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_notify_bad_token',
+    ),
+    157 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_notify_bad_token',
+    ),
+    158 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_notify_bad_token',
+    ),
+    160 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_notify_bad_token',
+    ),
+    161 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_notify_bad_token',
+    ),
+    164 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_notify_bad_token',
+    ),
+    165 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_notify_bad_token',
+    ),
+    166 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_notify_bad_token',
+    ),
+    169 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_notify_bad_token',
+    ),
+    170 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_notify_bad_token',
+    ),
+    173 => 
+    array (
+    ),
+    174 => NULL,
+    184 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_notify_bad_token',
+    ),
+    185 => NULL,
+    193 => 
+    array (
+    ),
+    195 => 
+    array (
+    ),
+    196 => 
+    array (
+    ),
+    205 => 
+    array (
+    ),
+    213 => 
+    array (
+    ),
+    214 => 
+    array (
+    ),
+    215 => 
+    array (
+    ),
+    216 => 
+    array (
+    ),
+    217 => 
+    array (
+    ),
+    218 => 
+    array (
+    ),
+    219 => 
+    array (
+    ),
+    220 => 
+    array (
+    ),
+    222 => 
+    array (
+    ),
+    224 => NULL,
+    232 => 
+    array (
+    ),
+    234 => 
+    array (
+    ),
+    235 => NULL,
+    250 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_plugin_search',
+    ),
+    251 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_plugin_search',
+    ),
+    254 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_plugin_search',
+    ),
+    256 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_plugin_search',
+    ),
+    258 => 
+    array (
+    ),
+    261 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_plugin_search',
+    ),
+    263 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_plugin_search',
+    ),
+    264 => 
+    array (
+    ),
+    268 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_plugin_search',
+    ),
+    270 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_plugin_search',
+    ),
+    271 => NULL,
+    286 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_notify_success',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_notify_bad_token',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_notify_non_blocking_returns_error',
+      3 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_notify_wp_error',
+      4 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_without_data',
+      5 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_with_data',
+    ),
+    287 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_notify_success',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_notify_bad_token',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_notify_non_blocking_returns_error',
+      3 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_notify_wp_error',
+      4 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_without_data',
+      5 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_with_data',
+    ),
+    290 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_notify_success',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_notify_bad_token',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_notify_non_blocking_returns_error',
+      3 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_notify_wp_error',
+      4 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_without_data',
+      5 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_with_data',
+    ),
+    292 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_notify_success',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_notify_bad_token',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_notify_non_blocking_returns_error',
+      3 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_notify_wp_error',
+      4 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_without_data',
+      5 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_with_data',
+    ),
+    293 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_notify_wp_error',
+    ),
+    296 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_notify_success',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_notify_bad_token',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_notify_non_blocking_returns_error',
+      3 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_without_data',
+      4 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_with_data',
+    ),
+    297 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_notify_non_blocking_returns_error',
+    ),
+    300 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_notify_success',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_notify_bad_token',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_without_data',
+      3 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_with_data',
+    ),
+    303 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_notify_success',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_notify_bad_token',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_without_data',
+      3 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_with_data',
+    ),
+    304 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_notify_bad_token',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_without_data',
+    ),
+    307 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_notify_success',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_with_data',
+    ),
+    308 => NULL,
+    327 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_hiive_request_returns_wperror_when_no_auth_token',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_fails_to_reconnect',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_plugin_search',
+      3 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_without_data',
+      4 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_with_data',
+    ),
+    328 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_hiive_request_returns_wperror_when_no_auth_token',
+    ),
+    332 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_fails_to_reconnect',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_plugin_search',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_without_data',
+      3 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_with_data',
+    ),
+    334 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_fails_to_reconnect',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_plugin_search',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_without_data',
+      3 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_with_data',
+    ),
+    335 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_fails_to_reconnect',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_plugin_search',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_without_data',
+      3 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_with_data',
+    ),
+    336 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_fails_to_reconnect',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_plugin_search',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_without_data',
+      3 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_with_data',
+    ),
+    338 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_fails_to_reconnect',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_plugin_search',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_without_data',
+      3 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_with_data',
+    ),
+    341 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_fails_to_reconnect',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_plugin_search',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_without_data',
+      3 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_with_data',
+    ),
+    343 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_fails_to_reconnect',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_plugin_search',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_without_data',
+      3 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_with_data',
+    ),
+    344 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_plugin_search',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_without_data',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_with_data',
+    ),
+    347 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_fails_to_reconnect',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_plugin_search',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_without_data',
+      3 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_with_data',
+    ),
+    350 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_fails_to_reconnect',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_plugin_search',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_without_data',
+      3 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_with_data',
+    ),
+    351 => 
+    array (
+    ),
+    355 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_fails_to_reconnect',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_plugin_search',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_without_data',
+      3 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_with_data',
+    ),
+    356 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_fails_to_reconnect',
+    ),
+    357 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_fails_to_reconnect',
+    ),
+    358 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_fails_to_reconnect',
+    ),
+    359 => 
+    array (
+    ),
+    361 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_fails_to_reconnect',
+    ),
+    366 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_plugin_search',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_without_data',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_with_data',
+    ),
+    367 => NULL,
+    377 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_fails_to_reconnect',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\WonderBlocksTest::test_request_has_hiive_token',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\WonderBlocksTest::test_request_has_hiive_token_in_dev_mode_no_cached_value',
+      3 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_without_data',
+      4 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_with_data',
+    ),
+    378 => NULL,
+    386 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_plugin_sends_boxname_to_hiive',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_plugin_sends_server_path_to_hiive',
+    ),
+    387 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_plugin_sends_boxname_to_hiive',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_plugin_sends_server_path_to_hiive',
+    ),
+    390 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_plugin_sends_boxname_to_hiive',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_plugin_sends_server_path_to_hiive',
+    ),
+    391 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_plugin_sends_boxname_to_hiive',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_plugin_sends_server_path_to_hiive',
+    ),
+    392 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_plugin_sends_boxname_to_hiive',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_plugin_sends_server_path_to_hiive',
+    ),
+    393 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_plugin_sends_boxname_to_hiive',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_plugin_sends_server_path_to_hiive',
+    ),
+    394 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_plugin_sends_boxname_to_hiive',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_plugin_sends_server_path_to_hiive',
+    ),
+    395 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_plugin_sends_boxname_to_hiive',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_plugin_sends_server_path_to_hiive',
+    ),
+    396 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_plugin_sends_boxname_to_hiive',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_plugin_sends_server_path_to_hiive',
+    ),
+    397 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_plugin_sends_boxname_to_hiive',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_plugin_sends_server_path_to_hiive',
+    ),
+    398 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_plugin_sends_boxname_to_hiive',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_plugin_sends_server_path_to_hiive',
+    ),
+    399 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_plugin_sends_boxname_to_hiive',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_plugin_sends_server_path_to_hiive',
+    ),
+    400 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_plugin_sends_boxname_to_hiive',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_plugin_sends_server_path_to_hiive',
+    ),
+    401 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_plugin_sends_boxname_to_hiive',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_plugin_sends_server_path_to_hiive',
+    ),
+    402 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_plugin_sends_boxname_to_hiive',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_plugin_sends_server_path_to_hiive',
+    ),
+    403 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_plugin_sends_boxname_to_hiive',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_plugin_sends_server_path_to_hiive',
+    ),
+    406 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_plugin_sends_boxname_to_hiive',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_plugin_sends_server_path_to_hiive',
+    ),
+    407 => NULL,
+  ),
+  '/home/runner/work/wp-module-data/wp-module-data/includes/EventManager.php' => 
+  array (
+    53 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_init',
+    ),
+    54 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_init',
+    ),
+    57 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_init',
+    ),
+    58 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_init',
+    ),
+    67 => 
+    array (
+    ),
+    68 => 
+    array (
+    ),
+    76 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_initialize_cron',
+    ),
+    79 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_initialize_cron',
+    ),
+    82 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_initialize_cron',
+    ),
+    83 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_initialize_cron',
+    ),
+    85 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_initialize_cron',
+    ),
+    91 => 
+    array (
+    ),
+    92 => 
+    array (
+    ),
+    93 => 
+    array (
+    ),
+    105 => 
+    array (
+    ),
+    106 => 
+    array (
+    ),
+    108 => 
+    array (
+    ),
+    109 => 
+    array (
+    ),
+    110 => 
+    array (
+    ),
+    114 => 
+    array (
+    ),
+    115 => NULL,
+    125 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_happy_path_no_failed_events',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_happy_path_with_failed_events',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_hiive_connection_wp_error',
+      3 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_hiive_500_error',
+      4 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerWPUnitTest::test_empty_response_from_hiive',
+    ),
+    126 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_happy_path_no_failed_events',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_happy_path_with_failed_events',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_hiive_connection_wp_error',
+      3 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_hiive_500_error',
+      4 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerWPUnitTest::test_empty_response_from_hiive',
+    ),
+    127 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_happy_path_no_failed_events',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_happy_path_with_failed_events',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_hiive_connection_wp_error',
+      3 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_hiive_500_error',
+      4 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerWPUnitTest::test_empty_response_from_hiive',
+    ),
+    128 => 
+    array (
+    ),
+    129 => 
+    array (
+    ),
+    134 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_happy_path_no_failed_events',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_happy_path_with_failed_events',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_hiive_connection_wp_error',
+      3 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_hiive_500_error',
+      4 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerWPUnitTest::test_empty_response_from_hiive',
+    ),
+    135 => 
+    array (
+    ),
+    139 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_happy_path_no_failed_events',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_happy_path_with_failed_events',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_hiive_connection_wp_error',
+      3 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_hiive_500_error',
+      4 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerWPUnitTest::test_empty_response_from_hiive',
+    ),
+    140 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_happy_path_no_failed_events',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_happy_path_with_failed_events',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_hiive_connection_wp_error',
+      3 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_hiive_500_error',
+      4 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerWPUnitTest::test_empty_response_from_hiive',
+    ),
+    142 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_happy_path_no_failed_events',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_happy_path_with_failed_events',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_hiive_connection_wp_error',
+      3 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_hiive_500_error',
+      4 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerWPUnitTest::test_empty_response_from_hiive',
+    ),
+    150 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_hiive_connection_wp_error',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_hiive_500_error',
+    ),
+    151 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_hiive_connection_wp_error',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_hiive_500_error',
+    ),
+    159 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_hiive_connection_wp_error',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_hiive_500_error',
+    ),
+    160 => NULL,
+    168 => 
+    array (
+    ),
+    169 => NULL,
+    175 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_initialize_listeners_burst_safety_enabled_no_listeners_hooks_registered',
+    ),
+    177 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_initialize_listeners_burst_safety_enabled_no_listeners_hooks_registered',
+    ),
+    179 => 
+    array (
+    ),
+    180 => 
+    array (
+    ),
+    181 => 
+    array (
+    ),
+    183 => 
+    array (
+    ),
+    196 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_hiive_connection_wp_error',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_hiive_500_error',
+    ),
+    197 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_hiive_connection_wp_error',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_hiive_500_error',
+    ),
+    198 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_hiive_connection_wp_error',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_hiive_500_error',
+    ),
+    208 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_happy_path_no_failed_events',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_happy_path_with_failed_events',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_hiive_connection_wp_error',
+      3 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_hiive_500_error',
+      4 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerWPUnitTest::test_empty_response_from_hiive',
+    ),
+    212 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_happy_path_no_failed_events',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_happy_path_with_failed_events',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_hiive_connection_wp_error',
+      3 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_hiive_500_error',
+      4 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerWPUnitTest::test_empty_response_from_hiive',
+    ),
+    214 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_happy_path_no_failed_events',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_happy_path_with_failed_events',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_hiive_connection_wp_error',
+      3 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_hiive_500_error',
+      4 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerWPUnitTest::test_empty_response_from_hiive',
+    ),
+    215 => 
+    array (
+    ),
+    218 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_happy_path_no_failed_events',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_happy_path_with_failed_events',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_hiive_connection_wp_error',
+      3 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_hiive_500_error',
+      4 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerWPUnitTest::test_empty_response_from_hiive',
+    ),
+    219 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_hiive_connection_wp_error',
+    ),
+    220 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_hiive_connection_wp_error',
+    ),
+    223 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_happy_path_no_failed_events',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_happy_path_with_failed_events',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_hiive_500_error',
+      3 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerWPUnitTest::test_empty_response_from_hiive',
+    ),
+    224 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_happy_path_with_failed_events',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_hiive_500_error',
+    ),
+    227 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_happy_path_no_failed_events',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_happy_path_with_failed_events',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_hiive_connection_wp_error',
+      3 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_hiive_500_error',
+      4 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerWPUnitTest::test_empty_response_from_hiive',
+    ),
+    236 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_happy_path',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_happy_path_no_failed_events',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_happy_path_no_successful_events',
+      3 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_wp_error_from_hiive_connection',
+      4 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_failures_from_hiive',
+    ),
+    243 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_happy_path',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_happy_path_no_failed_events',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_happy_path_no_successful_events',
+      3 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_wp_error_from_hiive_connection',
+      4 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_failures_from_hiive',
+    ),
+    246 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_happy_path',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_happy_path_no_failed_events',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_happy_path_no_successful_events',
+      3 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_wp_error_from_hiive_connection',
+      4 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_failures_from_hiive',
+    ),
+    247 => 
+    array (
+    ),
+    250 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_happy_path',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_happy_path_no_failed_events',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_happy_path_no_successful_events',
+      3 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_wp_error_from_hiive_connection',
+      4 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_failures_from_hiive',
+    ),
+    252 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_happy_path',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_happy_path_no_failed_events',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_happy_path_no_successful_events',
+      3 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_wp_error_from_hiive_connection',
+      4 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_failures_from_hiive',
+    ),
+    256 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_happy_path',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_happy_path_no_failed_events',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_happy_path_no_successful_events',
+      3 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_wp_error_from_hiive_connection',
+      4 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_failures_from_hiive',
+    ),
+    258 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_happy_path',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_happy_path_no_failed_events',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_happy_path_no_successful_events',
+      3 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_wp_error_from_hiive_connection',
+      4 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_failures_from_hiive',
+    ),
+    259 => 
+    array (
+    ),
+    262 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_happy_path',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_happy_path_no_failed_events',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_happy_path_no_successful_events',
+      3 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_wp_error_from_hiive_connection',
+      4 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_failures_from_hiive',
+    ),
+    263 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_wp_error_from_hiive_connection',
+    ),
+    264 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_wp_error_from_hiive_connection',
+    ),
+    268 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_happy_path',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_happy_path_no_failed_events',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_happy_path_no_successful_events',
+      3 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_failures_from_hiive',
+    ),
+    269 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_happy_path',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_happy_path_no_failed_events',
+    ),
+    273 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_happy_path',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_happy_path_no_failed_events',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_happy_path_no_successful_events',
+      3 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_failures_from_hiive',
+    ),
+    274 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_happy_path',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_happy_path_no_successful_events',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_failures_from_hiive',
+    ),
+    277 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_happy_path',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_happy_path_no_failed_events',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_happy_path_no_successful_events',
+      3 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_wp_error_from_hiive_connection',
+      4 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_failures_from_hiive',
+    ),
+  ),
+  '/home/runner/work/wp-module-data/wp-module-data/includes/EventQueue/Queues/BatchQueueInterface.php' => 
+  array (
+  ),
+  '/home/runner/work/wp-module-data/wp-module-data/includes/EventQueue/Queues/BatchQueue.php' => 
+  array (
+    26 => 
+    array (
+    ),
+    27 => 
+    array (
+    ),
+    38 => 
+    array (
+    ),
+    40 => 
+    array (
+    ),
+    41 => 
+    array (
+    ),
+    42 => 
+    array (
+    ),
+    43 => 
+    array (
+    ),
+    44 => 
+    array (
+    ),
+    45 => 
+    array (
+    ),
+    49 => 
+    array (
+    ),
+    50 => NULL,
+    59 => 
+    array (
+    ),
+    62 => 
+    array (
+    ),
+    63 => 
+    array (
+    ),
+    64 => 
+    array (
+    ),
+    65 => 
+    array (
+    ),
+    66 => 
+    array (
+    ),
+    67 => 
+    array (
+    ),
+    68 => 
+    array (
+    ),
+    69 => 
+    array (
+    ),
+    71 => 
+    array (
+    ),
+    72 => 
+    array (
+    ),
+    75 => 
+    array (
+    ),
+    76 => 
+    array (
+    ),
+    77 => 
+    array (
+    ),
+    81 => 
+    array (
+    ),
+    82 => NULL,
+    93 => 
+    array (
+    ),
+    94 => 
+    array (
+    ),
+    95 => 
+    array (
+    ),
+    96 => 
+    array (
+    ),
+    97 => NULL,
+    108 => 
+    array (
+    ),
+    109 => 
+    array (
+    ),
+    110 => 
+    array (
+    ),
+    111 => 
+    array (
+    ),
+    112 => NULL,
+    123 => 
+    array (
+    ),
+    124 => 
+    array (
+    ),
+    125 => 
+    array (
+    ),
+    126 => 
+    array (
+    ),
+    127 => NULL,
+    136 => 
+    array (
+    ),
+    137 => 
+    array (
+    ),
+    138 => 
+    array (
+    ),
+    139 => 
+    array (
+    ),
+    140 => 
+    array (
+    ),
+    141 => 
+    array (
+    ),
+    142 => NULL,
+    46 => 
+    array (
+    ),
+    47 => 
+    array (
+    ),
+    61 => 
+    array (
+    ),
+    73 => 
+    array (
+    ),
+    78 => 
+    array (
+    ),
+    79 => 
+    array (
+    ),
+    92 => 
+    array (
+    ),
+    107 => 
+    array (
+    ),
+    122 => 
+    array (
+    ),
+    135 => 
+    array (
+    ),
+  ),
+  '/home/runner/work/wp-module-data/wp-module-data/includes/EventQueue/Queryable.php' => 
+  array (
+    13 => 
+    array (
+    ),
+    14 => NULL,
+    22 => 
+    array (
+    ),
+    23 => NULL,
+    35 => 
+    array (
+    ),
+    38 => 
+    array (
+    ),
+    39 => 
+    array (
+    ),
+    40 => 
+    array (
+    ),
+    43 => 
+    array (
+    ),
+    44 => 
+    array (
+    ),
+    45 => 
+    array (
+    ),
+    48 => 
+    array (
+    ),
+    49 => 
+    array (
+    ),
+    50 => 
+    array (
+    ),
+    52 => 
+    array (
+    ),
+    53 => 
+    array (
+    ),
+    54 => 
+    array (
+    ),
+    57 => 
+    array (
+    ),
+    61 => 
+    array (
+    ),
+    64 => 
+    array (
+    ),
+    65 => NULL,
+    55 => 
+    array (
+    ),
+    58 => 
+    array (
+    ),
+  ),
+  '/home/runner/work/wp-module-data/wp-module-data/includes/Event.php' => 
+  array (
+    60 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_without_data',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_with_data',
+    ),
+    63 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_without_data',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_with_data',
+    ),
+    64 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_without_data',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_with_data',
+    ),
+    65 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_without_data',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_with_data',
+    ),
+    66 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_without_data',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_with_data',
+    ),
+    69 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_without_data',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_with_data',
+    ),
+    71 => 
+    array (
+    ),
+    72 => 
+    array (
+    ),
+    74 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_without_data',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_with_data',
+    ),
+    78 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_without_data',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_with_data',
+    ),
+    79 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_without_data',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_with_data',
+    ),
+    80 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_without_data',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_with_data',
+    ),
+    81 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_without_data',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_with_data',
+    ),
+    82 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_without_data',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_with_data',
+    ),
+    86 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_without_data',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_with_data',
+    ),
+    87 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_without_data',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_with_data',
+    ),
+    88 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_without_data',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_with_data',
+    ),
+    89 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_without_data',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_with_data',
+    ),
+    90 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_without_data',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_with_data',
+    ),
+    91 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_without_data',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_with_data',
+    ),
+    94 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_without_data',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_with_data',
+    ),
+  ),
+  '/home/runner/work/wp-module-data/wp-module-data/includes/EventQueue/EventQueue.php' => 
+  array (
+    29 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_happy_path',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_happy_path_no_failed_events',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_happy_path_no_successful_events',
+      3 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_wp_error_from_hiive_connection',
+      4 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_failures_from_hiive',
+      5 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_hiive_connection_wp_error',
+      6 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_hiive_500_error',
+    ),
+    30 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_happy_path',
+    ),
+    33 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_happy_path',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_happy_path_no_failed_events',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_happy_path_no_successful_events',
+      3 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_wp_error_from_hiive_connection',
+      4 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_failures_from_hiive',
+      5 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_hiive_connection_wp_error',
+      6 => 'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_hiive_500_error',
+    ),
+    34 => NULL,
+    43 => 
+    array (
+    ),
+    45 => 
+    array (
+    ),
+    47 => 
+    array (
+    ),
+    51 => 
+    array (
+    ),
+    52 => 
+    array (
+    ),
+    53 => 
+    array (
+    ),
+    55 => 
+    array (
+    ),
+    56 => 
+    array (
+    ),
+    60 => 
+    array (
+    ),
+    61 => 
+    array (
+    ),
+    62 => 
+    array (
+    ),
+    64 => 
+    array (
+    ),
+    65 => 
+    array (
+    ),
+    69 => 
+    array (
+    ),
+    70 => 
+    array (
+    ),
+    78 => 
+    array (
+    ),
+    79 => NULL,
+    87 => 
+    array (
+    ),
+    88 => NULL,
+    31 => 
+    array (
+    ),
+    46 => 
+    array (
+    ),
+    48 => 
+    array (
+    ),
+    49 => 
+    array (
+    ),
+    57 => 
+    array (
+    ),
+    58 => 
+    array (
+    ),
+    66 => 
+    array (
+    ),
+    67 => 
+    array (
+    ),
+  ),
+  '/home/runner/work/wp-module-data/wp-module-data/includes/Helpers/Transient.php' => 
+  array (
+    16 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Helpers\\TransientTest::test_should_use_transients_bluehost_cloud',
+    ),
+    17 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Helpers\\TransientTest::test_should_use_transients_bluehost_cloud',
+    ),
+    18 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Helpers\\TransientTest::test_should_use_transients_bluehost_cloud',
+    ),
+    19 => NULL,
+    32 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Helpers\\TransientTest::test_get_transient_use_default',
+      1 => 'NewfoldLabs\\WP\\Module\\Helpers\\TransientTest::test_get_transient_use_options',
+      2 => 'NewfoldLabs\\WP\\Module\\Helpers\\TransientTest::test_get_transient_use_options_expired',
+    ),
+    33 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Helpers\\TransientTest::test_get_transient_use_default',
+    ),
+    39 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Helpers\\TransientTest::test_get_transient_use_options',
+      1 => 'NewfoldLabs\\WP\\Module\\Helpers\\TransientTest::test_get_transient_use_options_expired',
+    ),
+    40 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Helpers\\TransientTest::test_get_transient_use_options',
+      1 => 'NewfoldLabs\\WP\\Module\\Helpers\\TransientTest::test_get_transient_use_options_expired',
+    ),
+    41 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Helpers\\TransientTest::test_get_transient_use_options',
+      1 => 'NewfoldLabs\\WP\\Module\\Helpers\\TransientTest::test_get_transient_use_options_expired',
+    ),
+    42 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Helpers\\TransientTest::test_get_transient_use_options',
+    ),
+    44 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Helpers\\TransientTest::test_get_transient_use_options_expired',
+    ),
+    48 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Helpers\\TransientTest::test_get_transient_use_options_expired',
+    ),
+    49 => NULL,
+    64 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Helpers\\TransientTest::test_set_transient_use_default',
+      1 => 'NewfoldLabs\\WP\\Module\\Helpers\\TransientTest::test_set_transient_use_options',
+    ),
+    65 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Helpers\\TransientTest::test_set_transient_use_default',
+    ),
+    69 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Helpers\\TransientTest::test_set_transient_use_options',
+    ),
+    70 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Helpers\\TransientTest::test_set_transient_use_options',
+    ),
+    72 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Helpers\\TransientTest::test_set_transient_use_options',
+    ),
+    73 => NULL,
+    85 => 
+    array (
+    ),
+    86 => 
+    array (
+    ),
+    89 => 
+    array (
+    ),
+    90 => NULL,
+    102 => 
+    array (
+    ),
+    103 => 
+    array (
+    ),
+    105 => 
+    array (
+    ),
+    106 => NULL,
+  ),
+  '/home/runner/work/wp-module-data/wp-module-data/includes/Listeners/Listener.php' => 
+  array (
+    26 => 
+    array (
+    ),
+    27 => 
+    array (
+    ),
+    42 => 
+    array (
+    ),
+    43 => 
+    array (
+    ),
+    44 => 
+    array (
+    ),
+    45 => 
+    array (
+    ),
+    53 => 
+    array (
+    ),
+    54 => 
+    array (
+    ),
+    56 => 
+    array (
+    ),
+    57 => NULL,
+  ),
+  '/home/runner/work/wp-module-data/wp-module-data/includes/Listeners/Plugin.php' => 
+  array (
+    19 => 
+    array (
+    ),
+    20 => 
+    array (
+    ),
+    21 => 
+    array (
+    ),
+    22 => 
+    array (
+    ),
+    23 => 
+    array (
+    ),
+    26 => 
+    array (
+    ),
+    27 => 
+    array (
+    ),
+    28 => 
+    array (
+    ),
+    29 => 
+    array (
+    ),
+    31 => 
+    array (
+    ),
+    33 => 
+    array (
+    ),
+    45 => 
+    array (
+    ),
+    46 => 
+    array (
+    ),
+    48 => 
+    array (
+    ),
+    49 => 
+    array (
+    ),
+    61 => 
+    array (
+    ),
+    62 => 
+    array (
+    ),
+    66 => 
+    array (
+    ),
+    68 => 
+    array (
+    ),
+    69 => 
+    array (
+    ),
+    79 => 
+    array (
+    ),
+    80 => 
+    array (
+    ),
+    92 => 
+    array (
+    ),
+    94 => 
+    array (
+    ),
+    96 => 
+    array (
+    ),
+    99 => 
+    array (
+    ),
+    100 => 
+    array (
+    ),
+    113 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\Listeners\\PluginTest::test_upgrader_process_complete_fired with data set #0',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\Listeners\\PluginTest::test_upgrader_process_complete_fired with data set #1',
+    ),
+    115 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\Listeners\\PluginTest::test_upgrader_process_complete_fired with data set #0',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\Listeners\\PluginTest::test_upgrader_process_complete_fired with data set #1',
+    ),
+    116 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\Listeners\\PluginTest::test_upgrader_process_complete_fired with data set #1',
+    ),
+    119 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\Listeners\\PluginTest::test_upgrader_process_complete_fired with data set #0',
+    ),
+    120 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\Listeners\\PluginTest::test_upgrader_process_complete_fired with data set #0',
+    ),
+    121 => 
+    array (
+    ),
+    122 => 
+    array (
+    ),
+    123 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\Listeners\\PluginTest::test_upgrader_process_complete_fired with data set #0',
+    ),
+    124 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\Listeners\\PluginTest::test_upgrader_process_complete_fired with data set #0',
+    ),
+    125 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\Listeners\\PluginTest::test_upgrader_process_complete_fired with data set #0',
+    ),
+    127 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\Listeners\\PluginTest::test_upgrader_process_complete_fired with data set #0',
+    ),
+    135 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\Listeners\\PluginTest::test_upgrader_process_complete_fired with data set #0',
+    ),
+    138 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\Listeners\\PluginTest::test_upgrader_process_complete_fired with data set #0',
+    ),
+    139 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\Listeners\\PluginTest::test_upgrader_process_complete_fired with data set #0',
+    ),
+    140 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\Listeners\\PluginTest::test_upgrader_process_complete_fired with data set #0',
+    ),
+    144 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\Listeners\\PluginTest::test_upgrader_process_complete_fired with data set #0',
+    ),
+    145 => 
+    array (
+    ),
+    149 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\Listeners\\PluginTest::test_upgrader_process_complete_fired with data set #0',
+    ),
+    152 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\Listeners\\PluginTest::test_upgrader_process_complete_fired with data set #0',
+    ),
+    153 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\Listeners\\PluginTest::test_upgrader_process_complete_fired with data set #0',
+    ),
+    162 => 
+    array (
+    ),
+    164 => 
+    array (
+    ),
+    165 => 
+    array (
+    ),
+    30 => 
+    array (
+    ),
+    32 => 
+    array (
+    ),
+    44 => 
+    array (
+    ),
+    47 => 
+    array (
+    ),
+    60 => 
+    array (
+    ),
+    63 => 
+    array (
+    ),
+    93 => 
+    array (
+    ),
+    95 => 
+    array (
+    ),
+    97 => 
+    array (
+    ),
+    117 => 
+    array (
+    ),
+    126 => 
+    array (
+    ),
+    141 => 
+    array (
+    ),
+    142 => 
+    array (
+    ),
+    146 => 
+    array (
+    ),
+    148 => 
+    array (
+    ),
+    150 => 
+    array (
+    ),
+    161 => 
+    array (
+    ),
+    163 => 
+    array (
+    ),
+  ),
+  '/home/runner/work/wp-module-data/wp-module-data/includes/Helpers/Plugin.php' => 
+  array (
+    18 => 
+    array (
+    ),
+    19 => 
+    array (
+    ),
+    22 => 
+    array (
+    ),
+    23 => NULL,
+    31 => 
+    array (
+    ),
+    32 => 
+    array (
+    ),
+    35 => 
+    array (
+    ),
+    38 => 
+    array (
+    ),
+    39 => 
+    array (
+    ),
+    43 => 
+    array (
+    ),
+    44 => 
+    array (
+    ),
+    47 => 
+    array (
+    ),
+    48 => NULL,
+    60 => 
+    array (
+    ),
+    61 => 
+    array (
+    ),
+    62 => 
+    array (
+    ),
+    63 => 
+    array (
+    ),
+    64 => 
+    array (
+    ),
+    65 => 
+    array (
+    ),
+    66 => 
+    array (
+    ),
+    67 => 
+    array (
+    ),
+    69 => 
+    array (
+    ),
+    70 => NULL,
+    81 => 
+    array (
+    ),
+    82 => 
+    array (
+    ),
+    86 => 
+    array (
+    ),
+    88 => 
+    array (
+    ),
+    89 => NULL,
+    20 => 
+    array (
+    ),
+    33 => 
+    array (
+    ),
+    40 => 
+    array (
+    ),
+    45 => 
+    array (
+    ),
+    83 => 
+    array (
+    ),
+  ),
+  '/home/runner/work/wp-module-data/wp-module-data/includes/Listeners/Commerce.php' => 
+  array (
+    16 => 
+    array (
+    ),
+    17 => 
+    array (
+    ),
+    18 => 
+    array (
+    ),
+    19 => 
+    array (
+    ),
+    20 => 
+    array (
+    ),
+    21 => 
+    array (
+    ),
+    22 => 
+    array (
+    ),
+    23 => 
+    array (
+    ),
+    24 => 
+    array (
+    ),
+    26 => 
+    array (
+    ),
+    27 => 
+    array (
+    ),
+    28 => 
+    array (
+    ),
+    29 => 
+    array (
+    ),
+    30 => 
+    array (
+    ),
+    43 => 
+    array (
+    ),
+    44 => 
+    array (
+    ),
+    45 => 
+    array (
+    ),
+    46 => 
+    array (
+    ),
+    49 => 
+    array (
+    ),
+    50 => 
+    array (
+    ),
+    60 => 
+    array (
+    ),
+    61 => 
+    array (
+    ),
+    63 => 
+    array (
+    ),
+    64 => 
+    array (
+    ),
+    65 => 
+    array (
+    ),
+    68 => 
+    array (
+    ),
+    69 => NULL,
+    79 => 
+    array (
+    ),
+    80 => 
+    array (
+    ),
+    82 => 
+    array (
+    ),
+    83 => 
+    array (
+    ),
+    84 => 
+    array (
+    ),
+    87 => 
+    array (
+    ),
+    88 => NULL,
+    96 => 
+    array (
+    ),
+    98 => 
+    array (
+    ),
+    99 => 
+    array (
+    ),
+    100 => 
+    array (
+    ),
+    103 => 
+    array (
+    ),
+    104 => 
+    array (
+    ),
+    108 => 
+    array (
+    ),
+    118 => 
+    array (
+    ),
+    119 => 
+    array (
+    ),
+    120 => 
+    array (
+    ),
+    121 => 
+    array (
+    ),
+    124 => 
+    array (
+    ),
+    125 => 
+    array (
+    ),
+    128 => 
+    array (
+    ),
+    138 => 
+    array (
+    ),
+    139 => 
+    array (
+    ),
+    142 => 
+    array (
+    ),
+    143 => 
+    array (
+    ),
+    146 => 
+    array (
+    ),
+    147 => 
+    array (
+    ),
+    148 => 
+    array (
+    ),
+    151 => 
+    array (
+    ),
+    152 => 
+    array (
+    ),
+    155 => 
+    array (
+    ),
+    166 => 
+    array (
+    ),
+    167 => 
+    array (
+    ),
+    169 => 
+    array (
+    ),
+    170 => 
+    array (
+    ),
+    171 => 
+    array (
+    ),
+    173 => 
+    array (
+    ),
+    174 => 
+    array (
+    ),
+    175 => 
+    array (
+    ),
+    180 => 
+    array (
+    ),
+    181 => NULL,
+    192 => 
+    array (
+    ),
+    193 => 
+    array (
+    ),
+    195 => 
+    array (
+    ),
+    196 => 
+    array (
+    ),
+    197 => 
+    array (
+    ),
+    199 => 
+    array (
+    ),
+    200 => 
+    array (
+    ),
+    201 => 
+    array (
+    ),
+    206 => 
+    array (
+    ),
+    207 => NULL,
+    218 => 
+    array (
+    ),
+    219 => 
+    array (
+    ),
+    221 => 
+    array (
+    ),
+    222 => 
+    array (
+    ),
+    223 => 
+    array (
+    ),
+    225 => 
+    array (
+    ),
+    226 => 
+    array (
+    ),
+    227 => 
+    array (
+    ),
+    232 => 
+    array (
+    ),
+    233 => NULL,
+    244 => 
+    array (
+    ),
+    245 => 
+    array (
+    ),
+    247 => 
+    array (
+    ),
+    248 => 
+    array (
+    ),
+    249 => 
+    array (
+    ),
+    251 => 
+    array (
+    ),
+    252 => 
+    array (
+    ),
+    253 => 
+    array (
+    ),
+    258 => 
+    array (
+    ),
+    259 => NULL,
+    270 => 
+    array (
+    ),
+    271 => 
+    array (
+    ),
+    272 => 
+    array (
+    ),
+    274 => 
+    array (
+    ),
+    276 => 
+    array (
+    ),
+    277 => 
+    array (
+    ),
+    281 => 
+    array (
+    ),
+    282 => NULL,
+    293 => 
+    array (
+    ),
+    294 => 
+    array (
+    ),
+    295 => 
+    array (
+    ),
+    298 => 
+    array (
+    ),
+    299 => 
+    array (
+    ),
+    302 => 
+    array (
+    ),
+    315 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\Listeners\\CommerceTest::test_woocommerce_hpos_enabled',
+    ),
+    316 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\Listeners\\CommerceTest::test_woocommerce_hpos_enabled',
+    ),
+    317 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\Listeners\\CommerceTest::test_woocommerce_hpos_enabled',
+    ),
+    318 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\Listeners\\CommerceTest::test_woocommerce_hpos_enabled',
+    ),
+    321 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\Listeners\\CommerceTest::test_woocommerce_hpos_enabled',
+    ),
+    322 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\Listeners\\CommerceTest::test_woocommerce_hpos_enabled',
+    ),
+    323 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\Listeners\\CommerceTest::test_woocommerce_hpos_enabled',
+    ),
+    326 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\Listeners\\CommerceTest::test_woocommerce_hpos_enabled',
+    ),
+    327 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\Listeners\\CommerceTest::test_woocommerce_hpos_enabled',
+    ),
+    331 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\Listeners\\CommerceTest::test_woocommerce_hpos_enabled',
+    ),
+    42 => 
+    array (
+    ),
+    47 => 
+    array (
+    ),
+    62 => 
+    array (
+    ),
+    66 => 
+    array (
+    ),
+    81 => 
+    array (
+    ),
+    85 => 
+    array (
+    ),
+    97 => 
+    array (
+    ),
+    101 => 
+    array (
+    ),
+    105 => 
+    array (
+    ),
+    106 => 
+    array (
+    ),
+    107 => 
+    array (
+    ),
+    117 => 
+    array (
+    ),
+    122 => 
+    array (
+    ),
+    126 => 
+    array (
+    ),
+    127 => 
+    array (
+    ),
+    144 => 
+    array (
+    ),
+    145 => 
+    array (
+    ),
+    149 => 
+    array (
+    ),
+    153 => 
+    array (
+    ),
+    154 => 
+    array (
+    ),
+    168 => 
+    array (
+    ),
+    172 => 
+    array (
+    ),
+    176 => 
+    array (
+    ),
+    177 => 
+    array (
+    ),
+    178 => 
+    array (
+    ),
+    194 => 
+    array (
+    ),
+    198 => 
+    array (
+    ),
+    202 => 
+    array (
+    ),
+    203 => 
+    array (
+    ),
+    204 => 
+    array (
+    ),
+    220 => 
+    array (
+    ),
+    224 => 
+    array (
+    ),
+    228 => 
+    array (
+    ),
+    229 => 
+    array (
+    ),
+    230 => 
+    array (
+    ),
+    246 => 
+    array (
+    ),
+    250 => 
+    array (
+    ),
+    254 => 
+    array (
+    ),
+    255 => 
+    array (
+    ),
+    256 => 
+    array (
+    ),
+    273 => 
+    array (
+    ),
+    275 => 
+    array (
+    ),
+    278 => 
+    array (
+    ),
+    279 => 
+    array (
+    ),
+    280 => 
+    array (
+    ),
+    292 => 
+    array (
+    ),
+    296 => 
+    array (
+    ),
+    300 => 
+    array (
+    ),
+    301 => 
+    array (
+    ),
+    320 => 
+    array (
+    ),
+    324 => 
+    array (
+    ),
+    328 => 
+    array (
+    ),
+    329 => 
+    array (
+    ),
+    330 => 
+    array (
+    ),
+  ),
+  '/home/runner/work/wp-module-data/wp-module-data/includes/Listeners/Cron.php' => 
+  array (
+    23 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\Listeners\\CronTest::test_register_hooks',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\Listeners\\CronTest::test_register_hooks_schedules_job_when_absent',
+    ),
+    26 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\Listeners\\CronTest::test_register_hooks',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\Listeners\\CronTest::test_register_hooks_schedules_job_when_absent',
+    ),
+    29 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\Listeners\\CronTest::test_register_hooks',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\Listeners\\CronTest::test_register_hooks_schedules_job_when_absent',
+    ),
+    30 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\Listeners\\CronTest::test_register_hooks_schedules_job_when_absent',
+    ),
+    31 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\Listeners\\CronTest::test_register_hooks_schedules_job_when_absent',
+    ),
+    32 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\Listeners\\CronTest::test_register_hooks_schedules_job_when_absent',
+    ),
+    33 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\Listeners\\CronTest::test_register_hooks_schedules_job_when_absent',
+    ),
+    36 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\Listeners\\CronTest::test_register_hooks',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\Listeners\\CronTest::test_register_hooks_schedules_job_when_absent',
+    ),
+    46 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\Listeners\\CronTest::test_cron_job_main_function',
+    ),
+    49 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\Listeners\\CronTest::test_cron_job_main_function',
+    ),
+    51 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\Listeners\\CronTest::test_cron_job_main_function',
+    ),
+    52 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\Listeners\\CronTest::test_cron_job_main_function',
+    ),
+    64 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\Listeners\\CronTest::test_add_weekly_schedule_to_wp_cron_schedules',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\Listeners\\CronTest::test_fixes_weekly_schedule_in_wp_cron_schedules_if_value_is_wrong',
+    ),
+    65 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\Listeners\\CronTest::test_add_weekly_schedule_to_wp_cron_schedules',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\Listeners\\CronTest::test_fixes_weekly_schedule_in_wp_cron_schedules_if_value_is_wrong',
+    ),
+    66 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\Listeners\\CronTest::test_add_weekly_schedule_to_wp_cron_schedules',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\Listeners\\CronTest::test_fixes_weekly_schedule_in_wp_cron_schedules_if_value_is_wrong',
+    ),
+    67 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\Listeners\\CronTest::test_add_weekly_schedule_to_wp_cron_schedules',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\Listeners\\CronTest::test_fixes_weekly_schedule_in_wp_cron_schedules_if_value_is_wrong',
+    ),
+    70 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\Listeners\\CronTest::test_add_weekly_schedule_to_wp_cron_schedules',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\Listeners\\CronTest::test_fixes_weekly_schedule_in_wp_cron_schedules_if_value_is_wrong',
+    ),
+    71 => NULL,
+    34 => 
+    array (
+    ),
+    35 => 
+    array (
+    ),
+    45 => 
+    array (
+    ),
+    47 => 
+    array (
+    ),
+    68 => 
+    array (
+    ),
+    69 => 
+    array (
+    ),
+  ),
+  '/home/runner/work/wp-module-data/wp-module-data/includes/WonderBlocks/Requests/Request.php' => 
+  array (
+    34 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\Requests\\RequestTest::test_get_base_url',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\Requests\\RequestTest::test_get_base_url_dev_mode',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\Requests\\RequestTest::test_get_base_url_dev_mode_false',
+    ),
+    35 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\Requests\\RequestTest::test_get_base_url_dev_mode',
+    ),
+    38 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\Requests\\RequestTest::test_get_base_url',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\Requests\\RequestTest::test_get_base_url_dev_mode_false',
+    ),
+    39 => NULL,
+    45 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\Requests\\RequestTest::test_get_endpoint',
+    ),
+    46 => NULL,
+    36 => 
+    array (
+    ),
+  ),
+  '/home/runner/work/wp-module-data/wp-module-data/includes/WonderBlocks/Requests/Fetch.php' => 
+  array (
+    70 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\Requests\\FetchTest::test_get_url_with_endpoint',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\Requests\\FetchTest::test_get_url_with_endpoint_and_slug',
+    ),
+    71 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\Requests\\FetchTest::test_get_url_with_endpoint',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\Requests\\FetchTest::test_get_url_with_endpoint_and_slug',
+    ),
+    72 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\Requests\\FetchTest::test_get_url_with_endpoint',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\Requests\\FetchTest::test_get_url_with_endpoint_and_slug',
+    ),
+    74 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\Requests\\FetchTest::test_get_url_with_endpoint',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\Requests\\FetchTest::test_get_url_with_endpoint_and_slug',
+    ),
+    82 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\Requests\\FetchTest::test_get_url_with_endpoint',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\Requests\\FetchTest::test_get_url_with_endpoint_and_slug',
+    ),
+    83 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\Requests\\FetchTest::test_get_url_with_endpoint',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\Requests\\FetchTest::test_get_url_with_endpoint_and_slug',
+    ),
+    84 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\Requests\\FetchTest::test_get_url_with_endpoint',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\Requests\\FetchTest::test_get_url_with_endpoint_and_slug',
+    ),
+    85 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\Requests\\FetchTest::test_get_url_with_endpoint',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\Requests\\FetchTest::test_get_url_with_endpoint_and_slug',
+    ),
+    86 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\Requests\\FetchTest::test_get_url_with_endpoint_and_slug',
+    ),
+    90 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\Requests\\FetchTest::test_get_url_with_endpoint',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\Requests\\FetchTest::test_get_url_with_endpoint_and_slug',
+    ),
+    91 => NULL,
+    100 => 
+    array (
+    ),
+    101 => 
+    array (
+    ),
+    102 => 
+    array (
+    ),
+    103 => 
+    array (
+    ),
+    105 => NULL,
+    111 => 
+    array (
+    ),
+    112 => NULL,
+    118 => 
+    array (
+    ),
+    119 => NULL,
+    125 => 
+    array (
+    ),
+    127 => 
+    array (
+    ),
+    128 => 
+    array (
+    ),
+    129 => NULL,
+    73 => 
+    array (
+    ),
+    87 => 
+    array (
+    ),
+    88 => 
+    array (
+    ),
+    99 => 
+    array (
+    ),
+    104 => 
+    array (
+    ),
+  ),
+  '/home/runner/work/wp-module-data/wp-module-data/includes/WonderBlocks/WonderBlocks.php' => 
+  array (
+    25 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\WonderBlocksTest::test_request_has_hiive_token',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\WonderBlocksTest::test_request_has_hiive_token_in_dev_mode_no_cached_value',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\WonderBlocksTest::test_request_has_hiive_token_not_dev_mode_with_cached_value',
+    ),
+    26 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\WonderBlocksTest::test_request_has_hiive_token',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\WonderBlocksTest::test_request_has_hiive_token_in_dev_mode_no_cached_value',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\WonderBlocksTest::test_request_has_hiive_token_not_dev_mode_with_cached_value',
+    ),
+    28 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\WonderBlocksTest::test_request_has_hiive_token',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\WonderBlocksTest::test_request_has_hiive_token_in_dev_mode_no_cached_value',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\WonderBlocksTest::test_request_has_hiive_token_not_dev_mode_with_cached_value',
+    ),
+    30 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\WonderBlocksTest::test_request_has_hiive_token',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\WonderBlocksTest::test_request_has_hiive_token_not_dev_mode_with_cached_value',
+    ),
+    31 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\WonderBlocksTest::test_request_has_hiive_token',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\WonderBlocksTest::test_request_has_hiive_token_not_dev_mode_with_cached_value',
+    ),
+    32 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\WonderBlocksTest::test_request_has_hiive_token_not_dev_mode_with_cached_value',
+    ),
+    36 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\WonderBlocksTest::test_request_has_hiive_token',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\WonderBlocksTest::test_request_has_hiive_token_in_dev_mode_no_cached_value',
+    ),
+    37 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\WonderBlocksTest::test_request_has_hiive_token',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\WonderBlocksTest::test_request_has_hiive_token_in_dev_mode_no_cached_value',
+    ),
+    38 => 
+    array (
+    ),
+    44 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\WonderBlocksTest::test_request_has_hiive_token',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\WonderBlocksTest::test_request_has_hiive_token_in_dev_mode_no_cached_value',
+    ),
+    46 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\WonderBlocksTest::test_request_has_hiive_token',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\WonderBlocksTest::test_request_has_hiive_token_in_dev_mode_no_cached_value',
+    ),
+    47 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\WonderBlocksTest::test_request_has_hiive_token',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\WonderBlocksTest::test_request_has_hiive_token_in_dev_mode_no_cached_value',
+    ),
+    50 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\WonderBlocksTest::test_request_has_hiive_token',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\WonderBlocksTest::test_request_has_hiive_token_in_dev_mode_no_cached_value',
+    ),
+    51 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\WonderBlocksTest::test_request_has_hiive_token',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\WonderBlocksTest::test_request_has_hiive_token_in_dev_mode_no_cached_value',
+    ),
+    54 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\WonderBlocksTest::test_request_has_hiive_token',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\WonderBlocksTest::test_request_has_hiive_token_in_dev_mode_no_cached_value',
+    ),
+    55 => 
+    array (
+    ),
+    58 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\WonderBlocksTest::test_request_has_hiive_token',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\WonderBlocksTest::test_request_has_hiive_token_in_dev_mode_no_cached_value',
+    ),
+    59 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\WonderBlocksTest::test_request_has_hiive_token',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\WonderBlocksTest::test_request_has_hiive_token_in_dev_mode_no_cached_value',
+    ),
+    61 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\WonderBlocksTest::test_request_has_hiive_token',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\WonderBlocksTest::test_request_has_hiive_token_in_dev_mode_no_cached_value',
+    ),
+    62 => 
+    array (
+    ),
+    66 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\WonderBlocksTest::test_request_has_hiive_token',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\WonderBlocksTest::test_request_has_hiive_token_in_dev_mode_no_cached_value',
+    ),
+    67 => 
+    array (
+    ),
+    70 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\WonderBlocksTest::test_request_has_hiive_token',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\WonderBlocksTest::test_request_has_hiive_token_in_dev_mode_no_cached_value',
+    ),
+    71 => NULL,
+    77 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\WonderBlocksTest::test_request_has_hiive_token',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\WonderBlocksTest::test_request_has_hiive_token_in_dev_mode_no_cached_value',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\WonderBlocksTest::test_request_has_hiive_token_not_dev_mode_with_cached_value',
+    ),
+    78 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\WonderBlocksTest::test_request_has_hiive_token',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\WonderBlocksTest::test_request_has_hiive_token_in_dev_mode_no_cached_value',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\WonderBlocksTest::test_request_has_hiive_token_not_dev_mode_with_cached_value',
+    ),
+    79 => NULL,
+    87 => 
+    array (
+    ),
+    88 => 
+    array (
+    ),
+    89 => 
+    array (
+    ),
+    90 => NULL,
+    33 => 
+    array (
+    ),
+    34 => 
+    array (
+    ),
+    39 => 
+    array (
+    ),
+    42 => 
+    array (
+    ),
+    43 => 
+    array (
+    ),
+    45 => 
+    array (
+    ),
+    48 => 
+    array (
+    ),
+    52 => 
+    array (
+    ),
+    53 => 
+    array (
+    ),
+    56 => 
+    array (
+    ),
+    63 => 
+    array (
+    ),
+    68 => 
+    array (
+    ),
+  ),
+  '/home/runner/work/wp-module-data/wp-module-data/includes/API/Events.php' => 
+  array (
+    37 => 
+    array (
+    ),
+    38 => 
+    array (
+    ),
+    39 => 
+    array (
+    ),
+    40 => 
+    array (
+    ),
+    41 => 
+    array (
+    ),
+    51 => 
+    array (
+    ),
+    52 => 
+    array (
+    ),
+    53 => 
+    array (
+    ),
+    57 => 
+    array (
+    ),
+    58 => 
+    array (
+    ),
+    59 => 
+    array (
+    ),
+    61 => 
+    array (
+    ),
+    62 => 
+    array (
+    ),
+    65 => 
+    array (
+    ),
+    66 => 
+    array (
+    ),
+    67 => 
+    array (
+    ),
+    69 => 
+    array (
+    ),
+    70 => 
+    array (
+    ),
+    73 => 
+    array (
+    ),
+    74 => 
+    array (
+    ),
+    78 => 
+    array (
+    ),
+    79 => 
+    array (
+    ),
+    81 => 
+    array (
+    ),
+    82 => 
+    array (
+    ),
+    87 => 
+    array (
+    ),
+    88 => 
+    array (
+    ),
+    93 => 
+    array (
+    ),
+    94 => 
+    array (
+    ),
+    95 => 
+    array (
+    ),
+    98 => 
+    array (
+    ),
+    99 => 
+    array (
+    ),
+    100 => 
+    array (
+    ),
+    104 => 
+    array (
+    ),
+    121 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\API\\EventsWPUnitTest::test_create_item',
+    ),
+    122 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\API\\EventsWPUnitTest::test_create_item',
+    ),
+    123 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\API\\EventsWPUnitTest::test_create_item',
+    ),
+    125 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\API\\EventsWPUnitTest::test_create_item',
+    ),
+    128 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\API\\EventsWPUnitTest::test_create_item',
+    ),
+    129 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\API\\EventsWPUnitTest::test_create_item',
+    ),
+    131 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\API\\EventsWPUnitTest::test_create_item',
+    ),
+    132 => 
+    array (
+    ),
+    135 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\API\\EventsWPUnitTest::test_create_item',
+    ),
+    139 => 
+    array (
+    ),
+    141 => 
+    array (
+    ),
+    143 => 
+    array (
+    ),
+    144 => 
+    array (
+    ),
+    145 => 
+    array (
+    ),
+    149 => 
+    array (
+    ),
+    151 => 
+    array (
+    ),
+    152 => NULL,
+    164 => 
+    array (
+    ),
+    165 => 
+    array (
+    ),
+    166 => 
+    array (
+    ),
+    167 => 
+    array (
+    ),
+    168 => 
+    array (
+    ),
+    172 => 
+    array (
+    ),
+    173 => NULL,
+    182 => 
+    array (
+    ),
+    183 => 
+    array (
+    ),
+    184 => 
+    array (
+    ),
+    185 => 
+    array (
+    ),
+    186 => 
+    array (
+    ),
+    190 => 
+    array (
+    ),
+    191 => 
+    array (
+    ),
+    192 => 
+    array (
+    ),
+    193 => 
+    array (
+    ),
+    194 => 
+    array (
+    ),
+    196 => 
+    array (
+    ),
+    197 => 
+    array (
+    ),
+    198 => 
+    array (
+    ),
+    199 => 
+    array (
+    ),
+    200 => 
+    array (
+    ),
+    202 => 
+    array (
+    ),
+    203 => 
+    array (
+    ),
+    209 => 
+    array (
+    ),
+    210 => 
+    array (
+    ),
+    211 => 
+    array (
+    ),
+    212 => 
+    array (
+    ),
+    214 => 
+    array (
+    ),
+    219 => 
+    array (
+    ),
+    220 => 
+    array (
+    ),
+    221 => 
+    array (
+    ),
+    223 => NULL,
+  ),
+  '/home/runner/work/wp-module-data/wp-module-data/includes/API/Verify.php' => 
+  array (
+    31 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\API\\VerifyTest::test_register_routes',
+    ),
+    32 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\API\\VerifyTest::test_register_routes',
+    ),
+    33 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\API\\VerifyTest::test_register_routes',
+    ),
+    34 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\API\\VerifyTest::test_register_routes',
+    ),
+    46 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\API\\VerifyTest::test_register_routes',
+    ),
+    47 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\API\\VerifyTest::test_register_routes',
+    ),
+    48 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\API\\VerifyTest::test_register_routes',
+    ),
+    52 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\API\\VerifyTest::test_register_routes',
+    ),
+    53 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\API\\VerifyTest::test_register_routes',
+    ),
+    58 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\API\\VerifyTest::test_register_routes',
+    ),
+    59 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\API\\VerifyTest::test_register_routes',
+    ),
+    63 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\API\\VerifyTest::test_register_routes',
+    ),
+    74 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\API\\VerifyTest::test_get_items',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\API\\VerifyTest::test_get_items_invalid',
+    ),
+    75 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\API\\VerifyTest::test_get_items',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\API\\VerifyTest::test_get_items_invalid',
+    ),
+    77 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\API\\VerifyTest::test_get_items',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\API\\VerifyTest::test_get_items_invalid',
+    ),
+    79 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\API\\VerifyTest::test_get_items',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\API\\VerifyTest::test_get_items_invalid',
+    ),
+    80 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\API\\VerifyTest::test_get_items',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\API\\VerifyTest::test_get_items_invalid',
+    ),
+    85 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\API\\VerifyTest::test_get_items',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\API\\VerifyTest::test_get_items_invalid',
+    ),
+    86 => NULL,
+  ),
+  '/home/runner/work/wp-module-data/wp-module-data/includes/SiteCapabilities.php' => 
+  array (
+    29 => 
+    array (
+    ),
+    30 => 
+    array (
+    ),
+    45 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\SiteCapabilitiesWPUnitTest::test_get_capability',
+    ),
+    46 => NULL,
+    54 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\SiteCapabilitiesWPUnitTest::test_get_capability',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\SiteCapabilitiesWPUnitTest::test_fetch_capabilities',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\SiteCapabilitiesWPUnitTest::test_fetch_capabilities_wp_error',
+      3 => 'NewfoldLabs\\WP\\Module\\Data\\SiteCapabilitiesWPUnitTest::test_fetch_capabilities_401',
+    ),
+    55 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\SiteCapabilitiesWPUnitTest::test_get_capability',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\SiteCapabilitiesWPUnitTest::test_fetch_capabilities',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\SiteCapabilitiesWPUnitTest::test_fetch_capabilities_wp_error',
+      3 => 'NewfoldLabs\\WP\\Module\\Data\\SiteCapabilitiesWPUnitTest::test_fetch_capabilities_401',
+    ),
+    56 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\SiteCapabilitiesWPUnitTest::test_fetch_capabilities',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\SiteCapabilitiesWPUnitTest::test_fetch_capabilities_wp_error',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\SiteCapabilitiesWPUnitTest::test_fetch_capabilities_401',
+    ),
+    57 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\SiteCapabilitiesWPUnitTest::test_fetch_capabilities',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\SiteCapabilitiesWPUnitTest::test_fetch_capabilities_wp_error',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\SiteCapabilitiesWPUnitTest::test_fetch_capabilities_401',
+    ),
+    60 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\SiteCapabilitiesWPUnitTest::test_get_capability',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\SiteCapabilitiesWPUnitTest::test_fetch_capabilities',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\SiteCapabilitiesWPUnitTest::test_fetch_capabilities_wp_error',
+      3 => 'NewfoldLabs\\WP\\Module\\Data\\SiteCapabilitiesWPUnitTest::test_fetch_capabilities_401',
+    ),
+    61 => NULL,
+    69 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\SiteCapabilitiesWPUnitTest::test_get_capability',
+    ),
+    70 => NULL,
+    78 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\SiteCapabilitiesWPUnitTest::test_fetch_capabilities',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\SiteCapabilitiesWPUnitTest::test_fetch_capabilities_wp_error',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\SiteCapabilitiesWPUnitTest::test_fetch_capabilities_401',
+    ),
+    80 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\SiteCapabilitiesWPUnitTest::test_fetch_capabilities',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\SiteCapabilitiesWPUnitTest::test_fetch_capabilities_wp_error',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\SiteCapabilitiesWPUnitTest::test_fetch_capabilities_401',
+    ),
+    81 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\SiteCapabilitiesWPUnitTest::test_fetch_capabilities',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\SiteCapabilitiesWPUnitTest::test_fetch_capabilities_wp_error',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\SiteCapabilitiesWPUnitTest::test_fetch_capabilities_401',
+    ),
+    84 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\SiteCapabilitiesWPUnitTest::test_fetch_capabilities',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\SiteCapabilitiesWPUnitTest::test_fetch_capabilities_wp_error',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\SiteCapabilitiesWPUnitTest::test_fetch_capabilities_401',
+    ),
+    85 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\SiteCapabilitiesWPUnitTest::test_fetch_capabilities',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\SiteCapabilitiesWPUnitTest::test_fetch_capabilities_wp_error',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\SiteCapabilitiesWPUnitTest::test_fetch_capabilities_401',
+    ),
+    86 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\SiteCapabilitiesWPUnitTest::test_fetch_capabilities',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\SiteCapabilitiesWPUnitTest::test_fetch_capabilities_wp_error',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\SiteCapabilitiesWPUnitTest::test_fetch_capabilities_401',
+    ),
+    91 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\SiteCapabilitiesWPUnitTest::test_fetch_capabilities',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\SiteCapabilitiesWPUnitTest::test_fetch_capabilities_wp_error',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\SiteCapabilitiesWPUnitTest::test_fetch_capabilities_401',
+    ),
+    92 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\SiteCapabilitiesWPUnitTest::test_fetch_capabilities',
+    ),
+    93 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\SiteCapabilitiesWPUnitTest::test_fetch_capabilities',
+    ),
+    94 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\SiteCapabilitiesWPUnitTest::test_fetch_capabilities',
+    ),
+    95 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\SiteCapabilitiesWPUnitTest::test_fetch_capabilities',
+    ),
+    99 => 
+    array (
+      0 => 'NewfoldLabs\\WP\\Module\\Data\\SiteCapabilitiesWPUnitTest::test_fetch_capabilities',
+      1 => 'NewfoldLabs\\WP\\Module\\Data\\SiteCapabilitiesWPUnitTest::test_fetch_capabilities_wp_error',
+      2 => 'NewfoldLabs\\WP\\Module\\Data\\SiteCapabilitiesWPUnitTest::test_fetch_capabilities_401',
+    ),
+    100 => NULL,
+  ),
+  '/home/runner/work/wp-module-data/wp-module-data/includes/HiiveWorker.php' => 
+  array (
+    35 => 
+    array (
+    ),
+    36 => 
+    array (
+    ),
+    37 => 
+    array (
+    ),
+    39 => 
+    array (
+    ),
+    40 => 
+    array (
+    ),
+    41 => 
+    array (
+    ),
+    51 => 
+    array (
+    ),
+    53 => 
+    array (
+    ),
+    54 => 
+    array (
+    ),
+    55 => 
+    array (
+    ),
+    56 => 
+    array (
+    ),
+    57 => 
+    array (
+    ),
+  ),
+  '/home/runner/work/wp-module-data/wp-module-data/includes/SiteClassification/SiteClassification.php' => 
+  array (
+    29 => 
+    array (
+    ),
+    31 => 
+    array (
+    ),
+    33 => 
+    array (
+    ),
+    34 => 
+    array (
+    ),
+    35 => 
+    array (
+    ),
+    36 => 
+    array (
+    ),
+    39 => 
+    array (
+    ),
+    40 => 
+    array (
+    ),
+    41 => 
+    array (
+    ),
+    42 => 
+    array (
+    ),
+    43 => 
+    array (
+    ),
+    46 => 
+    array (
+    ),
+    47 => 
+    array (
+    ),
+    48 => 
+    array (
+    ),
+    49 => 
+    array (
+    ),
+    50 => 
+    array (
+    ),
+    51 => 
+    array (
+    ),
+    54 => 
+    array (
+    ),
+    55 => 
+    array (
+    ),
+    56 => 
+    array (
+    ),
+    65 => 
+    array (
+    ),
+    66 => 
+    array (
+    ),
+    67 => 
+    array (
+    ),
+    68 => 
+    array (
+    ),
+    69 => 
+    array (
+    ),
+    70 => 
+    array (
+    ),
+    71 => 
+    array (
+    ),
+    72 => 
+    array (
+    ),
+    73 => 
+    array (
+    ),
+    74 => 
+    array (
+    ),
+    75 => 
+    array (
+    ),
+    76 => 
+    array (
+    ),
+    78 => 
+    array (
+    ),
+    79 => 
+    array (
+    ),
+    80 => 
+    array (
+    ),
+    82 => 
+    array (
+    ),
+    83 => 
+    array (
+    ),
+    84 => 
+    array (
+    ),
+    85 => 
+    array (
+    ),
+    86 => 
+    array (
+    ),
+    88 => 
+    array (
+    ),
+    89 => 
+    array (
+    ),
+    98 => 
+    array (
+    ),
+    100 => 
+    array (
+    ),
+    101 => 
+    array (
+    ),
+    102 => 
+    array (
+    ),
+    103 => 
+    array (
+    ),
+    106 => 
+    array (
+    ),
+    107 => 
+    array (
+    ),
+    108 => 
+    array (
+    ),
+    109 => 
+    array (
+    ),
+    110 => 
+    array (
+    ),
+    112 => 
+    array (
+    ),
+    113 => 
+    array (
+    ),
+    114 => 
+    array (
+    ),
+    115 => 
+    array (
+    ),
+    117 => 
+    array (
+    ),
+    119 => 
+    array (
+    ),
+  ),
+  '/home/runner/work/wp-module-data/wp-module-data/includes/SiteClassification/SecondaryType.php' => 
+  array (
+    27 => 
+    array (
+    ),
+    28 => 
+    array (
+    ),
+    37 => 
+    array (
+    ),
+    38 => 
+    array (
+    ),
+    39 => 
+    array (
+    ),
+    42 => 
+    array (
+    ),
+    44 => 
+    array (
+    ),
+    45 => 
+    array (
+    ),
+    46 => 
+    array (
+    ),
+    48 => 
+    array (
+    ),
+    49 => 
+    array (
+    ),
+    51 => 
+    array (
+    ),
+    52 => 
+    array (
+    ),
+    53 => 
+    array (
+    ),
+    55 => 
+    array (
+    ),
+    56 => 
+    array (
+    ),
+    64 => 
+    array (
+    ),
+    66 => 
+    array (
+    ),
+    67 => 
+    array (
+    ),
+    68 => 
+    array (
+    ),
+    69 => 
+    array (
+    ),
+    71 => 
+    array (
+    ),
+    72 => 
+    array (
+    ),
+    73 => 
+    array (
+    ),
+    74 => 
+    array (
+    ),
+    75 => 
+    array (
+    ),
+    77 => 
+    array (
+    ),
+    78 => 
+    array (
+    ),
+  ),
+  '/home/runner/work/wp-module-data/wp-module-data/includes/SiteClassification/PrimaryType.php' => 
+  array (
+    27 => 
+    array (
+    ),
+    28 => 
+    array (
+    ),
+    37 => 
+    array (
+    ),
+    38 => 
+    array (
+    ),
+    39 => 
+    array (
+    ),
+    42 => 
+    array (
+    ),
+    44 => 
+    array (
+    ),
+    45 => 
+    array (
+    ),
+    46 => 
+    array (
+    ),
+    48 => 
+    array (
+    ),
+    49 => 
+    array (
+    ),
+    57 => 
+    array (
+    ),
+    59 => 
+    array (
+    ),
+    60 => 
+    array (
+    ),
+    61 => 
+    array (
+    ),
+    62 => 
+    array (
+    ),
+    64 => 
+    array (
+    ),
+    65 => 
+    array (
+    ),
+    66 => 
+    array (
+    ),
+    67 => 
+    array (
+    ),
+    68 => 
+    array (
+    ),
+    70 => 
+    array (
+    ),
+    71 => 
+    array (
+    ),
+  ),
+  '/home/runner/work/wp-module-data/wp-module-data/includes/SiteClassification/Types.php' => 
+  array (
+    38 => 
+    array (
+    ),
+    39 => 
+    array (
+    ),
+    40 => 
+    array (
+    ),
+    41 => 
+    array (
+    ),
+    50 => 
+    array (
+    ),
+    51 => 
+    array (
+    ),
+    60 => 
+    array (
+    ),
+    61 => 
+    array (
+    ),
+    69 => 
+    array (
+    ),
+    70 => 
+    array (
+    ),
+    71 => 
+    array (
+    ),
+    72 => 
+    array (
+    ),
+    73 => 
+    array (
+    ),
+    75 => 
+    array (
+    ),
+    83 => 
+    array (
+    ),
+    84 => 
+    array (
+    ),
+    85 => 
+    array (
+    ),
+    86 => 
+    array (
+    ),
+    87 => 
+    array (
+    ),
+  ),
+  '/home/runner/work/wp-module-data/wp-module-data/includes/Listeners/WPMail.php' => 
+  array (
+    16 => 
+    array (
+    ),
+    17 => 
+    array (
+    ),
+    26 => 
+    array (
+    ),
+    27 => 
+    array (
+    ),
+    28 => 
+    array (
+    ),
+    29 => 
+    array (
+    ),
+    30 => 
+    array (
+    ),
+    31 => 
+    array (
+    ),
+    32 => 
+    array (
+    ),
+    33 => 
+    array (
+    ),
+  ),
+  '/home/runner/work/wp-module-data/wp-module-data/includes/Listeners/BluehostPlugin.php' => 
+  array (
+    18 => 
+    array (
+    ),
+    21 => 
+    array (
+    ),
+    22 => 
+    array (
+    ),
+    25 => 
+    array (
+    ),
+    26 => 
+    array (
+    ),
+    29 => 
+    array (
+    ),
+    32 => 
+    array (
+    ),
+    33 => 
+    array (
+    ),
+    34 => 
+    array (
+    ),
+    40 => 
+    array (
+    ),
+    41 => 
+    array (
+    ),
+    43 => 
+    array (
+    ),
+    44 => 
+    array (
+    ),
+    45 => 
+    array (
+    ),
+    46 => 
+    array (
+    ),
+    47 => 
+    array (
+    ),
+    48 => 
+    array (
+    ),
+    49 => 
+    array (
+    ),
+    60 => 
+    array (
+    ),
+    61 => 
+    array (
+    ),
+    62 => 
+    array (
+    ),
+    63 => 
+    array (
+    ),
+    64 => 
+    array (
+    ),
+    65 => 
+    array (
+    ),
+    66 => 
+    array (
+    ),
+    74 => 
+    array (
+    ),
+    75 => 
+    array (
+    ),
+    76 => 
+    array (
+    ),
+    77 => 
+    array (
+    ),
+    78 => 
+    array (
+    ),
+    79 => 
+    array (
+    ),
+    80 => 
+    array (
+    ),
+    81 => 
+    array (
+    ),
+    91 => 
+    array (
+    ),
+    92 => 
+    array (
+    ),
+    93 => 
+    array (
+    ),
+    94 => 
+    array (
+    ),
+    95 => 
+    array (
+    ),
+    96 => 
+    array (
+    ),
+    97 => 
+    array (
+    ),
+    98 => 
+    array (
+    ),
+    108 => 
+    array (
+    ),
+    109 => 
+    array (
+    ),
+    110 => 
+    array (
+    ),
+    111 => 
+    array (
+    ),
+    112 => 
+    array (
+    ),
+    113 => 
+    array (
+    ),
+    114 => 
+    array (
+    ),
+    115 => 
+    array (
+    ),
+    125 => 
+    array (
+    ),
+    126 => 
+    array (
+    ),
+    127 => 
+    array (
+    ),
+    128 => 
+    array (
+    ),
+    129 => 
+    array (
+    ),
+    130 => 
+    array (
+    ),
+    131 => 
+    array (
+    ),
+    132 => 
+    array (
+    ),
+  ),
+  '/home/runner/work/wp-module-data/wp-module-data/includes/Listeners/Admin.php' => 
+  array (
+    17 => 
+    array (
+    ),
+    18 => 
+    array (
+    ),
+    21 => 
+    array (
+    ),
+    24 => 
+    array (
+    ),
+    25 => 
+    array (
+    ),
+    33 => 
+    array (
+    ),
+    35 => 
+    array (
+    ),
+    36 => 
+    array (
+    ),
+    37 => 
+    array (
+    ),
+    39 => 
+    array (
+    ),
+    40 => 
+    array (
+    ),
+    41 => 
+    array (
+    ),
+    42 => 
+    array (
+    ),
+    43 => 
+    array (
+    ),
+    44 => 
+    array (
+    ),
+    45 => 
+    array (
+    ),
+    46 => 
+    array (
+    ),
+    57 => 
+    array (
+    ),
+    58 => 
+    array (
+    ),
+    59 => 
+    array (
+    ),
+    60 => 
+    array (
+    ),
+    61 => 
+    array (
+    ),
+    69 => 
+    array (
+    ),
+    70 => 
+    array (
+    ),
+  ),
+  '/home/runner/work/wp-module-data/wp-module-data/includes/Listeners/WonderCart.php' => 
+  array (
+    16 => 
+    array (
+    ),
+    17 => 
+    array (
+    ),
+    18 => 
+    array (
+    ),
+    19 => 
+    array (
+    ),
+    20 => 
+    array (
+    ),
+    21 => 
+    array (
+    ),
+    31 => 
+    array (
+    ),
+    32 => 
+    array (
+    ),
+    33 => 
+    array (
+    ),
+    35 => 
+    array (
+    ),
+    36 => 
+    array (
+    ),
+    37 => 
+    array (
+    ),
+    38 => 
+    array (
+    ),
+    40 => 
+    array (
+    ),
+    41 => 
+    array (
+    ),
+    42 => 
+    array (
+    ),
+    43 => 
+    array (
+    ),
+    44 => 
+    array (
+    ),
+    46 => 
+    array (
+    ),
+    47 => 
+    array (
+    ),
+    59 => 
+    array (
+    ),
+    60 => 
+    array (
+    ),
+    62 => 
+    array (
+    ),
+    63 => 
+    array (
+    ),
+    64 => 
+    array (
+    ),
+    65 => 
+    array (
+    ),
+    66 => 
+    array (
+    ),
+    68 => 
+    array (
+    ),
+    69 => 
+    array (
+    ),
+    70 => 
+    array (
+    ),
+    71 => 
+    array (
+    ),
+    72 => 
+    array (
+    ),
+    84 => 
+    array (
+    ),
+    85 => 
+    array (
+    ),
+    86 => 
+    array (
+    ),
+    87 => 
+    array (
+    ),
+    88 => 
+    array (
+    ),
+    90 => 
+    array (
+    ),
+    91 => 
+    array (
+    ),
+    92 => 
+    array (
+    ),
+    93 => 
+    array (
+    ),
+    94 => 
+    array (
+    ),
+    106 => 
+    array (
+    ),
+    107 => 
+    array (
+    ),
+    108 => 
+    array (
+    ),
+    109 => 
+    array (
+    ),
+    110 => 
+    array (
+    ),
+    112 => 
+    array (
+    ),
+    113 => 
+    array (
+    ),
+    114 => 
+    array (
+    ),
+    115 => 
+    array (
+    ),
+    116 => 
+    array (
+    ),
+    125 => 
+    array (
+    ),
+    126 => 
+    array (
+    ),
+    128 => 
+    array (
+    ),
+    131 => 
+    array (
+    ),
+    132 => 
+    array (
+    ),
+    133 => 
+    array (
+    ),
+    134 => 
+    array (
+    ),
+    137 => 
+    array (
+    ),
+    138 => 
+    array (
+    ),
+    139 => 
+    array (
+    ),
+    140 => 
+    array (
+    ),
+    141 => 
+    array (
+    ),
+    142 => 
+    array (
+    ),
+    143 => 
+    array (
+    ),
+    144 => 
+    array (
+    ),
+    145 => 
+    array (
+    ),
+    148 => 
+    array (
+    ),
+    149 => 
+    array (
+    ),
+    150 => 
+    array (
+    ),
+    151 => 
+    array (
+    ),
+    152 => 
+    array (
+    ),
+    153 => 
+    array (
+    ),
+    154 => 
+    array (
+    ),
+    155 => 
+    array (
+    ),
+    156 => 
+    array (
+    ),
+    157 => 
+    array (
+    ),
+    158 => 
+    array (
+    ),
+    159 => 
+    array (
+    ),
+    160 => 
+    array (
+    ),
+    161 => 
+    array (
+    ),
+    162 => 
+    array (
+    ),
+    163 => 
+    array (
+    ),
+    164 => 
+    array (
+    ),
+    165 => 
+    array (
+    ),
+    166 => 
+    array (
+    ),
+    167 => 
+    array (
+    ),
+  ),
+  '/home/runner/work/wp-module-data/wp-module-data/includes/Listeners/Content.php' => 
+  array (
+    19 => 
+    array (
+    ),
+    22 => 
+    array (
+    ),
+    23 => 
+    array (
+    ),
+    36 => 
+    array (
+    ),
+    41 => 
+    array (
+    ),
+    42 => 
+    array (
+    ),
+    43 => 
+    array (
+    ),
+    45 => 
+    array (
+    ),
+    46 => 
+    array (
+    ),
+    47 => 
+    array (
+    ),
+    48 => 
+    array (
+    ),
+    49 => 
+    array (
+    ),
+    50 => 
+    array (
+    ),
+    51 => 
+    array (
+    ),
+    52 => 
+    array (
+    ),
+    53 => 
+    array (
+    ),
+    54 => 
+    array (
+    ),
+    55 => 
+    array (
+    ),
+    56 => 
+    array (
+    ),
+    57 => 
+    array (
+    ),
+    58 => 
+    array (
+    ),
+    59 => 
+    array (
+    ),
+    60 => 
+    array (
+    ),
+    61 => 
+    array (
+    ),
+    63 => 
+    array (
+    ),
+    64 => 
+    array (
+    ),
+    66 => 
+    array (
+    ),
+    67 => 
+    array (
+    ),
+    68 => 
+    array (
+    ),
+    70 => 
+    array (
+    ),
+    71 => 
+    array (
+    ),
+    72 => 
+    array (
+    ),
+    73 => 
+    array (
+    ),
+    74 => 
+    array (
+    ),
+    75 => 
+    array (
+    ),
+    83 => 
+    array (
+    ),
+    84 => 
+    array (
+    ),
+    85 => 
+    array (
+    ),
+    86 => 
+    array (
+    ),
+    87 => 
+    array (
+    ),
+    88 => 
+    array (
+    ),
+    89 => 
+    array (
+    ),
+    91 => 
+    array (
+    ),
+    92 => 
+    array (
+    ),
+    104 => 
+    array (
+    ),
+    105 => 
+    array (
+    ),
+    106 => 
+    array (
+    ),
+    107 => 
+    array (
+    ),
+    108 => 
+    array (
+    ),
+    109 => 
+    array (
+    ),
+    110 => 
+    array (
+    ),
+    111 => 
+    array (
+    ),
+    112 => 
+    array (
+    ),
+    113 => 
+    array (
+    ),
+    114 => 
+    array (
+    ),
+    115 => 
+    array (
+    ),
+    116 => 
+    array (
+    ),
+    117 => 
+    array (
+    ),
+    118 => 
+    array (
+    ),
+    119 => 
+    array (
+    ),
+  ),
+  '/home/runner/work/wp-module-data/wp-module-data/includes/Listeners/Jetpack.php' => 
+  array (
+    5 => 
+    array (
+    ),
+    35 => 
+    array (
+    ),
+    38 => 
+    array (
+    ),
+    39 => 
+    array (
+    ),
+    40 => 
+    array (
+    ),
+    42 => 
+    array (
+    ),
+    43 => 
+    array (
+    ),
+    54 => 
+    array (
+    ),
+    55 => 
+    array (
+    ),
+    56 => 
+    array (
+    ),
+    57 => 
+    array (
+    ),
+    58 => 
+    array (
+    ),
+    59 => 
+    array (
+    ),
+    60 => 
+    array (
+    ),
+    61 => 
+    array (
+    ),
+    70 => 
+    array (
+    ),
+    71 => 
+    array (
+    ),
+    72 => 
+    array (
+    ),
+    73 => 
+    array (
+    ),
+    74 => 
+    array (
+    ),
+    75 => 
+    array (
+    ),
+    76 => 
+    array (
+    ),
+    77 => 
+    array (
+    ),
+    86 => 
+    array (
+    ),
+    87 => 
+    array (
+    ),
+    88 => 
+    array (
+    ),
+    89 => 
+    array (
+    ),
+    90 => 
+    array (
+    ),
+    91 => 
+    array (
+    ),
+    92 => 
+    array (
+    ),
+    93 => 
+    array (
+    ),
+    106 => 
+    array (
+    ),
+    107 => 
+    array (
+    ),
+    108 => 
+    array (
+    ),
+    109 => 
+    array (
+    ),
+    110 => 
+    array (
+    ),
+    111 => 
+    array (
+    ),
+    112 => 
+    array (
+    ),
+    113 => 
+    array (
+    ),
+    114 => 
+    array (
+    ),
+    115 => 
+    array (
+    ),
+    116 => 
+    array (
+    ),
+    125 => 
+    array (
+    ),
+    126 => 
+    array (
+    ),
+    127 => 
+    array (
+    ),
+    128 => 
+    array (
+    ),
+    129 => 
+    array (
+    ),
+    130 => 
+    array (
+    ),
+    131 => 
+    array (
+    ),
+    132 => 
+    array (
+    ),
+    133 => 
+    array (
+    ),
+    134 => 
+    array (
+    ),
+    135 => 
+    array (
+    ),
+  ),
+  '/home/runner/work/wp-module-data/wp-module-data/includes/Listeners/Yoast.php' => 
+  array (
+    35 => 
+    array (
+    ),
+    36 => 
+    array (
+    ),
+    37 => 
+    array (
+    ),
+    38 => 
+    array (
+    ),
+    51 => 
+    array (
+    ),
+    52 => 
+    array (
+    ),
+    53 => 
+    array (
+    ),
+    55 => 
+    array (
+    ),
+    56 => 
+    array (
+    ),
+    57 => 
+    array (
+    ),
+    59 => 
+    array (
+    ),
+    60 => 
+    array (
+    ),
+    61 => 
+    array (
+    ),
+    62 => 
+    array (
+    ),
+    75 => 
+    array (
+    ),
+    76 => 
+    array (
+    ),
+    77 => 
+    array (
+    ),
+    80 => 
+    array (
+    ),
+    81 => 
+    array (
+    ),
+    82 => 
+    array (
+    ),
+    85 => 
+    array (
+    ),
+    87 => 
+    array (
+    ),
+    88 => 
+    array (
+    ),
+    89 => 
+    array (
+    ),
+    91 => 
+    array (
+    ),
+    93 => 
+    array (
+    ),
+    94 => 
+    array (
+    ),
+    95 => 
+    array (
+    ),
+    96 => 
+    array (
+    ),
+    98 => 
+    array (
+    ),
+    99 => 
+    array (
+    ),
+    100 => 
+    array (
+    ),
+    101 => 
+    array (
+    ),
+    102 => 
+    array (
+    ),
+    115 => 
+    array (
+    ),
+    116 => 
+    array (
+    ),
+    117 => 
+    array (
+    ),
+    119 => 
+    array (
+    ),
+    120 => 
+    array (
+    ),
+    133 => 
+    array (
+    ),
+    136 => 
+    array (
+    ),
+    137 => 
+    array (
+    ),
+    138 => 
+    array (
+    ),
+    139 => 
+    array (
+    ),
+    142 => 
+    array (
+    ),
+    147 => 
+    array (
+    ),
+    148 => 
+    array (
+    ),
+    149 => 
+    array (
+    ),
+    150 => 
+    array (
+    ),
+    151 => 
+    array (
+    ),
+    157 => 
+    array (
+    ),
+    158 => 
+    array (
+    ),
+    159 => 
+    array (
+    ),
+    160 => 
+    array (
+    ),
+    163 => 
+    array (
+    ),
+    164 => 
+    array (
+    ),
+    165 => 
+    array (
+    ),
+    166 => 
+    array (
+    ),
+    167 => 
+    array (
+    ),
+    168 => 
+    array (
+    ),
+    169 => 
+    array (
+    ),
+    171 => 
+    array (
+    ),
+    172 => 
+    array (
+    ),
+    173 => 
+    array (
+    ),
+    174 => 
+    array (
+    ),
+    175 => 
+    array (
+    ),
+    176 => 
+    array (
+    ),
+    189 => 
+    array (
+    ),
+    192 => 
+    array (
+    ),
+    193 => 
+    array (
+    ),
+    194 => 
+    array (
+    ),
+    195 => 
+    array (
+    ),
+    198 => 
+    array (
+    ),
+    199 => 
+    array (
+    ),
+    200 => 
+    array (
+    ),
+    201 => 
+    array (
+    ),
+    202 => 
+    array (
+    ),
+    205 => 
+    array (
+    ),
+    206 => 
+    array (
+    ),
+    207 => 
+    array (
+    ),
+    208 => 
+    array (
+    ),
+    211 => 
+    array (
+    ),
+    212 => 
+    array (
+    ),
+    213 => 
+    array (
+    ),
+    228 => 
+    array (
+    ),
+    229 => 
+    array (
+    ),
+    230 => 
+    array (
+    ),
+    231 => 
+    array (
+    ),
+    233 => 
+    array (
+    ),
+    235 => 
+    array (
+    ),
+    236 => 
+    array (
+    ),
+    237 => 
+    array (
+    ),
+    238 => 
+    array (
+    ),
+    241 => 
+    array (
+    ),
+    242 => 
+    array (
+    ),
+    243 => 
+    array (
+    ),
+    244 => 
+    array (
+    ),
+    245 => 
+    array (
+    ),
+    246 => 
+    array (
+    ),
+    247 => 
+    array (
+    ),
+    249 => 
+    array (
+    ),
+    250 => 
+    array (
+    ),
+    262 => 
+    array (
+    ),
+    264 => 
+    array (
+    ),
+    265 => 
+    array (
+    ),
+    266 => 
+    array (
+    ),
+    267 => 
+    array (
+    ),
+    269 => 
+    array (
+    ),
+    270 => 
+    array (
+    ),
+    271 => 
+    array (
+    ),
+    273 => 
+    array (
+    ),
+    274 => 
+    array (
+    ),
+    286 => 
+    array (
+    ),
+    288 => 
+    array (
+    ),
+    289 => 
+    array (
+    ),
+    290 => 
+    array (
+    ),
+    291 => 
+    array (
+    ),
+    293 => 
+    array (
+    ),
+    294 => 
+    array (
+    ),
+    296 => 
+    array (
+    ),
+    297 => 
+    array (
+    ),
+    307 => 
+    array (
+    ),
+    308 => 
+    array (
+    ),
+    309 => 
+    array (
+    ),
+    311 => 
+    array (
+    ),
+    312 => 
+    array (
+    ),
+    322 => 
+    array (
+    ),
+    324 => 
+    array (
+    ),
+    325 => 
+    array (
+    ),
+    335 => 
+    array (
+    ),
+    336 => 
+    array (
+    ),
+    338 => 
+    array (
+    ),
+    339 => 
+    array (
+    ),
+    340 => 
+    array (
+    ),
+    341 => 
+    array (
+    ),
+    342 => 
+    array (
+    ),
+    343 => 
+    array (
+    ),
+    344 => 
+    array (
+    ),
+    346 => 
+    array (
+    ),
+    347 => 
+    array (
+    ),
+    348 => 
+    array (
+    ),
+    350 => 
+    array (
+    ),
+    351 => 
+    array (
+    ),
+  ),
+  '/home/runner/work/wp-module-data/wp-module-data/includes/Listeners/Theme.php' => 
+  array (
+    17 => 
+    array (
+    ),
+    20 => 
+    array (
+    ),
+    24 => 
+    array (
+    ),
+    27 => 
+    array (
+    ),
+    37 => 
+    array (
+    ),
+    38 => 
+    array (
+    ),
+    39 => 
+    array (
+    ),
+    40 => 
+    array (
+    ),
+    41 => 
+    array (
+    ),
+    42 => 
+    array (
+    ),
+    43 => 
+    array (
+    ),
+    44 => 
+    array (
+    ),
+    46 => 
+    array (
+    ),
+    47 => 
+    array (
+    ),
+    55 => 
+    array (
+    ),
+    56 => 
+    array (
+    ),
+    57 => 
+    array (
+    ),
+    58 => 
+    array (
+    ),
+    59 => 
+    array (
+    ),
+    67 => 
+    array (
+    ),
+    68 => 
+    array (
+    ),
+    69 => 
+    array (
+    ),
+  ),
+  '/home/runner/work/wp-module-data/wp-module-data/includes/Listeners/SiteHealth.php' => 
+  array (
+    21 => 
+    array (
+    ),
+    22 => 
+    array (
+    ),
+    33 => 
+    array (
+    ),
+    34 => 
+    array (
+    ),
+    35 => 
+    array (
+    ),
+    36 => 
+    array (
+    ),
+    37 => 
+    array (
+    ),
+    38 => 
+    array (
+    ),
+    39 => 
+    array (
+    ),
+    40 => 
+    array (
+    ),
+    41 => 
+    array (
+    ),
+    42 => 
+    array (
+    ),
+    43 => 
+    array (
+    ),
+    44 => 
+    array (
+    ),
+    45 => 
+    array (
+    ),
+    46 => 
+    array (
+    ),
+  ),
+  '/home/runner/work/wp-module-data/wp-module-data/includes/Logger.php' => 
+  array (
+    16 => 
+    array (
+    ),
+    17 => 
+    array (
+    ),
+    18 => 
+    array (
+    ),
+    19 => 
+    array (
+    ),
+    20 => 
+    array (
+    ),
+    21 => 
+    array (
+    ),
+    22 => 
+    array (
+    ),
+    23 => 
+    array (
+    ),
+  ),
+  '/home/runner/work/wp-module-data/wp-module-data/includes/Helpers/SiteHealth.php' => 
+  array (
+    40 => 
+    array (
+    ),
+    41 => 
+    array (
+    ),
+    42 => 
+    array (
+    ),
+    44 => 
+    array (
+    ),
+    46 => 
+    array (
+    ),
+    48 => 
+    array (
+    ),
+    49 => 
+    array (
+    ),
+    61 => 
+    array (
+    ),
+    62 => 
+    array (
+    ),
+    63 => 
+    array (
+    ),
+    65 => 
+    array (
+    ),
+    67 => 
+    array (
+    ),
+    69 => 
+    array (
+    ),
+    70 => 
+    array (
+    ),
+    71 => 
+    array (
+    ),
+    73 => 
+    array (
+    ),
+    74 => 
+    array (
+    ),
+    75 => 
+    array (
+    ),
+    76 => 
+    array (
+    ),
+    78 => 
+    array (
+    ),
+    79 => 
+    array (
+    ),
+    80 => 
+    array (
+    ),
+    81 => 
+    array (
+    ),
+    82 => 
+    array (
+    ),
+    85 => 
+    array (
+    ),
+    86 => 
+    array (
+    ),
+    88 => 
+    array (
+    ),
+    89 => 
+    array (
+    ),
+    90 => 
+    array (
+    ),
+    91 => 
+    array (
+    ),
+    92 => 
+    array (
+    ),
+    93 => 
+    array (
+    ),
+    94 => 
+    array (
+    ),
+    95 => 
+    array (
+    ),
+    96 => 
+    array (
+    ),
+    97 => 
+    array (
+    ),
+    99 => 
+    array (
+    ),
+    100 => 
+    array (
+    ),
+    101 => 
+    array (
+    ),
+    103 => 
+    array (
+    ),
+    105 => 
+    array (
+    ),
+    106 => 
+    array (
+    ),
+    121 => 
+    array (
+    ),
+    123 => 
+    array (
+    ),
+    124 => 
+    array (
+    ),
+    126 => 
+    array (
+    ),
+    127 => 
+    array (
+    ),
+    128 => 
+    array (
+    ),
+    131 => 
+    array (
+    ),
+    132 => 
+    array (
+    ),
+    133 => 
+    array (
+    ),
+    135 => 
+    array (
+    ),
+    136 => 
+    array (
+    ),
+  ),
+  '/home/runner/work/wp-module-data/wp-module-data/includes/Helpers/Encryption.php' => 
+  array (
+    48 => 
+    array (
+    ),
+    49 => 
+    array (
+    ),
+    50 => 
+    array (
+    ),
+    51 => 
+    array (
+    ),
+    52 => 
+    array (
+    ),
+    62 => 
+    array (
+    ),
+    63 => 
+    array (
+    ),
+    64 => 
+    array (
+    ),
+    69 => 
+    array (
+    ),
+    70 => 
+    array (
+    ),
+    80 => 
+    array (
+    ),
+    81 => 
+    array (
+    ),
+    82 => 
+    array (
+    ),
+    87 => 
+    array (
+    ),
+    88 => 
+    array (
+    ),
+    103 => 
+    array (
+    ),
+    104 => 
+    array (
+    ),
+    105 => 
+    array (
+    ),
+    107 => 
+    array (
+    ),
+    108 => 
+    array (
+    ),
+    110 => 
+    array (
+    ),
+    113 => 
+    array (
+    ),
+    114 => 
+    array (
+    ),
+    115 => 
+    array (
+    ),
+    117 => 
+    array (
+    ),
+    118 => 
+    array (
+    ),
+    132 => 
+    array (
+    ),
+    133 => 
+    array (
+    ),
+    134 => 
+    array (
+    ),
+    136 => 
+    array (
+    ),
+    139 => 
+    array (
+    ),
+    142 => 
+    array (
+    ),
+    145 => 
+    array (
+    ),
+    148 => 
+    array (
+    ),
+    149 => 
+    array (
+    ),
+    150 => 
+    array (
+    ),
+    153 => 
+    array (
+    ),
+    154 => 
+    array (
+    ),
+  ),
+  '/home/runner/work/wp-module-data/wp-module-data/upgrades/2.4.2.php' => 
+  array (
+    3 => 
+    array (
+    ),
+  ),
+  '/home/runner/work/wp-module-data/wp-module-data/upgrades/2.3.1.php' => 
+  array (
+    3 => 
+    array (
+    ),
+  ),
+  '/home/runner/work/wp-module-data/wp-module-data/upgrades/2.4.22.php' => 
+  array (
+    5 => 
+    array (
+    ),
+    6 => 
+    array (
+    ),
+    8 => 
+    array (
+    ),
+    9 => 
+    array (
+    ),
+    10 => 
+    array (
+    ),
+    11 => 
+    array (
+    ),
+    12 => 
+    array (
+    ),
+    13 => 
+    array (
+    ),
+    14 => 
+    array (
+    ),
+    15 => 
+    array (
+    ),
+    16 => 
+    array (
+    ),
+    17 => 
+    array (
+    ),
+    18 => 
+    array (
+    ),
+    19 => 
+    array (
+    ),
+    20 => 
+    array (
+    ),
+    21 => 
+    array (
+    ),
+    22 => 
+    array (
+    ),
+    23 => 
+    array (
+    ),
+    24 => 
+    array (
+    ),
+  ),
+));
+$coverage->setTests(array (
+  'NewfoldLabs\\WP\\Module\\Data\\DataTest::test_authenticate' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Data\\DataTest::test_authenticate_returns_early_when_no_auth_header' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Data\\DataTest::test_authenticate_returns_early_when_not_a_rest_request' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Data\\DataTest::test_authenticate_returns_early_when_already_authenticated' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Data\\DataTest::test_delete_token_on_401_response_is_added' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Data\\DataTest::test_deletes_hiive_token_on_401' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Data\\DataTest::test_does_not_delete_hiive_token_on_hiive_200' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Data\\DataTest::test_does_not_delete_hiive_token_on_401_other_domain' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_initialize_listeners_burst_safety_enabled_no_listeners_hooks_registered' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_initialize_cron' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_init' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_happy_path' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_happy_path_no_failed_events' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_happy_path_no_successful_events' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_wp_error_from_hiive_connection' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_send_saved_events_failures_from_hiive' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_happy_path_no_failed_events' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_happy_path_with_failed_events' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_hiive_connection_wp_error' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Data\\EventManagerTest::test_shutdown_hiive_500_error' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Helpers\\TransientTest::test_set_transient_use_default' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Helpers\\TransientTest::test_set_transient_use_options' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Helpers\\TransientTest::test_get_transient_use_default' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Helpers\\TransientTest::test_get_transient_use_options' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Helpers\\TransientTest::test_get_transient_use_options_expired' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Helpers\\TransientTest::test_instance_call_method' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Helpers\\TransientTest::test_should_use_transients_bluehost_cloud' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_plugin_sends_boxname_to_hiive' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_plugin_sends_server_path_to_hiive' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_hiive_request_returns_wperror_when_no_auth_token' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_notify_success' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_notify_bad_token' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionTest::test_fails_to_reconnect' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Data\\Listeners\\CommerceTest::test_woocommerce_hpos_enabled' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Data\\Listeners\\CronTest::test_register_hooks' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Data\\Listeners\\CronTest::test_register_hooks_schedules_job_when_absent' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Data\\Listeners\\CronTest::test_cron_job_main_function' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Data\\Listeners\\CronTest::test_add_weekly_schedule_to_wp_cron_schedules' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Data\\Listeners\\CronTest::test_fixes_weekly_schedule_in_wp_cron_schedules_if_value_is_wrong' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Data\\Listeners\\PluginTest::test_upgrader_process_complete_fired with data set #0' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Data\\Listeners\\PluginTest::test_upgrader_process_complete_fired with data set #1' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\Requests\\FetchTest::test_get_url_with_endpoint' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\Requests\\FetchTest::test_get_url_with_endpoint_and_slug' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\Requests\\RequestTest::test_get_base_url' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\Requests\\RequestTest::test_get_base_url_dev_mode' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\Requests\\RequestTest::test_get_base_url_dev_mode_false' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\Requests\\RequestTest::test_get_endpoint' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\WonderBlocksTest::test_request_has_hiive_token' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\WonderBlocksTest::test_request_has_hiive_token_in_dev_mode_no_cached_value' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Data\\WonderBlocks\\WonderBlocksTest::test_request_has_hiive_token_not_dev_mode_with_cached_value' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Data\\API\\EventsWPUnitTest::test_create_item' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Data\\API\\VerifyTest::test_register_routes' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Data\\API\\VerifyTest::test_get_items' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Data\\API\\VerifyTest::test_get_items_invalid' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Data\\EventManagerWPUnitTest::test_empty_response_from_hiive' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_notify_non_blocking_returns_error' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_notify_wp_error' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_plugin_search' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_without_data' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Data\\HiiveConnectionWPUnitTest::test_500_error_with_data' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Data\\SiteCapabilitiesWPUnitTest::test_get_capability' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Data\\SiteCapabilitiesWPUnitTest::test_fetch_capabilities' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Data\\SiteCapabilitiesWPUnitTest::test_fetch_capabilities_wp_error' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'NewfoldLabs\\WP\\Module\\Data\\SiteCapabilitiesWPUnitTest::test_fetch_capabilities_401' => 
+  array (
+    'size' => 'unknown',
+    'status' => 0,
+  ),
+  'UNCOVERED_FILES_FROM_WHITELIST' => 
+  array (
+    'size' => 'unknown',
+    'status' => -1,
+  ),
+));
+
+$filter = $coverage->filter();
+$filter->setWhitelistedFiles(array (
+  '/home/runner/work/wp-module-data/wp-module-data/includes/API/Events.php' => true,
+  '/home/runner/work/wp-module-data/wp-module-data/includes/API/Verify.php' => true,
+  '/home/runner/work/wp-module-data/wp-module-data/includes/Data.php' => true,
+  '/home/runner/work/wp-module-data/wp-module-data/includes/Event.php' => true,
+  '/home/runner/work/wp-module-data/wp-module-data/includes/EventManager.php' => true,
+  '/home/runner/work/wp-module-data/wp-module-data/includes/EventQueue/EventQueue.php' => true,
+  '/home/runner/work/wp-module-data/wp-module-data/includes/EventQueue/Queryable.php' => true,
+  '/home/runner/work/wp-module-data/wp-module-data/includes/EventQueue/Queues/BatchQueue.php' => true,
+  '/home/runner/work/wp-module-data/wp-module-data/includes/EventQueue/Queues/BatchQueueInterface.php' => true,
+  '/home/runner/work/wp-module-data/wp-module-data/includes/Helpers/Encryption.php' => true,
+  '/home/runner/work/wp-module-data/wp-module-data/includes/Helpers/Plugin.php' => true,
+  '/home/runner/work/wp-module-data/wp-module-data/includes/Helpers/SiteHealth.php' => true,
+  '/home/runner/work/wp-module-data/wp-module-data/includes/Helpers/Transient.php' => true,
+  '/home/runner/work/wp-module-data/wp-module-data/includes/HiiveConnection.php' => true,
+  '/home/runner/work/wp-module-data/wp-module-data/includes/HiiveWorker.php' => true,
+  '/home/runner/work/wp-module-data/wp-module-data/includes/Listeners/Admin.php' => true,
+  '/home/runner/work/wp-module-data/wp-module-data/includes/Listeners/BluehostPlugin.php' => true,
+  '/home/runner/work/wp-module-data/wp-module-data/includes/Listeners/Commerce.php' => true,
+  '/home/runner/work/wp-module-data/wp-module-data/includes/Listeners/Content.php' => true,
+  '/home/runner/work/wp-module-data/wp-module-data/includes/Listeners/Cron.php' => true,
+  '/home/runner/work/wp-module-data/wp-module-data/includes/Listeners/Jetpack.php' => true,
+  '/home/runner/work/wp-module-data/wp-module-data/includes/Listeners/Listener.php' => true,
+  '/home/runner/work/wp-module-data/wp-module-data/includes/Listeners/Plugin.php' => true,
+  '/home/runner/work/wp-module-data/wp-module-data/includes/Listeners/SiteHealth.php' => true,
+  '/home/runner/work/wp-module-data/wp-module-data/includes/Listeners/Theme.php' => true,
+  '/home/runner/work/wp-module-data/wp-module-data/includes/Listeners/WPMail.php' => true,
+  '/home/runner/work/wp-module-data/wp-module-data/includes/Listeners/WonderCart.php' => true,
+  '/home/runner/work/wp-module-data/wp-module-data/includes/Listeners/Yoast.php' => true,
+  '/home/runner/work/wp-module-data/wp-module-data/includes/Logger.php' => true,
+  '/home/runner/work/wp-module-data/wp-module-data/includes/SiteCapabilities.php' => true,
+  '/home/runner/work/wp-module-data/wp-module-data/includes/SiteClassification/PrimaryType.php' => true,
+  '/home/runner/work/wp-module-data/wp-module-data/includes/SiteClassification/SecondaryType.php' => true,
+  '/home/runner/work/wp-module-data/wp-module-data/includes/SiteClassification/SiteClassification.php' => true,
+  '/home/runner/work/wp-module-data/wp-module-data/includes/SiteClassification/Types.php' => true,
+  '/home/runner/work/wp-module-data/wp-module-data/includes/SubscriberInterface.php' => true,
+  '/home/runner/work/wp-module-data/wp-module-data/includes/WonderBlocks/Requests/Fetch.php' => true,
+  '/home/runner/work/wp-module-data/wp-module-data/includes/WonderBlocks/Requests/Request.php' => true,
+  '/home/runner/work/wp-module-data/wp-module-data/includes/WonderBlocks/WonderBlocks.php' => true,
+  '/home/runner/work/wp-module-data/wp-module-data/upgrades/2.3.1.php' => true,
+  '/home/runner/work/wp-module-data/wp-module-data/upgrades/2.4.2.php' => true,
+  '/home/runner/work/wp-module-data/wp-module-data/upgrades/2.4.22.php' => true,
+));
+
+return $coverage;
