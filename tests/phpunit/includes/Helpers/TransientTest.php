@@ -50,7 +50,7 @@ class TransientTest extends TestCase {
 				->with( $test_transient_name, 'value', 999 )
 				->andReturnTrue();
 
-		\WP_Mock::userFunction( 'update_transient' )
+		\WP_Mock::userFunction( 'update_option' )
 				->never();
 
 		Transient::set( $test_transient_name, 'value', 999 );
