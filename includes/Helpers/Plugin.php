@@ -9,17 +9,17 @@ class Plugin {
 	/**
 	 * Prepare plugin data for a single plugin
 	 *
-	 * @param string $slug Name of the plugin
+	 * @param string $basename The plugin basename (filename relative to WP_PLUGINS_DIR).
 	 *
-	 * @return array of data for plugin
+	 * @return array{slug:string, version:string, title:string, url:string, active:bool, mu:bool, auto_updates:bool} Hiive relevant plugin details
 	 */
-	public static function collect( $slug ) {
+	public static function collect( $basename ) {
 
 		if ( ! function_exists( 'get_plugin_data' ) ) {
-			require wp_normalize_path( ABSPATH . '/wp-admin/includes/plugin.php' );
+			require wp_normalize_path( constant( 'ABSPATH' ) . '/wp-admin/includes/plugin.php' );
 		}
 
-		return self::get_data( $slug, get_plugin_data( WP_PLUGIN_DIR . '/' . $slug ) );
+		return self::get_data( $basename, get_plugin_data( constant( 'WP_PLUGIN_DIR' ) . '/' . $basename ) );
 	}
 
 	/**
@@ -50,21 +50,21 @@ class Plugin {
 	/**
 	 * Grab relevant data from plugin data - and only what we want
 	 *
-	 * @param string $slug The slug for the plugin.
+	 * @param string $basename The plugin basename (filename relative to WP_PLUGINS_DIR).
 	 * @param array  $data The plugin meta-data from its header.
-	 * @param array  $mu   Whether the plugin is installed as a must-use plugin.
+	 * @param bool   $mu   Whether the plugin is installed as a must-use plugin.
 	 *
-	 * @return array Hiive relevant plugin details
+	 * @return array{slug:string, version:string, title:string, url:string, active:bool, mu:bool, auto_updates:bool} Hiive relevant plugin details
 	 */
-	public static function get_data( $slug, $data, $mu = false ) {
+	public static function get_data( $basename, $data, $mu = false ) {
 		$plugin                 = array();
-		$plugin['slug']         = $slug;
+		$plugin['slug']         = $basename;
 		$plugin['version']      = $data['Version'] ? $data['Version'] : '0.0';
 		$plugin['title']        = $data['Name'] ? $data['Name'] : '';
 		$plugin['url']          = $data['PluginURI'] ? $data['PluginURI'] : '';
-		$plugin['active']       = is_plugin_active( $slug );
+		$plugin['active']       = is_plugin_active( $basename );
 		$plugin['mu']           = $mu;
-		$plugin['auto_updates'] = ( ! $mu && self::does_it_autoupdate( $slug ) );
+		$plugin['auto_updates'] = ( ! $mu && self::does_it_autoupdate( $basename ) );
 
 		return $plugin;
 	}
@@ -74,7 +74,7 @@ class Plugin {
 	 *
 	 * @param string $slug Name of the plugin
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public static function does_it_autoupdate( $slug ) {
 		// Check plugin setting for auto updates on all plugins
