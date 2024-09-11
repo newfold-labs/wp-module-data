@@ -206,7 +206,7 @@ class TransientTest extends TestCase {
 
 		\WP_Mock::userFunction( 'get_dropins' )
 		        ->once()
-		        ->andReturn( array() );
+		        ->andReturn( array( 'object-cache.php' => array() ) );
 
 		\WP_Mock::userFunction( 'set_transient' )
 		        ->once()
