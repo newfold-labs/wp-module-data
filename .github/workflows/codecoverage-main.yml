@@ -89,7 +89,7 @@ jobs:
         run: XDEBUG_MODE=coverage vendor/bin/codecept run wpunit --coverage tests/_output/wpunit.cov --debug || true;
 
       - name: Merge code coverage
-        run: vendor/bin/phpcov merge --clover tests/_output/clover.xml --php tests/_output/phpunit.cov --html gh-pages/phpunit/html/ tests/_output/;
+        run: vendor/bin/phpcov merge --clover gh-pages/phpunit/clover.xml --php gh-pages/phpunit/phpunit.cov --html gh-pages/phpunit/html/ tests/_output/;
 
       # See: https://github.blog/2009-12-29-bypassing-jekyll-on-github-pages/
       - name: Add `.nojekyll` file so code coverage report successfully deploys to gh-pages
@@ -99,7 +99,7 @@ jobs:
           git add -- .nojekyll *
 
       - name: Update README badge
-        run: php-coverage-badger tests/_output/clover.xml gh-pages/phpunit/coverage.svg
+        run: php-coverage-badger gh-pages/phpunit/clover.xml gh-pages/phpunit/coverage.svg
 
       - name: Commit code coverage to gh-pages
         uses: stefanzweifel/git-auto-commit-action@v5
