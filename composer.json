@@ -103,6 +103,7 @@
   },
   "require": {
     "ext-json": "*",
+    "newfold-labs/wp-module-context": "^1.0",
     "newfold-labs/wp-module-loader": "^1.0.10",
     "wp-forge/helpers": "^2.0",
     "wp-forge/wp-query-builder": "^1.0.4",
