@@ -2,6 +2,8 @@
 
 namespace NewfoldLabs\WP\Module\Data;
 
+use NewfoldLabs\WP\Module\Data\Helpers\Transient;
+
 /**
  * Class SiteCapabilities
  *
@@ -12,15 +14,47 @@ namespace NewfoldLabs\WP\Module\Data;
 class SiteCapabilities {
 
 	/**
+	 * Implementation of transient functionality which uses the WordPress options table when an object cache is present.
+	 *
+	 * @var Transient
+	 */
+	protected $transient;
+
+	/**
+	 * Constructor.
+	 *
+	 * @param ?Transient $transient Inject instance of Transient class.
+	 */
+	public function __construct( ?Transient $transient = null ) {
+		$this->transient = $transient ?? new Transient();
+	}
+
+	/**
+	 * Get the value of a capability.
+	 *
+	 * @used-by \NewfoldLabs\WP\Module\AI\SiteGen\SiteGen::check_capabilities()
+	 * @used-by \NewfoldLabs\WP\Module\AI\Utils\AISearchUtil::check_capabilities()
+	 * @used-by \NewfoldLabs\WP\Module\AI\Utils\AISearchUtil::check_help_capability()
+	 * @used-by \NewfoldLabs\WP\Module\ECommerce\ECommerce::__construct()
+	 * @used-by \NewfoldLabs\WP\Module\HelpCenter\CapabilityController::get_capability()
+	 * @used-by \NewfoldLabs\WP\Module\Onboarding\Data\Config::get_site_capability()
+	 *
+	 * @param string $capability Capability name.
+	 */
+	public function get( string $capability ): bool {
+		return $this->exists( $capability ) && $this->all()[ $capability ];
+	}
+
+	/**
 	 * Get all capabilities.
 	 *
-	 * @return array
+	 * @used-by \NewfoldLabs\WP\Module\Runtime\Runtime::prepareRuntime()
 	 */
-	public function all() {
-		$capabilities = get_transient( 'nfd_site_capabilities' );
+	public function all(): array {
+		$capabilities = $this->transient->get( 'nfd_site_capabilities' );
 		if ( false === $capabilities ) {
 			$capabilities = $this->fetch();
-			set_transient( 'nfd_site_capabilities', $capabilities, 4 * HOUR_IN_SECONDS );
+			$this->transient->set( 'nfd_site_capabilities', $capabilities, 4 * constant( 'HOUR_IN_SECONDS' ) );
 		}
 
 		return $capabilities;
@@ -30,34 +64,21 @@ class SiteCapabilities {
 	 * Check if a capability exists.
 	 *
 	 * @param string $capability Capability name.
-	 *
-	 * @return bool
 	 */
-	public function exists( $capability ) {
+	protected function exists( string $capability ): bool {
 		return array_key_exists( $capability, $this->all() );
-	}
-
-	/**
-	 * Get the value of a capability.
-	 *
-	 * @param string $capability Capability name.
-	 *
-	 * @return bool
-	 */
-	public function get( $capability ) {
-		return $this->exists( $capability ) && $this->all()[ $capability ];
 	}
 
 	/**
 	 * Fetch all capabilities from Hiive.
 	 *
-	 * @return array
+	 * @return array<string, bool>
 	 */
-	public function fetch() {
+	protected function fetch(): array {
 		$capabilities = array();
 
 		$response = wp_remote_get(
-			NFD_HIIVE_URL . '/sites/v1/capabilities',
+			constant( 'NFD_HIIVE_URL' ) . '/sites/v1/capabilities',
 			array(
 				'headers' => array(
 					'Content-Type'  => 'application/json',
