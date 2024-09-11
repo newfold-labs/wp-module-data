@@ -14,7 +14,8 @@ class Transient {
 	 */
 	protected static function should_use_transients(): bool {
 		require_once constant( 'ABSPATH' ) . '/wp-admin/includes/plugin.php';
-		return ! array_key_exists( 'object-cache.php', get_dropins() );
+		return ! array_key_exists( 'object-cache.php', get_dropins() )
+			|| 'atomic' === \NewfoldLabs\WP\Context\getContext( 'platform' ); // Bluehost Cloud.
 	}
 
 	/**

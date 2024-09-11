@@ -196,4 +196,31 @@ class TransientTest extends TestCase {
 
 		$this->assertEquals( $return_value, $result );
 	}
+
+	/**
+	 * @covers ::should_use_transients
+	 */
+	public function test_should_use_transients_bluehost_cloud(): void {
+
+		$test_transient_name = uniqid( __FUNCTION__ );
+
+		\WP_Mock::userFunction( 'get_dropins' )
+		        ->once()
+		        ->andReturn( array() );
+
+		\WP_Mock::userFunction( 'set_transient' )
+		        ->once()
+		        ->with( $test_transient_name, 'value', 999 )
+		        ->andReturnTrue();
+
+		\WP_Mock::userFunction( 'update_option' )
+		        ->never();
+
+		\NewfoldLabs\WP\Context\setContext( 'platform', 'atomic' );
+
+		Transient::set( $test_transient_name, 'value', 999 );
+
+		$this->assertConditionsMet();
+
+	}
 }
