@@ -2,6 +2,7 @@
 
 namespace NewfoldLabs\WP\Module\Data;
 
+use NewfoldLabs\WP\Module\Data\API\Capabilities;
 use NewfoldLabs\WP\Module\Data\Helpers\Transient;
 
 /**
@@ -46,16 +47,54 @@ class SiteCapabilities {
 	}
 
 	/**
-	 * Get all capabilities.
+	 * Merge a new list of capabilities into the existing list and save.
+	 *
+	 * @used-by Capabilities::update()
+	 *
+	 * @param array<string, bool> $capabilities
+	 *
+	 * @return bool True if the value was set, false otherwise (does not indicate if the value was changed).
 	 */
-	protected function all(): array {
+	public function update( array $capabilities ): bool {
+		$updated_capabilities = array_merge( $this->all( false ), $capabilities );
+		return $this->set( $updated_capabilities );
+	}
+
+	/**
+	 * Save a list of capabilities, overwriting the existing list.
+	 *
+	 * @used-by self::fetch()
+	 * @used-by Capabilities::update()
+	 *
+	 * @param array<string, bool> $capabilities
+	 *
+	 * @return bool True if the value was set, false otherwise.
+	 */
+	public function set( array $capabilities ): bool {
+		return $this->transient->set( 'nfd_site_capabilities', $capabilities, 4 * constant( 'HOUR_IN_SECONDS' ) );
+	}
+
+	/**
+	 * Get all capabilities.
+	 *
+	 * @param bool $fetch_when_absent Make a request to Hiive to fetch capabilities when not present in cache (default: `true`).
+	 *
+	 * @return array<string, bool> List of capabilities and if they are enabled or not.
+	 */
+	public function all( bool $fetch_when_absent = true ): array {
 		$capabilities = $this->transient->get( 'nfd_site_capabilities' );
-		if ( false === $capabilities ) {
-			$capabilities = $this->fetch();
-			$this->transient->set( 'nfd_site_capabilities', $capabilities, 4 * constant( 'HOUR_IN_SECONDS' ) );
+
+		if ( is_array( $capabilities ) ) {
+			return $capabilities;
 		}
 
-		return $capabilities;
+		if ( $fetch_when_absent ) {
+			$capabilities = $this->fetch();
+			$this->set( $capabilities );
+			return $capabilities;
+		}
+
+		return array();
 	}
 
 	/**

@@ -108,6 +108,8 @@ class Data {
 	/**
 	 * Authenticate incoming REST API requests.
 	 *
+	 * Sets current user to user id provided in `$_GET['user_id']` or the first admin user if no user ID is provided.
+	 *
 	 * @hooked rest_authentication_errors
 	 *
 	 * @param  bool|null|\WP_Error $errors
