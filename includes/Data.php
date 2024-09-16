@@ -25,10 +25,20 @@ class Data {
 	public static $instance;
 
 	/**
-	 * Data constructor.
+	 * Dependency injection container.
+	 *
+	 * @var Container
 	 */
-	public function __construct() {
-		self::$instance = $this;
+	protected $container;
+
+	/**
+	 * Data constructor.
+	 *
+	 * @param Container $container The module container.
+	 */
+	public function __construct( $container ) {
+		self::$instance  = $this;
+		$this->container = $container;
 	}
 
 	/**
@@ -82,6 +92,32 @@ class Data {
 			$this->logger = new Logger();
 			$manager->add_subscriber( $this->logger );
 		}
+
+		// Register the admin scripts.
+		add_action( 'admin_enqueue_scripts', array( $this, 'scripts' ) );
+	}
+
+	/**
+	 * Enqueue admin scripts for our click events and other tracking.
+	 */
+	public function scripts() {
+		wp_enqueue_script(
+			'newfold-hiive-events',
+			container()->plugin()->url . 'vendor/newfold-labs/wp-module-data/src/click-events.js',
+			array( 'wp-api-fetch', 'nfd-runtime' ),
+			container()->plugin()->version,
+			true
+		);
+
+		// Inline script for global vars for ctb
+		wp_localize_script(
+			'newfold-hiive-events',
+			'nfd-hiive-events',
+			array(
+				'eventEndpoint' => esc_url_raw( get_home_url() . '/index.php?rest_route=/newfold-data/v1/events/' ),
+				'brand'         => container()->plugin()->brand,
+			)
+		);
 	}
 
 	/**
@@ -110,7 +146,7 @@ class Data {
 	 *
 	 * @hooked rest_authentication_errors
 	 *
-	 * @param  bool|null|\WP_Error $errors
+	 * @param  bool|null|\WP_Error $errors The authentication error object.
 	 *
 	 * @return bool|null|\WP_Error
 	 * @see WP_REST_Server::check_authentication()
@@ -151,7 +187,7 @@ class Data {
 		// Allow access if token is valid
 		if ( $is_valid ) {
 
-			if ( isset( $_GET['user_id'] ) ) {
+			if ( isset( $_GET['user_id'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 				// If a user ID is provided, use it to find the desired user.
 				$user = get_user_by( 'id', filter_input( INPUT_GET, 'user_id', FILTER_SANITIZE_NUMBER_INT ) );
