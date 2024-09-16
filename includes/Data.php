@@ -37,7 +37,7 @@ class Data {
 	 * @param Container $container The module container.
 	 */
 	public function __construct( $container ) {
-		self::$instance = $this;
+		self::$instance  = $this;
 		$this->container = $container;
 	}
 
@@ -146,7 +146,7 @@ class Data {
 	 *
 	 * @hooked rest_authentication_errors
 	 *
-	 * @param  bool|null|\WP_Error $errors
+	 * @param  bool|null|\WP_Error $errors The authentication error object.
 	 *
 	 * @return bool|null|\WP_Error
 	 * @see WP_REST_Server::check_authentication()
@@ -187,7 +187,7 @@ class Data {
 		// Allow access if token is valid
 		if ( $is_valid ) {
 
-			if ( isset( $_GET['user_id'] ) ) {
+			if ( isset( $_GET['user_id'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 				// If a user ID is provided, use it to find the desired user.
 				$user = get_user_by( 'id', filter_input( INPUT_GET, 'user_id', FILTER_SANITIZE_NUMBER_INT ) );
