@@ -61,6 +61,9 @@ class Data {
 		$manager = new EventManager();
 		$manager->initialize_rest_endpoint();
 
+		// Initialize the Rest API endpoints
+		$this->entitlement_rest_api_init();
+
 		// Initialize the required verification endpoints
 		$this->hiive->register_verification_hooks();
 
@@ -82,6 +85,14 @@ class Data {
 			$this->logger = new Logger();
 			$manager->add_subscriber( $this->logger );
 		}
+	}
+
+	/**
+	 * Initialize Entitlement Rest Endpoints
+	 */
+	public function entitlement_rest_api_init(): void {
+		$controller = new API\Entitlement( $this->hiive );
+		$controller->register_routes();
 	}
 
 	/**
