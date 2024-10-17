@@ -272,7 +272,6 @@ class EventManager {
 			$response = $subscriber->notify( $events );
 
 			// Due to an unidentified bug causing events to be resent, we are temporarily disabling retries.
-			$queue->remove( array_keys( $events ) );
 			continue;
 
 			if ( ! ( $subscriber instanceof HiiveConnection ) ) {
@@ -294,5 +293,8 @@ class EventManager {
 				$queue->release( array_keys( $response['failedEvents'] ) );
 			}
 		}
+
+		// Due to an unidentified bug causing events to be resent, we are temporarily disabling retries.
+		$queue->remove( array_keys( $events ) );
 	}
 }
