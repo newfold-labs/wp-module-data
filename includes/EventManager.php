@@ -247,7 +247,12 @@ class EventManager {
 			return;
 		}
 
-		$queue->reserve( array_keys( $events ) );
+		// Reserve the events in the queue so they are not processed by another instance.
+		if ( ! $queue->reserve( array_keys( $events ) ) ) {
+			// If the events fail to reserve, they will be repeatedly retried.
+			// It would be good to log this somewhere.
+			return;
+		}
 
 		foreach ( $this->get_subscribers() as $subscriber ) {
 			/**

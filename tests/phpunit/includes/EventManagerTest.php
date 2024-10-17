@@ -186,7 +186,8 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 
 		$batch_queue_mock->expects( 'reserve' )
 						->once()
-						->with( array( 15 ) );
+						->with( array( 15 ) )
+						->andReturnTrue();
 
 		$hiive_connection_subscriber = Mockery::mock( HiiveConnection::class );
 
@@ -254,7 +255,8 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 
 		$batch_queue_mock->expects( 'reserve' )
 						->once()
-						->with( array( 15 ) );
+						->with( array( 15 ) )
+						->andReturnTrue();
 
 		$hiive_connection_subscriber = Mockery::mock( HiiveConnection::class );
 
@@ -321,7 +323,8 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 
 		$batch_queue_mock->expects( 'reserve' )
 						->once()
-						->with( array( 15 ) );
+						->with( array( 15 ) )
+						->andReturnTrue();
 
 		$hiive_connection_subscriber = Mockery::mock( HiiveConnection::class );
 
@@ -388,7 +391,8 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 
 		$batch_queue_mock->expects( 'reserve' )
 						->once()
-						->with( array( 15 ) );
+						->with( array( 15 ) )
+						->andReturnTrue();
 
 		$hiive_connection_subscriber = Mockery::mock( HiiveConnection::class );
 
@@ -449,7 +453,8 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 
 		$batch_queue_mock->expects( 'reserve' )
 						->once()
-						->with( array( 16 ) );
+						->with( array( 16 ) )
+						->andReturnTrue();
 
 		$hiive_connection_subscriber = Mockery::mock( HiiveConnection::class );
 
@@ -675,6 +680,49 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 		->with( array( 18 => array( 'key' => 'event ' ) ) );
 
 		$sut->shutdown();
+
+		$this->assertConditionsMet();
+	}
+
+	/**
+	 * @covers ::send_saved_events_batch
+	 */
+	public function test_send_saved_events_reserve_fails(): void {
+
+		$batch_queue_mock = Mockery::mock( BatchQueue::class );
+
+		\Patchwork\redefine(
+			array( EventQueue::class, '__construct' ),
+			function () {}
+		);
+		\Patchwork\redefine(
+			array( EventQueue::class, 'queue' ),
+			function () use ( $batch_queue_mock ) {
+				return $batch_queue_mock;
+			}
+		);
+
+		$sut = Mockery::mock( EventManager::class )->makePartial();
+
+		$event = Mockery::mock( Event::class );
+
+		$batch_queue_mock->expects( 'pull' )
+						->once()
+						->with( 100 )
+						->andReturn(
+							array(
+								15 => $event,
+							)
+						);
+
+		$batch_queue_mock->expects( 'reserve' )
+						->once()
+						->with( array( 15 ) )
+						->andReturnFalse();
+
+		$sut->expects( 'get_subscribers' )->never();
+
+		$sut->send_saved_events_batch();
 
 		$this->assertConditionsMet();
 	}
