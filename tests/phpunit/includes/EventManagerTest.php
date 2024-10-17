@@ -154,7 +154,6 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 
 	/**
 	 * @covers ::send_saved_events_batch
-	 * @covers ::send
 	 */
 	public function test_send_saved_events_happy_path(): void {
 
@@ -223,7 +222,6 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 
 	/**
 	 * @covers ::send_saved_events_batch
-	 * @covers ::send
 	 */
 	public function test_send_saved_events_happy_path_no_failed_events(): void {
 
@@ -291,7 +289,6 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 
 	/**
 	 * @covers ::send_saved_events_batch
-	 * @covers ::send
 	 */
 	public function test_send_saved_events_happy_path_no_successful_events(): void {
 
@@ -359,7 +356,6 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 
 	/**
 	 * @covers ::send_saved_events_batch
-	 * @covers ::send
 	 */
 	public function test_send_saved_events_wp_error_from_hiive_connection(): void {
 
@@ -421,7 +417,6 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 
 	/**
 	 * @covers ::send_saved_events_batch
-	 * @covers ::send
 	 */
 	public function test_send_saved_events_failures_from_hiive(): void {
 
@@ -589,7 +584,7 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 
 	/**
 	 * @covers ::shutdown
-	 * @covers ::send
+	 * @covers ::send_request_events
 	 */
 	public function test_shutdown_hiive_connection_wp_error(): void {
 
@@ -635,7 +630,7 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 
 	/**
 	 * @covers ::shutdown
-	 * @covers ::send
+	 * @covers ::send_request_events
 	 */
 	public function test_shutdown_hiive_500_error(): void {
 
