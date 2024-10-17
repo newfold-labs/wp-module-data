@@ -111,6 +111,8 @@ class HiiveConnectionTest extends TestCase {
 	public function test_hiive_request_returns_wperror_when_no_auth_token(): void {
 		$sut = new HiiveConnection();
 
+		WP_Mock::expectFilterAdded( 'http_headers_useragent', array( $sut, 'add_plugin_name_version_to_user_agent' ), 10, 2 );
+
 		WP_Mock::userFunction( 'get_option' )
 			->with( 'nfd_data_token' )
 			->once()
@@ -126,8 +128,11 @@ class HiiveConnectionTest extends TestCase {
 	 * @covers ::notify
 	 */
 	public function test_notify_success(): void {
+
 		$sut = Mockery::mock( HiiveConnection::class )->makePartial();
 		$sut->expects( 'get_core_data' )->once()->andReturn( array( 'brand' => 'etc' ) );
+
+		WP_Mock::expectFilterAdded( 'http_headers_useragent', array( $sut, 'add_plugin_name_version_to_user_agent' ), 10, 2 );
 
 		$event = Mockery::mock( Event::class );
 
@@ -169,6 +174,15 @@ class HiiveConnectionTest extends TestCase {
 			}
 		);
 
+		/**
+		 * WP_Mock::expectFilterRemoved( 'http_headers_useragent', array( $sut, 'add_plugin_name_version_to_user_agent' ) );
+		 *
+		 * @see https://github.com/10up/wp_mock/pull/246
+		 */
+		WP_Mock::userFunction( 'NewfoldLabs\WP\Module\Data\remove_filter' )
+				->once()
+				->with( 'http_headers_useragent', array( $sut, 'add_plugin_name_version_to_user_agent' ) );
+
 		$sut->notify( array( $event ) );
 
 		$this->assertConditionsMet();
@@ -182,6 +196,8 @@ class HiiveConnectionTest extends TestCase {
 	 */
 	public function test_notify_bad_token(): void {
 		$sut = Mockery::mock( HiiveConnection::class )->makePartial();
+
+		WP_Mock::expectFilterAdded( 'http_headers_useragent', array( $sut, 'add_plugin_name_version_to_user_agent' ), 10, 2 );
 
 		$event           = Mockery::mock( Event::class );
 		$event->category = 'admin';
@@ -322,6 +338,15 @@ class HiiveConnectionTest extends TestCase {
 			->with( 'nfd_data_token', 'hiive_auth_token' )
 			->once()->andReturnTrue();
 
+		/**
+		 * WP_Mock::expectFilterRemoved( 'http_headers_useragent', array( $sut, 'add_plugin_name_version_to_user_agent' ) );
+		 *
+		 * @see https://github.com/10up/wp_mock/pull/246
+		 */
+		WP_Mock::userFunction( 'NewfoldLabs\WP\Module\Data\remove_filter' )
+				->twice()
+				->with( 'http_headers_useragent', array( $sut, 'add_plugin_name_version_to_user_agent' ) );
+
 		$sut->notify( array( $event ) );
 
 		$this->assertConditionsMet();
@@ -334,6 +359,8 @@ class HiiveConnectionTest extends TestCase {
 	 */
 	public function test_fails_to_reconnect() {
 		$sut = Mockery::mock( HiiveConnection::class )->makePartial();
+
+		WP_Mock::expectFilterAdded( 'http_headers_useragent', array( $sut, 'add_plugin_name_version_to_user_agent' ), 10, 2 );
 
 		WP_Mock::userFunction( 'get_option' )
 			->with( 'nfd_data_token' )
@@ -365,5 +392,21 @@ class HiiveConnectionTest extends TestCase {
 
 		self::assertInstanceOf( \WP_Error::class, $result );
 		self::assertEquals( 'This site is not connected to the hiive.', $result->get_error_message() );
+	}
+
+	/**
+	 * @covers ::add_plugin_name_version_to_user_agent
+	 */
+	public function test_add_plugin_name_version_to_user_agent(): void {
+		$plugin        = Mockery::mock( Plugin::class );
+		$plugin->brand = 'bluehost';
+		$plugin->expects( 'get' )->once()->with( 'version', '0' )->andReturn( '1.2.3' );
+		container()->set( 'plugin', $plugin );
+
+		$sut = new HiiveConnection();
+
+		$result = $sut->add_plugin_name_version_to_user_agent( 'WordPress/6.4.3; https://example.org', '' );
+
+		self::assertEquals( 'WordPress/6.4.3; bluehost/1.2.3; https://example.org', $result );
 	}
 }

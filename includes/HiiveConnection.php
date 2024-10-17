@@ -322,6 +322,12 @@ class HiiveConnection implements SubscriberInterface {
 	 */
 	public function hiive_request( string $path, ?array $payload = array(), ?array $args = array() ) {
 
+		/**
+		 * @see \WP_Http::request()
+		 * @see https://developer.wordpress.org/reference/hooks/http_headers_useragent/
+		 */
+		add_filter( 'http_headers_useragent', array( $this, 'add_plugin_name_version_to_user_agent' ), 10, 2 );
+
 		// If for some reason we are not connected, bail out now.
 		// If we are not connected, the throttling logic should eventually reconnect.
 		if ( ! self::is_connected() ) {
@@ -362,6 +368,8 @@ class HiiveConnection implements SubscriberInterface {
 				}
 			}
 		}
+
+		remove_filter( 'http_headers_useragent', array( $this, 'add_plugin_name_version_to_user_agent' ) );
 
 		return $request_response;
 	}
@@ -404,5 +412,25 @@ class HiiveConnection implements SubscriberInterface {
 		);
 
 		return apply_filters( 'newfold_wp_data_module_core_data_filter', $data );
+	}
+
+	/**
+	 * Add the plugin name and version to the user agent string
+	 *
+	 * @param string $user_agent E.g. "WordPress/6.4.3; https://example.org".
+	 * @param string $url   E.g. "https://hiive.cloud/api/sites/v2/events".
+	 *
+	 * @return string E.g. "WordPress/6.4.3; bluehost/1.2.3; https://example.org".
+	 */
+	public function add_plugin_name_version_to_user_agent( string $user_agent, string $url ): string {
+		$container      = container();
+		$plugin_brand   = sanitize_title( $container->plugin()->brand );
+		$plugin_version = $container->plugin()->get( 'version', '0' );
+
+		$user_agent_parts = array_map( 'trim', explode( ';', $user_agent ) );
+
+		array_splice( $user_agent_parts, 1, 0, "{$plugin_brand}/{$plugin_version}" );
+
+		return implode( '; ', $user_agent_parts );
 	}
 }
