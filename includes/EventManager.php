@@ -121,6 +121,14 @@ class EventManager {
 	 */
 	public function shutdown(): void {
 
+		// Due to a bug sending too many events, we are temporarily disabling these.
+		$disabled_events = array( 'pageview', 'wp_mail', 'plugin_updated' );
+		foreach ( $this->queue as $index => $event ) {
+			if ( in_array( $event->key, $disabled_events, true ) ) {
+				unset( $this->queue[ $index ] );
+			}
+		}
+
 		// Separate out the async events
 		$async = array();
 		foreach ( $this->queue as $index => $event ) {
