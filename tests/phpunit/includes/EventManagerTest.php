@@ -228,7 +228,7 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 	public function test_send_saved_events_happy_path_no_failed_events(): void {
 
 		$this->markTestSkipped( 'Due to an unidentified bug causing events to be resent, we are temporarily disabling retries.' );
-		
+
 		$batch_queue_mock = Mockery::mock( BatchQueue::class );
 
 		\Patchwork\redefine(
@@ -317,7 +317,7 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 
 		$batch_queue_mock->expects( 'pull' )
 						->once()
-						->with( 100 )
+						->with( 50 )
 						->andReturn(
 							array(
 								15 => $event,
@@ -386,7 +386,7 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 
 		$batch_queue_mock->expects( 'pull' )
 						->once()
-						->with( 100 )
+						->with( 50 )
 						->andReturn(
 							array(
 								15 => $event,
@@ -449,7 +449,7 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 
 		$batch_queue_mock->expects( 'pull' )
 						->once()
-						->with( 100 )
+						->with( 50 )
 						->andReturn(
 							array(
 								16 => $event,
@@ -721,7 +721,7 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 
 		$batch_queue_mock->expects( 'pull' )
 						->once()
-						->with( 100 )
+						->with( 50 )
 						->andReturn(
 							array(
 								15 => $event,

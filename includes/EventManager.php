@@ -251,7 +251,7 @@ class EventManager {
 		 *
 		 * @var array<int,Event> $events
 		 */
-		$events = $queue->pull( 100 );
+		$events = $queue->pull( 50 );
 
 		// If queue is empty, do nothing.
 		if ( empty( $events ) ) {
