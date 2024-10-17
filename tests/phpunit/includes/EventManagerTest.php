@@ -157,6 +157,8 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 	 */
 	public function test_send_saved_events_happy_path(): void {
 
+		$this->markTestSkipped( 'Due to an unidentified bug causing events to be resent, we are temporarily disabling retries.' );
+
 		$batch_queue_mock = Mockery::mock( BatchQueue::class );
 
 		\Patchwork\redefine(
@@ -225,6 +227,8 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 	 */
 	public function test_send_saved_events_happy_path_no_failed_events(): void {
 
+		$this->markTestSkipped( 'Due to an unidentified bug causing events to be resent, we are temporarily disabling retries.' );
+		
 		$batch_queue_mock = Mockery::mock( BatchQueue::class );
 
 		\Patchwork\redefine(
@@ -291,6 +295,8 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 	 * @covers ::send_saved_events_batch
 	 */
 	public function test_send_saved_events_happy_path_no_successful_events(): void {
+
+		$this->markTestSkipped( 'Due to an unidentified bug causing events to be resent, we are temporarily disabling retries.' );
 
 		$batch_queue_mock = Mockery::mock( BatchQueue::class );
 
@@ -359,6 +365,8 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 	 */
 	public function test_send_saved_events_wp_error_from_hiive_connection(): void {
 
+		$this->markTestSkipped( 'Due to an unidentified bug causing events to be resent, we are temporarily disabling retries.' );
+
 		$batch_queue_mock = Mockery::mock( BatchQueue::class );
 
 		\Patchwork\redefine(
@@ -419,6 +427,8 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 	 * @covers ::send_saved_events_batch
 	 */
 	public function test_send_saved_events_failures_from_hiive(): void {
+
+		$this->markTestSkipped( 'Due to an unidentified bug causing events to be resent, we are temporarily disabling retries.' );
 
 		$batch_queue_mock = Mockery::mock( BatchQueue::class );
 
@@ -487,6 +497,8 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 	 */
 	public function test_shutdown_happy_path_no_failed_events(): void {
 
+		$this->markTestSkipped( 'Due to an unidentified bug causing events to be resent, we are temporarily disabling retries.' );
+
 		$sut = new EventManager();
 
 		$event      = Mockery::mock( Event::class )->makePartial();
@@ -536,6 +548,8 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 	 * @covers ::send_request_events
 	 */
 	public function test_shutdown_happy_path_with_failed_events(): void {
+
+		$this->markTestSkipped( 'Due to an unidentified bug causing events to be resent, we are temporarily disabling retries.' );
 
 		$sut = new EventManager();
 
@@ -588,6 +602,8 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 	 */
 	public function test_shutdown_hiive_connection_wp_error(): void {
 
+		$this->markTestSkipped( 'Due to an unidentified bug causing events to be resent, we are temporarily disabling retries.' );
+
 		$sut = new EventManager();
 
 		$event      = Mockery::mock( Event::class )->makePartial();
@@ -633,6 +649,8 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 	 * @covers ::send_request_events
 	 */
 	public function test_shutdown_hiive_500_error(): void {
+
+		$this->markTestSkipped( 'Due to an unidentified bug causing events to be resent, we are temporarily disabling retries.' );
 
 		$sut = new EventManager();
 

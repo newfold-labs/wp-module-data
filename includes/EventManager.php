@@ -211,6 +211,9 @@ class EventManager {
 			 */
 			$response = $subscriber->notify( $events );
 
+			// Due to an unidentified bug causing events to be resent, we are temporarily disabling retries.
+			continue;
+
 			if ( ! ( $subscriber instanceof HiiveConnection ) ) {
 				continue;
 			}
@@ -259,6 +262,10 @@ class EventManager {
 			 * @var array{succeededEvents:array,failedEvents:array}|WP_Error $response
 			 */
 			$response = $subscriber->notify( $events );
+
+			// Due to an unidentified bug causing events to be resent, we are temporarily disabling retries.
+			$queue->remove( array_keys( $events ) );
+			continue;
 
 			if ( ! ( $subscriber instanceof HiiveConnection ) ) {
 				continue;
