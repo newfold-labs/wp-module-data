@@ -121,6 +121,14 @@ class EventManager {
 	 */
 	public function shutdown(): void {
 
+		// Due to a bug sending too many events, we are temporarily disabling these.
+		$disabled_events = array( 'pageview', 'wp_mail', 'plugin_updated' );
+		foreach ( $this->queue as $index => $event ) {
+			if ( in_array( $event->key, $disabled_events, true ) ) {
+				unset( $this->queue[ $index ] );
+			}
+		}
+
 		// Separate out the async events
 		$async = array();
 		foreach ( $this->queue as $index => $event ) {
@@ -211,6 +219,9 @@ class EventManager {
 			 */
 			$response = $subscriber->notify( $events );
 
+			// Due to an unidentified bug causing events to be resent, we are temporarily disabling retries.
+			continue;
+
 			if ( ! ( $subscriber instanceof HiiveConnection ) ) {
 				continue;
 			}
@@ -240,20 +251,28 @@ class EventManager {
 		 *
 		 * @var array<int,Event> $events
 		 */
-		$events = $queue->pull( 100 );
+		$events = $queue->pull( 50 );
 
 		// If queue is empty, do nothing.
 		if ( empty( $events ) ) {
 			return;
 		}
 
-		$queue->reserve( array_keys( $events ) );
+		// Reserve the events in the queue so they are not processed by another instance.
+		if ( ! $queue->reserve( array_keys( $events ) ) ) {
+			// If the events fail to reserve, they will be repeatedly retried.
+			// It would be good to log this somewhere.
+			return;
+		}
 
 		foreach ( $this->get_subscribers() as $subscriber ) {
 			/**
 			 * @var array{succeededEvents:array,failedEvents:array}|WP_Error $response
 			 */
 			$response = $subscriber->notify( $events );
+
+			// Due to an unidentified bug causing events to be resent, we are temporarily disabling retries.
+			continue;
 
 			if ( ! ( $subscriber instanceof HiiveConnection ) ) {
 				continue;
@@ -274,5 +293,8 @@ class EventManager {
 				$queue->release( array_keys( $response['failedEvents'] ) );
 			}
 		}
+
+		// Due to an unidentified bug causing events to be resent, we are temporarily disabling retries.
+		$queue->remove( array_keys( $events ) );
 	}
 }
