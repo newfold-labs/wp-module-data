@@ -17,6 +17,7 @@ class HiiveConnectionTest extends TestCase {
 		parent::setUp();
 
 		WP_Mock::passthruFunction( '__' );
+		WP_Mock::passthruFunction( 'sanitize_title' );
 
 		WP_Mock::userFunction( 'wp_json_encode' )->andReturnUsing(
 			function ( $input ) {
@@ -46,8 +47,6 @@ class HiiveConnectionTest extends TestCase {
 		$plugin->expects( 'get' )->once()->with( 'version', '0' )->andReturn( '1.2.3' );
 		container()->set( 'plugin', $plugin );
 
-		WP_Mock::passthruFunction( 'sanitize_title' );
-
 		WP_Mock::userFunction( 'get_option' )->once()->with( 'newfold_cache_level', 2 )->andReturn( 2 );
 		WP_Mock::userFunction( 'get_option' )->once()->with( 'newfold_cloudflare_enabled', false )->andReturn( false );
 		WP_Mock::userFunction( 'get_option' )->once()->with( 'admin_email' )->andReturn( 'admin@example.com' );
@@ -76,8 +75,6 @@ class HiiveConnectionTest extends TestCase {
 		$plugin->expects( 'get' )->once()->with( 'id', 'error' )->andReturn( 'bluehost' );
 		$plugin->expects( 'get' )->once()->with( 'version', '0' )->andReturn( '1.2.3' );
 		container()->set( 'plugin', $plugin );
-
-		WP_Mock::passthruFunction( 'sanitize_title' );
 
 		WP_Mock::userFunction( 'get_option' )->once()->with( 'newfold_cache_level', 2 )->andReturn( 2 );
 		WP_Mock::userFunction( 'get_option' )->once()->with( 'newfold_cloudflare_enabled', false )->andReturn( false );
