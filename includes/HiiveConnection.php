@@ -35,7 +35,7 @@ class HiiveConnection implements SubscriberInterface {
 	private $throttled;
 
 	/**
-	 * The throttle 
+	 * The throttle
 	 *
 	 * @var bool
 	 */
@@ -128,7 +128,7 @@ class HiiveConnection implements SubscriberInterface {
 	 * @used-by HiiveConnection::reconnect()
 	 *
 	 * @param string $path the path
-	 * @param $authorization the authorization
+	 * @param string $authorization the authorization
 	 * @return Boolean success
 	 */
 	public function connect( string $path = '/sites/v2/connect', ?string $authorization = null ): bool {
@@ -272,6 +272,7 @@ class HiiveConnection implements SubscriberInterface {
 
 		/**
 		 * Sample shape.
+		 *
 		 * @var array{data:array{id:string,locations:array,query:string|null,expiration:int,content:string}} $response_payload
 		 * */
 		$response_payload = json_decode( \wp_remote_retrieve_body( $hiive_response ), true );
@@ -333,6 +334,7 @@ class HiiveConnection implements SubscriberInterface {
 
 		/**
 		 * Add plugin name/version to user agent
+		 *
 		 * @see \WP_Http::request()
 		 * @see https://developer.wordpress.org/reference/hooks/http_headers_useragent/
 		 */
