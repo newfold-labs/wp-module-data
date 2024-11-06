@@ -35,6 +35,8 @@ class HiiveConnection implements SubscriberInterface {
 	private $throttled;
 
 	/**
+	 * The throttle 
+	 *
 	 * @var bool
 	 */
 	protected $throttle;
@@ -124,6 +126,10 @@ class HiiveConnection implements SubscriberInterface {
 	 *
 	 * @used-by Data::init()
 	 * @used-by HiiveConnection::reconnect()
+	 *
+	 * @param string $path the path
+	 * @param $authorization the authorization
+	 * @return Boolean success
 	 */
 	public function connect( string $path = '/sites/v2/connect', ?string $authorization = null ): bool {
 
@@ -239,7 +245,7 @@ class HiiveConnection implements SubscriberInterface {
 	 *
 	 * @used-by Events::create_item()
 	 *
-	 * @param Event $event
+	 * @param Event $event the event
 	 *
 	 * @phpstan-type Notification_Array array{id:string,locations:array,query:string|null,expiration:int,content:string}
 	 * @return array<Notification_Array>|WP_Error
@@ -264,7 +270,10 @@ class HiiveConnection implements SubscriberInterface {
 			return new \WP_Error( $status_code, \wp_remote_retrieve_response_message( $hiive_response ) );
 		}
 
-		/** @var array{data:array{id:string,locations:array,query:string|null,expiration:int,content:string}} $response_payload */
+		/**
+		 * Sample shape.
+		 * @var array{data:array{id:string,locations:array,query:string|null,expiration:int,content:string}} $response_payload
+		 * */
 		$response_payload = json_decode( \wp_remote_retrieve_body( $hiive_response ), true );
 
 		return $response_payload['data'] ?? array();
@@ -293,7 +302,7 @@ class HiiveConnection implements SubscriberInterface {
 			return $hiive_response;
 		}
 
-		if ( ! in_array( \wp_remote_retrieve_response_code( $hiive_response ), array( 200, 201, 500 ) ) ) {
+		if ( ! in_array( \wp_remote_retrieve_response_code( $hiive_response ), array( 200, 201, 500 ), true ) ) {
 			return new WP_Error( \wp_remote_retrieve_response_code( $hiive_response ), \wp_remote_retrieve_response_message( $hiive_response ) );
 		}
 
@@ -315,14 +324,15 @@ class HiiveConnection implements SubscriberInterface {
 	 * Defaults to POST. Override with `$args = array('method' => 'GET')`.
 	 *
 	 * @param string     $path The Hiive api path (after /api/).
-	 * @param array|null $payload
-	 * @param array|null $args
+	 * @param array|null $payload the payload
+	 * @param array|null $args and args for the request
 	 *
 	 * @return array|WP_Error The response array or a WP_Error when no Hiive connection, no network connection, network requests disabled.
 	 */
 	public function hiive_request( string $path, ?array $payload = array(), ?array $args = array() ) {
 
 		/**
+		 * Add plugin name/version to user agent
 		 * @see \WP_Http::request()
 		 * @see https://developer.wordpress.org/reference/hooks/http_headers_useragent/
 		 */
