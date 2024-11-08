@@ -71,6 +71,9 @@ class HiiveConnection implements SubscriberInterface {
 	public function rest_api_init(): void {
 		$controller = new API\Verify( $this );
 		$controller->register_routes();
+
+		$user_controller = new API\Users( $this );
+		$user_controller->register_routes();
 	}
 
 	/**
