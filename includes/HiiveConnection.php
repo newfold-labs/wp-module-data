@@ -318,6 +318,19 @@ class HiiveConnection implements SubscriberInterface {
 	}
 
 	/**
+	 * Get timeout value for hiive request
+	 *
+	 * @return number The timeout in seconds
+	 */
+	public function get_hiive_request_timeout() {
+		// If we're responding to the frontend, we need to be quick.
+		if ( function_exists( '\wp_is_serving_rest_request' ) && \wp_is_serving_rest_request() ) {
+			return 15;
+		}
+		return 60;
+	}
+
+	/**
 	 * Send an HTTP request to Hiive and return the body of the request.
 	 *
 	 * Handles throttling and reconnection, clients should handle queueing if necessary.
@@ -353,7 +366,7 @@ class HiiveConnection implements SubscriberInterface {
 				'Accept'        => 'application/json',
 				'Authorization' => 'Bearer ' . self::get_auth_token(),
 			),
-			'timeout' => \wp_is_serving_rest_request() ? 15 : 60, // If we're responding to the frontend, we need to be quick.
+			'timeout' => $this->get_hiive_request_timeout(),
 		);
 
 		$parsed_args = \wp_parse_args( $args ?? array(), $defaults );
