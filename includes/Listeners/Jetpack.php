@@ -56,7 +56,6 @@ class Jetpack extends Listener {
 			array(
 				'id'     => $id,
 				'public' => $is_public,
-				'users'  => array( $this, 'get_admin_users' ),
 			)
 		);
 	}
@@ -133,34 +132,5 @@ class Jetpack extends Listener {
 			! $jetpack_affiliate_code &&
 											update_option( 'jetpack_affiliate_code', $this->brand_code[ $brand ] );
 		}
-	}
-
-	/**
-	 * Get Admin and SuperAdmin user accounts
-	 *
-	 * @return $users Array of Admin & Super Admin users
-	 */
-	private function get_admin_users() {
-		// Get all admin users
-		$admin_users = get_users(
-			array(
-				'role' => 'administrator',
-			)
-		);
-		$users       = array();
-
-		// Add administrators to the $users and check for super admin
-		foreach ( $admin_users as $user ) {
-			$users[] = array(
-				'id'          => $user->ID,
-				'username'    => $user->user_login,
-				'email'       => $user->user_email,
-				'name'        => $user->display_name,
-				'roles'       => $user->roles,
-				'super_admin' => is_super_admin( $user->ID ),
-			);
-		}
-
-		return $users;
 	}
 }

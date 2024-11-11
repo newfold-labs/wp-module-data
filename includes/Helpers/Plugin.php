@@ -66,6 +66,10 @@ class Plugin {
 		$plugin['mu']           = $mu;
 		$plugin['auto_updates'] = ( ! $mu && self::does_it_autoupdate( $basename ) );
 
+		if (strpos($basename, 'jetpack') !== false) {
+			$plugin['users'] 	= self::get_admin_users();
+		}
+
 		return $plugin;
 	}
 
@@ -86,5 +90,34 @@ class Plugin {
 		$wp_auto_updates = (array) get_site_option( 'auto_update_plugins', array() );
 
 		return in_array( $slug, $wp_auto_updates, true );
+	}
+
+	/**
+	 * Get Admin and SuperAdmin user accounts
+	 *
+	 * @return $users Array of Admin & Super Admin users
+	 */
+	private static function get_admin_users() {
+		// Get all admin users
+		$admin_users = get_users(
+			array(
+				'role' => 'administrator',
+			)
+		);
+		$users       = array();
+
+		// Add administrators to the $users and check for super admin
+		foreach ( $admin_users as $user ) {
+			$users[] = array(
+				'id'          => $user->ID,
+				'username'    => $user->user_login,
+				'email'       => $user->user_email,
+				'name'        => $user->display_name,
+				'roles'       => $user->roles,
+				'super_admin' => is_super_admin( $user->ID ),
+			);
+		}
+
+		return $users;
 	}
 }
