@@ -66,8 +66,8 @@ class Plugin {
 		$plugin['mu']           = $mu;
 		$plugin['auto_updates'] = ( ! $mu && self::does_it_autoupdate( $basename ) );
 
-		if (strpos($basename, 'jetpack') !== false) {
-			$plugin['users'] 	= self::get_admin_users();
+		if ( strpos( $basename, 'jetpack' ) !== false ) {
+			$plugin['users'] = self::get_admin_users();
 		}
 
 		return $plugin;
