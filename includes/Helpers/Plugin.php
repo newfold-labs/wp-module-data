@@ -110,11 +110,7 @@ class Plugin {
 		foreach ( $admin_users as $user ) {
 			$users[] = array(
 				'id'          => $user->ID,
-				'username'    => $user->user_login,
 				'email'       => $user->user_email,
-				'name'        => $user->display_name,
-				'roles'       => $user->roles,
-				'super_admin' => is_super_admin( $user->ID ),
 			);
 		}
 
