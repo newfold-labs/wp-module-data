@@ -73,6 +73,20 @@ class TransientTest extends TestCase {
 		\WP_Mock::userFunction( 'set_transient' )
 				->never();
 
+		WP_Mock::expectFilter(
+			"pre_set_transient_{$test_transient_name}",
+			'value',
+			999,
+			$test_transient_name
+		);
+
+		WP_Mock::expectFilter(
+			"expiration_of_transient_{$test_transient_name}",
+			999,
+			'value',
+			$test_transient_name,
+		);
+
 		\WP_Mock::userFunction( 'update_option' )
 				->once()
 				->with(
@@ -81,6 +95,20 @@ class TransientTest extends TestCase {
 					false
 				)
 				->andReturnTrue();
+
+		WP_Mock::expectAction(
+			"set_transient_{$test_transient_name}",
+			'value',
+			999,
+			$test_transient_name
+		);
+
+		WP_Mock::expectAction(
+			'setted_transient',
+			$test_transient_name,
+			'value',
+			999
+		);
 
 		Transient::set( $test_transient_name, 'value', 999 );
 
@@ -125,6 +153,12 @@ class TransientTest extends TestCase {
 		\WP_Mock::userFunction( 'get_transient' )
 				->never();
 
+		WP_Mock::expectFilter(
+			"pre_transient_{$test_transient_name}",
+			false,
+			$test_transient_name
+		);
+
 		\WP_Mock::userFunction( 'get_option' )
 				->once()
 				->with( $test_transient_name, )
@@ -134,6 +168,12 @@ class TransientTest extends TestCase {
 						'expires_at' => time() + 999,
 					)
 				);
+
+		WP_Mock::expectFilter(
+			"transient_{$test_transient_name}",
+			'value',
+			$test_transient_name
+		);
 
 		$result = Transient::get( $test_transient_name );
 
@@ -153,6 +193,12 @@ class TransientTest extends TestCase {
 
 		\WP_Mock::userFunction( 'get_transient' )
 				->never();
+
+		WP_Mock::expectFilter(
+			"pre_transient_{$test_transient_name}",
+			false,
+			$test_transient_name
+		);
 
 		\WP_Mock::userFunction( 'get_option' )
 				->once()
@@ -225,7 +271,10 @@ class TransientTest extends TestCase {
 	}
 
 	/**
-	 * {@see WP_Mock::expectFilter()} and {WP_Mock::expectAction()} are not working for me. I have created some dummy
+	 * {@see \WP_Mock\Functions::$wp_mocked_fuctions} array is not being reset between tests. The code seems to
+	 * have been refactored in WP_Mock's newer versions but we are stuck using PHP 7.3 for now.
+	 *
+	 * @runInSeparateProcess
 	 *
 	 * @covers ::set
 	 */
@@ -233,7 +282,7 @@ class TransientTest extends TestCase {
 
 		$test_transient_name = uniqid( __FUNCTION__ );
 
-		\WP_Mock::userFunction( 'get_dropins' )
+		WP_Mock::userFunction( 'get_dropins' )
 				->once()
 				->andReturn( array( 'object-cache.php' => array() ) );
 
