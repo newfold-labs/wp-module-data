@@ -85,7 +85,7 @@ class CronTest extends \WP_Mock\Tools\TestCase {
 		WP_Mock::userFunction('get_mu_plugins')
 			->once()->andReturn(array());
 
-		// WP_Mock::expectFilter('newfold_wp_data_module_cron_data_filter');
+		WP_Mock::expectFilter( 'newfold_wp_data_module_cron_data_filter', array( 'plugins' => array() ) );
 
 		$sut->shouldReceive('push')
 			->once()
