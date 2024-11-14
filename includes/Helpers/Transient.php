@@ -34,12 +34,23 @@ class Transient {
 		}
 
 		/**
+		 * Implement the filters as used in {@see get_transient()}.
+		 */
+		$pre = apply_filters( "pre_transient_{$key}", false, $key );
+		if ( false !== $pre ) {
+			return $pre;
+		}
+
+		/**
 		 * @var array{value:mixed, expires_at:int} $data The saved value and the Unix time it expires at.
 		 */
 		$data = \get_option( $key );
 		if ( is_array( $data ) && isset( $data['expires_at'], $data['value'] ) ) {
 			if ( $data['expires_at'] > time() ) {
-				return $data['value'];
+				/**
+				 * Implement the filters as used in {@see get_transient()}.
+				 */
+				return apply_filters( "transient_{$key}", $data['value'], $key );
 			} else {
 				\delete_option( $key );
 			}
@@ -65,11 +76,25 @@ class Transient {
 			return \set_transient( $key, $value, $expires_in );
 		}
 
+		/**
+		 * Implement the filters as used in {@see set_transient()}.
+		 */
+		$value      = apply_filters( "pre_set_transient_{$key}", $value, $expires_in, $key );
+		$expires_in = apply_filters( "expiration_of_transient_{$key}", $expires_in, $value, $key );
+
 		$data = array(
 			'value'      => $value,
 			'expires_at' => $expires_in + time(),
 		);
-		return \update_option( $key, $data, false );
+
+		$result = \update_option( $key, $data, false );
+
+		if ( $result ) {
+			do_action( "set_transient_{$key}", $value, $expires_in, $key );
+			do_action( 'setted_transient', $key, $value, $expires_in );
+		}
+
+		return $result;
 	}
 
 	/**

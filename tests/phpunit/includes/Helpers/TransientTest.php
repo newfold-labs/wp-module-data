@@ -3,6 +3,7 @@
 namespace NewfoldLabs\WP\Module\Helpers;
 
 use NewfoldLabs\WP\Module\Data\Helpers\Transient;
+use WP_Mock;
 use WP_Mock\Tools\TestCase;
 
 /**
@@ -221,6 +222,55 @@ class TransientTest extends TestCase {
 		Transient::set( $test_transient_name, 'value', 999 );
 
 		$this->assertConditionsMet();
+	}
 
+	/**
+	 * {@see WP_Mock::expectFilter()} and {WP_Mock::expectAction()} are not working for me. I have created some dummy
+	 *
+	 * @covers ::set
+	 */
+	public function test_set_transient_filters_are_called(): void {
+
+		$test_transient_name = uniqid( __FUNCTION__ );
+
+		\WP_Mock::userFunction( 'get_dropins' )
+				->once()
+				->andReturn( array( 'object-cache.php' => array() ) );
+
+		WP_Mock::expectFilter(
+			"pre_set_transient_{$test_transient_name}",
+			'value',
+			999,
+			$test_transient_name
+		);
+
+		WP_Mock::expectFilter(
+			"expiration_of_transient_{$test_transient_name}",
+			999,
+			'value',
+			$test_transient_name,
+		);
+
+		\WP_Mock::userFunction( 'update_option' )
+				->once()
+				->andReturn( true );
+
+		WP_Mock::expectAction(
+			"set_transient_{$test_transient_name}",
+			'value',
+			999,
+			$test_transient_name
+		);
+
+		WP_Mock::expectAction(
+			'setted_transient',
+			$test_transient_name,
+			'value',
+			999
+		);
+
+		Transient::set( $test_transient_name, 'value', 999 );
+
+		$this->assertConditionsMet();
 	}
 }
