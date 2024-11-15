@@ -4,6 +4,8 @@ namespace NewfoldLabs\WP\Module\Data\Helpers;
 
 /**
  * Helper class for gathering and formatting plugin data
+ *
+ * @phpstan-type plugin-array array{slug:string, version:string, title:string, url:string, active:bool, mu:bool, auto_updates:bool, users?:array<array{id:int, email:string}>}
  */
 class Plugin {
 	/**
@@ -11,9 +13,9 @@ class Plugin {
 	 *
 	 * @param string $basename The plugin basename (filename relative to WP_PLUGINS_DIR).
 	 *
-	 * @return array{slug:string, version:string, title:string, url:string, active:bool, mu:bool, auto_updates:bool} Hiive relevant plugin details
+	 * @return plugin-array Hiive relevant plugin details
 	 */
-	public function collect( $basename ) {
+	public function collect( $basename ): array {
 
 		if ( ! function_exists( 'get_plugin_data' ) ) {
 			require wp_normalize_path( constant( 'ABSPATH' ) . '/wp-admin/includes/plugin.php' );
@@ -25,9 +27,9 @@ class Plugin {
 	/**
 	 * Prepare plugin data for all plugins
 	 *
-	 * @return array of plugins
+	 * @return array<plugin-array> of plugins
 	 */
-	public function collect_installed() {
+	public function collect_installed(): array {
 		if ( ! function_exists( 'get_plugins' ) ) {
 			require wp_normalize_path( constant( 'ABSPATH' ) . '/wp-admin/includes/plugin.php' );
 		}
@@ -54,9 +56,9 @@ class Plugin {
 	 * @param array  $data The plugin meta-data from its header.
 	 * @param bool   $mu   Whether the plugin is installed as a must-use plugin.
 	 *
-	 * @return array{slug:string, version:string, title:string, url:string, active:bool, mu:bool, auto_updates:bool} Hiive relevant plugin details
+	 * @return plugin-array Hiive relevant plugin details
 	 */
-	public function get_data( $basename, $data, $mu = false ) {
+	public function get_data( string $basename, array $data, bool $mu = false ): array {
 		$plugin                 = array();
 		$plugin['slug']         = $basename;
 		$plugin['version']      = $data['Version'] ? $data['Version'] : '0.0';
@@ -77,8 +79,6 @@ class Plugin {
 	 * Whether the plugin is set to auto update
 	 *
 	 * @param string $slug Name of the plugin
-	 *
-	 * @return bool
 	 */
 	protected function does_it_autoupdate( string $slug ): bool {
 		// Check plugin setting for auto updates on all plugins
@@ -95,7 +95,7 @@ class Plugin {
 	/**
 	 * Get Admin and SuperAdmin user accounts
 	 *
-	 * @return $users Array of Admin & Super Admin users
+	 * @return array<array{id:int, email:string}> $users Array of Admin & Super Admin users
 	 */
 	protected function get_admin_users(): array {
 		// Get all admin users
@@ -109,8 +109,8 @@ class Plugin {
 		// Add administrators to the $users and check for super admin
 		foreach ( $admin_users as $user ) {
 			$users[] = array(
-				'id'          => $user->ID,
-				'email'       => $user->user_email,
+				'id'    => $user->ID,
+				'email' => $user->user_email,
 			);
 		}
 
