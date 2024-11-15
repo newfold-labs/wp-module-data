@@ -2,6 +2,7 @@
 
 namespace NewfoldLabs\WP\Module\Data\Listeners;
 
+use NewfoldLabs\WP\Module\Data\EventManager;
 use NewfoldLabs\WP\Module\Data\Helpers\Transient;
 use NewfoldLabs\WP\Module\Data\Helpers\Plugin as PluginHelper;
 
@@ -9,6 +10,24 @@ use NewfoldLabs\WP\Module\Data\Helpers\Plugin as PluginHelper;
  * Monitors generic plugin events
  */
 class Plugin extends Listener {
+
+	/**
+	 * Functions for gathering plugin data
+	 *
+	 * @var PluginHelper
+	 */
+	protected $plugin_helper;
+
+	/**
+	 * Constructor
+	 *
+	 * @param EventManager $manager Event manager instance
+	 */
+	public function __construct( EventManager $manager ) {
+		parent::__construct( $manager );
+		$this->plugin_helper = new PluginHelper();
+	}
+
 	/**
 	 * Register the hooks for the subscriber
 	 *
@@ -42,7 +61,7 @@ class Plugin extends Listener {
 	 */
 	public function activated( $plugin, $network_wide ) {
 		$data = array(
-			'plugin'       => PluginHelper::collect( $plugin ),
+			'plugin'       => $this->plugin_helper->collect( $plugin ),
 			'network_wide' => $network_wide,
 		);
 		$this->push( 'plugin_activated', $data );
@@ -58,7 +77,7 @@ class Plugin extends Listener {
 	 */
 	public function deactivated( $plugin, $network_wide ) {
 		$data = array(
-			'plugin'       => PluginHelper::collect( $plugin ),
+			'plugin'       => $this->plugin_helper->collect( $plugin ),
 			'network_wide' => $network_wide,
 		);
 
@@ -76,7 +95,7 @@ class Plugin extends Listener {
 	 * @return void
 	 */
 	public function save_deleted( $plugin ) {
-		update_option( 'deleted_plugin', PluginHelper::collect( $plugin ) );
+		update_option( 'deleted_plugin', $this->plugin_helper->collect( $plugin ) );
 	}
 
 	/**
@@ -137,12 +156,12 @@ class Plugin extends Listener {
 		// Manual updates always return array of plugin slugs
 		if ( isset( $options['plugins'] ) && is_array( $options['plugins'] ) ) {
 			foreach ( $options['plugins'] as $slug ) {
-				array_push( $plugins, PluginHelper::collect( $slug ) );
+				array_push( $plugins, $this->plugin_helper->collect( $slug ) );
 			}
 		}
 		// Auto updates always return a single plugin slug
 		if ( isset( $options['plugin'] ) ) {
-			array_push( $plugins, PluginHelper::collect( $options['plugin'] ) );
+			array_push( $plugins, $this->plugin_helper->collect( $options['plugin'] ) );
 		}
 
 		$data = array(
@@ -159,7 +178,7 @@ class Plugin extends Listener {
 	 */
 	public function installed() {
 		$data = array(
-			'plugins' => PluginHelper::collect_installed(),
+			'plugins' => $this->plugin_helper->collect_installed(),
 		);
 		$this->push( 'plugin_installed', $data );
 	}

@@ -144,7 +144,7 @@ class HiiveConnection implements SubscriberInterface {
 
 		$data                 = $this->get_core_data();
 		$data['verify_token'] = $token;
-		$data['plugins']      = PluginHelper::collect_installed();
+		$data['plugins']      = ( new PluginHelper() )->collect_installed();
 
 		$args = array(
 			'body'     => \wp_json_encode( $data ),
