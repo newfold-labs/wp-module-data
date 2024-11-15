@@ -94,6 +94,8 @@ class PluginWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase {
 	public function test_does_it_autoupdate(): void {
 		$sut = new Plugin();
 
+		add_site_option('auto_update_plugin', 'false');
+
 		$this->set_autoupdate('bluehost-wordpress-plugin/bluehost-wordpress-plugin.php', true);
 		$this->set_autoupdate('jetpack/jetpack.php', false);
 
@@ -107,7 +109,7 @@ class PluginWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase {
 	public function test_does_it_autoupdate_all(): void {
 		$sut = new Plugin();
 
-		add_site_option('auto_update_plugin', 'false');
+		add_site_option('auto_update_plugin', 'true');
 
 		$this->set_autoupdate('bluehost-wordpress-plugin/bluehost-wordpress-plugin.php', false);
 
