@@ -42,7 +42,9 @@ class Transient {
 		}
 
 		/**
-		 * @var array{value:mixed, expires_at:int} $data The saved value and the Unix time it expires at.
+		 * The saved value and the Unix time it expires at.
+		 *
+		 * @var array{value:mixed, expires_at:int} $data
 		 */
 		$data = \get_option( $key );
 		if ( is_array( $data ) && isset( $data['expires_at'], $data['value'] ) ) {
@@ -125,7 +127,7 @@ class Transient {
 	 */
 	public function __call( $name, $arguments ) {
 		if ( ! method_exists( __CLASS__, $name ) ) {
-			throw new \BadMethodCallException( "Method $name does not exist" );
+			throw new \BadMethodCallException( "Method " . esc_html( $name ) . " does not exist" );
 		}
 		return self::$name( ...$arguments );
 	}
