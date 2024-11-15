@@ -127,7 +127,7 @@ class Transient {
 	 */
 	public function __call( $name, $arguments ) {
 		if ( ! method_exists( __CLASS__, $name ) ) {
-			throw new \BadMethodCallException( "Method " . esc_html( $name ) . " does not exist" );
+			throw new \BadMethodCallException( 'Method ' . esc_html( $name ) . ' does not exist' );
 		}
 		return self::$name( ...$arguments );
 	}
