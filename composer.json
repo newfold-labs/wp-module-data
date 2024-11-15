@@ -121,6 +121,7 @@
     "lucatume/wp-browser": "^3.5.8",
     "newfold-labs/wp-php-standards": "^1.2.3",
     "phpunit/phpcov": "^5.0",
+    "wpackagist-plugin/jetpack": "^14.0",
     "wpackagist-plugin/woocommerce": ">=9"
   },
   "extra": {
