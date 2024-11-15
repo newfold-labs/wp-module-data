@@ -61,9 +61,9 @@ class Plugin {
 	public function get_data( string $basename, array $data, bool $mu = false ): array {
 		$plugin                 = array();
 		$plugin['slug']         = $basename;
-		$plugin['version']      = $data['Version'] ? $data['Version'] : '0.0';
-		$plugin['title']        = $data['Name'] ? $data['Name'] : '';
-		$plugin['url']          = $data['PluginURI'] ? $data['PluginURI'] : '';
+		$plugin['version']      = isset( $data['Version'] ) ? $data['Version'] : '0.0';
+		$plugin['title']        = isset( $data['Name'] ) ? $data['Name'] : '';
+		$plugin['url']          = isset( $data['PluginURI'] ) ? $data['PluginURI'] : '';
 		$plugin['active']       = is_plugin_active( $basename );
 		$plugin['mu']           = $mu;
 		$plugin['auto_updates'] = ( ! $mu && $this->does_it_autoupdate( $basename ) );
