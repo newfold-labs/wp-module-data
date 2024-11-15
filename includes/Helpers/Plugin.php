@@ -82,7 +82,7 @@ class Plugin {
 	 */
 	protected function does_it_autoupdate( string $slug ): bool {
 		// Check plugin setting for auto updates on all plugins
-		if ( get_site_option( 'auto_update_plugin', 'true' ) ) {
+		if ( 'true' === get_site_option( 'auto_update_plugin', 'true' ) ) {
 			return true;
 		}
 
