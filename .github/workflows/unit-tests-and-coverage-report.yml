@@ -38,6 +38,7 @@ jobs:
 
       - name: Check does gh-pages branch need to be created
         run: |
+          git branch -l;
           if [[ $(git branch -l gh-pages) == "" ]]; then
             gh_pages_branch_needed=true;
             echo "gh-pages branch is needed";
