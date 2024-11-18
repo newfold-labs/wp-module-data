@@ -93,10 +93,10 @@ jobs:
           mkdir gh-pages/phpunit || true;
 
       - name: Run unit tests
-        run: XDEBUG_MODE=coverage vendor/bin/phpunit --bootstrap tests/phpunit/bootstrap.php --coverage-php tests/_output/unit.cov || true;
+        run: XDEBUG_MODE=coverage vendor/bin/phpunit --bootstrap tests/phpunit/bootstrap.php --coverage-php tests/_output/unit.cov
 
       - name: Run wpunit tests
-        run: XDEBUG_MODE=coverage vendor/bin/codecept run wpunit --coverage tests/_output/wpunit.cov --debug || true;
+        run: XDEBUG_MODE=coverage vendor/bin/codecept run wpunit --coverage tests/_output/wpunit.cov --debug
 
       - name: Merge code coverage
         run: vendor/bin/phpcov merge --clover gh-pages/phpunit/clover.xml --php gh-pages/phpunit/phpunit.cov --html gh-pages/phpunit/html/ tests/_output/;
