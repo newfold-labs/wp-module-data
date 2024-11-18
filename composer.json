@@ -123,7 +123,8 @@
     "newfold-labs/wp-php-standards": "^1.2.3",
     "phpunit/phpcov": "^8.2.1",
     "wpackagist-plugin/jetpack": "^14.0",
-    "wpackagist-plugin/woocommerce": ">=9"
+    "wpackagist-plugin/woocommerce": ">=9",
+    "wpackagist-theme/twentytwentyfive": "*"
   },
   "extra": {
     "symlinks": {
