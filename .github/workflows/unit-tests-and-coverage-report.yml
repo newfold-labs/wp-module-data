@@ -15,7 +15,7 @@ on:
 
 jobs:
 
-  codecoverage-main:
+  unit-tests:
     runs-on: ubuntu-latest
 
     services:
