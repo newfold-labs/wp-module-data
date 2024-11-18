@@ -61,7 +61,7 @@ final class PrimaryType extends Types {
 			return false;
 		}
 
-		$instance = new static( $data['refers'], $data['value'] );
+		$instance = new self( $data['refers'], $data['value'] );
 		if ( ! $instance->validate() ) {
 			delete_option( self::$primary_option_name );
 			return false;

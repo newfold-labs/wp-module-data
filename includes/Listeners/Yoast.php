@@ -7,23 +7,23 @@ namespace NewfoldLabs\WP\Module\Data\Listeners;
  */
 class Yoast extends Listener {
 	// We don't want to track these fields
-	private $site_representation_skip_fields = [ 'company_logo_id', 'person_logo_id', 'description' ];
+	private $site_representation_skip_fields = array( 'company_logo_id', 'person_logo_id', 'description' );
 
 	// The names used for Hiive events tracking are different from the names used for the Yoast options
-	private $site_representation_map         = [
+	private $site_representation_map = array(
 		'company_or_person'         => 'site_representation',
 		'company_name'              => 'organization_name',
 		'company_logo'              => 'organization_logo',
 		'person_logo'               => 'logo',
 		'company_or_person_user_id' => 'name',
 		'website_name'              => 'website_name',
-	];
+	);
 
-	private $social_profiles_map         = [
+	private $social_profiles_map = array(
 		'facebook_site'     => 'facebook_profile',
 		'twitter_site'      => 'twitter_profile',
 		'other_social_urls' => 'other_profiles',
-	];
+	);
 
 	/**
 	 * Register the hooks for the listener
@@ -32,9 +32,9 @@ class Yoast extends Listener {
 	 */
 	public function register_hooks() {
 		// First time configuration
-		add_action('wpseo_ftc_post_update_site_representation', array( $this, 'site_representation_updated' ), 10, 3 );
-		add_action('wpseo_ftc_post_update_social_profiles', array( $this, 'social_profiles_updated' ), 10, 3 );
-		add_action('wpseo_ftc_post_update_enable_tracking', array( $this, 'tracking_updated' ), 10, 3 );
+		add_action( 'wpseo_ftc_post_update_site_representation', array( $this, 'site_representation_updated' ), 10, 3 );
+		add_action( 'wpseo_ftc_post_update_social_profiles', array( $this, 'social_profiles_updated' ), 10, 3 );
+		add_action( 'wpseo_ftc_post_update_enable_tracking', array( $this, 'tracking_updated' ), 10, 3 );
 	}
 
 	/**
@@ -56,7 +56,7 @@ class Yoast extends Listener {
 		$mapped_old_values = $this->map_params_names_to_hiive_names( $old_values, $this->site_representation_map, $this->site_representation_skip_fields );
 		$mapped_failures   = $this->map_failures_to_hiive_names( $failures, $this->site_representation_map, $this->site_representation_skip_fields );
 
-		foreach ($mapped_new_values as $key => $value) {
+		foreach ( $mapped_new_values as $key => $value ) {
 			$this->maybe_push_site_representation_event( $key, $value, $mapped_old_values[ $key ], \in_array( $key, $mapped_failures ) );
 		}
 	}
@@ -72,8 +72,8 @@ class Yoast extends Listener {
 	 */
 	public function social_profiles_updated( $new_values, $old_values, $failures ) {
 		// Yoast stores only twitter username, and $new_values stores the pre-processed values
-		if ( strpos( $new_values[ 'twitter_site' ], 'twitter.com/' ) !== false ) {
-			$new_values[ 'twitter_site' ] = (explode( 'twitter.com/', $new_values[ 'twitter_site' ])[ 1 ] );
+		if ( strpos( $new_values['twitter_site'], 'twitter.com/' ) !== false ) {
+			$new_values['twitter_site'] = ( explode( 'twitter.com/', $new_values['twitter_site'] )[1] );
 		}
 
 		// All the options are unchanged, opt out
@@ -88,10 +88,10 @@ class Yoast extends Listener {
 		$mapped_old_values = $this->map_params_names_to_hiive_names( $old_values, $this->social_profiles_map );
 		$mapped_failures   = $this->map_failures_to_hiive_names( $cleaned_failures, $this->social_profiles_map );
 
-		foreach ($mapped_values as $key => $value) {
+		foreach ( $mapped_values as $key => $value ) {
 			// The option update failed
 			if ( \in_array( $key, $mapped_failures ) ) {
-				$this->push( "failed_$key", [ 'category' => 'ftc_personal_profiles' ] );
+				$this->push( "failed_$key", array( 'category' => 'ftc_personal_profiles' ) );
 				return;
 			}
 
@@ -116,7 +116,7 @@ class Yoast extends Listener {
 			return;
 		}
 
-		$failed ? $this->push( "failed_usage_tracking", [ 'category' => 'ftc_tracking' ] ) : $this->push( "changed_usage_tracking", [ 'category' => 'ftc_tracking' ] );
+		$failed ? $this->push( 'failed_usage_tracking', array( 'category' => 'ftc_tracking' ) ) : $this->push( 'changed_usage_tracking', array( 'category' => 'ftc_tracking' ) );
 	}
 
 	/**
@@ -134,7 +134,7 @@ class Yoast extends Listener {
 
 		// The option update failed
 		if ( $failure ) {
-			$this->push( "failed_$key", [ 'category' => $category] );
+			$this->push( "failed_$key", array( 'category' => $category ) );
 			return;
 		}
 
@@ -154,8 +154,8 @@ class Yoast extends Listener {
 			// switched from organisation to person, and then the person id is being set.
 			// Once the name is assigned an integer > 0, it can never go back to 0, even if the user switches back to organisation
 			// ( it "caches" the last user id that was set)
-			if ( ( $this->is_param_empty( $old_value) ) || ( $key === 'name' && $old_value === 0 ) ){
-				$this->push( "set_$key", [ 'category' => $category] );
+			if ( ( $this->is_param_empty( $old_value ) ) || ( $key === 'name' && $old_value === 0 ) ) {
+				$this->push( "set_$key", array( 'category' => $category ) );
 				return;
 			}
 
@@ -164,7 +164,7 @@ class Yoast extends Listener {
 				'category' => $category,
 				'data'     => array(
 					'label_key' => $key,
-					'new_value' => $value
+					'new_value' => $value,
 				),
 			);
 
@@ -190,7 +190,7 @@ class Yoast extends Listener {
 
 		// The option update failed
 		if ( $failure ) {
-			$this->push( "failed_$key", [ 'category' => $category] );
+			$this->push( "failed_$key", array( 'category' => $category ) );
 			return;
 		}
 
@@ -202,13 +202,13 @@ class Yoast extends Listener {
 			}
 
 			// The option was set for the first time
-			if ( $this->is_param_empty( $old_value) ){
-				$this->push( "set_$key", [ 'category' => $category] );
+			if ( $this->is_param_empty( $old_value ) ) {
+				$this->push( "set_$key", array( 'category' => $category ) );
 				return;
 			}
 
 			// The option was updated
-			$this->push( "changed_$key", [ 'category' => $category ] );
+			$this->push( "changed_$key", array( 'category' => $category ) );
 		}
 	}
 
@@ -225,13 +225,13 @@ class Yoast extends Listener {
 	 */
 	private function push_other_social_profiles( $key, $new_value, $old_value, $category ) {
 		// The option was set for the first time
-		if ( $this->is_param_empty( $old_value) ){
-			$this->push( "set_$key", [ 'category' => $category] );
+		if ( $this->is_param_empty( $old_value ) ) {
+			$this->push( "set_$key", array( 'category' => $category ) );
 			return;
 		}
 
 		$changed_profiles = \array_map(
-			function( $value ) {
+			function ( $value ) {
 				return $this->get_base_url( \wp_unslash( $value ) );
 			},
 			$new_value
@@ -242,11 +242,11 @@ class Yoast extends Listener {
 			'category' => $category,
 			'data'     => array(
 				'label_key' => $key,
-				'new_value' => $changed_profiles
-				),
-			);
-		
-		$this->push( "changed_other_profiles", $data );
+				'new_value' => $changed_profiles,
+			),
+		);
+
+		$this->push( 'changed_other_profiles', $data );
 	}
 
 	/**
@@ -258,8 +258,8 @@ class Yoast extends Listener {
 	 *
 	 * @return array The mapped params.
 	 */
-	private function map_params_names_to_hiive_names( $params, $map, $skip_fields=[] ) {
-		$mapped_params = [];
+	private function map_params_names_to_hiive_names( $params, $map, $skip_fields = array() ) {
+		$mapped_params = array();
 
 		foreach ( $params as $param_name => $param_value ) {
 			if ( in_array( $param_name, $skip_fields, true ) ) {
@@ -282,10 +282,10 @@ class Yoast extends Listener {
 	 *
 	 * @return array The mapped params names.
 	 */
-	private function map_failures_to_hiive_names( $failures, $map, $skip_fields=[] ) {
-		$mapped_failures = [];
+	private function map_failures_to_hiive_names( $failures, $map, $skip_fields = array() ) {
+		$mapped_failures = array();
 
-		foreach ( $failures as $failed_field_name) {
+		foreach ( $failures as $failed_field_name ) {
 			if ( in_array( $failed_field_name, $skip_fields, true ) ) {
 				continue;
 			}
@@ -331,8 +331,8 @@ class Yoast extends Listener {
 	 *
 	 * @return array The cleaned failures array
 	 */
-	private function clean_social_profiles_failures ( $failures ) {
-		$cleaned_failures = [];
+	private function clean_social_profiles_failures( $failures ) {
+		$cleaned_failures             = array();
 		$other_social_profiles_failed = false;
 
 		foreach ( $failures as $failure ) {

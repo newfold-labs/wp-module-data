@@ -71,7 +71,6 @@ abstract class Types {
 		}
 		update_option( $this->option_name, $this->to_array() );
 		return true;
-
 	}
 
 	/**
@@ -92,5 +91,4 @@ abstract class Types {
 	 * @return boolean
 	 */
 	abstract public function validate();
-
 }
