@@ -7,4 +7,7 @@
 
     <file>includes</file>
     <file>upgrades</file>
+
+    <!-- Show progress and sniff codes in all reports -->
+    <arg value="ps"/>
 </ruleset>

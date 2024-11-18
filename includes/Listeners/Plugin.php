@@ -21,11 +21,15 @@ class Plugin extends Listener {
 	/**
 	 * Constructor
 	 *
-	 * @param EventManager $manager Event manager instance
+	 * @param EventManager  $manager Event manager instance
+	 * @param ?PluginHelper $plugin_helper Class used to fetch plugin data.
 	 */
-	public function __construct( EventManager $manager ) {
+	public function __construct(
+		EventManager $manager,
+		?PluginHelper $plugin_helper = null
+	) {
 		parent::__construct( $manager );
-		$this->plugin_helper = new PluginHelper();
+		$this->plugin_helper = $plugin_helper ?? new PluginHelper();
 	}
 
 	/**

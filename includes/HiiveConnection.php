@@ -78,23 +78,31 @@ class HiiveConnection implements SubscriberInterface {
 	 *
 	 * Hiive will first attempt to verify using the REST API, and fallback to this AJAX endpoint on error.
 	 *
+	 * Token is generated in {@see self::connect()} using {@see md5()}.
+	 *
 	 * @hooked wp_ajax_nopriv_nfd-hiive-verify
 	 *
 	 * @return never
 	 */
 	public function ajax_verify() {
-		$valid  = $this->verify_token( $_REQUEST['token'] );
-		$status = ( $valid ) ? 200 : 400;
+		// PHPCS: Ignore the nonce verification here – the token _is_ a nonce.
+		// @phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$token = $_REQUEST['token'];
+
+		$is_valid = $this->verify_token( $token );
+		$status   = ( $is_valid ) ? 200 : 400;
 
 		$data = array(
-			'token' => $_REQUEST['token'],
-			'valid' => $valid,
+			'token' => $token,
+			'valid' => $is_valid,
 		);
 		\wp_send_json( $data, $status );
 	}
 
 	/**
 	 * Confirm whether verification token is valid
+	 *
+	 * Token is generated in {@see self::connect()} using {@see md5()}.
 	 *
 	 * @param string $token Token to verify
 	 */
@@ -260,7 +268,6 @@ class HiiveConnection implements SubscriberInterface {
 		$hiive_response = $this->hiive_request( 'sites/v1/events', $payload );
 
 		if ( is_wp_error( $hiive_response ) ) {
-			// TODO: enqueue failed event for later. Should this function call go via EventManager?
 			return $hiive_response;
 		}
 
