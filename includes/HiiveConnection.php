@@ -260,7 +260,6 @@ class HiiveConnection implements SubscriberInterface {
 		$hiive_response = $this->hiive_request( 'sites/v1/events', $payload );
 
 		if ( is_wp_error( $hiive_response ) ) {
-			// TODO: enqueue failed event for later. Should this function call go via EventManager?
 			return $hiive_response;
 		}
 
