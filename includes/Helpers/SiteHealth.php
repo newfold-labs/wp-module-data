@@ -122,7 +122,7 @@ class SiteHealth {
 
 		$total_tests = array_reduce(
 			$results,
-			function( $total, $item ) {
+			function ( $total, $item ) {
 				return $total += (int) $item;
 			}
 		);
@@ -134,5 +134,4 @@ class SiteHealth {
 
 		return round( (int) $results['good'] / $total_tests * 100 );
 	}
-
 }

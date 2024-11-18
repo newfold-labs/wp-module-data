@@ -18,7 +18,7 @@ class Logger implements SubscriberInterface {
 				return;
 			}
 			$log = wp_json_encode( $event, JSON_UNESCAPED_SLASHES ) . "\n";
-			file_put_contents( dirname( dirname( __FILE__ ) ) . '/debug.log', $log, FILE_APPEND );
+			file_put_contents( dirname( __DIR__ ) . '/debug.log', $log, FILE_APPEND );
 		}
 	}
 }

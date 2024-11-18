@@ -3,4 +3,8 @@
     <rule ref="Newfold"/>
     <config name="testVersion" value="7.3-"/>
     <config name="minimum_supported_wp_version" value="6.0"/>
+    <arg name="extensions" value="php"/>
+
+    <file>includes</file>
+    <file>upgrades</file>
 </ruleset>
