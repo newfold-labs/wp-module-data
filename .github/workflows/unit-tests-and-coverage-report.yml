@@ -39,9 +39,11 @@ jobs:
       - name: Check does gh-pages branch need to be created
         run: |
           if [[ $(git branch -l gh-pages) == "" ]]; then
-            gh_pages_branch_needed=true
+            gh_pages_branch_needed=true;
+            echo "gh-pages branch is needed";
           else
             gh_pages_branch_needed=false
+            echo "gh-pages branch already exists";
           fi
           echo "GH_PAGES_BRANCH_NEEDED=$gh_pages_branch_needed" >> $GITHUB_ENV;
           mkdir gh-pages
