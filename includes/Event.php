@@ -90,7 +90,5 @@ class Event {
 			'role'   => ( ! empty( $user->roles[0] ) ) ? $user->roles[0] : '',
 			'locale' => get_user_locale(),
 		);
-
 	}
-
 }

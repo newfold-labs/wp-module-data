@@ -179,7 +179,7 @@ class HiiveConnectionTest extends TestCase {
 		 *
 		 * @see https://github.com/10up/wp_mock/pull/246
 		 */
-		WP_Mock::userFunction( 'NewfoldLabs\WP\Module\Data\remove_filter' )
+		WP_Mock::userFunction( 'remove_filter' )
 				->once()
 				->with( 'http_headers_useragent', array( $sut, 'add_plugin_name_version_to_user_agent' ) );
 
@@ -343,7 +343,7 @@ class HiiveConnectionTest extends TestCase {
 		 *
 		 * @see https://github.com/10up/wp_mock/pull/246
 		 */
-		WP_Mock::userFunction( 'NewfoldLabs\WP\Module\Data\remove_filter' )
+		WP_Mock::userFunction( 'remove_filter' )
 				->twice()
 				->with( 'http_headers_useragent', array( $sut, 'add_plugin_name_version_to_user_agent' ) );
 

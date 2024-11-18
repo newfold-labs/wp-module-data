@@ -115,6 +115,5 @@ class SiteClassification {
 		}
 
 		return $data;
-
 	}
 }

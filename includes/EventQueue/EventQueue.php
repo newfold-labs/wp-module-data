@@ -36,16 +36,16 @@ class EventQueue {
 	/**
 	 * Constructor
 	 *
-	 * @param  Container  $container
+	 * @param  Container $container
 	 */
 	private function __construct() {
 
 		global $wpdb;
 
 		$container = new Container(
-			[
+			array(
 				'table' => "{$wpdb->prefix}nfd_data_event_queue",
-			]
+			)
 		);
 
 		$container->set(
@@ -86,5 +86,4 @@ class EventQueue {
 	public function queue() {
 		return $this->container->get( 'queue' );
 	}
-
 }

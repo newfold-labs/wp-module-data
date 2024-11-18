@@ -20,7 +20,7 @@ class BatchQueue implements BatchQueueInterface {
 	/**
 	 * Constructor
 	 *
-	 * @param  Container  $container
+	 * @param  Container $container
 	 */
 	public function __construct( Container $container ) {
 		$this->container = $container;
@@ -29,7 +29,7 @@ class BatchQueue implements BatchQueueInterface {
 	/**
 	 * Push events onto the queue
 	 *
-	 * @param  non-empty-array<Event>  $events
+	 * @param  non-empty-array<Event> $events
 	 *
 	 * @return bool
 	 */
@@ -37,13 +37,13 @@ class BatchQueue implements BatchQueueInterface {
 
 		$time = current_time( 'mysql' );
 
-		$inserts = [];
+		$inserts = array();
 		foreach ( $events as $event ) {
-			$inserts[] = [
+			$inserts[] = array(
 				'event'        => serialize( $event ),
 				'available_at' => current_time( 'mysql' ),
 				'created_at'   => $time,
-			];
+			);
 		}
 
 		return (bool) $this->bulkInsert( $this->table(), $inserts );
@@ -56,7 +56,7 @@ class BatchQueue implements BatchQueueInterface {
 	 */
 	public function pull( int $count ) {
 
-		$events = [];
+		$events = array();
 
 		$rawEvents = $this
 			->query()
@@ -84,7 +84,7 @@ class BatchQueue implements BatchQueueInterface {
 	/**
 	 * Remove events from the queue
 	 *
-	 * @param  int[]  $ids
+	 * @param  int[] $ids
 	 *
 	 * @return bool
 	 */
@@ -99,7 +99,7 @@ class BatchQueue implements BatchQueueInterface {
 	/**
 	 * Reserve events in the queue
 	 *
-	 * @param  int[]  $ids
+	 * @param  int[] $ids
 	 *
 	 * @return bool
 	 */
@@ -108,13 +108,13 @@ class BatchQueue implements BatchQueueInterface {
 			->query()
 			->table( $this->table(), false )
 			->whereIn( 'id', $ids )
-			->update( [ 'reserved_at' => current_time( 'mysql' ) ] );
+			->update( array( 'reserved_at' => current_time( 'mysql' ) ) );
 	}
 
 	/**
 	 * Release events back onto the queue
 	 *
-	 * @param  int[]  $ids
+	 * @param  int[] $ids
 	 *
 	 * @return bool
 	 */
@@ -123,7 +123,7 @@ class BatchQueue implements BatchQueueInterface {
 			->query()
 			->table( $this->table(), false )
 			->whereIn( 'id', $ids )
-			->update( [ 'reserved_at' => null ] );
+			->update( array( 'reserved_at' => null ) );
 	}
 
 	/**
