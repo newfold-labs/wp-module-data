@@ -4,6 +4,7 @@ namespace NewfoldLabs\WP\Module\Data\Listeners;
 
 use Mockery;
 use NewfoldLabs\WP\Module\Data\EventManager;
+use NewfoldLabs\WP\Module\Data\Helpers\Plugin as Plugin_Helper;
 use WP_Mock;
 
 /**
@@ -16,8 +17,6 @@ class PluginTest extends \WP_Mock\Tools\TestCase {
 	 */
 	public function tearDown(): void {
 		parent::tearDown();
-
-		\Patchwork\restoreAll();
 
 		unset( $_SERVER['REMOTE_ADDR'] );
 		unset( $_SERVER['REQUEST_URI'] );
@@ -33,16 +32,18 @@ class PluginTest extends \WP_Mock\Tools\TestCase {
 	public function upgrader_process_complete_data_provider(): array {
 		return array(
 			array(
-				'plugins'           => array(
+				'plugins'                => array(
 					'bluehost-wordpress-plugin/bluehost-wordpress-plugin.php',
 				),
-				'expect_push_times' => 1,
+				'expected_count_collect' => 1,
+				'expect_push_times'      => 1,
 			),
 			array(
-				'plugins'           => array(
+				'plugins'                => array(
 					'',
 				),
-				'expect_push_times' => 0,
+				'expected_count_collect' => 0,
+				'expect_push_times'      => 0,
 			),
 		);
 	}
@@ -63,7 +64,7 @@ class PluginTest extends \WP_Mock\Tools\TestCase {
 	 * @param array $plugins          The plugins value sent to the `upgrader_process_complete` action.
 	 * @param int   $expect_push_times The number of times the `push` method should be called. I.e. 0 when there is no plugin.
 	 */
-	public function test_upgrader_process_complete_fired( array $plugins, int $expect_push_times ): void {
+	public function test_upgrader_process_complete_fired( array $plugins, int $expected_count_collect, int $expect_push_times ): void {
 
 		/**
 		 * It is difficult to mock the `Plugin_Upgrader` class, so we will just pass `null` for now.
@@ -79,10 +80,8 @@ class PluginTest extends \WP_Mock\Tools\TestCase {
 			'plugins' => $plugins,
 		);
 
-		$event_manager = Mockery::mock( EventManager::class );
-		$event_manager->expects( 'push' )->times( $expect_push_times );
-
-		$sut = new Plugin( $event_manager );
+		$event_manager_mock = Mockery::mock( EventManager::class );
+		$event_manager_mock->expects( 'push' )->times( $expect_push_times );
 
 		/**
 		 * This will only be called if the plugin is not empty, meaning we don't test with the current problematic
@@ -100,13 +99,13 @@ class PluginTest extends \WP_Mock\Tools\TestCase {
 			'auto_updates' => true,
 		);
 
-		\Patchwork\redefine(
-			array( \NewfoldLabs\WP\Module\Data\Helpers\Plugin::class, 'collect' ),
-			function () use ( $plugin_collected ) {
-					return $plugin_collected;
-			}
-		);
+		$plugin_helper_mock = Mockery::mock( Plugin_Helper::class )->makePartial();
+		$plugin_helper_mock->shouldReceive( 'collect' )
+						->times( $expected_count_collect )
+						->with( 'bluehost-wordpress-plugin/bluehost-wordpress-plugin.php' )
+						->andReturn( $plugin_collected );
 
+		$sut = new Plugin( $event_manager_mock, $plugin_helper_mock );
 		/**
 		 * The Event constructor calls a lot of WordPress functions to determine the environment.
 		 *
