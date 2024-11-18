@@ -22,7 +22,7 @@ jobs:
     steps:
 
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # User PHP 7.4 here for compatibility with the WordPress codesniffer rules.
       - name: Setup PHP
@@ -32,32 +32,41 @@ jobs:
           coverage: none
           tools: composer, cs2pr
 
-      - uses: technote-space/get-diff-action@v6
+      - uses: technote-space/get-diff-action@v6 # repo is archived.
         with:
           SUFFIX_FILTER: .php
 
       - name: Get Composer cache directory
         id: composer-cache
         run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
-        if: "!! env.GIT_DIFF"
 
       - name: Cache Composer vendor directory
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-composer-
-        if: "!! env.GIT_DIFF"
 
       - name: Validate composer.json and composer.lock
         run: composer validate
-        if: "!! env.GIT_DIFF"
 
       - name: Install dependencies
         run: composer install --no-progress --optimize-autoloader --prefer-dist
-        if: "!! env.GIT_DIFF"
+
+      - name: Fix auto-fixable PHP Code Standards Violations
+        continue-on-error: true
+        run: vendor/bin/phpcbf --standard=phpcs.xml
+
+      - name: Commit PHPCBF changes on main
+        if: ${{ github.ref == 'refs/heads/main' }} # only commit on main
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "🤖 PHPCBF"
+          commit_options: ""
+        env:
+          GITHUB_TOKEN: "${{ github.token }}"
 
       - name: Detecting PHP Code Standards Violations
-        run: vendor/bin/phpcs --standard=phpcs.xml -s ${{ env.GIT_DIFF }}
+        run: vendor/bin/phpcs --standard=phpcs.xml -s ${{ env.GIT_DIFF }} --report=checkstyle | cs2pr
         if: "!! env.GIT_DIFF"
