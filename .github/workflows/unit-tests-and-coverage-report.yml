@@ -35,6 +35,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # attempting to get all branch names.
 
       - name: Check does gh-pages branch need to be created
         run: |
