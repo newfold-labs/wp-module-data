@@ -22,7 +22,7 @@ jobs:
     steps:
 
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # User PHP 7.4 here for compatibility with the WordPress codesniffer rules.
       - name: Setup PHP
@@ -32,7 +32,7 @@ jobs:
           coverage: none
           tools: composer, cs2pr
 
-      - uses: technote-space/get-diff-action@v6
+      - uses: technote-space/get-diff-action@v6 # repo is archived.
         with:
           SUFFIX_FILTER: .php
 
@@ -42,7 +42,7 @@ jobs:
         if: "!! env.GIT_DIFF"
 
       - name: Cache Composer vendor directory
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
