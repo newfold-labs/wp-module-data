@@ -1,4 +1,4 @@
-name: Codecoverage-Main
+name: Unit tests + Code coverage report
 
 # Runs PHPUnit unit and Codeception wp-browser wpunit tests, merges the code coverage, commits the html report to
 # GitHub Pages, generates a README badge with the coverage percentage.
