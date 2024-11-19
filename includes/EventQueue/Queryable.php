@@ -26,8 +26,8 @@ trait Queryable {
 	 * Bulk inserts records into a table using WPDB.  All rows must contain the same keys.
 	 * Returns number of affected (inserted) rows.
 	 *
-	 * @param  string  $table
-	 * @param  non-empty-array  $rows
+	 * @param  string          $table
+	 * @param  non-empty-array $rows
 	 *
 	 * @return bool|int
 	 */
@@ -63,5 +63,4 @@ trait Queryable {
 		// Run the query.  Returns number of affected rows.
 		return $wpdb->query( $wpdb->prepare( $sql, $data ) );
 	}
-
 }

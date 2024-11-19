@@ -14,7 +14,7 @@ use WP_Error;
  */
 class SiteCapabilitiesWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase {
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		require_once codecept_root_dir( 'vendor/antecedent/patchwork/Patchwork.php' );
@@ -32,7 +32,7 @@ class SiteCapabilitiesWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase
 		);
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		Mockery::resetContainer();
 	}
 

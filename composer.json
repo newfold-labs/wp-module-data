@@ -71,7 +71,7 @@
       "vendor/bin/phpcbf . --standard=phpcs.xml"
     ],
     "cs-changes": [
-      "updated_files=$( git status | grep '\\(new file\\|modified\\):\\s.*.php$' | cut -c14- | awk '{ printf(\"%s \", $0) }' ); echo \"\\nChecking\"$(git status | grep '\\(new file\\|modified\\):\\s.*.php$' | tail -n+2 | wc -l)\" files\"; phpcbf $(echo $updated_files); phpcs $(echo $updated_files);"
+      "updated_files=$(echo $(git diff --name-only `git merge-base origin/main HEAD` | grep php)); if [ -n \"$updated_files\" ]; then phpcbf $(echo $updated_files); phpcs $(echo $updated_files); else echo \"No modified .php files for PHPCS.\"; fi;"
     ],
     "lint": [
       "vendor/bin/phpcs . --standard=phpcs.xml -s"
@@ -84,6 +84,7 @@
       "codecept run wpunit"
     ],
     "test-coverage": [
+      "if [ -d \"tests/_output/merged.cov\" ]; then rm -rf tests/_output/merged.cov; fi;",
       "phpunit --bootstrap tests/phpunit/bootstrap.php --coverage-php tests/_output/unit.cov --coverage-text",
       "codecept run wpunit --coverage wpunit.cov",
       "phpcov merge --php tests/_output/merged.cov --html tests/_output/html tests/_output;",
@@ -113,15 +114,17 @@
     "wpscholar/url": "^1.2.2"
   },
   "require-dev": {
-    "10up/wp_mock": "^0.4.2",
+    "10up/wp_mock": "^0.5.0|^1.0.0",
     "bluehost/bluehost-wordpress-plugin": ">=3.1",
     "brianhenryie/composer-phpstorm": ">=0.4",
     "johnpbloch/wordpress": ">=6.5.3",
     "kporras07/composer-symlinks": "^1.2",
     "lucatume/wp-browser": "^3.5.8",
     "newfold-labs/wp-php-standards": "^1.2.3",
-    "phpunit/phpcov": "^5.0",
-    "wpackagist-plugin/woocommerce": ">=9"
+    "phpunit/phpcov": "^8.2.1",
+    "wpackagist-plugin/jetpack": "^14.0",
+    "wpackagist-plugin/woocommerce": ">=9",
+    "wpackagist-theme/twentytwentyfive": "*"
   },
   "extra": {
     "symlinks": {

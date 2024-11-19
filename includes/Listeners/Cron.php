@@ -43,7 +43,7 @@ class Cron extends Listener {
 	 */
 	public function update(): void {
 		$data = array(
-			'plugins' => Plugin::collect_installed(),
+			'plugins' => ( new Plugin() )->collect_installed(),
 		);
 
 		$data = apply_filters( 'newfold_wp_data_module_cron_data_filter', $data );
