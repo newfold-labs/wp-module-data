@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1731974399">
-  <project timestamp="1731974399">
+<coverage generated="1732047020">
+  <project timestamp="1732047020">
     <file name="/home/runner/work/wp-module-data/wp-module-data/includes/API/Events.php">
       <class name="NewfoldLabs\WP\Module\Data\API\Events" namespace="global">
         <metrics complexity="13" methods="5" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="116" coveredstatements="8" elements="121" coveredelements="8"/>
