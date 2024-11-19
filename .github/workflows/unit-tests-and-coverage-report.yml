@@ -112,7 +112,7 @@ jobs:
         run: php-coverage-badger gh-pages/phpunit/clover.xml gh-pages/phpunit/coverage.svg
 
       - name: Commit code coverage to gh-pages
-        if: ${{ github.ref == 'refs/heads/main' && matrix.php == '7.3' }} # only commit on main, on the PHP version we're using in production.
+        if: ${{ (github.ref == 'refs/heads/main') && (matrix.php == '7.3') }} # only commit on main, on the PHP version we're using in production.
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           repository: gh-pages
