@@ -68,7 +68,7 @@ jobs:
           path: gh-pages
 
       - name: Install PHP
-        uses: shivammathur/setup-php@2.11.0
+        uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
           coverage: xdebug
@@ -93,7 +93,7 @@ jobs:
           mkdir gh-pages/phpunit || true;
 
       - name: Run unit tests
-        run: XDEBUG_MODE=coverage vendor/bin/phpunit --bootstrap tests/phpunit/bootstrap.php --coverage-php tests/_output/unit.cov
+        run: XDEBUG_MODE=coverage vendor/bin/phpunit --bootstrap tests/phpunit/bootstrap.php --coverage-php tests/_output/unit.cov --debug
 
       - name: Run wpunit tests
         run: XDEBUG_MODE=coverage vendor/bin/codecept run wpunit --coverage tests/_output/wpunit.cov --debug
@@ -112,7 +112,7 @@ jobs:
         run: php-coverage-badger gh-pages/phpunit/clover.xml gh-pages/phpunit/coverage.svg
 
       - name: Commit code coverage to gh-pages
-        if: ${{ github.ref == 'refs/heads/main' && matrix.php == '7.3' }} # only commit on main, on the PHP version we're using in production.
+        if: ${{ (github.ref == 'refs/heads/main') && (matrix.php == '7.3') }} # only commit on main, on the PHP version we're using in production.
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           repository: gh-pages
