@@ -27,6 +27,7 @@ class Commerce extends Listener {
 		add_filter( 'update_option_ewc4wp_sso_account_status', array( $this, 'ecomdash_connected' ), 10, 2 );
 		add_filter( 'woocommerce_update_product', array( $this, 'product_created_or_updated' ), 100, 2 );
 		add_action( 'update_option_woocommerce_custom_orders_table_enabled', array( $this, 'woocommerce_hpos_enabled' ), 10, 3 );
+		add_filter( 'pre_update_option_wcpay_account_connect_wpcom_connection_success', array( $this, 'woopay_connection' ), 10, 2 );
 	}
 
 	/**
@@ -328,5 +329,31 @@ class Commerce extends Listener {
 				$data
 			);
 		}
+	}
+
+	/**
+	 * WooPay connected
+	 *
+	 * @param string $new_option  New value of the woopay connection option
+	 * @param string $old_option  Old value of the woopay connection option
+	 *
+	 * @return string The new option value
+	 */
+	public function woopay_connection( $new_option, $old_option ) {
+		$url  = is_ssl() ? 'https://' : 'http://';
+		$url .= $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+		$data = array(
+			'label_key' => 'provider',
+			'provider'  => 'woopay',
+			'page'      => $url,
+		);
+		if ( $new_option !== $old_option && ! empty( $new_option ) ) {
+			$this->push(
+				'payment_connected',
+				$data
+			);
+		}
+
+		return $new_option;
 	}
 }
