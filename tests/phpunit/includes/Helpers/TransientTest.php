@@ -215,6 +215,12 @@ class TransientTest extends TestCase {
 				->with( $test_transient_name )
 				->andReturnTrue();
 
+		WP_Mock::expectFilter(
+			"transient_{$test_transient_name}",
+			false,
+			$test_transient_name
+		);
+
 		$result = Transient::get( $test_transient_name );
 
 		$this->assertFalse( $result );
