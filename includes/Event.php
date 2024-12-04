@@ -50,6 +50,13 @@ class Event {
 	public $time;
 
 	/**
+	 * DateTime when the event occurred
+	 *
+	 * @var string
+	 */
+	public $created_at;
+
+	/**
 	 * Construct
 	 *
 	 * @param string $category General category of the event. Should match to a Listener class
@@ -60,7 +67,8 @@ class Event {
 		global $title;
 
 		// Event details
-		$this->time     = time();
+		$this->time     = time(); // TODO: Remove this if not used anywhere
+		$this->created_at  = current_time( 'mysql' );
 		$this->category = strtolower( $category );
 		$this->key      = $key;
 		$this->data     = $data;

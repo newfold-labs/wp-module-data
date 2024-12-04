@@ -74,7 +74,11 @@ class BatchQueue implements BatchQueueInterface {
 
 		foreach ( $rawEvents as $rawEvent ) {
 			if ( property_exists( $rawEvent, 'id' ) && property_exists( $rawEvent, 'event' ) ) {
-				$events[ $rawEvent->id ] = maybe_unserialize( $rawEvent->event );
+				$eventData = maybe_unserialize( $rawEvent->event );
+				if ( is_array( $eventData ) && property_exists( $rawEvent, 'created_at' ) ) {
+					$eventData['created_at'] = $rawEvent->created_at;
+				}
+				$events[ $rawEvent->id ] = $eventData;
 			}
 		}
 
