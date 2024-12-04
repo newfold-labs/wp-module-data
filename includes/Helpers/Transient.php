@@ -113,7 +113,26 @@ class Transient {
 			return \delete_transient( $key );
 		}
 
-		return \delete_option( $key );
+		/**
+		 * Implement the filters as used in {@see set_transient()}.
+		 *
+		 * @param string $key Transient name.
+		 */
+		do_action( "delete_transient_{$key}", $key );
+
+		$result = \delete_option( $key );
+
+		if ( $result ) {
+
+			/**
+			 * Implement the filters as used in {@see set_transient()}.
+			 *
+			 * @param string $transient Deleted transient name.
+			 */
+			do_action( 'deleted_transient', $key );
+		}
+
+		return $result;
 	}
 
 	/**
