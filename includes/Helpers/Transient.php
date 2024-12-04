@@ -49,16 +49,17 @@ class Transient {
 		$data = \get_option( $key );
 		if ( is_array( $data ) && isset( $data['expires_at'], $data['value'] ) ) {
 			if ( $data['expires_at'] > time() ) {
-				/**
-				 * Implement the filters as used in {@see get_transient()}.
-				 */
-				return apply_filters( "transient_{$key}", $data['value'], $key );
+				$value = $data['value'];
 			} else {
 				\delete_option( $key );
+				$value = false;
 			}
 		}
 
-		return false;
+		/**
+		 * Implement the filters as used in {@see get_transient()}.
+		 */
+		return apply_filters( "transient_{$key}", $value, $key );
 	}
 
 	/**
