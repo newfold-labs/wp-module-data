@@ -43,13 +43,6 @@ class Event {
 	public $user;
 
 	/**
-	 * Timestamp when the event occurred
-	 *
-	 * @var integer
-	 */
-	public $time;
-
-	/**
 	 * DateTime when the event occurred
 	 *
 	 * @var string
@@ -67,7 +60,6 @@ class Event {
 		global $title;
 
 		// Event details
-		$this->time     = time(); // TODO: Remove this if not used anywhere
 		$this->created_at  = current_time( 'mysql' );
 		$this->category = strtolower( $category );
 		$this->key      = $key;
