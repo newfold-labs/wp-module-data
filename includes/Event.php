@@ -60,7 +60,7 @@ class Event {
 		global $title;
 
 		// Event details
-		$this->created_at  = current_time( 'mysql' );
+		$this->created_at  = date( 'Y-m-d H:i:s.u' );
 		$this->category = strtolower( $category );
 		$this->key      = $key;
 		$this->data     = $data;
