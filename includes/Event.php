@@ -43,11 +43,11 @@ class Event {
 	public $user;
 
 	/**
-	 * Timestamp when the event occurred
+	 * DateTime when the event occurred
 	 *
-	 * @var integer
+	 * @var string
 	 */
-	public $time;
+	public $created_at;
 
 	/**
 	 * Construct
@@ -60,7 +60,7 @@ class Event {
 		global $title;
 
 		// Event details
-		$this->time     = time();
+		$this->created_at  = date( 'Y-m-d H:i:s.u' );
 		$this->category = strtolower( $category );
 		$this->key      = $key;
 		$this->data     = $data;
