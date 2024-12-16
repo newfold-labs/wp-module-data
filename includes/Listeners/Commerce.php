@@ -291,7 +291,7 @@ class Commerce extends Listener {
 	public function product_created_or_updated( $product_id, $product ) {
 		$data = array(
 			'label_key'    => 'product_type',
-			'product_type' => $product->product_type,
+			'product_type' => $product->get_type(),
 			'post_id'      => $product_id,
 		);
 
