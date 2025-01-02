@@ -56,7 +56,7 @@ class Admin extends Listener {
 	public function login( $user_login, $user ): void {
 		$is_admin = array_key_exists( 'administrator', $user->get_role_caps() );
 		if ( ( $is_admin && $user->get_role_caps()['administrator'] ) || ( $user->get_role_caps() && $user->get_role_caps()['manage_options'] ) ) {
-			$this->push( 'login' );
+			$this->push( 'login', ["user_email" => $user->user_email]);
 		}
 	}
 
