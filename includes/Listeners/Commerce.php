@@ -117,7 +117,7 @@ class Commerce extends Listener {
 			ARRAY_A
 		);
 
-		if( ! empty( $counts ) ) {
+		if ( ! empty( $counts ) ) {
 			foreach ( $counts as $count ) {
 				$status = $count['comment_approved'];
 				if ( array_key_exists( $status, $status_map ) ) {
@@ -125,7 +125,7 @@ class Commerce extends Listener {
 				}
 				$review_count['total'] += $count['num_reviews'];
 			}
-			$data['meta']['product_reviews_count'] = (int)$review_count['total'];
+			$data['meta']['product_reviews_count'] = (int) $review_count['total'];
 		}
 
 		return $data;

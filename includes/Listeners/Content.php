@@ -19,7 +19,6 @@ class Content extends Listener {
 		add_action( 'transition_post_status', array( $this, 'post_status' ), 10, 3 );
 
 		add_filter( 'newfold_wp_data_module_cron_data_filter', array( $this, 'comments_count' ) );
-
 	}
 
 	/**
@@ -38,7 +37,7 @@ class Content extends Listener {
 		/**
 		 * Ignore all post types that aren't public
 		 */
-		if ( $post_type->public !== true ) {
+		if ( true !== $post_type->public ) {
 			return;
 		}
 
@@ -104,10 +103,9 @@ class Content extends Listener {
 		}
 
 		$comments = wp_count_comments();
-		if( isset( $comments->all ) ) {
-			$data['meta']['post_comments_count'] = (int)$comments->all;
+		if ( isset( $comments->all ) ) {
+			$data['meta']['post_comments_count'] = (int) $comments->all;
 		}
 		return $data;
 	}
-
 }
