@@ -27,6 +27,7 @@ class Commerce extends Listener {
 		add_filter( 'update_option_ewc4wp_sso_account_status', array( $this, 'ecomdash_connected' ), 10, 2 );
 		add_filter( 'woocommerce_update_product', array( $this, 'product_created_or_updated' ), 100, 2 );
 		add_action( 'update_option_woocommerce_custom_orders_table_enabled', array( $this, 'woocommerce_hpos_enabled' ), 10, 3 );
+		// Hook into the update of the 'wcpay_account_data' option to trigger an event when WooPay is connected.
 		add_filter( 'update_option_wcpay_account_data', array( $this, 'woopay_connection' ), 10, 2 );
 	}
 
@@ -332,8 +333,14 @@ class Commerce extends Listener {
 	}
 
 	/**
-	 * WooPay connected
+	 * This method triggers a `payment_connected` event when WooPay is connected (when `wcpay_account_data` goes from not existing to existing)
 	 *
+	 * * Connection Data (from `wcpay_account_data`):
+ 	 * - account_id: Unique WooPay account ID.
+     * - status: Connection status (e.g., 'connected', 'disconnected').
+     * - last_updated: timestamp
+	 * 
+	 * 
 	 * @param string $new_option  New value of the woopay connection option
 	 * @param string $old_option  Old value of the woopay connection option
 	 *
