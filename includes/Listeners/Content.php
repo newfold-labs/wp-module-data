@@ -37,7 +37,8 @@ class Content extends Listener {
 		/**
 		 * Ignore all post types that aren't public
 		 */
-		if ( true !== $post_type->public ) {
+
+		if ( ! $post_type || true !== $post_type->public ) {
 			return;
 		}
 
