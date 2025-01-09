@@ -336,15 +336,19 @@ class Commerce extends Listener {
 	 * This method triggers a `payment_connected` event when WooPay is connected (when `wcpay_account_data` goes from not existing to existing)
 	 *
 	 * * Connection Data (from `wcpay_account_data`):
- 	 * - account_id: Unique WooPay account ID.
-     * - status: Connection status (e.g., 'connected', 'disconnected').
-     * - last_updated: timestamp
-	 * 
-	 * 
-	 * @param string $new_option  New value of the woopay connection option
-	 * @param string $old_option  Old value of the woopay connection option
+	 * - account_id: Unique WooPay account ID.
+	 * - status: Connection status (e.g., 'connected', 'disconnected').
+	 * - last_updated: timestamp, (e.g. '2025-01-08T12:34:56Z')
+	 * - is_live
 	 *
-	 * @return string The new option value
+	 * @hooked update_option_wcpay_account_data
+	 * @see \WC_Payments_Account::get_cached_account_data()
+	 * @see \WCPay\Database_Cache::ACCOUNT_KEY
+	 * @see \WCPay\Database_Cache::get_or_add()
+	 * @see update_option()
+	 *
+	 * @param array{data:array{account_id:string,status:string,last_updated:string}} $new_option  New value of the woopay connection option
+	 * @param array|false|string                                                     $old_option  Old value of the woopay connection option
 	 */
 	public function woopay_connection( $new_option, $old_option ): void {
 		$url  = is_ssl() ? 'https://' : 'http://';
