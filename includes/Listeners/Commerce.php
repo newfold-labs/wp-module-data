@@ -346,7 +346,7 @@ class Commerce extends Listener {
 	 *
 	 * @return string The new option value
 	 */
-	public function woopay_connection( $new_option, $old_option ) {
+	public function woopay_connection( $new_option, $old_option ): void {
 		$url  = is_ssl() ? 'https://' : 'http://';
 		$url .= $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 		$data = array(
@@ -360,7 +360,5 @@ class Commerce extends Listener {
 				$data
 			);
 		}
-
-		return $new_option;
 	}
 }
