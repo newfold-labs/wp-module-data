@@ -28,6 +28,8 @@ class Commerce extends Listener {
 		add_filter( 'update_option_ewc4wp_sso_account_status', array( $this, 'ecomdash_connected' ), 10, 2 );
 		add_filter( 'woocommerce_update_product', array( $this, 'product_created_or_updated' ), 100, 2 );
 		add_action( 'update_option_woocommerce_custom_orders_table_enabled', array( $this, 'woocommerce_hpos_enabled' ), 10, 3 );
+		// Hook into the update of the 'wcpay_account_data' option to trigger an event when WooPay is connected.
+		add_filter( 'update_option_wcpay_account_data', array( $this, 'woopay_connection' ), 10, 2 );
 	}
 
 	/**
@@ -370,6 +372,40 @@ class Commerce extends Listener {
 
 			$this->push(
 				'changed_woo_order_storage_type',
+				$data
+			);
+		}
+	}
+
+	/**
+	 * This method triggers a `payment_connected` event when WooPay is connected (when `wcpay_account_data` goes from not existing to existing)
+	 *
+	 * * Connection Data (from `wcpay_account_data`):
+	 * - account_id: Unique WooPay account ID.
+	 * - status: Connection status (e.g., 'connected', 'disconnected').
+	 * - last_updated: timestamp, (e.g. '2025-01-08T12:34:56Z')
+	 * - is_live
+	 *
+	 * @hooked update_option_wcpay_account_data
+	 * @see \WC_Payments_Account::get_cached_account_data()
+	 * @see \WCPay\Database_Cache::ACCOUNT_KEY
+	 * @see \WCPay\Database_Cache::get_or_add()
+	 * @see update_option()
+	 *
+	 * @param array{data:array{account_id:string,status:string,last_updated:string}} $new_option  New value of the woopay connection option
+	 * @param array|false|string                                                     $old_option  Old value of the woopay connection option
+	 */
+	public function woopay_connection( $new_option, $old_option ): void {
+		$url  = is_ssl() ? 'https://' : 'http://';
+		$url .= $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+		$data = array(
+			'label_key' => 'provider',
+			'provider'  => 'woopay',
+			'page'      => $url,
+		);
+		if ( empty( $old_option ) && ! empty( $new_option ) ) {
+			$this->push(
+				'payment_connected',
 				$data
 			);
 		}
