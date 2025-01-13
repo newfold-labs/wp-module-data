@@ -81,9 +81,17 @@ class Commerce extends Listener {
 		if ( ! isset( $data['meta'] ) ) {
 			$data['meta'] = array();
 		}
-		$shop_order_post_counts = wp_count_posts( 'shop_order' );
-		if ( $shop_order_post_counts && isset( $shop_order_post_counts->publish ) ) {
-			$data['meta']['orders_count'] = (int) $shop_order_post_counts->publish;
+
+		$args = array(
+			'status' => wc_get_is_paid_statuses(),
+			'limit'  => -1,
+			'return' => 'ids',
+		);
+
+		$order_ids = wc_get_orders( $args );
+
+		if ( ! empty( $order_ids ) ) {
+			$data['meta']['orders_count'] = (int) count( $order_ids );
 		}
 
 		return $data;
