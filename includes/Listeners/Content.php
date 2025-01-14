@@ -18,8 +18,7 @@ class Content extends Listener {
 		// Post status transitions
 		add_action( 'transition_post_status', array( $this, 'post_status' ), 10, 3 );
 
-		// transition comment status
-		add_action( 'transition_comment_status', array( $this, 'comment_status' ), 10, 3 );
+		add_filter( 'newfold_wp_data_module_cron_data_filter', array( $this, 'comments_count' ) );
 	}
 
 	/**
@@ -38,7 +37,8 @@ class Content extends Listener {
 		/**
 		 * Ignore all post types that aren't public
 		 */
-		if ( ! $post_type || $post_type->public !== true ) {
+
+		if ( ! $post_type || true !== $post_type->public ) {
 			return;
 		}
 
@@ -92,29 +92,21 @@ class Content extends Listener {
 	}
 
 	/**
-	 * Comment status transition
+	 * Comments reviews count
 	 *
-	 * @param string     $new_status The new comment status
-	 * @param string     $old_status The new comment status
-	 * @param WP_Comment $comment Comment object
+	 * @param  string $data  Array of data to be sent to Hiive
 	 *
-	 * @return void
+	 * @return string Array of data
 	 */
-	public function comment_status( $new_status, $old_status, $comment ) {
-		$allowed_statuses = array(
-			'deleted',
-			'approved',
-			'unapproved',
-			'spam',
-		);
-		if ( $new_status !== $old_status && in_array( $new_status, $allowed_statuses, true ) ) {
-			$data = array(
-				'label_key'  => 'new_status',
-				'old_status' => $old_status,
-				'new_status' => $new_status,
-				'comment'    => $comment,
-			);
-			$this->push( 'comment_status', $data );
+	public function comments_count( $data ) {
+		if ( ! isset( $data['meta'] ) ) {
+			$data['meta'] = array();
 		}
+
+		$comments = wp_count_comments();
+		if ( isset( $comments->all ) ) {
+			$data['meta']['post_comments_count'] = (int) $comments->all;
+		}
+		return $data;
 	}
 }

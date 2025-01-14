@@ -37,11 +37,5 @@ class SiteHealth extends Listener {
 				'score'     => SiteHealthHelper::calculate_score( $value ),
 			)
 		);
-		$this->push(
-			'site_health_debug',
-			array(
-				'debug_data' => wp_json_encode( SiteHealthHelper::get_safe_data() ),
-			)
-		);
 	}
 }

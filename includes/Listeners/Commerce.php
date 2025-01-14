@@ -16,6 +16,7 @@ class Commerce extends Listener {
 		add_action( 'woocommerce_order_status_processing', array( $this, 'on_payment' ), 10, 2 );
 		add_filter( 'newfold_wp_data_module_cron_data_filter', array( $this, 'products_count' ) );
 		add_filter( 'newfold_wp_data_module_cron_data_filter', array( $this, 'orders_count' ) );
+		add_filter( 'newfold_wp_data_module_cron_data_filter', array( $this, 'reviews_count' ) );
 		add_filter( 'woocommerce_before_cart', array( $this, 'site_cart_views' ) );
 		add_filter( 'woocommerce_before_checkout_form', array( $this, 'checkout_views' ) );
 		add_filter( 'woocommerce_thankyou', array( $this, 'thank_you_page' ) );
@@ -96,6 +97,50 @@ class Commerce extends Listener {
 
 		return $data;
 	}
+	/**
+	 * Product reviews count
+	 *
+	 * @param  string $data  Array of data to be sent to Hiive
+	 *
+	 * @return string Array of data
+	 */
+	public function reviews_count( $data ) {
+		if ( ! isset( $data['meta'] ) ) {
+			$data['meta'] = array();
+		}
+
+		global $wpdb;
+		$review_count = array( 'total' => 0 );
+		$status_map   = array(
+			'0'     => 'pending',
+			'1'     => 'approved',
+			'trash' => 'trash',
+			'spam'  => 'spam',
+		);
+		$counts       = $wpdb->get_results(
+			"
+			SELECT comment_approved, COUNT(*) AS num_reviews
+			FROM {$wpdb->comments}
+			WHERE comment_type = 'review'
+			GROUP BY comment_approved
+			",
+			ARRAY_A
+		);
+
+		if ( ! empty( $counts ) ) {
+			foreach ( $counts as $count ) {
+				$status = $count['comment_approved'];
+				if ( array_key_exists( $status, $status_map ) ) {
+					$review_count[ $status_map[ $status ] ] = $count['num_reviews'];
+				}
+				$review_count['total'] += $count['num_reviews'];
+			}
+			$data['meta']['product_reviews_count'] = (int) $review_count['total'];
+		}
+
+		return $data;
+	}
+
 
 	/**
 	 * Site Cart View, send data to Hiive
@@ -301,7 +346,7 @@ class Commerce extends Listener {
 	public function product_created_or_updated( $product_id, $product ) {
 		$data = array(
 			'label_key'    => 'product_type',
-			'product_type' => $product->product_type,
+			'product_type' => $product->get_type(),
 			'post_id'      => $product_id,
 		);
 

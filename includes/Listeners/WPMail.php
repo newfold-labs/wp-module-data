@@ -23,12 +23,40 @@ class WPMail extends Listener {
 	 * @return void
 	 */
 	public function mail_succeeded( $mail_data ) {
-		$this->push(
-			'wp_mail',
-			array(
-				'label_key' => 'subject',
-				'subject'   => $mail_data['subject'],
-			)
-		);
+
+		$send_event       = false;
+		$site_admin_email = get_option( 'admin_email' );
+
+		$recipients = $mail_data['to'];
+
+		if ( ! is_array( $recipients ) ) {
+			$recipients = array( $recipients );
+		}
+
+		foreach ( $recipients as $email ) {
+			$email = trim( $email );
+
+			if ( $email === $site_admin_email ) {
+				$send_event = true;
+				break;
+			}
+
+			$user = get_user_by( 'email', $email );
+
+			if ( $user && ( in_array( 'administrator', $user->roles, true ) || in_array( 'editor', $user->roles, true ) ) ) {
+				$send_event = true;
+				break;
+			}
+		}
+
+		if ( $send_event ) {
+			$this->push(
+				'wp_mail',
+				array(
+					'label_key' => 'subject',
+					'subject'   => $mail_data['subject'],
+				)
+			);
+		}
 	}
 }
