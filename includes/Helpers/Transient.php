@@ -54,7 +54,13 @@ class Transient {
 				\delete_option( $key );
 				$value = false;
 			}
-		}
+		} else {
+			/**
+			 * Set $value to false if $data is not a valid array.
+			 * This is to prevent PHP notices when trying to access $data['expires_at'].
+			 */
+			$value = false;
+        }
 
 		/**
 		 * Implement the filters as used in {@see get_transient()}.
