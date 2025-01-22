@@ -57,7 +57,7 @@ class SiteCapabilities {
 			$this->transient->set( 'nfd_site_capabilities', $capabilities, 4 * constant( 'HOUR_IN_SECONDS' ) );
 		}
 
-		return $capabilities ? $capabilities : array();
+		return is_array( $capabilities ) ? $capabilities : array();
 	}
 
 	/**
