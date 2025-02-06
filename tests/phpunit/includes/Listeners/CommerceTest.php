@@ -70,12 +70,14 @@ class CommerceTest extends \WP_Mock\Tools\TestCase {
 	public function test_woopay_connection(): void {
 
 		WP_Mock::userFunction( 'is_ssl' )->once()->andReturnTrue();
+		WP_Mock::userFunction( 'get_current_user_id' )->once()->andReturn( 1 );
 		$_SERVER['HTTP_HOST']   = 'example.com/';
 		$_SERVER['REQUEST_URI'] = 'subdir';
 
 		$expected_data_array = array(
 			'label_key' => 'provider',
 			'provider'  => 'woopay',
+			'status'    => 'connected',
 			'page'      => 'https://example.com/subdir',
 		);
 
