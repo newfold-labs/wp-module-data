@@ -28,7 +28,7 @@ class Commerce extends Listener {
 		add_filter( 'woocommerce_update_product', array( $this, 'product_created_or_updated' ), 100, 2 );
 		add_action( 'update_option_woocommerce_custom_orders_table_enabled', array( $this, 'woocommerce_hpos_enabled' ), 10, 3 );
 		// Hook into the update of the 'wcpay_account_data' option to trigger an event when WooPay is connected.
-		add_filter( 'update_option_wcpay_account_data', array( $this, 'woopay_connection' ), 10, 2 );
+		add_filter('pre_update_option_wcpay_account_data', array($this, 'woopay_connection'), 10, 2);
 	}
 
 	/**
@@ -358,19 +358,37 @@ class Commerce extends Listener {
 	 * @param array{data:array{account_id:string,status:string,last_updated:string}} $new_option  New value of the woopay connection option
 	 * @param array|false|string                                                     $old_option  Old value of the woopay connection option
 	 */
-	public function woopay_connection( $new_option, $old_option ): void {
+	public function woopay_connection($new_option, $old_option): array
+	{
+
+		// If the option has not changed, bail
+		if ($new_option === $old_option) {
+			return $new_option;
+		}
+
+		// If the option is empty, or the status is not set, bail
+		if (empty($new_option) || ! isset($new_option['data']['status'])) {
+			return $new_option;
+		}
+
+		// If the status is not changing, bail
+		if (isset($old_option['data']['status']) && ($new_option['data']['status'] === $old_option['data']['status'])) {
+			return $new_option;
+		}
+
 		$url  = is_ssl() ? 'https://' : 'http://';
 		$url .= $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-		$data = array(
-			'label_key' => 'provider',
-			'provider'  => 'woopay',
-			'page'      => $url,
+
+		$this->push(
+			'payment_connected',
+			array(
+				'label_key' => 'provider',
+				'provider'  => 'woopay',
+				'status'    => $new_option['data']['status'],
+				'page'      => $url,
+			)
 		);
-		if ( empty( $old_option ) && ! empty( $new_option ) ) {
-			$this->push(
-				'payment_connected',
-				$data
-			);
-		}
+
+		return $new_option;
 	}
 }
