@@ -71,7 +71,7 @@ class PluginTest extends \WP_Mock\Tools\TestCase {
 			->with('auto_update_plugins', \WP_Mock\Functions::type( 'array' ))
 			->andReturn(array());
 
-		$sut->collect( 'bluehost-wordpress-plugin/bluehost-wordpress-plugin.php' );
+		$sut->collect( 'wp-plugin-bluehost/bluehost-wordpress-plugin.php' );
 
 		$this->assertConditionsMet();
 	}

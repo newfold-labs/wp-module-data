@@ -33,7 +33,7 @@ class PluginTest extends \WP_Mock\Tools\TestCase {
 		return array(
 			array(
 				'plugins'                => array(
-					'bluehost-wordpress-plugin/bluehost-wordpress-plugin.php',
+					'wp-plugin-bluehost/bluehost-wordpress-plugin.php',
 				),
 				'expected_count_collect' => 1,
 				'expect_push_times'      => 1,
@@ -91,7 +91,7 @@ class PluginTest extends \WP_Mock\Tools\TestCase {
 		 */
 		$plugin_collected = array(
 			'slug'         => 'bluehost-wordpress-plugin',
-			'version'      => '3.10.0',
+			'version'      => '4.0.4',
 			'title'        => 'The Bluehost Plugin',
 			'url'          => 'https://bluehost.com',
 			'active'       => false,
@@ -102,7 +102,7 @@ class PluginTest extends \WP_Mock\Tools\TestCase {
 		$plugin_helper_mock = Mockery::mock( Plugin_Helper::class )->makePartial();
 		$plugin_helper_mock->shouldReceive( 'collect' )
 						->times( $expected_count_collect )
-						->with( 'bluehost-wordpress-plugin/bluehost-wordpress-plugin.php' )
+						->with( 'wp-plugin-bluehost/bluehost-wordpress-plugin.php' )
 						->andReturn( $plugin_collected );
 
 		$sut = new Plugin( $event_manager_mock, $plugin_helper_mock );
