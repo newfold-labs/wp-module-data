@@ -360,19 +360,35 @@ class Commerce extends Listener {
 	 */
 	public function woopay_connection($new_option, $old_option): array
 	{
+
+		// If the option has not changed, bail
+		if ($new_option === $old_option) {
+			return $new_option;
+		}
+
+		// If the option is empty, or the status is not set, bail
+		if (empty($new_option) || ! isset($new_option['data']['status'])) {
+			return $new_option;
+		}
+
+		// If the status is not changing, bail
+		if (isset($old_option['data']['status']) && ($new_option['data']['status'] === $old_option['data']['status'])) {
+			return $new_option;
+		}
+
 		$url  = is_ssl() ? 'https://' : 'http://';
 		$url .= $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-		$data = array(
-			'label_key' => 'provider',
-			'provider'  => 'woopay',
-			'page'      => $url,
+
+		$this->push(
+			'payment_connected',
+			array(
+				'label_key' => 'provider',
+				'provider'  => 'woopay',
+				'status'    => $new_option['data']['status'],
+				'page'      => $url,
+			)
 		);
-		if ( empty( $old_option ) && ! empty( $new_option ) ) {
-			$this->push(
-				'payment_connected',
-				$data
-			);
-		}
+
 		return $new_option;
 	}
 }
