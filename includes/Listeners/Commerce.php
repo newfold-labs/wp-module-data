@@ -28,7 +28,7 @@ class Commerce extends Listener {
 		add_filter( 'woocommerce_update_product', array( $this, 'product_created_or_updated' ), 100, 2 );
 		add_action( 'update_option_woocommerce_custom_orders_table_enabled', array( $this, 'woocommerce_hpos_enabled' ), 10, 3 );
 		// Hook into the update of the 'wcpay_account_data' option to trigger an event when WooPay is connected.
-		add_filter( 'update_option_wcpay_account_data', array( $this, 'woopay_connection' ), 10, 2 );
+		add_filter('pre_update_option_wcpay_account_data', array($this, 'woopay_connection'), 10, 2);
 	}
 
 	/**
