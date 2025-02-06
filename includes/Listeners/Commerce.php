@@ -358,7 +358,8 @@ class Commerce extends Listener {
 	 * @param array{data:array{account_id:string,status:string,last_updated:string}} $new_option  New value of the woopay connection option
 	 * @param array|false|string                                                     $old_option  Old value of the woopay connection option
 	 */
-	public function woopay_connection( $new_option, $old_option ): void {
+	public function woopay_connection($new_option, $old_option): array
+	{
 		$url  = is_ssl() ? 'https://' : 'http://';
 		$url .= $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 		$data = array(
@@ -372,5 +373,6 @@ class Commerce extends Listener {
 				$data
 			);
 		}
+		return $new_option;
 	}
 }
