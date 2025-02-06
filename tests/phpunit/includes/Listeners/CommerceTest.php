@@ -16,6 +16,8 @@ class CommerceTest extends \WP_Mock\Tools\TestCase {
 	public function setUp(): void {
 		parent::setUp();
 		WP_Mock::setUp();
+		$_SERVER['REMOTE_ADDR'] = '127.0.0.1';
+
 	}
 
 	public function tearDown(): void {
