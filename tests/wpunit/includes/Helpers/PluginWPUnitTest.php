@@ -11,7 +11,7 @@ class PluginWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase {
 		parent::set_up();
 
 		assert(
-			file_exists(codecept_absolute_path('wp-content/plugins/bluehost-wordpress-plugin/bluehost-wordpress-plugin.php')),
+			file_exists(codecept_absolute_path('wp-content/plugins/wp-plugin-bluehost/bluehost-wordpress-plugin.php')),
 			'Fixture missing: The Bluehost plugin'
 		);
 
@@ -28,7 +28,7 @@ class PluginWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase {
 	public function test_collect(): void {
 		$sut = new Plugin();
 
-		$result = $sut->collect('bluehost-wordpress-plugin/bluehost-wordpress-plugin.php');
+		$result = $sut->collect('wp-plugin-bluehost/bluehost-wordpress-plugin.php');
 
 		$this->assertEquals('The Bluehost Plugin', $result['title']);
 		$this->assertEqualSets(['slug','version','title','url','active','mu','auto_updates'], array_keys($result));
@@ -96,10 +96,10 @@ class PluginWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase {
 
 		add_site_option('auto_update_plugin', 'false');
 
-		$this->set_autoupdate('bluehost-wordpress-plugin/bluehost-wordpress-plugin.php', true);
+		$this->set_autoupdate('wp-plugin-bluehost/bluehost-wordpress-plugin.php', true);
 		$this->set_autoupdate('jetpack/jetpack.php', false);
 
-		$this->assertTrue($sut->collect('bluehost-wordpress-plugin/bluehost-wordpress-plugin.php')['auto_updates']);
+		$this->assertTrue($sut->collect('wp-plugin-bluehost/bluehost-wordpress-plugin.php')['auto_updates']);
 		$this->assertFalse($sut->collect('jetpack/jetpack.php')['auto_updates']);
 	}
 
@@ -111,8 +111,8 @@ class PluginWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase {
 
 		add_site_option('auto_update_plugin', 'true');
 
-		$this->set_autoupdate('bluehost-wordpress-plugin/bluehost-wordpress-plugin.php', false);
+		$this->set_autoupdate('wp-plugin-bluehost/bluehost-wordpress-plugin.php', false);
 
-		$this->assertTrue($sut->collect('bluehost-wordpress-plugin/bluehost-wordpress-plugin.php')['auto_updates']);
+		$this->assertTrue($sut->collect('wp-plugin-bluehost/bluehost-wordpress-plugin.php')['auto_updates']);
 	}
 }
