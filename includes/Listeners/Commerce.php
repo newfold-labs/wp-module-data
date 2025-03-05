@@ -15,7 +15,6 @@ class Commerce extends Listener {
 	public function register_hooks() {
 		add_action( 'woocommerce_order_status_processing', array( $this, 'on_payment' ), 10, 2 );
 		add_filter( 'newfold_wp_data_module_cron_data_filter', array( $this, 'products_count' ) );
-		add_filter( 'newfold_wp_data_module_cron_data_filter', array( $this, 'orders_count' ) );
 		add_filter( 'woocommerce_before_cart', array( $this, 'site_cart_views' ) );
 		add_filter( 'woocommerce_before_checkout_form', array( $this, 'checkout_views' ) );
 		add_filter( 'woocommerce_thankyou', array( $this, 'thank_you_page' ) );
@@ -29,6 +28,11 @@ class Commerce extends Listener {
 		add_action( 'update_option_woocommerce_custom_orders_table_enabled', array( $this, 'woocommerce_hpos_enabled' ), 10, 3 );
 		// Hook into the update of the 'wcpay_account_data' option to trigger an event when WooPay is connected.
 		add_filter('pre_update_option_wcpay_account_data', array($this, 'woopay_connection'), 10, 2);
+
+		// Hooks that requires WooCommerce enabled.
+		if ( is_plugin_active( 'woocommerce/woocommerce.php' ) ) {
+			add_filter( 'newfold_wp_data_module_cron_data_filter', array( $this, 'orders_count' ) );
+		}
 	}
 
 	/**
@@ -305,10 +309,10 @@ class Commerce extends Listener {
 			'post_id'      => $product_id,
 		);
 
-			$this->push(
-				'product_created',
-				$data
-			);
+		$this->push(
+			'product_created',
+			$data
+		);
 	}
 
 	/**
