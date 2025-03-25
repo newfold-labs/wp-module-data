@@ -13,22 +13,27 @@ class Commerce extends Listener {
 	 * @return void
 	 */
 	public function register_hooks() {
-		add_action( 'woocommerce_order_status_processing', array( $this, 'on_payment' ), 10, 2 );
-		add_filter( 'newfold_wp_data_module_cron_data_filter', array( $this, 'products_count' ) );
-		add_filter( 'newfold_wp_data_module_cron_data_filter', array( $this, 'orders_count' ) );
-		add_filter( 'woocommerce_before_cart', array( $this, 'site_cart_views' ) );
-		add_filter( 'woocommerce_before_checkout_form', array( $this, 'checkout_views' ) );
-		add_filter( 'woocommerce_thankyou', array( $this, 'thank_you_page' ) );
-		add_filter( 'pre_update_option_nfd-ecommerce-captive-flow-razorpay', array( $this, 'razorpay_connection' ), 10, 2 );
-		add_filter( 'pre_update_option_nfd-ecommerce-captive-flow-shippo', array( $this, 'shippo_connection' ), 10, 2 );
-		add_filter( 'pre_update_option_nfd-ecommerce-captive-flow-stripe', array( $this, 'stripe_connection' ), 10, 2 );
-		// Paypal Connection
-		add_filter( 'pre_update_option_yith_ppwc_merchant_data_production', array( $this, 'paypal_connection' ), 10, 2 );
-		add_filter( 'update_option_ewc4wp_sso_account_status', array( $this, 'ecomdash_connected' ), 10, 2 );
-		add_filter( 'woocommerce_update_product', array( $this, 'product_created_or_updated' ), 100, 2 );
-		add_action( 'update_option_woocommerce_custom_orders_table_enabled', array( $this, 'woocommerce_hpos_enabled' ), 10, 3 );
-		// Hook into the update of the 'wcpay_account_data' option to trigger an event when WooPay is connected.
-		add_filter('pre_update_option_wcpay_account_data', array($this, 'woopay_connection'), 10, 2);
+		if ( is_plugin_active( 'woocommerce/woocommerce.php' ) ) {
+			add_filter( 'newfold_wp_data_module_cron_data_filter', array( $this, 'products_count' ) );
+			add_filter( 'newfold_wp_data_module_cron_data_filter', array( $this, 'orders_count' ) );
+
+			add_action( 'woocommerce_order_status_processing', array( $this, 'on_payment' ), 10, 2 );
+			add_filter( 'woocommerce_before_cart', array( $this, 'site_cart_views' ) );
+			add_filter( 'woocommerce_before_checkout_form', array( $this, 'checkout_views' ) );
+			add_filter( 'woocommerce_thankyou', array( $this, 'thank_you_page' ) );
+			add_filter( 'pre_update_option_nfd-ecommerce-captive-flow-razorpay', array( $this, 'razorpay_connection' ), 10, 2 );
+			add_filter( 'pre_update_option_nfd-ecommerce-captive-flow-shippo', array( $this, 'shippo_connection' ), 10, 2 );
+			add_filter( 'pre_update_option_nfd-ecommerce-captive-flow-stripe', array( $this, 'stripe_connection' ), 10, 2 );
+
+			// Paypal Connection
+			add_filter( 'pre_update_option_yith_ppwc_merchant_data_production', array( $this, 'paypal_connection' ), 10, 2 );
+			add_filter( 'update_option_ewc4wp_sso_account_status', array( $this, 'ecomdash_connected' ), 10, 2 );
+			add_filter( 'woocommerce_update_product', array( $this, 'product_created_or_updated' ), 100, 2 );
+			add_action( 'update_option_woocommerce_custom_orders_table_enabled', array( $this, 'woocommerce_hpos_enabled' ), 10, 3 );
+
+			// Hook into the update of the 'wcpay_account_data' option to trigger an event when WooPay is connected.
+			add_filter( 'pre_update_option_wcpay_account_data', array( $this, 'woopay_connection' ), 10, 2 );
+		}
 	}
 
 	/**
@@ -305,10 +310,10 @@ class Commerce extends Listener {
 			'post_id'      => $product_id,
 		);
 
-			$this->push(
-				'product_created',
-				$data
-			);
+		$this->push(
+			'product_created',
+			$data
+		);
 	}
 
 	/**
