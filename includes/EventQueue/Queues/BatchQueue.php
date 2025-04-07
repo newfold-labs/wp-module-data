@@ -43,6 +43,7 @@ class BatchQueue implements BatchQueueInterface {
 				'event'        => serialize( $event ),
 				'available_at' => current_time( 'mysql' ),
 				'created_at'   => $time,
+				'attempts'     => 1,
 			);
 		}
 
@@ -84,11 +85,48 @@ class BatchQueue implements BatchQueueInterface {
 
 		return $events;
 	}
+	/**
+	 * Remove events from the queue that have exceeded the attempts limit
+	 *
+	 * @param  int $limit number of attempts
+	 * @return bool
+	 */
+	public function remove_events_exceeding_attempts_limit( $limit ) {
+		return (bool) $this
+			->query()
+			->select( '*' )
+			->from( $this->table(), false )
+			->where( 'attempts', '>', $limit )
+			->delete();
+	}
+
+	/**
+	 * Increment the attempts for a given event
+	 *
+	 * @param  int[] $ids lits of ids to increment
+	 *
+	 * @return bool
+	 */
+	public function incremet_attempt( array $ids ) {
+		global $wpdb;
+
+		$table = $this->table();
+
+		$ids = implode( ',', array_fill( 0, count( $ids ), '%d' ) );
+
+		return (bool) $wpdb->query(
+			$wpdb->prepare(
+				'UPDATE %s SET attempts = attempts + 1 WHERE id IN (%s)',
+				$table,
+				$ids
+			)
+		);
+	}
 
 	/**
 	 * Remove events from the queue
 	 *
-	 * @param  int[] $ids
+	 * @param  int[] $ids list of ids to remove
 	 *
 	 * @return bool
 	 */
@@ -103,7 +141,7 @@ class BatchQueue implements BatchQueueInterface {
 	/**
 	 * Reserve events in the queue
 	 *
-	 * @param  int[] $ids
+	 * @param  int[] $ids list of ids to reserve
 	 *
 	 * @return bool
 	 */
@@ -118,7 +156,7 @@ class BatchQueue implements BatchQueueInterface {
 	/**
 	 * Release events back onto the queue
 	 *
-	 * @param  int[] $ids
+	 * @param  int[] $ids list of ids to release
 	 *
 	 * @return bool
 	 */
