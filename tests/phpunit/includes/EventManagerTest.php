@@ -718,6 +718,11 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 		$sut = Mockery::mock( EventManager::class )->makePartial();
 
 		$event = Mockery::mock( Event::class );
+ 
+		$batch_queue_mock->expects( 'remove_events_exceeding_attempts_limit' )
+						->once()
+						->with( 3 )
+						->andReturnTrue();
 
 		$batch_queue_mock->expects( 'pull' )
 						->once()
