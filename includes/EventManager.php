@@ -293,7 +293,7 @@ class EventManager {
 
 			// Release the 'reserve' we placed on the entry, so it will be tried again later.
 			if ( ! empty( $response['failedEvents'] ) ) {
-				$queue->incremet_attempt( array_keys( $response['failedEvents'] ) );
+				$queue->increment_attempt( array_keys( $response['failedEvents'] ) );
 				$queue->release( array_keys( $response['failedEvents'] ) );
 			}
 		}

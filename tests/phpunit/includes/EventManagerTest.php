@@ -157,8 +157,6 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 	 */
 	public function test_send_saved_events_happy_path(): void {
 
-		$this->markTestSkipped( 'Due to an unidentified bug causing events to be resent, we are temporarily disabling retries.' );
-
 		$batch_queue_mock = Mockery::mock( BatchQueue::class );
 
 		\Patchwork\redefine(
@@ -176,9 +174,13 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 
 		$event = Mockery::mock( Event::class );
 
+		$batch_queue_mock->expects( 'remove_events_exceeding_attempts_limit' )
+						->once()
+						->with( 3 );
+
 		$batch_queue_mock->expects( 'pull' )
 						->once()
-						->with( 100 )
+						->with( 50 )
 						->andReturn(
 							array(
 								15 => $event,
@@ -216,6 +218,10 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 		$batch_queue_mock->expects( 'release' )
 						->once()
 						->with( array( 16 ) );
+		
+		$batch_queue_mock->expects( 'increment_attempt' )
+						->once()
+						->with( array( 16 ) );		
 
 		$sut->send_saved_events_batch();
 
@@ -226,8 +232,6 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 	 * @covers ::send_saved_events_batch
 	 */
 	public function test_send_saved_events_happy_path_no_failed_events(): void {
-
-		$this->markTestSkipped( 'Due to an unidentified bug causing events to be resent, we are temporarily disabling retries.' );
 
 		$batch_queue_mock = Mockery::mock( BatchQueue::class );
 
@@ -246,9 +250,13 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 
 		$event = Mockery::mock( Event::class );
 
+		$batch_queue_mock->expects( 'remove_events_exceeding_attempts_limit' )
+						->once()
+						->with( 3 );
+
 		$batch_queue_mock->expects( 'pull' )
 						->once()
-						->with( 100 )
+						->with( 50 )
 						->andReturn(
 							array(
 								15 => $event,
@@ -286,6 +294,9 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 		$batch_queue_mock->expects( 'release' )
 						->never();
 
+		$batch_queue_mock->expects( 'increment_attempt' )
+						->never();
+
 		$sut->send_saved_events_batch();
 
 		$this->assertConditionsMet();
@@ -295,8 +306,6 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 	 * @covers ::send_saved_events_batch
 	 */
 	public function test_send_saved_events_happy_path_no_successful_events(): void {
-
-		$this->markTestSkipped( 'Due to an unidentified bug causing events to be resent, we are temporarily disabling retries.' );
 
 		$batch_queue_mock = Mockery::mock( BatchQueue::class );
 
@@ -314,6 +323,10 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 		$sut = Mockery::mock( EventManager::class )->makePartial();
 
 		$event = Mockery::mock( Event::class );
+
+		$batch_queue_mock->expects( 'remove_events_exceeding_attempts_limit' )
+						->once()
+						->with( 3 );
 
 		$batch_queue_mock->expects( 'pull' )
 						->once()
@@ -351,6 +364,10 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 		$batch_queue_mock->expects( 'remove' )
 						->never();
 
+		$batch_queue_mock->expects( 'increment_attempt' )
+				->once()
+				->with( array( 16 ) );
+
 		$batch_queue_mock->expects( 'release' )
 						->once()
 						->with( array( 16 ) );
@@ -364,8 +381,6 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 	 * @covers ::send_saved_events_batch
 	 */
 	public function test_send_saved_events_wp_error_from_hiive_connection(): void {
-
-		$this->markTestSkipped( 'Due to an unidentified bug causing events to be resent, we are temporarily disabling retries.' );
 
 		$batch_queue_mock = Mockery::mock( BatchQueue::class );
 
@@ -383,6 +398,10 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 		$sut = Mockery::mock( EventManager::class )->makePartial();
 
 		$event = Mockery::mock( Event::class );
+
+		$batch_queue_mock->expects( 'remove_events_exceeding_attempts_limit' )
+		->once()
+		->with( 3 );
 
 		$batch_queue_mock->expects( 'pull' )
 						->once()
@@ -411,7 +430,8 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 		WP_Mock::userFunction( 'is_wp_error' )
 			->once()
 			->andReturnTrue();
-
+		
+		$batch_queue_mock->expects( 'increment_attempt' )->never();
 		$batch_queue_mock->expects( 'remove' )->never();
 
 		$batch_queue_mock->expects( 'release' )
@@ -427,8 +447,6 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 	 * @covers ::send_saved_events_batch
 	 */
 	public function test_send_saved_events_failures_from_hiive(): void {
-
-		$this->markTestSkipped( 'Due to an unidentified bug causing events to be resent, we are temporarily disabling retries.' );
 
 		$batch_queue_mock = Mockery::mock( BatchQueue::class );
 
@@ -446,6 +464,10 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 		$sut = Mockery::mock( EventManager::class )->makePartial();
 
 		$event = Mockery::mock( Event::class );
+		
+		$batch_queue_mock->expects( 'remove_events_exceeding_attempts_limit' )
+						->once()
+						->with( 3 );
 
 		$batch_queue_mock->expects( 'pull' )
 						->once()
@@ -480,6 +502,10 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 			->once()
 			->andReturnFalse();
 
+		$batch_queue_mock->expects( 'increment_attempt' )
+			->once()
+			->with( array( 19 ) );
+
 		$batch_queue_mock->expects( 'release' )
 						->once()
 						->with( array( 19 ) );
@@ -497,12 +523,12 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 	 */
 	public function test_shutdown_happy_path_no_failed_events(): void {
 
-		$this->markTestSkipped( 'Due to an unidentified bug causing events to be resent, we are temporarily disabling retries.' );
-
 		$sut = new EventManager();
 
 		$event      = Mockery::mock( Event::class )->makePartial();
 		$event->key = 'test';
+
+		WP_Mock::expectAction( 'nfd_event_log', $event->key, $event );
 
 		$sut->push( $event );
 
@@ -520,7 +546,7 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 		);
 
 		$hiive_connection_subscriber = Mockery::mock( HiiveConnection::class );
-
+		WP_Mock::expectFilter('newfold_data_subscribers', $hiive_connection_subscriber);
 		$sut->add_subscriber( $hiive_connection_subscriber );
 
 		$hiive_connection_subscriber->expects( 'notify' )
@@ -549,12 +575,12 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 	 */
 	public function test_shutdown_happy_path_with_failed_events(): void {
 
-		$this->markTestSkipped( 'Due to an unidentified bug causing events to be resent, we are temporarily disabling retries.' );
-
 		$sut = new EventManager();
 
 		$event      = Mockery::mock( Event::class )->makePartial();
 		$event->key = 'test';
+		
+		WP_Mock::expectAction( 'nfd_event_log', $event->key, $event );
 
 		$sut->push( $event );
 
@@ -572,6 +598,8 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 		);
 
 		$hiive_connection_subscriber = Mockery::mock( HiiveConnection::class );
+
+		WP_Mock::expectFilter('newfold_data_subscribers', $hiive_connection_subscriber);
 
 		$sut->add_subscriber( $hiive_connection_subscriber );
 
@@ -602,12 +630,12 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 	 */
 	public function test_shutdown_hiive_connection_wp_error(): void {
 
-		$this->markTestSkipped( 'Due to an unidentified bug causing events to be resent, we are temporarily disabling retries.' );
-
 		$sut = new EventManager();
 
 		$event      = Mockery::mock( Event::class )->makePartial();
 		$event->key = 'test';
+
+		WP_Mock::expectAction('nfd_event_log', $event->key, $event);
 
 		$sut->push( $event );
 
@@ -625,7 +653,7 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 		);
 
 		$hiive_connection_subscriber = Mockery::mock( HiiveConnection::class );
-
+		WP_Mock::expectFilter('newfold_data_subscribers', $hiive_connection_subscriber);
 		$sut->add_subscriber( $hiive_connection_subscriber );
 
 		$hiive_connection_subscriber->expects( 'notify' )
@@ -650,12 +678,12 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 	 */
 	public function test_shutdown_hiive_500_error(): void {
 
-		$this->markTestSkipped( 'Due to an unidentified bug causing events to be resent, we are temporarily disabling retries.' );
-
 		$sut = new EventManager();
 
 		$event      = Mockery::mock( Event::class )->makePartial();
 		$event->key = 'test';
+
+		WP_Mock::expectAction('nfd_event_log', $event->key, $event);
 
 		$sut->push( $event );
 
@@ -675,7 +703,7 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 		$hiive_connection_subscriber = Mockery::mock( HiiveConnection::class );
 
 		$sut->add_subscriber( $hiive_connection_subscriber );
-
+		WP_Mock::expectFilter('newfold_data_subscribers', $hiive_connection_subscriber);
 		$hiive_connection_subscriber->expects( 'notify' )
 									->once()
 									->andReturn(
@@ -721,8 +749,7 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
  
 		$batch_queue_mock->expects( 'remove_events_exceeding_attempts_limit' )
 						->once()
-						->with( 3 )
-						->andReturnTrue();
+						->with( 3 );
 
 		$batch_queue_mock->expects( 'pull' )
 						->once()
@@ -744,4 +771,5 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 
 		$this->assertConditionsMet();
 	}
+
 }

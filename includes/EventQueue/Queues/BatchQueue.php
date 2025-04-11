@@ -107,7 +107,7 @@ class BatchQueue implements BatchQueueInterface {
 	 *
 	 * @return bool
 	 */
-	public function incremet_attempt( array $ids ) {
+	public function increment_attempt( array $ids ) {
 		global $wpdb;
 
 		$table = $this->table();
