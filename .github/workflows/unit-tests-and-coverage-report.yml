@@ -120,7 +120,7 @@ jobs:
           percentage: 25
           exit: false
           filename: clover.xml
-          rounded-precision: "0"
+          rounded-precision: "1"
 
       # See: https://github.blog/2009-12-29-bypassing-jekyll-on-github-pages/
       - name: Add `.nojekyll` file so code coverage report successfully deploys to gh-pages
