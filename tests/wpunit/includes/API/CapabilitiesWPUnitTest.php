@@ -196,4 +196,42 @@ class CapabilitiesWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase {
 
 		$this->assertArrayHasKey('/newfold-data/v1/capabilities', $rest_routes);
 	}
+
+	/**
+	 * @covers ::check_permission
+	 */
+	public function test_check_permission_administrator(): void {
+		$admin_user_id = register_new_user( 'testadmin', 'admin@newfold.com' );
+		/** @var \WP_User $admin_wp_user */
+		$admin_wp_user = get_user_by( 'id', $admin_user_id );
+		$admin_wp_user->add_role( 'administrator' );
+
+		wp_set_current_user( $admin_user_id );
+
+		$site_capabilities = \Mockery::mock( SiteCapabilities::class );
+		$sut               = new Capabilities( $site_capabilities );
+
+		$result = $sut->check_permission();
+
+		$this->assertTrue( $result );
+	}
+
+	/**
+	 * @covers ::check_permission
+	 */
+	public function test_check_permission(): void {
+		$non_admin_user_id = register_new_user( 'testadmin', 'admin@newfold.com' );
+		/** @var \WP_User $non_admin_wp_user */
+		$non_admin_wp_user = get_user_by( 'id', $non_admin_user_id );
+		$non_admin_wp_user->remove_role( 'administrator' );
+
+		wp_set_current_user( $non_admin_user_id );
+
+		$site_capabilities = \Mockery::mock( SiteCapabilities::class );
+		$sut               = new Capabilities( $site_capabilities );
+
+		$result = $sut->check_permission();
+
+		$this->assertWPError( $result );
+	}
 }
