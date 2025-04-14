@@ -55,5 +55,4 @@ abstract class Listener {
 
 		return substr( $class, $position + 1 );
 	}
-
 }

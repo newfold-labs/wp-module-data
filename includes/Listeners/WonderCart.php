@@ -2,6 +2,8 @@
 
 namespace NewfoldLabs\WP\Module\Data\Listeners;
 
+use WC_Cart;
+
 /**
  * Monitors WonderCart events
  */
@@ -83,7 +85,7 @@ class WonderCart extends Listener {
 	public function campaign_selected( $args, $event ) {
 		$data = array(
 			'label_key'     => 'campaign_slug',
-			'type' => $args['type'],
+			'type'          => $args['type'],
 			'campaign_slug' => $args['type'],
 		);
 
@@ -105,7 +107,7 @@ class WonderCart extends Listener {
 	public function campaign_abandoned( $args, $event ) {
 		$data = array(
 			'label_key'     => 'campaign_slug',
-			'type' => $args['type'],
+			'type'          => $args['type'],
 			'campaign_slug' => $args['type'] . '-' . $args['id'],
 		);
 
@@ -127,42 +129,44 @@ class WonderCart extends Listener {
 
 		$cart = WC()->cart;
 
-		// To track Cart Discount
-		foreach ( $cart->get_applied_coupons() as $coupon_item ) {
-			array_push( $campaigns, $coupon_item );
-			$campaign_total += $cart->coupon_discount_totals[ $coupon_item ];
-		}
-
-		// To track free shipping campaign ( Using reflection to access protected properties)
-		$reflection_class          = new \ReflectionClass( $cart );
-		$shipping_methods_property = $reflection_class->getProperty( 'shipping_methods' );
-		$shipping_methods_property->setAccessible( true );
-		$shipping_methods = $shipping_methods_property->getValue( $cart );
-		foreach ( $shipping_methods as $shipping_method ) {
-			if ( 'yith_sales_free_shipping' === $shipping_method->id ) {
-				array_push( $campaigns, 'yith_sales_free_shipping' );
+		if( $cart instanceof WC_Cart ) {
+			// To track Cart Discount
+			foreach ($cart->get_applied_coupons() as $coupon_item) {
+				array_push($campaigns, $coupon_item);
+				$campaign_total += $cart->coupon_discount_totals[$coupon_item];
 			}
-		}
 
-		// To track rest of the campaigns
-		foreach ( $cart->get_cart() as $cart_item_key => $cart_item ) {
-			if ( isset( $cart_item['yith_sales'] ) && isset( $cart_item['yith_sales']['campaigns'] ) ) {
-				$campaign_type = $cart_item['yith_sales_discounts']['type'];
-				array_push( $campaigns, $campaign_type );
-				$campaign_total += $cart_item['yith_sales_discounts']['price_base'] - $cart_item['yith_sales_discounts']['price_adjusted'];
+			// To track free shipping campaign ( Using reflection to access protected properties)
+			$reflection_class = new \ReflectionClass($cart);
+			$shipping_methods_property = $reflection_class->getProperty('shipping_methods');
+			$shipping_methods_property->setAccessible(true);
+			$shipping_methods = $shipping_methods_property->getValue($cart);
+			foreach ($shipping_methods as $shipping_method) {
+				if ('yith_sales_free_shipping' === $shipping_method->id) {
+					array_push($campaigns, 'yith_sales_free_shipping');
+				}
 			}
-		}
-		if ( count( $campaigns ) > 0 ) {
-			$data = array(
-				'label_key'      => 'type',
-				'type'  => array_unique( $campaigns ),
-				'campaign_count' => count( $campaigns ),
-				'campaign_total' => '$' . $campaign_total,
-			);
-			$this->push(
-				'checkout_campaign_type',
-				$data
-			);
+
+			// To track rest of the campaigns
+			foreach ($cart->get_cart() as $cart_item_key => $cart_item) {
+				if (isset($cart_item['yith_sales']) && isset($cart_item['yith_sales']['campaigns'])) {
+					$campaign_type = $cart_item['yith_sales_discounts']['type'];
+					array_push($campaigns, $campaign_type);
+					$campaign_total += $cart_item['yith_sales_discounts']['price_base'] - $cart_item['yith_sales_discounts']['price_adjusted'];
+				}
+			}
+			if (count($campaigns) > 0) {
+				$data = array(
+					'label_key' => 'type',
+					'type' => array_unique($campaigns),
+					'campaign_count' => count($campaigns),
+					'campaign_total' => '$' . $campaign_total,
+				);
+				$this->push(
+					'checkout_campaign_type',
+					$data
+				);
+			}
 		}
 	}
 }
