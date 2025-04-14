@@ -158,7 +158,7 @@ jobs:
       - name: Add coverage report link to PR comment
         if: ${{ matrix.php == '7.3' && github.event_name == 'pull_request' }}
         run: |
-          echo ${{ format('[project coverage report {0}%](https://newfold-labs.github.io/wp-module-data/{1}/phpunit/html/) @ {2}', steps.coverage-percentage.outputs.coverage, github.event.pull_request.head.sha, github.event.pull_request.head.sha) }} >> coverage-comment.md
+          echo "${{ format('[project coverage report {0}%](https://newfold-labs.github.io/wp-module-data/{1}/phpunit/html/) @ {2}', steps.coverage-percentage.outputs.coverage, github.event.pull_request.head.sha, github.event.pull_request.head.sha) }}" >> coverage-comment.md
           echo "\n\n\n" >> coverage-comment.md
 
       - name: Add phpcov uncovered lines report to PR comment
