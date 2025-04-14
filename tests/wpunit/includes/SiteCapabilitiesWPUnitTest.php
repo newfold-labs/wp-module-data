@@ -249,4 +249,24 @@ class SiteCapabilitiesWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase
 
 		$this->assertTrue( $result );
 	}
+
+	/**
+	 * @covers ::all
+	 */
+	public function test_invalid_capabilities_data_previously_saved(): void {
+
+		$transient = Mockery::mock( Transient::class );
+
+		$transient->shouldReceive( 'get' )
+					->once()
+					->with( 'nfd_site_capabilities' )
+					->andReturn( 'error_should_be_an_array' );
+
+		$sut = new SiteCapabilities( $transient );
+
+		$result = $sut->all( false );
+
+		$this->assertIsArray( $result );
+		$this->assertEmpty( $result );
+	}
 }
