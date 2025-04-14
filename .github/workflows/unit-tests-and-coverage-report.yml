@@ -98,8 +98,21 @@ jobs:
       - name: Run wpunit tests
         run: XDEBUG_MODE=coverage vendor/bin/codecept run wpunit --coverage tests/_output/wpunit.cov --debug
 
-      - name: Merge code coverage
-        run: vendor/bin/phpcov merge --clover gh-pages/phpunit/clover.xml --php gh-pages/phpunit/phpunit.cov --html gh-pages/phpunit/html/ tests/_output/;
+      - name: Merge code coverage for main
+        if: ${{ (github.ref == 'refs/heads/main') && (matrix.php == '7.3') }} # only commit on main, on the PHP version we're using in production.
+        run: |
+          vendor/bin/phpcov merge --clover clover.xml tests/_output/;
+          vendor/bin/phpcov merge --clover gh-pages/phpunit/clover.xml --php gh-pages/phpunit/phpunit.cov --html gh-pages/phpunit/html/ tests/_output/;
+
+      # This makes the coverage percentage available in `{{ steps.test-coverage.outputs.coverage }}`.
+      - name: Check test coverage
+        uses: johanvanhelden/gha-clover-test-coverage-check@2543c79a701f179bd63aa14c16c6938c509b2cec # v1
+        id: coverage
+        with:
+          percentage: 25
+          exit: false
+          filename: clover.xml
+          rounded-precision: 0
 
       # See: https://github.blog/2009-12-29-bypassing-jekyll-on-github-pages/
       - name: Add `.nojekyll` file so code coverage report successfully deploys to gh-pages
@@ -117,7 +130,7 @@ jobs:
         with:
           repository: gh-pages
           branch: gh-pages
-          commit_message: "🤖 Save code coverage report to gh-pages" # TODO: include the percentage change in the message.
+          commit_message: ${{ format('🤖 Save code coverage report to gh-pages {0}%', steps.test-coverage.outputs.coverage) }}
           commit_options: ""
         env:
           GITHUB_TOKEN: "${{ github.token }}"
