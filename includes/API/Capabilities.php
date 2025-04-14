@@ -59,7 +59,7 @@ class Capabilities extends WP_REST_Controller {
 	/**
 	 * Check permissions for routes.
 	 *
-	 * The Hiive request is authenticated in {@see Data::authenticate()} and sets the current user to and administrator.
+	 * The Hiive request is authenticated in {@see Data::authenticate()} and sets the current user to an administrator.
 	 *
 	 * @see \NewfoldLabs\WP\Module\Data\Data::authenticate()
 	 *
