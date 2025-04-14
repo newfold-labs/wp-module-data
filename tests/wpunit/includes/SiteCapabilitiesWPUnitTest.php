@@ -180,4 +180,38 @@ class SiteCapabilitiesWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase
 
 		$this->assertFalse( $result );
 	}
+
+	/**
+	 * @covers ::set
+	 */
+	public function test_set(): void {
+
+		$transient = Mockery::mock( Transient::class );
+
+		$transient->shouldReceive( 'get' )
+					->once()
+					->with( 'nfd_site_capabilities' )
+					->andReturn(
+						array(
+							'existing_capability' => true,
+						),
+					);
+
+		$transient->shouldReceive( 'set' )
+					->once()
+					->with(
+						'nfd_site_capabilities',
+						array(
+							'new_capability' => true,
+						),
+						14400,
+					)
+					->andReturnTrue();
+
+		$sut = new SiteCapabilities( $transient );
+
+		$result = $sut->set( array( 'new_capability' => true ) );
+
+		$this->assertTrue( $result );
+	}
 }
