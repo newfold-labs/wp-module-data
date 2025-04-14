@@ -1,5 +1,7 @@
 # Contributing
 
+See also https://github.com/bluehost/.github/blob/master/.github/contributing.md
+
 ## Requirements
 
 PHP, NPM, Composer, xdebug
