@@ -130,9 +130,13 @@ jobs:
           touch .nojekyll
           git add -- .nojekyll *
 
-      - name: Update README badge
+      - name: Update README coverage badge
         if: ${{ (matrix.php == '7.3') && (github.ref == 'refs/heads/main') }} # only commit on main, on the PHP version we're using in production.
         run: php-coverage-badger clover.xml gh-pages/phpunit/coverage.svg
+
+      - name: Generate PR coverage badge
+        if: ${{ (matrix.php == '7.3') && github.event_name == 'pull_request' }}
+        run: php-coverage-badger clover.xml gh-pages/${{ github.event.pull_request.head.sha }}/phpunit/coverage.svg
 
       - name: Commit code coverage to gh-pages
         if: ${{ matrix.php == '7.3' }}
@@ -145,9 +149,28 @@ jobs:
         env:
           GITHUB_TOKEN: "${{ github.token }}"
 
+      - name: Add coverage badge to PR comment
+        if: ${{ matrix.php == '7.3' && github.event_name == 'pull_request' }}
+        run: |
+          echo "[![Code Coverage](https://newfold-labs.github.io/wp-module-data/${{ github.event.pull_request.head.sha }}/phpunit/coverage.svg](https://newfold-labs.github.io/wp-module-data/${{ github.event.pull_request.head.sha }}/phpunit/html/)" >> coverage-comment.md
+          echo "\n\n\n" >> coverage-comment.md
+
       - name: Add coverage report link to PR comment
+        if: ${{ matrix.php == '7.3' && github.event_name == 'pull_request' }}
+        run: |
+          echo ${{ format('[project coverage report {0}%](https://newfold-labs.github.io/wp-module-data/{1}/phpunit/html/) @ {2}', steps.coverage-percentage.outputs.coverage, github.event.pull_request.head.sha, github.event.pull_request.head.sha) }} >> coverage-comment.md
+          echo "\n\n\n" >> coverage-comment.md
+
+      - name: Add phpcov uncovered lines report to PR comment
+        if: ${{ matrix.php == '7.3' && github.event_name == 'pull_request' }}
+        run: |
+          BRANCHED_COMMIT=$(git rev-list origin..HEAD | tail -n 1);
+          echo "BRANCHED_COMMIT=$BRANCHED_COMMIT"
+          echo ${git diff $BRANCHED_COMMIT...head > $BRANCHED_COMMIT.diff; vendor/bin/phpcov patch-coverage --path-prefix $(pwd) ./tests/_output/merged.cov $BRANCHED_COMMIT.diff} >> coverage-comment.md
+
+      - name: Add coverage PR comment
         uses: mshick/add-pr-comment@b8f338c590a895d50bcbfa6c5859251edc8952fc # v2.8.2
         if: ${{ matrix.php == '7.3' && github.event_name == 'pull_request' }}
         with:
           message-id: coverage-report
-          message: ${{ format('[project coverage report {0}%](https://newfold-labs.github.io/wp-module-data/{1}/phpunit/html/) @ {2}', steps.coverage-percentage.outputs.coverage, github.event.pull_request.head.sha, github.event.pull_request.head.sha) }}
+          message-path: coverage-comment.md
