@@ -33,6 +33,7 @@ class SiteCapabilitiesWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase
 	}
 
 	protected function tearDown(): void {
+		parent::tearDown();
 		Mockery::resetContainer();
 	}
 
