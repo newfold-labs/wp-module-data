@@ -106,13 +106,14 @@ jobs:
           vendor/bin/phpcov merge --clover gh-pages/phpunit/clover.xml --php gh-pages/${{ github.event.pull_request.head.sha }}/phpunit/phpunit.cov --html gh-pages/${{ github.event.pull_request.head.sha }}/phpunit/html/ tests/_output/;
 
       - name: Merge code coverage for main
-        if: ${{ (github.ref == 'refs/heads/main') && (matrix.php == '7.3') }} # only commit on main, on the PHP version we're using in production.
+        if: ${{ (matrix.php == '7.3') && (github.ref == 'refs/heads/main') }} # only commit on main, on the PHP version we're using in production.
         run: |
           vendor/bin/phpcov merge --clover clover.xml tests/_output/;
           vendor/bin/phpcov merge --clover gh-pages/phpunit/clover.xml --php gh-pages/phpunit/phpunit.cov --html gh-pages/phpunit/html/ tests/_output/;
 
       # This makes the coverage percentage available in `{{ steps.test-coverage.outputs.coverage }}`.
       - name: Check test coverage
+        if: ${{ matrix.php == '7.3' }}
         uses: johanvanhelden/gha-clover-test-coverage-check@2543c79a701f179bd63aa14c16c6938c509b2cec # v1
         id: coverage
         with:
@@ -123,16 +124,18 @@ jobs:
 
       # See: https://github.blog/2009-12-29-bypassing-jekyll-on-github-pages/
       - name: Add `.nojekyll` file so code coverage report successfully deploys to gh-pages
+        if: ${{ matrix.php == '7.3' }}
         working-directory: gh-pages/phpunit
         run: |
           touch .nojekyll
           git add -- .nojekyll *
 
       - name: Update README badge
-        if: ${{ (github.ref == 'refs/heads/main') && (matrix.php == '7.3') }} # only commit on main, on the PHP version we're using in production.
+        if: ${{ (matrix.php == '7.3') && (github.ref == 'refs/heads/main') }} # only commit on main, on the PHP version we're using in production.
         run: php-coverage-badger clover.xml gh-pages/phpunit/coverage.svg
 
       - name: Commit code coverage to gh-pages
+        if: ${{ matrix.php == '7.3' }}
         uses: stefanzweifel/git-auto-commit-action@e348103e9026cc0eee72ae06630dbe30c8bf7a79 # v5.1.0
         with:
           repository: gh-pages
