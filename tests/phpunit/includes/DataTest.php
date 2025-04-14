@@ -3,6 +3,7 @@
 namespace NewfoldLabs\WP\Module\Data;
 
 use Mockery;
+use NewfoldLabs\WP\Module\Data\API\Capabilities;
 use NewfoldLabs\WP\Module\Data\Listeners\Plugin;
 use WP_Mock;
 use WP_Mock\Tools\TestCase;
@@ -13,14 +14,35 @@ use function NewfoldLabs\WP\ModuleLoader\container;
  */
 class DataTest extends TestCase {
 
-	public function setUp(): void
-	{
+	public function setUp(): void {
 		parent::setUp();
 
-		WP_Mock::userFunction('wp_json_encode')
-			->andReturnUsing(function($input) {
-			return json_encode($input);
-		});
+		WP_Mock::userFunction( 'wp_json_encode' )
+			->andReturnUsing(
+				function ( $input ) {
+					return json_encode( $input );
+				}
+			);
+
+		/**
+		 * Create an empty file for `/wp-admin/includes/plugin.php` so when it is included, it doesn't load anything.
+		 */
+		$temp_dir = sys_get_temp_dir();
+
+		\Patchwork\redefine(
+			'constant',
+			function ( string $constant_name ) use ( $temp_dir ) {
+				switch ( $constant_name ) {
+					case 'ABSPATH':
+						return $temp_dir;
+					default:
+						return \Patchwork\relay( func_get_args() );
+				}
+			}
+		);
+
+		@mkdir( $temp_dir . '/wp-admin/includes', 0777, true );
+		file_put_contents( $temp_dir . '/wp-admin/includes/plugin.php', '<?php' );
 	}
 
 	public function tearDown(): void {
@@ -331,6 +353,46 @@ class DataTest extends TestCase {
 		       ->never();
 
 		$sut->delete_token_on_401_response($request_response, array(), 'https://example.org' );
+		$this->assertConditionsMet();
+	}
+
+	public function test_registers_capabilities_endpoint(): void {
+
+		forceWpMockStrictModeOff();
+
+		WP_Mock::userFunction( 'get_option' )
+		       ->with( 'nfd_data_token' )
+		       ->once()
+		       ->andReturn( 'valid_token' );
+
+		WP_Mock::userFunction( 'wp_next_scheduled' )
+		       ->with( 'nfd_data_cron' )
+		       ->once()
+		       ->andReturnTrue();
+
+		\WP_Mock::userFunction( 'get_dropins' )
+		        ->once()
+		        ->andReturn( array() );
+
+		WP_Mock::userFunction( 'get_transient' )
+		       ->with( 'nfd_plugin_activated' )
+		       ->once()
+		       ->andReturnFalse();
+
+		WP_Mock::userFunction( 'is_plugin_active' )
+		       ->with( 'woocommerce/woocommerce.php' )
+		       ->once()
+		       ->andReturnFalse();
+
+		WP_Mock::userFunction( 'wp_next_scheduled' )
+		       ->with( 'nfd_data_sync_cron' )
+		       ->once()
+		       ->andReturnTrue();
+
+		WP_Mock::expectActionAdded( 'rest_api_init', array( new WP_Mock\Matcher\AnyInstance( Capabilities::class ), 'register_routes' ) );
+
+		$sut = new Data();
+		$sut->init();
 
 		$this->assertConditionsMet();
 	}

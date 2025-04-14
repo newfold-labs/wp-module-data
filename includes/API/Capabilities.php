@@ -37,7 +37,7 @@ class Capabilities extends WP_REST_Controller {
 	/**
 	 * Registers the routes for the objects of the controller.
 	 *
-	 * TODO: @hooked rest_api_init
+	 * @hooked rest_api_init
 	 *
 	 * @see register_rest_route()
 	 */
