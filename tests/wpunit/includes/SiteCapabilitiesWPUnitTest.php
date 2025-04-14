@@ -182,6 +182,41 @@ class SiteCapabilitiesWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase
 	}
 
 	/**
+	 * @covers ::update
+	 */
+	public function test_update(): void {
+
+		$transient = Mockery::mock( Transient::class );
+
+		$transient->shouldReceive( 'get' )
+					->once()
+					->with( 'nfd_site_capabilities' )
+					->andReturn(
+						array(
+							'existing_capability' => true,
+						),
+					);
+
+		$transient->shouldReceive( 'set' )
+					->once()
+					->with(
+						'nfd_site_capabilities',
+						array(
+							'existing_capability' => true,
+							'new_capability'      => true,
+						),
+						14400,
+					)
+					->andReturnTrue();
+
+		$sut = new SiteCapabilities( $transient );
+
+		$result = $sut->update( array( 'new_capability' => true ) );
+
+		$this->assertTrue( $result );
+	}
+
+	/**
 	 * @covers ::set
 	 */
 	public function test_set(): void {
