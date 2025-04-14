@@ -3,6 +3,7 @@
  * This is currently just intended for pushing a list of capabilities from Hiive, but it is written agnostic
  * of read/write.
  */
+
 namespace NewfoldLabs\WP\Module\Data\API;
 
 use NewfoldLabs\WP\Module\Data\EventManager;
@@ -176,5 +177,23 @@ class CapabilitiesWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase {
 		$this->assertEquals( 201, $response->get_status() );
 
 		$this->assertArrayHasKey( 'hasEcomdash', $response_data['added'] );
+	}
+
+	/**
+	 * @covers ::register_routes
+	 */
+	public function test_register_routes(): void {
+		$site_capabilities = \Mockery::mock( SiteCapabilities::class );
+		$sut = new Capabilities( $site_capabilities );
+
+		do_action('rest_api_init');
+
+		$sut->register_routes();
+
+		/** @var \Spy_REST_Server $rest_server */
+		$rest_server = rest_get_server();
+		$rest_routes = $rest_server->get_routes();
+
+		$this->assertArrayHasKey('/newfold-data/v1/capabilities', $rest_routes);
 	}
 }
