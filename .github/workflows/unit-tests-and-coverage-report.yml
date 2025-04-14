@@ -129,11 +129,10 @@ jobs:
           git add -- .nojekyll *
 
       - name: Update README badge
-        if: ${{ (github.ref == 'refs/heads/main') && (matrix.php == '7.3') }}
+        if: ${{ (github.ref == 'refs/heads/main') && (matrix.php == '7.3') }} # only commit on main, on the PHP version we're using in production.
         run: php-coverage-badger clover.xml gh-pages/phpunit/coverage.svg
 
       - name: Commit code coverage to gh-pages
-        if: ${{ (github.ref == 'refs/heads/main') && (matrix.php == '7.3') }} # only commit on main, on the PHP version we're using in production.
         uses: stefanzweifel/git-auto-commit-action@e348103e9026cc0eee72ae06630dbe30c8bf7a79 # v5.1.0
         with:
           repository: gh-pages
