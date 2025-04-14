@@ -13,20 +13,27 @@ class Commerce extends Listener {
 	 * @return void
 	 */
 	public function register_hooks() {
-		add_action( 'woocommerce_order_status_processing', array( $this, 'on_payment' ), 10, 2 );
-		add_filter( 'newfold_wp_data_module_cron_data_filter', array( $this, 'products_count' ) );
-		add_filter( 'newfold_wp_data_module_cron_data_filter', array( $this, 'orders_count' ) );
-		add_filter( 'woocommerce_before_cart', array( $this, 'site_cart_views' ) );
-		add_filter( 'woocommerce_before_checkout_form', array( $this, 'checkout_views' ) );
-		add_filter( 'woocommerce_thankyou', array( $this, 'thank_you_page' ) );
-		add_filter( 'pre_update_option_nfd-ecommerce-captive-flow-razorpay', array( $this, 'razorpay_connection' ), 10, 2 );
-		add_filter( 'pre_update_option_nfd-ecommerce-captive-flow-shippo', array( $this, 'shippo_connection' ), 10, 2 );
-		add_filter( 'pre_update_option_nfd-ecommerce-captive-flow-stripe', array( $this, 'stripe_connection' ), 10, 2 );
-		// Paypal Connection
-		add_filter( 'pre_update_option_yith_ppwc_merchant_data_production', array( $this, 'paypal_connection' ), 10, 2 );
-		add_filter( 'update_option_ewc4wp_sso_account_status', array( $this, 'ecomdash_connected' ), 10, 2 );
-		add_filter( 'woocommerce_update_product', array( $this, 'product_created_or_updated' ), 100, 2 );
-		add_action( 'update_option_woocommerce_custom_orders_table_enabled', array( $this, 'woocommerce_hpos_enabled' ), 10, 3 );
+		if ( is_plugin_active( 'woocommerce/woocommerce.php' ) ) {
+			add_filter( 'newfold_wp_data_module_cron_data_filter', array( $this, 'products_count' ) );
+			add_filter( 'newfold_wp_data_module_cron_data_filter', array( $this, 'orders_count' ) );
+
+			add_action( 'woocommerce_order_status_processing', array( $this, 'on_payment' ), 10, 2 );
+			add_filter( 'woocommerce_before_cart', array( $this, 'site_cart_views' ) );
+			add_filter( 'woocommerce_before_checkout_form', array( $this, 'checkout_views' ) );
+			add_filter( 'woocommerce_thankyou', array( $this, 'thank_you_page' ) );
+			add_filter( 'pre_update_option_nfd-ecommerce-captive-flow-razorpay', array( $this, 'razorpay_connection' ), 10, 2 );
+			add_filter( 'pre_update_option_nfd-ecommerce-captive-flow-shippo', array( $this, 'shippo_connection' ), 10, 2 );
+			add_filter( 'pre_update_option_nfd-ecommerce-captive-flow-stripe', array( $this, 'stripe_connection' ), 10, 2 );
+
+			// Paypal Connection
+			add_filter( 'pre_update_option_yith_ppwc_merchant_data_production', array( $this, 'paypal_connection' ), 10, 2 );
+			add_filter( 'update_option_ewc4wp_sso_account_status', array( $this, 'ecomdash_connected' ), 10, 2 );
+			add_filter( 'woocommerce_update_product', array( $this, 'product_created_or_updated' ), 100, 2 );
+			add_action( 'update_option_woocommerce_custom_orders_table_enabled', array( $this, 'woocommerce_hpos_enabled' ), 10, 3 );
+
+			// Hook into the update of the 'wcpay_account_data' option to trigger an event when WooPay is connected.
+			add_filter( 'pre_update_option_wcpay_account_data', array( $this, 'woopay_connection' ), 10, 2 );
+		}
 	}
 
 	/**
@@ -79,9 +86,17 @@ class Commerce extends Listener {
 		if ( ! isset( $data['meta'] ) ) {
 			$data['meta'] = array();
 		}
-		$shop_order_post_counts = wp_count_posts( 'shop_order' );
-		if ( $shop_order_post_counts && isset( $shop_order_post_counts->publish ) ) {
-			$data['meta']['orders_count'] = (int) $shop_order_post_counts->publish;
+
+		$args = array(
+			'status' => wc_get_is_paid_statuses(),
+			'limit'  => -1,
+			'return' => 'ids',
+		);
+
+		$order_ids = wc_get_orders( $args );
+
+		if ( ! empty( $order_ids ) ) {
+			$data['meta']['orders_count'] = (int) count( $order_ids );
 		}
 
 		return $data;
@@ -295,10 +310,10 @@ class Commerce extends Listener {
 			'post_id'      => $product_id,
 		);
 
-			$this->push(
-				'product_created',
-				$data
-			);
+		$this->push(
+			'product_created',
+			$data
+		);
 	}
 
 	/**
@@ -328,5 +343,57 @@ class Commerce extends Listener {
 				$data
 			);
 		}
+	}
+
+	/**
+	 * This method triggers a `payment_connected` event when WooPay is connected (when `wcpay_account_data` goes from not existing to existing)
+	 *
+	 * * Connection Data (from `wcpay_account_data`):
+	 * - account_id: Unique WooPay account ID.
+	 * - status: Connection status (e.g., 'connected', 'disconnected').
+	 * - last_updated: timestamp, (e.g. '2025-01-08T12:34:56Z')
+	 * - is_live
+	 *
+	 * @hooked update_option_wcpay_account_data
+	 * @see \WC_Payments_Account::get_cached_account_data()
+	 * @see \WCPay\Database_Cache::ACCOUNT_KEY
+	 * @see \WCPay\Database_Cache::get_or_add()
+	 * @see update_option()
+	 *
+	 * @param array{data:array{account_id:string,status:string,last_updated:string}} $new_option  New value of the woopay connection option
+	 * @param array|false|string                                                     $old_option  Old value of the woopay connection option
+	 */
+	public function woopay_connection($new_option, $old_option): array
+	{
+
+		// If the option has not changed, bail
+		if ($new_option === $old_option) {
+			return $new_option;
+		}
+
+		// If the option is empty, or the status is not set, bail
+		if (empty($new_option) || ! isset($new_option['data']['status'])) {
+			return $new_option;
+		}
+
+		// If the status is not changing, bail
+		if (isset($old_option['data']['status']) && ($new_option['data']['status'] === $old_option['data']['status'])) {
+			return $new_option;
+		}
+
+		$url  = is_ssl() ? 'https://' : 'http://';
+		$url .= $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+
+		$this->push(
+			'payment_connected',
+			array(
+				'label_key' => 'provider',
+				'provider'  => 'woopay',
+				'status'    => $new_option['data']['status'],
+				'page'      => $url,
+			)
+		);
+
+		return $new_option;
 	}
 }

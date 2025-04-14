@@ -30,9 +30,16 @@ class HiiveConnection implements SubscriberInterface {
 	/**
 	 * Whether connection attempts are currently throttled
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	private $throttled;
+
+	/**
+	 * The throttle
+	 *
+	 * @var bool
+	 */
+	protected $throttle;
 
 	/**
 	 * Construct
@@ -71,23 +78,31 @@ class HiiveConnection implements SubscriberInterface {
 	 *
 	 * Hiive will first attempt to verify using the REST API, and fallback to this AJAX endpoint on error.
 	 *
+	 * Token is generated in {@see self::connect()} using {@see md5()}.
+	 *
 	 * @hooked wp_ajax_nopriv_nfd-hiive-verify
 	 *
 	 * @return never
 	 */
 	public function ajax_verify() {
-		$valid  = $this->verify_token( $_REQUEST['token'] );
-		$status = ( $valid ) ? 200 : 400;
+		// PHPCS: Ignore the nonce verification here – the token _is_ a nonce.
+		// @phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$token = $_REQUEST['token'];
+
+		$is_valid = $this->verify_token( $token );
+		$status   = ( $is_valid ) ? 200 : 400;
 
 		$data = array(
-			'token' => $_REQUEST['token'],
-			'valid' => $valid,
+			'token' => $token,
+			'valid' => $is_valid,
 		);
-		wp_send_json( $data, $status );
+		\wp_send_json( $data, $status );
 	}
 
 	/**
 	 * Confirm whether verification token is valid
+	 *
+	 * Token is generated in {@see self::connect()} using {@see md5()}.
 	 *
 	 * @param string $token Token to verify
 	 */
@@ -119,6 +134,10 @@ class HiiveConnection implements SubscriberInterface {
 	 *
 	 * @used-by Data::init()
 	 * @used-by HiiveConnection::reconnect()
+	 *
+	 * @param string $path the path
+	 * @param string $authorization the authorization
+	 * @return Boolean success
 	 */
 	public function connect( string $path = '/sites/v2/connect', ?string $authorization = null ): bool {
 
@@ -128,15 +147,15 @@ class HiiveConnection implements SubscriberInterface {
 
 		$this->throttle();
 
-		$token = md5( wp_generate_password() );
+		$token = md5( \wp_generate_password() );
 		Transient::set( 'nfd_data_verify_token', $token, 5 * constant( 'MINUTE_IN_SECONDS' ) );
 
 		$data                 = $this->get_core_data();
 		$data['verify_token'] = $token;
-		$data['plugins']      = PluginHelper::collect_installed();
+		$data['plugins']      = ( new PluginHelper() )->collect_installed();
 
 		$args = array(
-			'body'     => wp_json_encode( $data ),
+			'body'     => \wp_json_encode( $data ),
 			'headers'  => array(
 				'Content-Type' => 'application/json',
 				'Accept'       => 'application/json',
@@ -150,18 +169,18 @@ class HiiveConnection implements SubscriberInterface {
 		}
 
 		$attempts = intval( get_option( 'nfd_data_connection_attempts', 0 ) );
-		update_option( 'nfd_data_connection_attempts', $attempts + 1 );
+		\update_option( 'nfd_data_connection_attempts', $attempts + 1 );
 
-		$response = wp_remote_post( $this->api . $path, $args );
-		$status   = wp_remote_retrieve_response_code( $response );
+		$response = \wp_remote_post( $this->api . $path, $args );
+		$status   = \wp_remote_retrieve_response_code( $response );
 
 		// Created = 201; Updated = 200
 		if ( 201 === $status || 200 === $status ) {
-			$body = json_decode( wp_remote_retrieve_body( $response ) );
+			$body = json_decode( \wp_remote_retrieve_body( $response ) );
 			if ( ! empty( $body->token ) ) {
 
 				// Token is auto-encrypted using the `pre_update_option_nfd_data_token` hook.
-				update_option( 'nfd_data_token', $body->token );
+				\update_option( 'nfd_data_token', $body->token );
 				return true;
 			}
 		}
@@ -197,7 +216,7 @@ class HiiveConnection implements SubscriberInterface {
 	 */
 	public function get_throttle_interval() {
 
-		$attempts = intval( get_option( 'nfd_data_connection_attempts', 0 ) );
+		$attempts = intval( \get_option( 'nfd_data_connection_attempts', 0 ) );
 
 		// Throttle intervals step-up:
 		// Hourly for 4 hours
@@ -234,7 +253,7 @@ class HiiveConnection implements SubscriberInterface {
 	 *
 	 * @used-by Events::create_item()
 	 *
-	 * @param Event $event
+	 * @param Event $event the event
 	 *
 	 * @phpstan-type Notification_Array array{id:string,locations:array,query:string|null,expiration:int,content:string}
 	 * @return array<Notification_Array>|WP_Error
@@ -249,18 +268,21 @@ class HiiveConnection implements SubscriberInterface {
 		$hiive_response = $this->hiive_request( 'sites/v1/events', $payload );
 
 		if ( is_wp_error( $hiive_response ) ) {
-			// TODO: enqueue failed event for later. Should this function call go via EventManager?
 			return $hiive_response;
 		}
 
-		$status_code = wp_remote_retrieve_response_code( $hiive_response );
+		$status_code = \wp_remote_retrieve_response_code( $hiive_response );
 
 		if ( ! in_array( $status_code, array( 200, 201 ), true ) ) {
-			return new \WP_Error( $status_code, wp_remote_retrieve_response_message( $hiive_response ) );
+			return new \WP_Error( $status_code, \wp_remote_retrieve_response_message( $hiive_response ) );
 		}
 
-		/** @var array{data:array{id:string,locations:array,query:string|null,expiration:int,content:string}} $response_payload */
-		$response_payload = json_decode( wp_remote_retrieve_body( $hiive_response ), true );
+		/**
+		 * Sample shape.
+		 *
+		 * @var array{data:array{id:string,locations:array,query:string|null,expiration:int,content:string}} $response_payload
+		 * */
+		$response_payload = json_decode( \wp_remote_retrieve_body( $hiive_response ), true );
 
 		return $response_payload['data'] ?? array();
 	}
@@ -284,12 +306,12 @@ class HiiveConnection implements SubscriberInterface {
 
 		$hiive_response = $this->hiive_request( 'sites/v2/events', $payload );
 
-		if ( is_wp_error( ( $hiive_response ) ) ) {
+		if ( \is_wp_error( ( $hiive_response ) ) ) {
 			return $hiive_response;
 		}
 
-		if ( ! in_array( wp_remote_retrieve_response_code( $hiive_response ), array( 200, 201, 500 ) ) ) {
-			return new WP_Error( wp_remote_retrieve_response_code( $hiive_response ), wp_remote_retrieve_response_message( $hiive_response ) );
+		if ( ! in_array( \wp_remote_retrieve_response_code( $hiive_response ), array( 200, 201, 500 ), true ) ) {
+			return new WP_Error( \wp_remote_retrieve_response_code( $hiive_response ), \wp_remote_retrieve_response_message( $hiive_response ) );
 		}
 
 		$response_body = json_decode( wp_remote_retrieve_body( $hiive_response ), true );
@@ -310,12 +332,20 @@ class HiiveConnection implements SubscriberInterface {
 	 * Defaults to POST. Override with `$args = array('method' => 'GET')`.
 	 *
 	 * @param string     $path The Hiive api path (after /api/).
-	 * @param array|null $payload
-	 * @param array|null $args
+	 * @param array|null $payload the payload
+	 * @param array|null $args and args for the request
 	 *
-	 * @return array|WP_Error
+	 * @return array|WP_Error The response array or a WP_Error when no Hiive connection, no network connection, network requests disabled.
 	 */
 	public function hiive_request( string $path, ?array $payload = array(), ?array $args = array() ) {
+
+		/**
+		 * Add plugin name/version to user agent
+		 *
+		 * @see \WP_Http::request()
+		 * @see https://developer.wordpress.org/reference/hooks/http_headers_useragent/
+		 */
+		add_filter( 'http_headers_useragent', array( $this, 'add_plugin_name_version_to_user_agent' ), 10, 2 );
 
 		// If for some reason we are not connected, bail out now.
 		// If we are not connected, the throttling logic should eventually reconnect.
@@ -330,19 +360,19 @@ class HiiveConnection implements SubscriberInterface {
 				'Accept'        => 'application/json',
 				'Authorization' => 'Bearer ' . self::get_auth_token(),
 			),
-			'timeout' => wp_is_serving_rest_request() ? 15 : 60, // If we're responding to the frontend, we need to be quick.
+			'timeout' => \wp_is_serving_rest_request() ? 15 : 60, // If we're responding to the frontend, we need to be quick.
 		);
 
-		$parsed_args = wp_parse_args( $args ?? array(), $defaults );
+		$parsed_args = \wp_parse_args( $args ?? array(), $defaults );
 
 		if ( ! empty( $payload ) ) {
-			$parsed_args['body'] = wp_json_encode( $payload );
+			$parsed_args['body'] = \wp_json_encode( $payload );
 		}
 
-		$request_response = wp_remote_request( "{$this->api}/{$path}", $parsed_args );
+		$request_response = \wp_remote_request( "{$this->api}/{$path}", $parsed_args );
 
 		// E.g. Hiive is down, or the site has disabled HTTP requests.
-		if ( is_wp_error( $request_response ) ) {
+		if ( \is_wp_error( $request_response ) ) {
 			return $request_response;
 		}
 
@@ -358,6 +388,8 @@ class HiiveConnection implements SubscriberInterface {
 			}
 		}
 
+		\remove_filter( 'http_headers_useragent', array( $this, 'add_plugin_name_version_to_user_agent' ) );
+
 		return $request_response;
 	}
 
@@ -369,7 +401,7 @@ class HiiveConnection implements SubscriberInterface {
 	 * @return string|false The decrypted token if it's set
 	 */
 	public static function get_auth_token() {
-		return get_option( 'nfd_data_token' );
+		return \get_option( 'nfd_data_token' );
 	}
 
 	/**
@@ -382,22 +414,42 @@ class HiiveConnection implements SubscriberInterface {
 		$container = container();
 
 		$data = array(
-			'brand'       => sanitize_title( $container->plugin()->brand ),
-			'cache_level' => intval( get_option( 'newfold_cache_level', 2 ) ),
-			'cloudflare'  => get_option( 'newfold_cloudflare_enabled', false ),
+			'brand'       => \sanitize_title( $container->plugin()->brand ),
+			'cache_level' => intval( \get_option( 'newfold_cache_level', 2 ) ),
+			'cloudflare'  => \get_option( 'newfold_cloudflare_enabled', false ),
 			'data'        => defined( 'NFD_DATA_MODULE_VERSION' ) ? constant( 'NFD_DATA_MODULE_VERSION' ) : '0.0',
-			'email'       => get_option( 'admin_email' ),
+			'email'       => \get_option( 'admin_email' ),
 			'hostname'    => gethostname(),
 			'mysql'       => $wpdb->db_version(),
 			'origin'      => $container->plugin()->get( 'id', 'error' ),
 			'php'         => phpversion(),
 			'plugin'      => $container->plugin()->get( 'version', '0' ),
-			'url'         => get_site_url(),
+			'url'         => \get_site_url(),
 			'username'    => get_current_user(),
 			'wp'          => $wp_version,
 			'server_path' => defined( 'ABSPATH' ) ? constant( 'ABSPATH' ) : '',
 		);
 
 		return apply_filters( 'newfold_wp_data_module_core_data_filter', $data );
+	}
+
+	/**
+	 * Add the plugin name and version to the user agent string
+	 *
+	 * @param string $user_agent E.g. "WordPress/6.4.3; https://example.org".
+	 * @param string $url   E.g. "https://hiive.cloud/api/sites/v2/events".
+	 *
+	 * @return string E.g. "WordPress/6.4.3; bluehost/1.2.3; https://example.org".
+	 */
+	public function add_plugin_name_version_to_user_agent( string $user_agent, string $url ): string {
+		$container      = container();
+		$plugin_brand   = \sanitize_title( $container->plugin()->brand );
+		$plugin_version = $container->plugin()->get( 'version', '0' );
+
+		$user_agent_parts = array_map( 'trim', explode( ';', $user_agent ) );
+
+		array_splice( $user_agent_parts, 1, 0, "{$plugin_brand}/{$plugin_version}" );
+
+		return implode( '; ', $user_agent_parts );
 	}
 }

@@ -3,6 +3,7 @@
 namespace NewfoldLabs\WP\Module\Helpers;
 
 use NewfoldLabs\WP\Module\Data\Helpers\Transient;
+use WP_Mock;
 use WP_Mock\Tools\TestCase;
 
 /**
@@ -50,7 +51,7 @@ class TransientTest extends TestCase {
 				->with( $test_transient_name, 'value', 999 )
 				->andReturnTrue();
 
-		\WP_Mock::userFunction( 'update_transient' )
+		\WP_Mock::userFunction( 'update_option' )
 				->never();
 
 		Transient::set( $test_transient_name, 'value', 999 );
@@ -72,6 +73,20 @@ class TransientTest extends TestCase {
 		\WP_Mock::userFunction( 'set_transient' )
 				->never();
 
+		WP_Mock::expectFilter(
+			"pre_set_transient_{$test_transient_name}",
+			'value',
+			999,
+			$test_transient_name
+		);
+
+		WP_Mock::expectFilter(
+			"expiration_of_transient_{$test_transient_name}",
+			999,
+			'value',
+			$test_transient_name,
+		);
+
 		\WP_Mock::userFunction( 'update_option' )
 				->once()
 				->with(
@@ -80,6 +95,20 @@ class TransientTest extends TestCase {
 					false
 				)
 				->andReturnTrue();
+
+		WP_Mock::expectAction(
+			"set_transient_{$test_transient_name}",
+			'value',
+			999,
+			$test_transient_name
+		);
+
+		WP_Mock::expectAction(
+			'setted_transient',
+			$test_transient_name,
+			'value',
+			999
+		);
 
 		Transient::set( $test_transient_name, 'value', 999 );
 
@@ -124,6 +153,12 @@ class TransientTest extends TestCase {
 		\WP_Mock::userFunction( 'get_transient' )
 				->never();
 
+		WP_Mock::expectFilter(
+			"pre_transient_{$test_transient_name}",
+			false,
+			$test_transient_name
+		);
+
 		\WP_Mock::userFunction( 'get_option' )
 				->once()
 				->with( $test_transient_name, )
@@ -133,6 +168,12 @@ class TransientTest extends TestCase {
 						'expires_at' => time() + 999,
 					)
 				);
+
+		WP_Mock::expectFilter(
+			"transient_{$test_transient_name}",
+			'value',
+			$test_transient_name
+		);
 
 		$result = Transient::get( $test_transient_name );
 
@@ -153,6 +194,12 @@ class TransientTest extends TestCase {
 		\WP_Mock::userFunction( 'get_transient' )
 				->never();
 
+		WP_Mock::expectFilter(
+			"pre_transient_{$test_transient_name}",
+			false,
+			$test_transient_name
+		);
+
 		\WP_Mock::userFunction( 'get_option' )
 				->once()
 				->with( $test_transient_name, )
@@ -167,6 +214,12 @@ class TransientTest extends TestCase {
 				->once()
 				->with( $test_transient_name )
 				->andReturnTrue();
+
+		WP_Mock::expectFilter(
+			"transient_{$test_transient_name}",
+			false,
+			$test_transient_name
+		);
 
 		$result = Transient::get( $test_transient_name );
 
@@ -195,5 +248,84 @@ class TransientTest extends TestCase {
 		$result = $sut->get( 'test' );
 
 		$this->assertEquals( $return_value, $result );
+	}
+
+	/**
+	 * @covers ::should_use_transients
+	 */
+	public function test_should_use_transients_bluehost_cloud(): void {
+
+		$test_transient_name = uniqid( __FUNCTION__ );
+
+		\WP_Mock::userFunction( 'get_dropins' )
+				->once()
+				->andReturn( array( 'object-cache.php' => array() ) );
+
+		\WP_Mock::userFunction( 'set_transient' )
+				->once()
+				->with( $test_transient_name, 'value', 999 )
+				->andReturnTrue();
+
+		\WP_Mock::userFunction( 'update_option' )
+				->never();
+
+		\NewfoldLabs\WP\Context\setContext( 'platform', 'atomic' );
+
+		Transient::set( $test_transient_name, 'value', 999 );
+
+		$this->assertConditionsMet();
+	}
+
+	/**
+	 * {@see \WP_Mock\Functions::$wp_mocked_fuctions} array is not being reset between tests. The code seems to
+	 * have been refactored in WP_Mock's newer versions but we are stuck using PHP 7.3 for now.
+	 *
+	 * @runInSeparateProcess
+	 *
+	 * @covers ::set
+	 */
+	public function test_set_transient_filters_are_called(): void {
+
+		$test_transient_name = uniqid( __FUNCTION__ );
+
+		WP_Mock::userFunction( 'get_dropins' )
+				->once()
+				->andReturn( array( 'object-cache.php' => array() ) );
+
+		WP_Mock::expectFilter(
+			"pre_set_transient_{$test_transient_name}",
+			'value',
+			999,
+			$test_transient_name
+		);
+
+		WP_Mock::expectFilter(
+			"expiration_of_transient_{$test_transient_name}",
+			999,
+			'value',
+			$test_transient_name,
+		);
+
+		\WP_Mock::userFunction( 'update_option' )
+				->once()
+				->andReturn( true );
+
+		WP_Mock::expectAction(
+			"set_transient_{$test_transient_name}",
+			'value',
+			999,
+			$test_transient_name
+		);
+
+		WP_Mock::expectAction(
+			'setted_transient',
+			$test_transient_name,
+			'value',
+			999
+		);
+
+		Transient::set( $test_transient_name, 'value', 999 );
+
+		$this->assertConditionsMet();
 	}
 }

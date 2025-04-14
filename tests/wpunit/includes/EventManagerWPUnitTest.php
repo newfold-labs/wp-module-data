@@ -9,6 +9,12 @@ use function NewfoldLabs\WP\ModuleLoader\container;
  * @coversDefaultClass \NewfoldLabs\WP\Module\Data\EventManager
  */
 class EventManagerWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase {
+
+	protected function tearDown(): void {
+		parent::tearDown();
+		\Mockery::close();
+	}
+
 	/**
 	 * 2.6.0 was released with a bug where an empty array was passed to the Queue to be saved, causing a fatal error.
 	 *
@@ -33,7 +39,7 @@ class EventManagerWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase {
 		$sut->push( $event );
 
 		$hiive_connection = Mockery::mock( HiiveConnection::class );
-		$hiive_connection->expects('notify' )
+		$hiive_connection->expects( 'notify' )
 			->once()
 			->andReturn(
 				array(
@@ -41,6 +47,36 @@ class EventManagerWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase {
 					'failedEvents'    => array(),
 				)
 			);
+
+		$sut->add_subscriber( $hiive_connection );
+
+		$sut->shutdown();
+	}
+
+	public static function does_not_send_certain_events_dataprovider(): array {
+		return array(
+			array( 'pageview' ),
+			array( 'page_view' ),
+			array( 'wp_mail' ),
+			array( 'plugin_updated' ),
+		);
+	}
+
+	/**
+	 * @dataProvider does_not_send_certain_events_dataprovider
+	 */
+	public function test_does_not_send_certain_events( string $event_name ): void {
+		$sut = new EventManager();
+
+		$event           = Mockery::mock( Event::class );
+		$event->category = 'admin';
+		$event->key      = $event_name;
+		$event->data     = array();
+
+		$sut->push( $event );
+
+		$hiive_connection = Mockery::mock( HiiveConnection::class );
+		$hiive_connection->shouldReceive( 'notify' )->never();
 
 		$sut->add_subscriber( $hiive_connection );
 

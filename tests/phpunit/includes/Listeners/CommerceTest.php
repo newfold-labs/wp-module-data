@@ -16,6 +16,8 @@ class CommerceTest extends \WP_Mock\Tools\TestCase {
 	public function setUp(): void {
 		parent::setUp();
 		WP_Mock::setUp();
+		$_SERVER['REMOTE_ADDR'] = '127.0.0.1';
+
 	}
 
 	public function tearDown(): void {
@@ -58,6 +60,40 @@ class CommerceTest extends \WP_Mock\Tools\TestCase {
 		WP_Mock::userFunction( 'get_user_locale' )->once()->andReturn( 'en_US' );
 
 		$sut->woocommerce_hpos_enabled( '', 'yes', 'woocommerce_custom_orders_table_enabled' );
+
+		$this->assertConditionsMet();
+	}
+
+	/**
+	 * @covers ::woopay_connection
+	 */
+	public function test_woopay_connection(): void {
+
+		WP_Mock::userFunction( 'is_ssl' )->once()->andReturnTrue();
+		$_SERVER['HTTP_HOST']   = 'example.com/';
+		$_SERVER['REQUEST_URI'] = 'subdir';
+
+		$expected_data_array = array(
+			'label_key' => 'provider',
+			'provider'  => 'woopay',
+			'status'    => 'connected',
+			'page'      => 'https://example.com/subdir',
+		);
+
+		$sut = Mockery::mock( Commerce::class )->makePartial();
+		$sut->shouldAllowMockingProtectedMethods();
+		$sut->expects( 'push' )->once()
+			->with( 'payment_connected', $expected_data_array );
+
+		$wcpay_account_data = array(
+			'data' => array(
+				'account_id'   => 'acc_123456789',
+				'status'       => 'connected',
+				'last_updated' => '2025-01-08T12:34:56Z',
+			),
+		);
+
+		$sut->woopay_connection( $wcpay_account_data, '' );
 
 		$this->assertConditionsMet();
 	}

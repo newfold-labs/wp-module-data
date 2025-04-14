@@ -9,7 +9,7 @@ interface BatchQueueInterface {
 	/**
 	 * Push one or more events onto the queue
 	 *
-	 * @param  Event[]  $events
+	 * @param  Event[] $events
 	 *
 	 * @return bool
 	 */
@@ -25,7 +25,7 @@ interface BatchQueueInterface {
 	/**
 	 * Remove one or more events from the queue
 	 *
-	 * @param  Event[]  $events
+	 * @param  Event[] $events
 	 *
 	 * @return bool
 	 */
@@ -34,7 +34,7 @@ interface BatchQueueInterface {
 	/**
 	 * Reserve one or more events in the queue
 	 *
-	 * @param  Event[]  $events
+	 * @param  Event[] $events
 	 *
 	 * @return bool
 	 */
@@ -43,7 +43,7 @@ interface BatchQueueInterface {
 	/**
 	 * Release one or more events back onto the queue
 	 *
-	 * @param  Event[]  $events
+	 * @param  Event[] $events
 	 *
 	 * @return bool
 	 */
@@ -55,5 +55,4 @@ interface BatchQueueInterface {
 	 * @return int
 	 */
 	public function count();
-
 }

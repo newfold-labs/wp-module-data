@@ -7,7 +7,7 @@ namespace NewfoldLabs\WP\Module\Data\API;
  */
 class VerifyTest extends \lucatume\WPBrowser\TestCase\WPTestCase
 {
-	protected function tearDown()
+	protected function tearDown(): void
 	{
 		parent::tearDown();
 
