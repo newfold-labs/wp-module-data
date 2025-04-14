@@ -169,6 +169,8 @@ jobs:
           BRANCHED_COMMIT=$(git rev-list origin..HEAD | tail -n 1);
           echo "BRANCHED_COMMIT=$BRANCHED_COMMIT"
           git diff $BRANCHED_COMMIT...${{ github.event.pull_request.head.sha }} > branch.diff;
+          cat branch.diff;
+          vendor/bin/phpcov patch-coverage --path-prefix $(pwd) ./gh-pages/${{ github.event.pull_request.head.sha }}/phpunit/phpunit.cov branch.diff;
           OUTPUT=${vendor/bin/phpcov patch-coverage --path-prefix $(pwd) ./gh-pages/${{ github.event.pull_request.head.sha }}/phpunit/phpunit.cov branch.diff}
           echo $OUTPUT;
           echo "$OUTPUT" >> coverage-comment.md
