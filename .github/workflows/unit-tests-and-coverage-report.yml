@@ -111,11 +111,11 @@ jobs:
           vendor/bin/phpcov merge --clover clover.xml tests/_output/;
           vendor/bin/phpcov merge --clover gh-pages/phpunit/clover.xml --php gh-pages/phpunit/phpunit.cov --html gh-pages/phpunit/html/ tests/_output/;
 
-      # This makes the coverage percentage available in `{{ steps.test-coverage.outputs.coverage }}`.
+      # This makes the coverage percentage available in `{{ steps.coverage-percentage.outputs.coverage }}`.
       - name: Check test coverage
         if: ${{ matrix.php == '7.3' }}
         uses: johanvanhelden/gha-clover-test-coverage-check@2543c79a701f179bd63aa14c16c6938c509b2cec # v1
-        id: coverage
+        id: coverage-percentage
         with:
           percentage: 25
           exit: false
@@ -140,7 +140,7 @@ jobs:
         with:
           repository: gh-pages
           branch: gh-pages
-          commit_message: ${{ format('🤖 Save code coverage report to gh-pages {0}%', steps.test-coverage.outputs.coverage) }}
+          commit_message: ${{ format('🤖 Save code coverage report to gh-pages {0}%', steps.coverage-percentage.outputs.coverage) }}
           commit_options: ""
         env:
           GITHUB_TOKEN: "${{ github.token }}"
@@ -150,4 +150,4 @@ jobs:
         if: ${{ matrix.php == '7.3' && github.event_name == 'pull_request' }}
         with:
           message-id: coverage-report
-          message: ${{ format('[project coverage report {0}%](https://newfold-labs.github.io/wp-module-data/{1}/phpunit/html/) @ {2}', steps.test-coverage.outputs.coverage, github.event.pull_request.head.sha, github.event.pull_request.head.sha) }}
+          message: ${{ format('[project coverage report {0}%](https://newfold-labs.github.io/wp-module-data/{1}/phpunit/html/) @ {2}', steps.coverage-percentage.outputs.coverage, github.event.pull_request.head.sha, github.event.pull_request.head.sha) }}
