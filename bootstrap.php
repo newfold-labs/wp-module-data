@@ -48,8 +48,8 @@ if ( function_exists( 'add_action' ) && function_exists( 'add_filter' ) ) {
 				array(
 					'name'     => 'data',
 					'label'    => __( 'Data', 'newfold-data-module' ),
-					'callback' => function () {
-						$module = new Data();
+					'callback' => function ( Container $container ) {
+						$module = new Data( $container );
 						$module->start();
 					},
 					'isActive' => true,
