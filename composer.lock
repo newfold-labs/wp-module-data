@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0347a472a9597320c3cd5efce86f9093",
+    "content-hash": "7879fa39c5590ec6adac44c0c95e1ba4",
     "packages": [
         {
             "name": "doctrine/inflector",
@@ -2566,7 +2566,7 @@
         },
         {
             "name": "newfold-labs/wp-plugin-bluehost",
-            "version": "4.0.4",
+            "version": "dev-latest-zip",
             "dist": {
                 "type": "zip",
                 "url": "https://github.com/newfold-labs/wp-plugin-bluehost/releases/latest/download/bluehost-wordpress-plugin.zip"
@@ -6809,7 +6809,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {},
+    "stability-flags": {
+        "newfold-labs/wp-plugin-bluehost": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
