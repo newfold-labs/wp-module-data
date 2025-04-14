@@ -166,7 +166,10 @@ jobs:
         run: |
           BRANCHED_COMMIT=$(git rev-list origin..HEAD | tail -n 1);
           echo "BRANCHED_COMMIT=$BRANCHED_COMMIT"
-          echo "${git diff $BRANCHED_COMMIT...head > $BRANCHED_COMMIT.diff; vendor/bin/phpcov patch-coverage --path-prefix $(pwd) ./tests/_output/merged.cov $BRANCHED_COMMIT.diff}" >> coverage-comment.md
+          git diff $BRANCHED_COMMIT...head > branch.diff;
+          OUTPUT=${vendor/bin/phpcov patch-coverage --path-prefix $(pwd) ./tests/_output/merged.cov branch.diff}
+          echo $OUTPUT;
+          echo "$OUTPUT" >> coverage-comment.md
 
       - name: Add coverage PR comment
         uses: mshick/add-pr-comment@b8f338c590a895d50bcbfa6c5859251edc8952fc # v2.8.2
