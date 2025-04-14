@@ -165,13 +165,13 @@ jobs:
 
       - name: Add phpcov uncovered lines report to PR comment
         if: ${{ matrix.php == '7.3' && github.event_name == 'pull_request' }}
+        continue-on-error: true # phpcov can fail if there are no uncovered lines
         run: |
           BRANCHED_COMMIT=$(git rev-list origin..HEAD | tail -n 1);
           echo "BRANCHED_COMMIT=$BRANCHED_COMMIT"
           git diff $BRANCHED_COMMIT...${{ github.event.pull_request.head.sha }} > branch.diff;
           cat branch.diff;
-          vendor/bin/phpcov patch-coverage --path-prefix $(pwd) ./gh-pages/${{ github.event.pull_request.head.sha }}/phpunit/phpunit.cov branch.diff;
-          OUTPUT=${vendor/bin/phpcov patch-coverage --path-prefix $(pwd) ./gh-pages/${{ github.event.pull_request.head.sha }}/phpunit/phpunit.cov branch.diff}
+          OUTPUT=${vendor/bin/phpcov patch-coverage --path-prefix $(pwd) ./gh-pages/${{ github.event.pull_request.head.sha }}/phpunit/phpunit.cov branch.diff || true}
           echo $OUTPUT;
           echo "$OUTPUT" >> coverage-comment.md
 
