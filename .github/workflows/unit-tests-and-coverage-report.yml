@@ -98,6 +98,13 @@ jobs:
       - name: Run wpunit tests
         run: XDEBUG_MODE=coverage vendor/bin/codecept run wpunit --coverage tests/_output/wpunit.cov --debug
 
+      # For PRs, we'll generate the coverage report on each pushed commit
+      - name: Merge code coverage for PR
+        if: ${{ matrix.php == '7.3' && github.event_name == 'pull_request' }}
+        run: |
+          vendor/bin/phpcov merge --clover clover.xml tests/_output/;
+          vendor/bin/phpcov merge --clover gh-pages/phpunit/clover.xml --php gh-pages/${{ github.event.pull_request.head.sha }}/phpunit/phpunit.cov --html gh-pages/${{ github.event.pull_request.head.sha }}/phpunit/html/ tests/_output/;
+
       - name: Merge code coverage for main
         if: ${{ (github.ref == 'refs/heads/main') && (matrix.php == '7.3') }} # only commit on main, on the PHP version we're using in production.
         run: |
@@ -135,3 +142,10 @@ jobs:
           commit_options: ""
         env:
           GITHUB_TOKEN: "${{ github.token }}"
+
+      - name: Add coverage report link to PR comment
+        uses: mshick/add-pr-comment@b8f338c590a895d50bcbfa6c5859251edc8952fc # v2.8.2
+        if: ${{ matrix.php == '7.3' && github.event_name == 'pull_request' }}
+        with:
+          message-id: coverage-report
+          message: ${{ format('[project coverage report {0}%](https://newfold-labs.github.io/wp-module-data/{1}/phpunit/html/) @ {2}', steps.test-coverage.outputs.coverage, github.event.pull_request.head.sha, github.event.pull_request.head.sha) }}
