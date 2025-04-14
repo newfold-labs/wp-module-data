@@ -120,7 +120,7 @@ jobs:
           percentage: 25
           exit: false
           filename: clover.xml
-          rounded-precision: "1"
+          rounded-precision: "0"
 
       # See: https://github.blog/2009-12-29-bypassing-jekyll-on-github-pages/
       - name: Add `.nojekyll` file so code coverage report successfully deploys to gh-pages
@@ -144,7 +144,7 @@ jobs:
         with:
           repository: gh-pages
           branch: gh-pages
-          commit_message: ${{ format('🤖 Save code coverage report to gh-pages {0}%', steps.coverage-percentage.outputs.coverage) }}
+          commit_message: ${{ format('🤖 Save code coverage report to gh-pages {0}%', steps.coverage-percentage.outputs.coverage-rounded) }}
           commit_options: ""
         env:
           GITHUB_TOKEN: "${{ github.token }}"
@@ -159,7 +159,7 @@ jobs:
       - name: Add coverage report link to PR comment
         if: ${{ matrix.php == '7.3' && github.event_name == 'pull_request' }}
         run: |
-          echo "${{ format('[project coverage report {0}%](https://newfold-labs.github.io/wp-module-data/{1}/phpunit/html/) @ {2}', steps.coverage-percentage.outputs.coverage, github.event.pull_request.head.sha, github.event.pull_request.head.sha) }}" >> coverage-comment.md
+          echo "${{ format('[project coverage report {0}%](https://newfold-labs.github.io/wp-module-data/{1}/phpunit/html/) @ {2}', steps.coverage-percentage.outputs.coverage-rounded, github.event.pull_request.head.sha, github.event.pull_request.head.sha) }}" >> coverage-comment.md
           echo "" >> coverage-comment.md
           echo "" >> coverage-comment.md
 
