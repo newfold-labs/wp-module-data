@@ -1,6 +1,6 @@
 # Contributing
 
-See also https://github.com/bluehost/.github/blob/master/.github/contributing.md
+See also https://github.com/newfold-labs/.github/blob/main/.github/contributing.md
 
 ## Requirements
 
