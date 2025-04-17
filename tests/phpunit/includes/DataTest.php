@@ -4,55 +4,52 @@ namespace NewfoldLabs\WP\Module\Data;
 
 use Mockery;
 use NewfoldLabs\WP\Module\Data\API\Capabilities;
-use NewfoldLabs\WP\Module\Data\Listeners\Plugin;
+use NewfoldLabs\WP\Module\Data\Helpers\Transient;
 use WP_Mock;
-use WP_Mock\Tools\TestCase;
-use function NewfoldLabs\WP\ModuleLoader\container;
 
 /**
  * @coversDefaultClass \NewfoldLabs\WP\Module\Data\Data
  */
-class DataTest extends TestCase {
+class DataTest extends UnitTestCase {
 
 	public function setUp(): void {
 		parent::setUp();
 
 		WP_Mock::userFunction( 'wp_json_encode' )
-			->andReturnUsing(
-				function ( $input ) {
-					return json_encode( $input );
-				}
-			);
-
-		/**
-		 * Create an empty file for `/wp-admin/includes/plugin.php` so when it is included, it doesn't load anything.
-		 */
-		$temp_dir = sys_get_temp_dir();
+				->andReturnUsing(
+					function ( $input ) {
+						return json_encode( $input );
+					}
+				);
 
 		\Patchwork\redefine(
 			'constant',
-			function ( string $constant_name ) use ( $temp_dir ) {
+			function ( string $constant_name ) {
 				switch ( $constant_name ) {
 					case 'ABSPATH':
-						return $temp_dir;
+						return $this->temp_dir;
 					default:
 						return \Patchwork\relay( func_get_args() );
 				}
 			}
 		);
 
-		@mkdir( $temp_dir . '/wp-admin/includes', 0777, true );
-		file_put_contents( $temp_dir . '/wp-admin/includes/plugin.php', '<?php' );
+		/**
+		 * Create an empty file for `/wp-admin/includes/plugin.php` so when it is included, it doesn't load anything.
+		 *
+		 * @see Transient::should_use_transients()
+		 */
+		@mkdir( $this->temp_dir . '/wp-admin/includes', 0777, true );
+		file_put_contents( $this->temp_dir . '/wp-admin/includes/plugin.php', '<?php' );
 	}
 
 	public function tearDown(): void {
 		parent::tearDown();
 
-		\Patchwork\restoreAll();
-
-		unset($_SERVER['HTTP_AUTHORIZATION']);
-
-		forceWpMockStrictModeOn();
+		/**
+		 * @see DataTest::test_authenticate()
+		 */
+		unset( $_SERVER['HTTP_AUTHORIZATION'] );
 	}
 
 	/**
