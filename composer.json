@@ -50,7 +50,8 @@
     },
     "classmap": [
       "wordpress",
-      "tests/phpunit"
+      "tests/phpunit",
+      "tests/wpunit"
     ]
   },
   "config": {

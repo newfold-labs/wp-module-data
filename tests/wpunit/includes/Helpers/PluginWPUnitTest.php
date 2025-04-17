@@ -2,10 +2,12 @@
 
 namespace NewfoldLabs\WP\Module\Data\Helpers;
 
+use NewfoldLabs\WP\Module\Data\WPUnitTestCase;
+
 /**
  * @coversDefaultClass \NewfoldLabs\WP\Module\Data\Helpers\Plugin
  */
-class PluginWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase {
+class PluginWPUnitTest extends WPUnitTestCase {
 
 	public function set_up() {
 		parent::set_up();
@@ -40,7 +42,8 @@ class PluginWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase {
 	 * @covers ::get_admin_users
 	 */
 	public function test_collect_jetpack(): void {
-		$new_user_id = wp_create_user('admin2', 'password', 'email@example.com');
+		$username    = uniqid( 'admin2' );
+		$new_user_id = wp_create_user($username, 'password', "{$username}@example.com");
 		$new_user = new \WP_User($new_user_id);
 		$new_user->add_role('administrator');
 

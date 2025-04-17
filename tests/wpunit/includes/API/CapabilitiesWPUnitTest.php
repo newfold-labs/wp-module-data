@@ -6,18 +6,14 @@
 
 namespace NewfoldLabs\WP\Module\Data\API;
 
-use Mockery;
 use NewfoldLabs\WP\Module\Data\SiteCapabilities;
+use NewfoldLabs\WP\Module\Data\WPUnitTestCase;
 
 /**
  * @coversDefaultClass \NewfoldLabs\WP\Module\Data\API\Capabilities
  */
-class CapabilitiesWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase {
+class CapabilitiesWPUnitTest extends WPUnitTestCase {
 
-	protected function tearDown(): void {
-
-		Mockery::close();
-	}
 
 	/**
 	 * Sending a POST request should overwrite the existing capabilities and return 201.
