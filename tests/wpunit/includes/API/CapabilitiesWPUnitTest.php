@@ -214,7 +214,8 @@ class CapabilitiesWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase {
 		wp_set_current_user( 1 );
 
 		$request = new \WP_REST_Request( 'PATCH', '/newfold-data/v1/capabilities' );
-		$request->set_body_params( $request_capabilities );
+		$request->set_body( json_encode( $request_capabilities ) );
+		$request->set_header( 'Content-Type', 'application/json' );
 
 		$rest_server = rest_get_server();
 
