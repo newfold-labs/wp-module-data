@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1744916113">
-  <project timestamp="1744916113">
+<coverage generated="1744919094">
+  <project timestamp="1744919094">
     <file name="/home/runner/work/wp-module-data/wp-module-data/includes/API/Capabilities.php">
       <class name="NewfoldLabs\WP\Module\Data\API\Capabilities" namespace="global">
         <metrics complexity="12" methods="4" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="48" coveredstatements="48" elements="52" coveredelements="52"/>
