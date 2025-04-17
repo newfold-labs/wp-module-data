@@ -86,7 +86,7 @@ class Capabilities extends WP_REST_Controller {
 		$existing_capabilities = $this->site_capabilities->all( false );
 		$new_capabilities      = $request->get_json_params();
 
-		$did_save = 'PATCH' === $request->get_method()
+		'PATCH' === $request->get_method()
 			? $this->site_capabilities->update( $new_capabilities ) // PATCH – update existing list.
 			: $this->site_capabilities->set( $new_capabilities ); // POST or PUT – replace list.
 
