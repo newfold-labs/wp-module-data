@@ -47,7 +47,7 @@ class CapabilitiesWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase {
 		$sut = new Capabilities( $site_capabilities );
 
 		$request = new \WP_REST_Request( 'POST', 'newfold-data/v1/capabilities' );
-		$request->set_body( json_encode($request_capabilities) );
+		$request->set_body( json_encode( $request_capabilities ) );
 		$request->set_header( 'Content-Type', 'application/json' );
 
 		$response      = $sut->update( $request );
@@ -86,7 +86,7 @@ class CapabilitiesWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase {
 		$sut = new Capabilities( $site_capabilities );
 
 		$request = new \WP_REST_Request( 'PATCH', 'newfold-data/v1/capabilities' );
-		$request->set_body( json_encode($request_capabilities) );
+		$request->set_body( json_encode( $request_capabilities ) );
 		$request->set_header( 'Content-Type', 'application/json' );
 
 		$response      = $sut->update( $request );
@@ -125,7 +125,7 @@ class CapabilitiesWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase {
 		$sut = new Capabilities( $site_capabilities );
 
 		$request = new \WP_REST_Request( 'PATCH', 'newfold-data/v1/capabilities' );
-		$request->set_body( json_encode($request_capabilities) );
+		$request->set_body( json_encode( $request_capabilities ) );
 		$request->set_header( 'Content-Type', 'application/json' );
 
 		$response      = $sut->update( $request );
@@ -172,7 +172,7 @@ class CapabilitiesWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase {
 		$sut = new Capabilities( $site_capabilities );
 
 		$request = new \WP_REST_Request( 'PATCH', 'newfold-data/v1/capabilities' );
-		$request->set_body( json_encode($request_capabilities) );
+		$request->set_body( json_encode( $request_capabilities ) );
 		$request->set_header( 'Content-Type', 'application/json' );
 
 		$response      = $sut->update( $request );
@@ -188,9 +188,9 @@ class CapabilitiesWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase {
 	 */
 	public function test_register_routes(): void {
 		$site_capabilities = \Mockery::mock( SiteCapabilities::class );
-		$sut = new Capabilities( $site_capabilities );
+		$sut               = new Capabilities( $site_capabilities );
 
-		do_action('rest_api_init');
+		do_action( 'rest_api_init' );
 
 		$sut->register_routes();
 
@@ -198,7 +198,7 @@ class CapabilitiesWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase {
 		$rest_server = rest_get_server();
 		$rest_routes = $rest_server->get_routes();
 
-		$this->assertArrayHasKey('/newfold-data/v1/capabilities', $rest_routes);
+		$this->assertArrayHasKey( '/newfold-data/v1/capabilities', $rest_routes );
 	}
 
 	/**
