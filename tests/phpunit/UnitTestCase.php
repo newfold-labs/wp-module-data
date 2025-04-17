@@ -21,6 +21,8 @@ class UnitTestCase extends WP_Mock_TestCase {
 	/**
 	 * A temporary directory for the test case which will be removed afterwards.
 	 *
+	 * No trailing slash.
+	 *
 	 * @var string
 	 */
 	protected $temp_dir;
