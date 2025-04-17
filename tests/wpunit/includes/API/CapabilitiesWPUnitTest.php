@@ -47,7 +47,8 @@ class CapabilitiesWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase {
 		$sut = new Capabilities( $site_capabilities );
 
 		$request = new \WP_REST_Request( 'POST', 'newfold-data/v1/capabilities' );
-		$request->set_body_params( $request_capabilities );
+		$request->set_body( json_encode($request_capabilities) );
+		$request->set_header( 'Content-Type', 'application/json' );
 
 		$response      = $sut->update( $request );
 		$response_data = $response->get_data();
@@ -85,7 +86,8 @@ class CapabilitiesWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase {
 		$sut = new Capabilities( $site_capabilities );
 
 		$request = new \WP_REST_Request( 'PATCH', 'newfold-data/v1/capabilities' );
-		$request->set_body_params( $request_capabilities );
+		$request->set_body( json_encode($request_capabilities) );
+		$request->set_header( 'Content-Type', 'application/json' );
 
 		$response      = $sut->update( $request );
 		$response_data = $response->get_data();
@@ -123,7 +125,8 @@ class CapabilitiesWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase {
 		$sut = new Capabilities( $site_capabilities );
 
 		$request = new \WP_REST_Request( 'PATCH', 'newfold-data/v1/capabilities' );
-		$request->set_body_params( $request_capabilities );
+		$request->set_body( json_encode($request_capabilities) );
+		$request->set_header( 'Content-Type', 'application/json' );
 
 		$response      = $sut->update( $request );
 		$response_data = $response->get_data();
@@ -169,7 +172,8 @@ class CapabilitiesWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase {
 		$sut = new Capabilities( $site_capabilities );
 
 		$request = new \WP_REST_Request( 'PATCH', 'newfold-data/v1/capabilities' );
-		$request->set_body_params( $request_capabilities );
+		$request->set_body( json_encode($request_capabilities) );
+		$request->set_header( 'Content-Type', 'application/json' );
 
 		$response      = $sut->update( $request );
 		$response_data = $response->get_data();
