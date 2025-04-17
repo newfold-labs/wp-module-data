@@ -2,6 +2,7 @@
 
 namespace NewfoldLabs\WP\Module\Data;
 
+use NewfoldLabs\WP\Module\Data\API\Capabilities;
 use wpscholar\Url;
 use function WP_Forge\Helpers\dataGet;
 
@@ -82,6 +83,10 @@ class Data {
 			$this->logger = new Logger();
 			$manager->add_subscriber( $this->logger );
 		}
+
+		// Register endpoint for clearing capabilities cache
+		$capabilities_api = new Capabilities( new SiteCapabilities() );
+		add_action( 'rest_api_init', array( $capabilities_api, 'register_routes' ) );
 	}
 
 	/**
@@ -107,6 +112,8 @@ class Data {
 
 	/**
 	 * Authenticate incoming REST API requests.
+	 *
+	 * Sets current user to user id provided in `$_GET['user_id']` or the first admin user if no user ID is provided.
 	 *
 	 * @hooked rest_authentication_errors
 	 *
