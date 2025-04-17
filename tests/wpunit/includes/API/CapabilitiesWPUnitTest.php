@@ -8,12 +8,18 @@ namespace NewfoldLabs\WP\Module\Data\API;
 
 use NewfoldLabs\WP\Module\Data\EventManager;
 use NewfoldLabs\WP\Module\Data\HiiveConnection;
+use Mockery;
 use NewfoldLabs\WP\Module\Data\SiteCapabilities;
 
 /**
  * @coversDefaultClass \NewfoldLabs\WP\Module\Data\API\Capabilities
  */
 class CapabilitiesWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase {
+
+	protected function tearDown(): void {
+
+		Mockery::close();
+	}
 
 	/**
 	 * Sending a POST request should overwrite the existing capabilities and return 201.
@@ -29,7 +35,7 @@ class CapabilitiesWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase {
 		$site_capabilities = \Mockery::mock( SiteCapabilities::class );
 
 		$site_capabilities->shouldReceive( 'all' )
-			->once()
+			->twice()
 			->andReturnValues(
 				array(
 					array(
@@ -73,7 +79,7 @@ class CapabilitiesWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase {
 		$site_capabilities = \Mockery::mock( SiteCapabilities::class );
 
 		$site_capabilities->shouldReceive( 'all' )
-			->once()
+			->twice()
 			->andReturn(
 				array(
 					'hasAISiteGen'        => false,
@@ -112,7 +118,7 @@ class CapabilitiesWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase {
 		$site_capabilities = \Mockery::mock( SiteCapabilities::class );
 
 		$site_capabilities->shouldReceive( 'all' )
-			->once()
+			->twice()
 			->andReturn(
 				array(
 					'hasAISiteGen'        => false,
@@ -152,7 +158,7 @@ class CapabilitiesWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase {
 		$site_capabilities = \Mockery::mock( SiteCapabilities::class );
 
 		$site_capabilities->shouldReceive( 'all' )
-							->once()
+							->twice()
 							->andReturnValues(
 								array(
 									array(
