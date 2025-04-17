@@ -53,7 +53,7 @@ class SiteCapabilities {
 	 *
 	 * @param array<string, bool> $capabilities
 	 *
-	 * @return bool True if the value was set, false otherwise (does not indicate if the value was changed).
+	 * @return bool True if the value was changed, false otherwise.
 	 */
 	public function update( array $capabilities ): bool {
 		$updated_capabilities = array_merge( $this->all( false ), $capabilities );
