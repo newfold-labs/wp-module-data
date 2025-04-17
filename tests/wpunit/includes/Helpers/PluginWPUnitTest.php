@@ -112,7 +112,7 @@ class PluginWPUnitTest extends WPUnitTestCase {
 	public function test_does_it_autoupdate_all(): void {
 		$sut = new Plugin();
 
-		add_site_option('auto_update_plugin', 'true');
+		update_site_option('auto_update_plugin', 'true');
 
 		$this->set_autoupdate('wp-plugin-bluehost/bluehost-wordpress-plugin.php', false);
 
