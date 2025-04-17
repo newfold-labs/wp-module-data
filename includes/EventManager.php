@@ -45,6 +45,12 @@ class EventManager {
 	 * @var Event[]
 	 */
 	private $queue = array();
+	/**
+	 * The maximum number of attempts to send an event
+	 *
+	 * @var int
+	 */
+	private $attempts_limit = 3;
 
 	/**
 	 * Initialize the Event Manager
@@ -213,14 +219,12 @@ class EventManager {
 	 * @param  Event[] $events  A list of events
 	 */
 	protected function send_request_events( array $events ): void {
+
 		foreach ( $this->get_subscribers() as $subscriber ) {
 			/**
 			 * @var array{succeededEvents:array,failedEvents:array}|WP_Error $response
 			 */
 			$response = $subscriber->notify( $events );
-
-			// Due to an unidentified bug causing events to be resent, we are temporarily disabling retries.
-			continue;
 
 			if ( ! ( $subscriber instanceof HiiveConnection ) ) {
 				continue;
@@ -245,6 +249,8 @@ class EventManager {
 	public function send_saved_events_batch(): void {
 
 		$queue = EventQueue::getInstance()->queue();
+
+		$queue->remove_events_exceeding_attempts_limit( $this->attempts_limit );
 
 		/**
 		 * Array indexed by the table row id.
@@ -271,9 +277,6 @@ class EventManager {
 			 */
 			$response = $subscriber->notify( $events );
 
-			// Due to an unidentified bug causing events to be resent, we are temporarily disabling retries.
-			continue;
-
 			if ( ! ( $subscriber instanceof HiiveConnection ) ) {
 				continue;
 			}
@@ -290,11 +293,9 @@ class EventManager {
 
 			// Release the 'reserve' we placed on the entry, so it will be tried again later.
 			if ( ! empty( $response['failedEvents'] ) ) {
+				$queue->increment_attempt( array_keys( $response['failedEvents'] ) );
 				$queue->release( array_keys( $response['failedEvents'] ) );
 			}
 		}
-
-		// Due to an unidentified bug causing events to be resent, we are temporarily disabling retries.
-		$queue->remove( array_keys( $events ) );
 	}
 }
