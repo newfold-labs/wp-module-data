@@ -153,20 +153,20 @@ class CapabilitiesWPUnitTest extends WPUnitTestCase {
 		$site_capabilities = \Mockery::mock( SiteCapabilities::class );
 
 		$site_capabilities->shouldReceive( 'all' )
-							->twice()
-							->andReturnValues(
-								array(
-									array(
-										'hasAISiteGen' => false,
-										'canAccessHelpCenter' => true,
-									),
-									array(
-										'hasAISiteGen' => false,
-										'canAccessHelpCenter' => true,
-										'hasEcomdash'  => true,
-									),
-								)
-							);
+			->twice()
+			->andReturnValues(
+				array(
+					array(
+						'hasAISiteGen'        => false,
+						'canAccessHelpCenter' => true,
+					),
+					array(
+						'hasAISiteGen'        => false,
+						'canAccessHelpCenter' => true,
+						'hasEcomdash'         => true,
+					),
+				)
+			);
 
 		$site_capabilities->shouldReceive( 'update' )->once()->with( $request_capabilities )->andReturn( true );
 
