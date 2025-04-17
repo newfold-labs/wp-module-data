@@ -90,8 +90,9 @@ class Capabilities extends WP_REST_Controller {
 			? $this->site_capabilities->update( $new_capabilities ) // PATCH – update existing list.
 			: $this->site_capabilities->set( $new_capabilities ); // POST or PUT – replace list.
 
-		$added_capabilities   = array();
-		$updated_capabilities = array();
+		$added_capabilities     = array();
+		$updated_capabilities   = array();
+		$unchanged_capabilities = array();
 
 		foreach ( $new_capabilities as $capability_name => $capability_value ) {
 			if ( ! isset( $existing_capabilities[ $capability_name ] ) ) {
@@ -100,6 +101,8 @@ class Capabilities extends WP_REST_Controller {
 			}
 			if ( $existing_capabilities[ $capability_name ] !== $capability_value ) {
 				$updated_capabilities[ $capability_name ] = $capability_value;
+			} else {
+				$unchanged_capabilities[ $capability_name ] = $capability_value;
 			}
 		}
 
@@ -111,9 +114,10 @@ class Capabilities extends WP_REST_Controller {
 
 		return new WP_REST_Response(
 			array(
-				'added'   => $added_capabilities,
-				'updated' => $updated_capabilities,
-				'removed' => $removed_capabilities,
+				'added'     => $added_capabilities,
+				'updated'   => $updated_capabilities,
+				'removed'   => $removed_capabilities,
+				'unchanged' => $unchanged_capabilities,
 			),
 			$status
 		);
