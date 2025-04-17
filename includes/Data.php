@@ -26,7 +26,16 @@ class Data {
 	public static $instance;
 
 	/**
+	 * Dependency injection container.
+	 *
+	 * @var Container
+	 */
+	protected $container;
+
+	/**
 	 * Data constructor.
+	 *
+	 * @param Container $container The module container.
 	 */
 	public function __construct() {
 		self::$instance = $this;
@@ -87,6 +96,32 @@ class Data {
 		// Register endpoint for clearing capabilities cache
 		$capabilities_api = new Capabilities( new SiteCapabilities() );
 		add_action( 'rest_api_init', array( $capabilities_api, 'register_routes' ) );
+
+		// Register the admin scripts.
+		add_action( 'admin_enqueue_scripts', array( $this, 'scripts' ) );
+	}
+
+	/**
+	 * Enqueue admin scripts for our click events and other tracking.
+	 */
+	public function scripts() {
+		wp_enqueue_script(
+			'newfold-hiive-events',
+			container()->plugin()->url . 'vendor/newfold-labs/wp-module-data/src/click-events.js',
+			array( 'wp-api-fetch', 'nfd-runtime' ),
+			container()->plugin()->version,
+			true
+		);
+
+		// Inline script for global vars for ctb
+		wp_localize_script(
+			'newfold-hiive-events',
+			'nfd-hiive-events',
+			array(
+				'eventEndpoint' => esc_url_raw( get_home_url() . '/index.php?rest_route=/newfold-data/v1/events/' ),
+				'brand'         => container()->plugin()->brand,
+			)
+		);
 	}
 
 	/**
@@ -112,8 +147,6 @@ class Data {
 
 	/**
 	 * Authenticate incoming REST API requests.
-	 *
-	 * Sets current user to user id provided in `$_GET['user_id']` or the first admin user if no user ID is provided.
 	 *
 	 * @hooked rest_authentication_errors
 	 *
