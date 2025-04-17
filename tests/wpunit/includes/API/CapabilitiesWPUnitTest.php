@@ -6,8 +6,6 @@
 
 namespace NewfoldLabs\WP\Module\Data\API;
 
-use NewfoldLabs\WP\Module\Data\EventManager;
-use NewfoldLabs\WP\Module\Data\HiiveConnection;
 use Mockery;
 use NewfoldLabs\WP\Module\Data\SiteCapabilities;
 
