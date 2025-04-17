@@ -33,6 +33,7 @@ class SiteCapabilitiesWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase
 	}
 
 	protected function tearDown(): void {
+		parent::tearDown();
 		Mockery::resetContainer();
 	}
 
@@ -178,5 +179,94 @@ class SiteCapabilitiesWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase
 		$result = $sut->get( 'test_capability' );
 
 		$this->assertFalse( $result );
+	}
+
+	/**
+	 * @covers ::update
+	 */
+	public function test_update(): void {
+
+		$transient = Mockery::mock( Transient::class );
+
+		$transient->shouldReceive( 'get' )
+					->once()
+					->with( 'nfd_site_capabilities' )
+					->andReturn(
+						array(
+							'existing_capability' => true,
+						),
+					);
+
+		$transient->shouldReceive( 'set' )
+					->once()
+					->with(
+						'nfd_site_capabilities',
+						array(
+							'existing_capability' => true,
+							'new_capability'      => true,
+						),
+						14400,
+					)
+					->andReturnTrue();
+
+		$sut = new SiteCapabilities( $transient );
+
+		$result = $sut->update( array( 'new_capability' => true ) );
+
+		$this->assertTrue( $result );
+	}
+
+	/**
+	 * @covers ::set
+	 */
+	public function test_set(): void {
+
+		$transient = Mockery::mock( Transient::class );
+
+		$transient->shouldReceive( 'get' )
+					->once()
+					->with( 'nfd_site_capabilities' )
+					->andReturn(
+						array(
+							'existing_capability' => true,
+						),
+					);
+
+		$transient->shouldReceive( 'set' )
+					->once()
+					->with(
+						'nfd_site_capabilities',
+						array(
+							'new_capability' => true,
+						),
+						14400,
+					)
+					->andReturnTrue();
+
+		$sut = new SiteCapabilities( $transient );
+
+		$result = $sut->set( array( 'new_capability' => true ) );
+
+		$this->assertTrue( $result );
+	}
+
+	/**
+	 * @covers ::all
+	 */
+	public function test_invalid_capabilities_data_previously_saved(): void {
+
+		$transient = Mockery::mock( Transient::class );
+
+		$transient->shouldReceive( 'get' )
+					->once()
+					->with( 'nfd_site_capabilities' )
+					->andReturn( 'error_should_be_an_array' );
+
+		$sut = new SiteCapabilities( $transient );
+
+		$result = $sut->all( false );
+
+		$this->assertIsArray( $result );
+		$this->assertEmpty( $result );
 	}
 }

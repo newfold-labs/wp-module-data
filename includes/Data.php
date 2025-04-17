@@ -2,6 +2,7 @@
 
 namespace NewfoldLabs\WP\Module\Data;
 
+use NewfoldLabs\WP\Module\Data\API\Capabilities;
 use wpscholar\Url;
 use function WP_Forge\Helpers\dataGet;
 
@@ -36,9 +37,8 @@ class Data {
 	 *
 	 * @param Container $container The module container.
 	 */
-	public function __construct( $container ) {
-		self::$instance  = $this;
-		$this->container = $container;
+	public function __construct() {
+		self::$instance = $this;
 	}
 
 	/**
@@ -93,6 +93,10 @@ class Data {
 			$manager->add_subscriber( $this->logger );
 		}
 
+		// Register endpoint for clearing capabilities cache
+		$capabilities_api = new Capabilities( new SiteCapabilities() );
+		add_action( 'rest_api_init', array( $capabilities_api, 'register_routes' ) );
+
 		// Register the admin scripts.
 		add_action( 'admin_enqueue_scripts', array( $this, 'scripts' ) );
 	}
@@ -146,7 +150,7 @@ class Data {
 	 *
 	 * @hooked rest_authentication_errors
 	 *
-	 * @param  bool|null|\WP_Error $errors The authentication error object.
+	 * @param  bool|null|\WP_Error $errors
 	 *
 	 * @return bool|null|\WP_Error
 	 * @see WP_REST_Server::check_authentication()
@@ -187,7 +191,7 @@ class Data {
 		// Allow access if token is valid
 		if ( $is_valid ) {
 
-			if ( isset( $_GET['user_id'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			if ( isset( $_GET['user_id'] ) ) {
 
 				// If a user ID is provided, use it to find the desired user.
 				$user = get_user_by( 'id', filter_input( INPUT_GET, 'user_id', FILTER_SANITIZE_NUMBER_INT ) );

@@ -25,7 +25,7 @@ jobs:
           MYSQL_ROOT_PASSWORD: password
           MYSQL_DATABASE: tests-wordpress
         ports:
-          - 62088:3306
+          - 33306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     strategy:
@@ -98,26 +98,86 @@ jobs:
       - name: Run wpunit tests
         run: XDEBUG_MODE=coverage vendor/bin/codecept run wpunit --coverage tests/_output/wpunit.cov --debug
 
-      - name: Merge code coverage
-        run: vendor/bin/phpcov merge --clover gh-pages/phpunit/clover.xml --php gh-pages/phpunit/phpunit.cov --html gh-pages/phpunit/html/ tests/_output/;
+      # For PRs, we'll generate the coverage report on each pushed commit
+      - name: Merge code coverage for PR
+        if: ${{ matrix.php == '7.3' && github.event_name == 'pull_request' }}
+        run: |
+          vendor/bin/phpcov merge --clover clover.xml tests/_output/;
+          vendor/bin/phpcov merge --clover gh-pages/phpunit/clover.xml --php gh-pages/${{ github.event.pull_request.head.sha }}/phpunit/phpunit.cov --html gh-pages/${{ github.event.pull_request.head.sha }}/phpunit/html/ tests/_output/;
+
+      - name: Merge code coverage for main
+        if: ${{ (matrix.php == '7.3') && (github.ref == 'refs/heads/main') }} # only commit on main, on the PHP version we're using in production.
+        run: |
+          vendor/bin/phpcov merge --clover clover.xml tests/_output/;
+          vendor/bin/phpcov merge --clover gh-pages/phpunit/clover.xml --php gh-pages/phpunit/phpunit.cov --html gh-pages/phpunit/html/ tests/_output/;
+
+      # This makes the coverage percentage available in `{{ steps.coverage-percentage.outputs.coverage }}`.
+      - name: Check test coverage
+        if: ${{ matrix.php == '7.3' }}
+        uses: johanvanhelden/gha-clover-test-coverage-check@2543c79a701f179bd63aa14c16c6938c509b2cec # v1
+        id: coverage-percentage
+        with:
+          percentage: 25
+          exit: false
+          filename: clover.xml
+          rounded-precision: "0"
 
       # See: https://github.blog/2009-12-29-bypassing-jekyll-on-github-pages/
       - name: Add `.nojekyll` file so code coverage report successfully deploys to gh-pages
+        if: ${{ matrix.php == '7.3' }}
         working-directory: gh-pages/phpunit
         run: |
           touch .nojekyll
           git add -- .nojekyll *
 
-      - name: Update README badge
-        run: php-coverage-badger gh-pages/phpunit/clover.xml gh-pages/phpunit/coverage.svg
+      - name: Update README coverage badge
+        if: ${{ (matrix.php == '7.3') && (github.ref == 'refs/heads/main') }} # only commit on main, on the PHP version we're using in production.
+        run: php-coverage-badger clover.xml gh-pages/phpunit/coverage.svg
+
+      - name: Generate PR coverage badge
+        if: ${{ (matrix.php == '7.3') && github.event_name == 'pull_request' }}
+        run: php-coverage-badger clover.xml gh-pages/${{ github.event.pull_request.head.sha }}/phpunit/coverage.svg
 
       - name: Commit code coverage to gh-pages
-        if: ${{ (github.ref == 'refs/heads/main') && (matrix.php == '7.3') }} # only commit on main, on the PHP version we're using in production.
+        if: ${{ matrix.php == '7.3' }}
         uses: stefanzweifel/git-auto-commit-action@e348103e9026cc0eee72ae06630dbe30c8bf7a79 # v5.1.0
         with:
           repository: gh-pages
           branch: gh-pages
-          commit_message: "🤖 Save code coverage report to gh-pages" # TODO: include the percentage change in the message.
+          commit_message: ${{ format('🤖 Save code coverage report to gh-pages {0}%', steps.coverage-percentage.outputs.coverage-rounded) }}
           commit_options: ""
         env:
           GITHUB_TOKEN: "${{ github.token }}"
+
+      - name: Add coverage badge to PR comment
+        if: ${{ matrix.php == '7.3' && github.event_name == 'pull_request' }}
+        run: |
+          echo "[![Code Coverage ](https://newfold-labs.github.io/wp-module-data/${{ github.event.pull_request.head.sha }}/phpunit/coverage.svg)](https://newfold-labs.github.io/wp-module-data/${{ github.event.pull_request.head.sha }}/phpunit/html/)" >> coverage-comment.md
+          echo "" >> coverage-comment.md
+          echo "" >> coverage-comment.md
+
+      - name: Add coverage report link to PR comment
+        if: ${{ matrix.php == '7.3' && github.event_name == 'pull_request' }}
+        run: |
+          echo "${{ format('[project coverage report {0}%](https://newfold-labs.github.io/wp-module-data/{1}/phpunit/html/) @ {2}', steps.coverage-percentage.outputs.coverage-rounded, github.event.pull_request.head.sha, github.event.pull_request.head.sha) }}" >> coverage-comment.md
+          echo "" >> coverage-comment.md
+          echo "" >> coverage-comment.md
+
+      - name: Add phpcov uncovered lines report to PR comment
+        if: ${{ matrix.php == '7.3' && github.event_name == 'pull_request' }}
+        continue-on-error: true # phpcov can fail if there are no uncovered lines
+        run: |
+          BRANCHED_COMMIT=$(git rev-list origin..HEAD | tail -n 1);
+          echo "BRANCHED_COMMIT=$BRANCHED_COMMIT"
+          git diff $BRANCHED_COMMIT...${{ github.event.pull_request.head.sha }} > branch.diff;
+          cat branch.diff;
+          OUTPUT=${vendor/bin/phpcov patch-coverage --path-prefix $(pwd) ./gh-pages/${{ github.event.pull_request.head.sha }}/phpunit/phpunit.cov branch.diff || true}
+          echo $OUTPUT;
+          echo "$OUTPUT" >> coverage-comment.md
+
+      - name: Add coverage PR comment
+        uses: mshick/add-pr-comment@b8f338c590a895d50bcbfa6c5859251edc8952fc # v2.8.2
+        if: ${{ matrix.php == '7.3' && github.event_name == 'pull_request' }}
+        with:
+          message-id: coverage-report
+          message-path: coverage-comment.md
