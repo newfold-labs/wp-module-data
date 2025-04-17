@@ -104,7 +104,10 @@ class Capabilities extends WP_REST_Controller {
 			} else {
 				$unchanged_capabilities[ $capability_name ] = $capability_value;
 			}
+			unset( $existing_capabilities[ $capability_name ] );
 		}
+
+		$unchanged_capabilities = array_merge( $unchanged_capabilities, $existing_capabilities );
 
 		$removed_capabilities = array_diff_key( $existing_capabilities, $this->site_capabilities->all( false ) );
 

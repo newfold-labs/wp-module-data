@@ -140,6 +140,7 @@ class CapabilitiesWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase {
 		$this->assertEmpty( $response_data['added'] );
 		$this->assertEmpty( $response_data['updated'] );
 		$this->assertEmpty( $response_data['removed'] );
+		$this->assertCount( 2, $response_data['unchanged'] );
 	}
 
 	/**
