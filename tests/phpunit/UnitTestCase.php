@@ -52,6 +52,8 @@ class UnitTestCase extends WP_Mock_TestCase {
 	/**
 	 * Delete a sub-dir or file from the temp directory.
 	 *
+	 * @see https://stackoverflow.com/a/57088472/336146
+	 *
 	 * @param string $path Absolute filepath to delete.
 	 *
 	 * @return bool true on success or false on failure.
@@ -64,7 +66,7 @@ class UnitTestCase extends WP_Mock_TestCase {
 			return unlink( $path );
 		} elseif ( is_dir( $path ) ) {
 			$scan = glob( rtrim( $path, '/' ) . '/*' );
-			foreach ( $scan as $index => $sub_paths ) {
+			foreach ( $scan as $sub_paths ) {
 				$this->delete_temp( $sub_paths );
 			}
 			return @rmdir( $path );
