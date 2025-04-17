@@ -211,7 +211,8 @@ class CapabilitiesWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase {
 	 * @covers ::check_permission
 	 */
 	public function test_check_permission_administrator(): void {
-		$admin_user_id = register_new_user( 'testadmin', 'admin@newfold.com' );
+		$username      = uniqid( 'testadmin' );
+		$admin_user_id = register_new_user( $username, $username . '@newfold.com' );
 		/** @var \WP_User $admin_wp_user */
 		$admin_wp_user = get_user_by( 'id', $admin_user_id );
 		$admin_wp_user->add_role( 'administrator' );
@@ -230,7 +231,8 @@ class CapabilitiesWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase {
 	 * @covers ::check_permission
 	 */
 	public function test_check_permission(): void {
-		$non_admin_user_id = register_new_user( 'testadmin', 'admin@newfold.com' );
+		$username          = uniqid( 'testuser' );
+		$non_admin_user_id = register_new_user( $username, $username . '@newfold.com' );
 		/** @var \WP_User $non_admin_wp_user */
 		$non_admin_wp_user = get_user_by( 'id', $non_admin_user_id );
 		$non_admin_wp_user->remove_role( 'administrator' );
