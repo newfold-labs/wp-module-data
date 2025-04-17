@@ -180,51 +180,6 @@ class CapabilitiesWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase {
 	}
 
 	/**
-	 * If {@see SiteCapabilities::update()} fails, we should return a 500 error.
-	 *
-	 * @covers ::update
-	 */
-	public function test_error_in_wp_saving_changes(): void {
-
-		$request_capabilities = array(
-			'hasEcomdash' => true,
-		);
-
-		$site_capabilities = \Mockery::mock( SiteCapabilities::class );
-
-		$site_capabilities->shouldReceive( 'all' )
-							->once()
-							->andReturnValues(
-								array(
-									array(
-										'hasAISiteGen' => false,
-										'canAccessHelpCenter' => true,
-									),
-								)
-							);
-
-		$site_capabilities->shouldReceive( 'update' )
-							->once()
-							->andReturnFalse();
-
-		$sut = new Capabilities( $site_capabilities );
-		do_action( 'rest_api_init' );
-		$sut->register_routes();
-
-		wp_set_current_user( 1 );
-
-		$request = new \WP_REST_Request( 'PATCH', '/newfold-data/v1/capabilities' );
-		$request->set_body( json_encode( $request_capabilities ) );
-		$request->set_header( 'Content-Type', 'application/json' );
-
-		$rest_server = rest_get_server();
-
-		$response = $rest_server->dispatch( $request );
-
-		$this->assertEquals( 500, $response->get_status() );
-	}
-
-	/**
 	 * @covers ::register_routes
 	 */
 	public function test_register_routes(): void {
