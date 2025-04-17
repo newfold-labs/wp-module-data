@@ -90,10 +90,6 @@ class Capabilities extends WP_REST_Controller {
 			? $this->site_capabilities->update( $new_capabilities ) // PATCH – update existing list.
 			: $this->site_capabilities->set( $new_capabilities ); // POST or PUT – replace list.
 
-		if ( ! $did_save ) {
-			return new WP_Error( 'rest_cannot_update', __( 'Could not update capabilities.' ), array( 'status' => 500 ) );
-		}
-
 		$added_capabilities   = array();
 		$updated_capabilities = array();
 
