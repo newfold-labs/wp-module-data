@@ -107,9 +107,15 @@ class Capabilities extends WP_REST_Controller {
 			unset( $existing_capabilities[ $capability_name ] );
 		}
 
-		$unchanged_capabilities = array_merge( $unchanged_capabilities, $existing_capabilities );
-
 		$removed_capabilities = array_diff_key( $existing_capabilities, $this->site_capabilities->all( false ) );
+
+		$unchanged_capabilities = array_diff(
+			array_merge(
+				$unchanged_capabilities,
+				$existing_capabilities
+			),
+			$removed_capabilities
+		);
 
 		$status = empty( $added_capabilities ) && empty( $updated_capabilities ) && empty( $removed_capabilities )
 			? 200 // No changes.
