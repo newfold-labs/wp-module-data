@@ -57,6 +57,7 @@ class CapabilitiesWPUnitTest extends WPUnitTestCase {
 
 		$this->assertArrayHasKey( 'hasAISiteGen', $response_data['updated'] );
 		$this->assertArrayHasKey( 'canAccessHelpCenter', $response_data['removed'] );
+		$this->assertArrayNotHasKey( 'canAccessHelpCenter', $response_data['unchanged'] );
 	}
 
 	/**
@@ -96,6 +97,7 @@ class CapabilitiesWPUnitTest extends WPUnitTestCase {
 
 		$this->assertArrayHasKey( 'hasAISiteGen', $response_data['updated'] );
 		$this->assertArrayNotHasKey( 'canAccessHelpCenter', $response_data['removed'] );
+		$this->assertArrayHasKey( 'canAccessHelpCenter', $response_data['unchanged'] );
 	}
 
 	/**
@@ -182,6 +184,7 @@ class CapabilitiesWPUnitTest extends WPUnitTestCase {
 		$this->assertEquals( 201, $response->get_status() );
 
 		$this->assertArrayHasKey( 'hasEcomdash', $response_data['added'] );
+		$this->assertCount( 2, $response_data['unchanged'] );
 	}
 
 	/**
