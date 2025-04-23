@@ -1,6 +1,6 @@
 {
   "name": "wp-module-data",
-  "version": "2.6.13",
+  "version": "2.7.1",
   "description": "",
   "main": "index.js",
   "directories": {
@@ -8,7 +8,11 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "set-version-bump": "node ./set-version-bump.js && npm ci"
+    "set-version-bump": "npm run set-version-patch",
+    "set-version-patch": "node ./.github/scripts/set-version-bump.js && npm run post-set-version",
+    "set-version-minor": "node ./.github/scripts/set-version-bump.js minor && npm run post-set-version",
+    "set-version-major": "node ./.github/scripts/set-version-bump.js major && npm run post-set-version",
+    "post-set-version": "npm ci && composer install"
   },
   "keywords": [],
   "author": "",
