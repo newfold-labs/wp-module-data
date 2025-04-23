@@ -5,6 +5,7 @@ namespace NewfoldLabs\WP\Module\Data;
 use NewfoldLabs\WP\Module\Data\API\Capabilities;
 use wpscholar\Url;
 use function WP_Forge\Helpers\dataGet;
+use function NewfoldLabs\WP\ModuleLoader\container;
 
 /**
  * Main class for the data plugin module
