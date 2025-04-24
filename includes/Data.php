@@ -3,9 +3,9 @@
 namespace NewfoldLabs\WP\Module\Data;
 
 use NewfoldLabs\WP\Module\Data\API\Capabilities;
+use NewfoldLabs\WP\ModuleLoader\Plugin;
 use wpscholar\Url;
 use function WP_Forge\Helpers\dataGet;
-use function NewfoldLabs\WP\ModuleLoader\container;
 
 /**
  * Main class for the data plugin module
@@ -22,6 +22,8 @@ class Data {
 	/**
 	 * Last instantiated instance of this class.
 	 *
+	 * @used-by EventManager::rest_api_init()
+	 *
 	 * @var Data
 	 */
 	public static $instance;
@@ -29,17 +31,17 @@ class Data {
 	/**
 	 * Dependency injection container.
 	 *
-	 * @var Container
+	 * @var Plugin
 	 */
-	protected $container;
+	protected $plugin;
 
 	/**
 	 * Data constructor.
-	 *
-	 * @param Container $container The module container.
 	 */
-	public function __construct() {
+	public function __construct( Plugin $plugin ) {
 		self::$instance = $this;
+
+		$this->plugin = $plugin;
 	}
 
 	/**
@@ -105,12 +107,12 @@ class Data {
 	/**
 	 * Enqueue admin scripts for our click events and other tracking.
 	 */
-	public function scripts() {
+	public function scripts(): void {
 		wp_enqueue_script(
 			'newfold-hiive-events',
-			container()->plugin()->url . 'vendor/newfold-labs/wp-module-data/src/click-events.js',
+			$this->plugin->url . 'vendor/newfold-labs/wp-module-data/src/click-events.js',
 			array( 'wp-api-fetch', 'nfd-runtime' ),
-			container()->plugin()->version,
+			$this->plugin->version,
 			true
 		);
 
@@ -120,7 +122,7 @@ class Data {
 			'nfd-hiive-events',
 			array(
 				'eventEndpoint' => esc_url_raw( get_home_url() . '/index.php?rest_route=/newfold-data/v1/events/' ),
-				'brand'         => container()->plugin()->brand,
+				'brand'         => $this->plugin->brand,
 			)
 		);
 	}
