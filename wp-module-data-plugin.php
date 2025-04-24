@@ -28,6 +28,15 @@ use function NewfoldLabs\WP\Context\setContext;
 
 require __DIR__ . '/vendor/autoload.php';
 
+/**
+ * Because `bootstrap.php` is in the `files` autoloader, when (integration) tests are run it is immediately loaded and
+ * quickly returns because ABSPATH is not defined. Then later when WordPress is loaded for the tests, the autoloader
+ * does not run again, so the code in bootstrap.php is not run and the module is not loaded.
+ */
+if ( ! defined( 'NFD_DATA_MODULE_VERSION' ) ) {
+	require 'bootstrap.php';
+}
+
 /*
  * Initialize module settings via container
  */
