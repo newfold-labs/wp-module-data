@@ -1,0 +1,25 @@
+on:
+  pull_request:
+    branches:
+      - "main"
+
+jobs:
+  bump_version_check:
+    runs-on: ubuntu-latest
+    name: Bump Version Check
+
+    env:
+      # Required because the action uses `gh` cli tool to fetch the latest release
+      GH_TOKEN: ${{ github.token }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Required to see data in other branches
+          fetch-depth: 0
+
+      - name: "Check does CHANGELOG have a new version since last release"
+        id: require-version-bump
+        uses: brianhenryie/require-version-bump-action@main
+        with:
+          fail: true
