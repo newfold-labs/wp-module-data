@@ -98,6 +98,10 @@ jobs:
       - name: Run wpunit tests
         run: XDEBUG_MODE=coverage vendor/bin/codecept run wpunit --coverage tests/_output/wpunit.cov --debug
 
+      - name: Run integration tests
+        if: ${{ hashFiles('tests/integration.suite') != '' }} # Only run integration tests if they are present.
+        run: XDEBUG_MODE=coverage vendor/bin/codecept run integration --debug
+
       # For PRs, we'll generate the coverage report on each pushed commit
       - name: Merge code coverage for PR
         if: ${{ matrix.php == '7.3' && github.event_name == 'pull_request' }}
