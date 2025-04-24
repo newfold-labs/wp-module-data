@@ -11,6 +11,10 @@ on:
     types: [ opened, reopened, ready_for_review, synchronize ]
     branches:
       - main
+    paths:
+      - "**/*.js"
+      - "**/*.php"
+      - ".github/workflows/unit-tests-and-coverage-report.yml"
   workflow_dispatch:
 
 concurrency:
