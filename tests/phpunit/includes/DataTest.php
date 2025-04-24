@@ -413,4 +413,43 @@ class DataTest extends UnitTestCase {
 		$this->assertConditionsMet();
 	}
 
+	/**
+	 * @covers ::scripts
+	 */
+	public function test_scripts_registers_and_enqueues_scripts(): void {
+
+		$plugin          = Mockery::mock( Plugin::class )->makePartial();
+		$plugin->url     = 'https://example.com/';
+		$plugin->version = '1.0.0';
+		$plugin->brand   = 'bluehost';
+
+		$sut = new Data( $plugin );
+
+		WP_Mock::userFunction( 'wp_enqueue_script' )
+				->once()
+				->with(
+					'newfold-hiive-events',
+					\WP_Mock\Functions::type( 'string' ), // URL
+					\WP_Mock\Functions::type( 'array' ),  // Dependencies
+					\WP_Mock\Functions::type( 'string' ), // Version
+					true                                  // In footer
+				);
+
+		WP_Mock::userFunction( 'wp_localize_script' )
+				->once()
+				->with(
+					'newfold-hiive-events', // handle
+					'nfd-hiive-events', // object_name
+					\WP_Mock\Functions::type( 'array' ),  // l10n
+				);
+		WP_Mock::userFunction( 'get_home_url' )
+				->once()
+				->andReturn( 'https://example.com/' );
+
+		WP_Mock::passthruFunction( 'esc_url_raw' );
+
+		$sut->scripts();
+
+		$this->assertConditionsMet();
+	}
 }
