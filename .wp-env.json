@@ -4,5 +4,8 @@
         "tests": {
             "mysqlPort": 33306
         }
-    }
+    },
+    "plugins": [
+        "."
+    ]
 }
