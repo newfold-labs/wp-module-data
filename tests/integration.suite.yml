@@ -16,7 +16,7 @@ modules:
         adminEmail: "%TEST_SITE_ADMIN_EMAIL%"
         title: "wp-module-data"
         plugins: ["wp-module-data-plugin.php"]
-        activatePlugins: []
+        activatePlugins: ["wp-module-data-plugin.php"]
 
         WP_HTTP_BLOCK_EXTERNAL: true
         WP_CONTENT_DIR: "wp-content"
