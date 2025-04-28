@@ -35,6 +35,10 @@ require __DIR__ . '/vendor/autoload.php';
  */
 if ( ! defined( 'NFD_DATA_MODULE_VERSION' ) ) {
 	require 'bootstrap.php';
+
+	foreach ( glob( __DIR__ . '/vendor/newfold-labs/*/bootstrap.php' ) as $bootstrap ) {
+		require $bootstrap;
+	}
 }
 
 /*
