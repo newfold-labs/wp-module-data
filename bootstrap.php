@@ -49,7 +49,7 @@ if ( function_exists( 'add_action' ) && function_exists( 'add_filter' ) ) {
 					'name'     => 'data',
 					'label'    => __( 'Data', 'newfold-data-module' ),
 					'callback' => function ( Container $container ) {
-						$module = new Data( $container );
+						$module = new Data( $container->plugin() );
 						$module->start();
 					},
 					'isActive' => true,
@@ -125,21 +125,22 @@ if ( function_exists( 'add_action' ) && function_exists( 'add_filter' ) ) {
 
 }
 
-/**
- * Create the event queue table
- */
-function nfd_create_event_queue_table() {
-	global $wpdb;
+if ( ! function_exists( 'nfd_create_event_queue_table' ) ) {
+	/**
+	 * Create the event queue table
+	 */
+	function nfd_create_event_queue_table() {
+		global $wpdb;
 
-	if ( ! function_exists( 'dbDelta' ) ) {
-		require ABSPATH . 'wp-admin/includes/upgrade.php';
-	}
+		if ( ! function_exists( 'dbDelta' ) ) {
+			require ABSPATH . 'wp-admin/includes/upgrade.php';
+		}
 
-	$wpdb->hide_errors();
+		$wpdb->hide_errors();
 
-	$charset_collate = $wpdb->get_charset_collate();
+		$charset_collate = $wpdb->get_charset_collate();
 
-	$sql = <<<SQL
+		$sql = <<<SQL
 CREATE TABLE {$wpdb->prefix}nfd_data_event_queue (
 	id bigint(20) NOT NULL AUTO_INCREMENT,
 	event longtext NOT NULL,
@@ -151,13 +152,16 @@ CREATE TABLE {$wpdb->prefix}nfd_data_event_queue (
 	) $charset_collate;
 SQL;
 
-	dbDelta( $sql );
+		dbDelta( $sql );
+	}
 }
 
-/**
- * Drop the event queue table
- */
-function nfd_drop_event_queue_table() {
-	global $wpdb;
-	$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}nfd_data_event_queue" );
+if ( ! function_exists( 'nfd_drop_event_queue_table' ) ) {
+	/**
+	 * Drop the event queue table
+	 */
+	function nfd_drop_event_queue_table() {
+		global $wpdb;
+		$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}nfd_data_event_queue" );
+	}
 }
