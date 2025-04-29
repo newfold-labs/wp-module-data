@@ -18,6 +18,7 @@
   "author": "",
   "license": "GPL-2.0-or-later",
   "devDependencies": {
-    "@wordpress/env": "^10.1"
+    "@wordpress/env": "^10.1",
+    "semver": "^7.7.1"
   }
 }
