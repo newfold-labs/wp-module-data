@@ -151,6 +151,8 @@ class Data {
 	/**
 	 * Authenticate incoming REST API requests.
 	 *
+	 * Sets current user to user id provided in `$_GET['user_id']` or the first admin user if no user ID is provided.
+	 *
 	 * @hooked rest_authentication_errors
 	 *
 	 * @param  bool|null|\WP_Error $errors
@@ -194,7 +196,7 @@ class Data {
 		// Allow access if token is valid
 		if ( $is_valid ) {
 
-			if ( isset( $_GET['user_id'] ) ) {
+			if ( isset( $_GET['user_id'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 				// If a user ID is provided, use it to find the desired user.
 				$user = get_user_by( 'id', filter_input( INPUT_GET, 'user_id', FILTER_SANITIZE_NUMBER_INT ) );
