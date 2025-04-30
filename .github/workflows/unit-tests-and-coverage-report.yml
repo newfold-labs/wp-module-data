@@ -45,7 +45,8 @@ jobs:
       - name: Install Subversion
         run: |
           sudo apt-get update
-          sudo apt-get install -y subversion
+          sudo apt-get install -y subversion=1.13.0-1ubuntu1
+        # Specifying a version ensures reproducibility and prevents issues from future updates.
 
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
