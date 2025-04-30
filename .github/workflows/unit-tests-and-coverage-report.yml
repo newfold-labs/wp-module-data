@@ -15,7 +15,8 @@ on:
       - "**/*.js"
       - "**/*.php"
       - "/composer.*"
-      - "/package*.*"
+      - "/package.json"
+      - "/package-lock.json"
       - ".github/workflows/unit-tests-and-coverage-report.yml"
   workflow_dispatch:
 
