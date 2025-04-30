@@ -110,7 +110,7 @@ class Data {
 	public function scripts(): void {
 		wp_enqueue_script(
 			'newfold-hiive-events',
-			$this->plugin->url . 'vendor/newfold-labs/wp-module-data/src/click-events.js',
+			$this->plugin->url . 'vendor/newfold-labs/wp-module-data/assets/click-events.js',
 			array( 'wp-api-fetch', 'nfd-runtime' ),
 			$this->plugin->version,
 			true
