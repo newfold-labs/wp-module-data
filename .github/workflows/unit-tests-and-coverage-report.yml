@@ -14,7 +14,8 @@ on:
     paths:
       - "**/*.js"
       - "**/*.php"
-      - "/composer.*"
+      - "/composer.json"
+      - "/composer.lock"
       - "/package.json"
       - "/package-lock.json"
       - ".github/workflows/unit-tests-and-coverage-report.yml"
