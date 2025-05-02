@@ -20,7 +20,7 @@ if ( defined( 'NFD_DATA_MODULE_VERSION' ) ) {
 	return;
 }
 
-define( 'NFD_DATA_MODULE_VERSION', '2.6.11' );
+define( 'NFD_DATA_MODULE_VERSION', '2.6.13' );
 
 if ( function_exists( 'is_admin' ) && is_admin() ) {
 	$upgrade_handler = new UpgradeHandler(
@@ -48,8 +48,8 @@ if ( function_exists( 'add_action' ) && function_exists( 'add_filter' ) ) {
 				array(
 					'name'     => 'data',
 					'label'    => __( 'Data', 'newfold-data-module' ),
-					'callback' => function () {
-						$module = new Data();
+					'callback' => function ( Container $container ) {
+						$module = new Data( $container );
 						$module->start();
 					},
 					'isActive' => true,

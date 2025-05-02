@@ -2,7 +2,7 @@
     "phpVersion": "7.3",
     "env": {
         "tests": {
-            "mysqlPort": 62088
+            "mysqlPort": 33306
         }
     }
 }

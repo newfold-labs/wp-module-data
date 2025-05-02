@@ -41,7 +41,8 @@ class BatchQueue implements BatchQueueInterface {
 		foreach ( $events as $event ) {
 			$inserts[] = array(
 				'event'        => serialize( $event ),
-				'available_at' => current_time( 'mysql' ),
+				'available_at' => $time,
+				'created_at'   => $event->created_at ?? $time,
 				'created_at'   => $time,
 				'attempts'     => 'pageview' === $event->key ? 0 : 1,
 			);

@@ -12,7 +12,7 @@ class EventManagerWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase {
 
 	protected function tearDown(): void {
 		parent::tearDown();
-		\Mockery::close();
+		Mockery::resetContainer();
 	}
 
 	/**

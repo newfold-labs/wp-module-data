@@ -78,7 +78,7 @@ class Transient {
 	 * @param mixed   $value      Value to be saved
 	 * @param integer $expires_in Optional expiration time in seconds from now. Default is 1 hour
 	 *
-	 * @return bool Whether the value was saved
+	 * @return bool Whether the value was changed
 	 */
 	public static function set( string $key, $value, int $expires_in = 3600 ): bool {
 		if ( self::should_use_transients() ) {
