@@ -132,7 +132,7 @@
   },
   "extra": {
     "symlinks": {
-      ".": "wp-content/plugins/wp-plugin-bluehost/vendor/newfold-labs/wp-module-data"
+      ".": "wp-content/plugins/wp-module-data"
     }
   },
   "minimum-stability": "dev",
