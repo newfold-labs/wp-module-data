@@ -1,5 +1,4 @@
 /.github                                   export-ignore
-/tests                                     export-ignore
 /.editorconfig                             export-ignore
 /.env.testing                              export-ignore
 /.gitattributes                            export-ignore
@@ -7,11 +6,13 @@
 /.wp-env.json                              export-ignore
 /codeception.dist.yml                      export-ignore
 /composer.lock                             export-ignore
+/cypress.config.js                         export-ignore
 /package.json                              export-ignore
 /package-lock.json                         export-ignore
 /patchwork.json                            export-ignore
 /phpcs.xml                                 export-ignore
 /phpunit.xml.dist                          export-ignore
 /readme.md                                 export-ignore
+/tests                                     export-ignore
 /wp-module-data-plugin.php                 export-ignore
 

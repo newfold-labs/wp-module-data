@@ -2,6 +2,8 @@
 .phpunit.result.cache
 .DS_Store
 /node_modules
+/tests/cypress/screenshots
+/tests/cypress/videos
 /tests/_output
 /tests/_support/_generated
 /vendor
