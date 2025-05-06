@@ -22,6 +22,47 @@ if ( defined( 'NFD_DATA_MODULE_VERSION' ) ) {
 
 define( 'NFD_DATA_MODULE_VERSION', '2.8.1' );
 
+if ( ! function_exists( 'nfd_create_event_queue_table' ) ) {
+	/**
+	 * Create the event queue table
+	 */
+	function nfd_create_event_queue_table() {
+		global $wpdb;
+
+		if ( ! function_exists( 'dbDelta' ) ) {
+			require ABSPATH . 'wp-admin/includes/upgrade.php';
+		}
+
+		$wpdb->hide_errors();
+
+		$charset_collate = $wpdb->get_charset_collate();
+
+		$sql = <<<SQL
+CREATE TABLE {$wpdb->prefix}nfd_data_event_queue (
+	id bigint(20) NOT NULL AUTO_INCREMENT,
+	event longtext NOT NULL,
+	attempts tinyint(3) NOT NULL DEFAULT 0,
+	reserved_at datetime DEFAULT NULL,
+	available_at datetime NOT NULL,
+	created_at datetime NOT NULL,
+	PRIMARY KEY (id)
+	) $charset_collate;
+SQL;
+
+		dbDelta( $sql );
+	}
+}
+
+if ( ! function_exists( 'nfd_drop_event_queue_table' ) ) {
+	/**
+	 * Drop the event queue table
+	 */
+	function nfd_drop_event_queue_table() {
+		global $wpdb;
+		$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}nfd_data_event_queue" );
+	}
+}
+
 if ( function_exists( 'is_admin' ) && is_admin() ) {
 	$upgrade_handler = new UpgradeHandler(
 		__DIR__ . '/upgrades',
@@ -123,45 +164,4 @@ if ( function_exists( 'add_action' ) && function_exists( 'add_filter' ) ) {
 		}
 	);
 
-}
-
-if ( ! function_exists( 'nfd_create_event_queue_table' ) ) {
-	/**
-	 * Create the event queue table
-	 */
-	function nfd_create_event_queue_table() {
-		global $wpdb;
-
-		if ( ! function_exists( 'dbDelta' ) ) {
-			require ABSPATH . 'wp-admin/includes/upgrade.php';
-		}
-
-		$wpdb->hide_errors();
-
-		$charset_collate = $wpdb->get_charset_collate();
-
-		$sql = <<<SQL
-CREATE TABLE {$wpdb->prefix}nfd_data_event_queue (
-	id bigint(20) NOT NULL AUTO_INCREMENT,
-	event longtext NOT NULL,
-	attempts tinyint(3) NOT NULL DEFAULT 0,
-	reserved_at datetime DEFAULT NULL,
-	available_at datetime NOT NULL,
-	created_at datetime NOT NULL,
-	PRIMARY KEY (id)
-	) $charset_collate;
-SQL;
-
-		dbDelta( $sql );
-	}
-}
-
-if ( ! function_exists( 'nfd_drop_event_queue_table' ) ) {
-	/**
-	 * Drop the event queue table
-	 */
-	function nfd_drop_event_queue_table() {
-		global $wpdb;
-		$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}nfd_data_event_queue" );
-	}
 }
