@@ -43,7 +43,6 @@ class BatchQueue implements BatchQueueInterface {
 				'event'        => serialize( $event ),
 				'available_at' => $time,
 				'created_at'   => $event->created_at ?? $time,
-				'created_at'   => $time,
 				'attempts'     => 'pageview' === $event->key ? 0 : 1,
 			);
 		}
@@ -97,7 +96,7 @@ class BatchQueue implements BatchQueueInterface {
 			->query()
 			->select( '*' )
 			->from( $this->table(), false )
-			->where( 'attempts', '>', $limit )
+			->where( 'attempts', '=', $limit )
 			->delete();
 	}
 
@@ -112,14 +111,14 @@ class BatchQueue implements BatchQueueInterface {
 		global $wpdb;
 
 		$table = $this->table();
+		$ids   = array_map( 'intval', $ids );
 
-		$ids = implode( ',', array_fill( 0, count( $ids ), '%d' ) );
+		$placeholders = implode( ',', array_fill( 0, count( $ids ), '%d' ) );
 
 		return (bool) $wpdb->query(
 			$wpdb->prepare(
-				'UPDATE %s SET attempts = attempts + 1 WHERE id IN (%s)',
-				$table,
-				$ids
+				"UPDATE {$table} SET attempts = attempts + 1 WHERE id IN ($placeholders)", // phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+				...$ids
 			)
 		);
 	}
