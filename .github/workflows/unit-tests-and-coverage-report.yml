@@ -11,7 +11,20 @@ on:
     types: [ opened, reopened, ready_for_review, synchronize ]
     branches:
       - main
+    paths:
+      - "**/*.js"
+      - "**/*.php"
+      - "/composer.json"
+      - "/composer.lock"
+      - "/package.json"
+      - "/package-lock.json"
+      - ".github/workflows/unit-tests-and-coverage-report.yml"
   workflow_dispatch:
+
+concurrency:
+  # Cancel previous runs of this workflow if they are testing the same branch
+  group: ${{ github.workflow }}-${{ (github.event_name == 'pull_request' && github.head_ref) || github.sha }}
+  cancel-in-progress: true
 
 jobs:
 
@@ -33,6 +46,13 @@ jobs:
         php: [ '7.3', '7.4', '8.0', '8.1', '8.2', '8.3' ]
 
     steps:
+      # If the .zip of a wpackagist-plugin fails to download, it will attempt to download from source – SVN – which
+      # is not installed by default on the latest Ubuntu GitHub Actions image.
+      - name: Install Subversion
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y subversion
+
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
@@ -97,6 +117,10 @@ jobs:
 
       - name: Run wpunit tests
         run: XDEBUG_MODE=coverage vendor/bin/codecept run wpunit --coverage tests/_output/wpunit.cov --debug
+
+      - name: Run integration tests
+        if: ${{ hashFiles('tests/integration.suite') != '' }} # Only run integration tests if they are present.
+        run: XDEBUG_MODE=coverage vendor/bin/codecept run integration --debug
 
       # For PRs, we'll generate the coverage report on each pushed commit
       - name: Merge code coverage for PR

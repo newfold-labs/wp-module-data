@@ -3,9 +3,9 @@
 namespace NewfoldLabs\WP\Module\Data;
 
 use Mockery;
-use NewfoldLabs\Container\Container;
 use NewfoldLabs\WP\Module\Data\API\Capabilities;
 use NewfoldLabs\WP\Module\Data\Helpers\Transient;
+use NewfoldLabs\WP\ModuleLoader\Plugin;
 use WP_Mock;
 
 /**
@@ -57,9 +57,9 @@ class DataTest extends UnitTestCase {
 	 * @covers ::authenticate
 	 */
 	public function test_authenticate() {
-		$container = Mockery::mock(Container::class);
+		$plugin = Mockery::mock( Plugin::class );
 
-		$sut = new Data($container);
+		$sut = new Data( $plugin );
 
 		\Patchwork\redefine(
 			'defined',
@@ -146,9 +146,9 @@ class DataTest extends UnitTestCase {
 	 */
 	public function test_authenticate_returns_early_when_no_auth_header() {
 
-		$container = Mockery::mock(Container::class);
+		$plugin = Mockery::mock( Plugin::class );
 
-		$sut = new Data($container);
+		$sut = new Data( $plugin );
 
 		\Patchwork\redefine(
 			'defined',
@@ -183,9 +183,9 @@ class DataTest extends UnitTestCase {
 	 * @covers ::authenticate
 	 */
 	public function test_authenticate_returns_early_when_not_a_rest_request() {
-		$container = Mockery::mock(Container::class);
+		$plugin = Mockery::mock( Plugin::class );
 
-		$sut = new Data($container);
+		$sut = new Data( $plugin );
 
 		\Patchwork\redefine(
 			'defined',
@@ -208,9 +208,9 @@ class DataTest extends UnitTestCase {
 	 * @covers ::authenticate
 	 */
 	public function test_authenticate_returns_early_when_already_authenticated() {
-		$container = Mockery::mock(Container::class);
+		$plugin = Mockery::mock( Plugin::class );
 
-		$sut = new Data($container);
+		$sut = new Data( $plugin );
 
 		$result = $sut->authenticate( true );
 
@@ -223,9 +223,9 @@ class DataTest extends UnitTestCase {
 	public function test_delete_token_on_401_response_is_added(): void {
 		forceWpMockStrictModeOff();
 
-		$container = Mockery::mock(Container::class);
+		$plugin = Mockery::mock( Plugin::class );
 
-		$sut = new Data($container);
+		$sut = new Data( $plugin );
 
 		WP_Mock::expectFilterAdded(
 			'http_response',
@@ -244,9 +244,9 @@ class DataTest extends UnitTestCase {
 	 */
 	public function test_deletes_hiive_token_on_401(): void {
 
-		$container = Mockery::mock(Container::class);
+		$plugin = Mockery::mock( Plugin::class );
 
-		$sut = new Data($container);
+		$sut = new Data( $plugin );
 
 		$request_response = array(
 			'response' => array(
@@ -290,9 +290,9 @@ class DataTest extends UnitTestCase {
 	 */
 	public function test_does_not_delete_hiive_token_on_hiive_200(): void {
 
-		$container = Mockery::mock(Container::class);
+		$plugin = Mockery::mock( Plugin::class );
 
-		$sut = new Data($container);
+		$sut = new Data( $plugin );
 
 		$request_response = array(
 			'response' => array(
@@ -335,9 +335,9 @@ class DataTest extends UnitTestCase {
 	 */
 	public function test_does_not_delete_hiive_token_on_401_other_domain(): void {
 
-		$container = Mockery::mock(Container::class);
+		$plugin = Mockery::mock( Plugin::class );
 
-		$sut = new Data($container);
+		$sut = new Data( $plugin );
 
 		$request_response = array(
 			'response' => array(
@@ -405,10 +405,50 @@ class DataTest extends UnitTestCase {
 
 		WP_Mock::expectActionAdded( 'rest_api_init', array( new WP_Mock\Matcher\AnyInstance( Capabilities::class ), 'register_routes' ) );
 
-		$container = Mockery::mock(Container::class);
+		$plugin = Mockery::mock( Plugin::class );
 
-		$sut = new Data($container);
+		$sut = new Data( $plugin );
 		$sut->init();
+
+		$this->assertConditionsMet();
+	}
+
+	/**
+	 * @covers ::scripts
+	 */
+	public function test_scripts_registers_and_enqueues_scripts(): void {
+
+		$plugin          = Mockery::mock( Plugin::class )->makePartial();
+		$plugin->url     = 'https://example.com/';
+		$plugin->version = '1.0.0';
+		$plugin->brand   = 'bluehost';
+
+		$sut = new Data( $plugin );
+
+		WP_Mock::userFunction( 'wp_enqueue_script' )
+				->once()
+				->with(
+					'newfold-hiive-events',
+					\WP_Mock\Functions::type( 'string' ), // URL
+					\WP_Mock\Functions::type( 'array' ),  // Dependencies
+					\WP_Mock\Functions::type( 'string' ), // Version
+					true                                  // In footer
+				);
+
+		WP_Mock::userFunction( 'wp_localize_script' )
+				->once()
+				->with(
+					'newfold-hiive-events', // handle
+					'nfd-hiive-events', // object_name
+					\WP_Mock\Functions::type( 'array' ),  // l10n
+				);
+		WP_Mock::userFunction( 'get_home_url' )
+				->once()
+				->andReturn( 'https://example.com/' );
+
+		WP_Mock::passthruFunction( 'esc_url_raw' );
+
+		$sut->scripts();
 
 		$this->assertConditionsMet();
 	}

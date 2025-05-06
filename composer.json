@@ -90,7 +90,7 @@
       "phpunit --bootstrap tests/phpunit/bootstrap.php --coverage-php tests/_output/unit.cov --coverage-text",
       "codecept run wpunit --coverage wpunit.cov",
       "phpcov merge --php tests/_output/merged.cov --html tests/_output/html tests/_output;",
-      "git diff main...head > /tmp/main.diff; phpcov patch-coverage --path-prefix $(pwd) ./tests/_output/merged.cov /tmp/main.diff",
+      "git diff main...head > /tmp/main.diff; phpcov patch-coverage --path-prefix $(pwd) ./tests/_output/merged.cov /tmp/main.diff || true",
       "echo \"open tests/_output/html/index.html\" to view the report"
     ],
     "post-install-cmd": [
@@ -132,7 +132,7 @@
   },
   "extra": {
     "symlinks": {
-      ".": "wp-content/plugins/wp-plugin-bluehost/vendor/newfold-labs/wp-module-data"
+      ".": "wp-content/plugins/wp-module-data"
     }
   },
   "minimum-stability": "dev",
