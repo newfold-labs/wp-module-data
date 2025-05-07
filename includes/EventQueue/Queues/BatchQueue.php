@@ -43,7 +43,7 @@ class BatchQueue implements BatchQueueInterface {
 				'event'        => serialize( $event ),
 				'available_at' => $time,
 				'created_at'   => $event->created_at ?? $time,
-				'attempts'     => 'pageview' === $event->key ? 0 : 1,
+				'attempts'     => 1,
 			);
 		}
 
