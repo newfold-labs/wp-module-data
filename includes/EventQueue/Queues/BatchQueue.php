@@ -103,7 +103,7 @@ class BatchQueue implements BatchQueueInterface {
 	/**
 	 * Increment the attempts for a given event
 	 *
-	 * @param  int[] $ids lits of ids to increment
+	 * @param  int[] $ids list of ids to increment
 	 *
 	 * @return bool
 	 */
