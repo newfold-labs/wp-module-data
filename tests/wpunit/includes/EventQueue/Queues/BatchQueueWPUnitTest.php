@@ -4,13 +4,14 @@ namespace NewfoldLabs\WP\Module\Data\EventQueue\Queues;
 
 use Mockery;
 use NewfoldLabs\WP\Module\Data\Event;
+use NewfoldLabs\WP\Module\Data\WPUnitTestCase;
 use NewfoldLabs\WP\ModuleLoader\Container;
 use WP_Forge\QueryBuilder\Query;
 
 /**
  * @coversDefaultClass \NewfoldLabs\WP\Module\Data\EventQueue\Queues\BatchQueue
  */
-class BatchQueueWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase {
+class BatchQueueWPUnitTest extends WPUnitTestCase {
 
 	/** @var Container $container */
 	protected $container;
@@ -49,7 +50,6 @@ class BatchQueueWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase {
 		global $wpdb;
 		$wpdb->query( 'TRUNCATE TABLE wp_nfd_data_event_queue' );
 
-		Mockery::close();
 		parent::tearDown();
 	}
 
