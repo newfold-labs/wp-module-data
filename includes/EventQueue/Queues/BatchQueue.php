@@ -96,7 +96,7 @@ class BatchQueue implements BatchQueueInterface {
 			->query()
 			->select( '*' )
 			->from( $this->table(), false )
-			->where( 'attempts', '=', $limit )
+			->where( 'attempts', '>=', $limit )
 			->delete();
 	}
 
