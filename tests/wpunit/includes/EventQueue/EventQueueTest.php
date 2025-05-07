@@ -17,10 +17,6 @@ class EventQueueTest extends WPUnitTestCase {
 	 */
 	public function test_container(): void {
 
-		/** @var \wpdb $wpdb */
-		global $wpdb;
-		$wpdb->prefix = 'test_';
-
 		$event_queue_instance = EventQueue::getInstance();
 
 		$sut = $event_queue_instance->container();
@@ -30,7 +26,7 @@ class EventQueueTest extends WPUnitTestCase {
 		$this->assertTrue( $sut->has( 'query' ) );
 		$this->assertTrue( $sut->has( 'table' ) );
 
-		$this->assertEquals( 'test_nfd_data_event_queue', $sut->get( 'table' ) );
+		$this->assertEquals( 'wp_nfd_data_event_queue', $sut->get( 'table' ) );
 	}
 
 	/**
