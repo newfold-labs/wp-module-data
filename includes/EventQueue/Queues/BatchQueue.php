@@ -6,6 +6,11 @@ use NewfoldLabs\WP\Module\Data\Event;
 use NewfoldLabs\WP\Module\Data\EventQueue\Queryable;
 use NewfoldLabs\WP\ModuleLoader\Container;
 
+/**
+ * A table for storing events to later process.
+ *
+ * id | event | attempts | reserved_at | available_at | created_at
+ */
 class BatchQueue implements BatchQueueInterface {
 
 	use Queryable;
@@ -13,10 +18,20 @@ class BatchQueue implements BatchQueueInterface {
 	/**
 	 * Dependency injection container
 	 *
+	 * @used-by Queryable::query()
+	 * @used-by Queryable::table()
+	 *
 	 * @var Container $container
 	 */
 	protected $container;
 
+	/**
+	 * Create the `nfd_data_event_queue` table.
+	 *
+	 * Uses the `dbDelta` function to create the table if it doesn't exist.
+	 *
+	 * Used by activation hook and upgrade handler.
+	 */
 	public static function create_table(): void {
 		global $wpdb;
 
@@ -46,7 +61,7 @@ class BatchQueue implements BatchQueueInterface {
 	/**
 	 * Constructor
 	 *
-	 * @param  Container $container
+	 * @param  Container $container Dependency injection container for query object and table name.
 	 */
 	public function __construct( Container $container ) {
 		$this->container = $container;
@@ -55,7 +70,7 @@ class BatchQueue implements BatchQueueInterface {
 	/**
 	 * Push events onto the queue
 	 *
-	 * @param  non-empty-array<Event> $events
+	 * @param  non-empty-array<Event> $events The events to store in the queue.
 	 *
 	 * @return bool
 	 */
@@ -66,6 +81,7 @@ class BatchQueue implements BatchQueueInterface {
 		$inserts = array();
 		foreach ( $events as $event ) {
 			$inserts[] = array(
+				// phpcs:disable WordPress.PHP.DiscouragedPHPFunctions.serialize_serialize
 				'event'        => serialize( $event ),
 				'available_at' => $time,
 				'created_at'   => $event->created_at ?? $time,
@@ -79,13 +95,15 @@ class BatchQueue implements BatchQueueInterface {
 	/**
 	 * Pull events from the queue
 	 *
+	 * @param int $count The number of events to pull (limit).
+	 *
 	 * @return Event[]
 	 */
 	public function pull( int $count ) {
 
 		$events = array();
 
-		$rawEvents = $this
+		$raw_events = $this
 			->query()
 			->select( '*' )
 			->from( $this->table(), false )
@@ -95,17 +113,17 @@ class BatchQueue implements BatchQueueInterface {
 			->limit( $count )
 			->get();
 
-		if ( ! is_array( $rawEvents ) ) {
+		if ( ! is_array( $raw_events ) ) {
 			return $events;
 		}
 
-		foreach ( $rawEvents as $rawEvent ) {
-			if ( property_exists( $rawEvent, 'id' ) && property_exists( $rawEvent, 'event' ) ) {
-				$eventData = maybe_unserialize( $rawEvent->event );
-				if ( is_array( $eventData ) && property_exists( $rawEvent, 'created_at' ) ) {
-					$eventData['created_at'] = $rawEvent->created_at;
+		foreach ( $raw_events as $raw_event ) {
+			if ( property_exists( $raw_event, 'id' ) && property_exists( $raw_event, 'event' ) ) {
+				$event_data = maybe_unserialize( $raw_event->event );
+				if ( is_array( $event_data ) && property_exists( $raw_event, 'created_at' ) ) {
+					$event_data['created_at'] = $raw_event->created_at;
 				}
-				$events[ $rawEvent->id ] = $eventData;
+				$events[ $raw_event->id ] = $event_data;
 			}
 		}
 
