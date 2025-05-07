@@ -21,6 +21,8 @@ class BatchQueueWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
+		BatchQueue::create_table();
+
 		$this->container = Mockery::mock( Container::class );
 		$this->container->expects( 'get' )
 						->zeroOrMoreTimes()
