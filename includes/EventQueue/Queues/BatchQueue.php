@@ -6,6 +6,11 @@ use NewfoldLabs\WP\Module\Data\Event;
 use NewfoldLabs\WP\Module\Data\EventQueue\Queryable;
 use NewfoldLabs\WP\ModuleLoader\Container;
 
+/**
+ * A table for storing events to later process.
+ *
+ * id | event | attempts | reserved_at | available_at | created_at
+ */
 class BatchQueue implements BatchQueueInterface {
 
 	use Queryable;
@@ -13,14 +18,50 @@ class BatchQueue implements BatchQueueInterface {
 	/**
 	 * Dependency injection container
 	 *
+	 * @used-by Queryable::query()
+	 * @used-by Queryable::table()
+	 *
 	 * @var Container $container
 	 */
 	protected $container;
 
 	/**
+	 * Create the `nfd_data_event_queue` table.
+	 *
+	 * Uses the `dbDelta` function to create the table if it doesn't exist.
+	 *
+	 * Used by activation hook and upgrade handler.
+	 */
+	public static function create_table(): void {
+		global $wpdb;
+
+		if ( ! function_exists( 'dbDelta' ) ) {
+			require ABSPATH . 'wp-admin/includes/upgrade.php';
+		}
+
+		$wpdb->hide_errors();
+
+		$charset_collate = $wpdb->get_charset_collate();
+
+		$sql = <<<SQL
+				CREATE TABLE {$wpdb->prefix}nfd_data_event_queue (
+					id bigint(20) NOT NULL AUTO_INCREMENT,
+					event longtext NOT NULL,
+					attempts tinyint(3) NOT NULL DEFAULT 0,
+					reserved_at datetime DEFAULT NULL,
+					available_at datetime NOT NULL,
+					created_at datetime NOT NULL,
+					PRIMARY KEY (id)
+					) $charset_collate;
+				SQL;
+
+		dbDelta( $sql );
+	}
+
+	/**
 	 * Constructor
 	 *
-	 * @param  Container $container
+	 * @param  Container $container Dependency injection container for query object and table name.
 	 */
 	public function __construct( Container $container ) {
 		$this->container = $container;
@@ -29,7 +70,7 @@ class BatchQueue implements BatchQueueInterface {
 	/**
 	 * Push events onto the queue
 	 *
-	 * @param  non-empty-array<Event> $events
+	 * @param  non-empty-array<Event> $events The events to store in the queue.
 	 *
 	 * @return bool
 	 */
@@ -40,9 +81,11 @@ class BatchQueue implements BatchQueueInterface {
 		$inserts = array();
 		foreach ( $events as $event ) {
 			$inserts[] = array(
+				// phpcs:disable WordPress.PHP.DiscouragedPHPFunctions.serialize_serialize
 				'event'        => serialize( $event ),
-				'available_at' => current_time( 'mysql' ),
-				'created_at'   => $time,
+				'available_at' => $time,
+				'created_at'   => $event->created_at ?? $time,
+				'attempts'     => 1,
 			);
 		}
 
@@ -52,13 +95,15 @@ class BatchQueue implements BatchQueueInterface {
 	/**
 	 * Pull events from the queue
 	 *
+	 * @param int $count The number of events to pull (limit).
+	 *
 	 * @return Event[]
 	 */
 	public function pull( int $count ) {
 
 		$events = array();
 
-		$rawEvents = $this
+		$raw_events = $this
 			->query()
 			->select( '*' )
 			->from( $this->table(), false )
@@ -68,27 +113,64 @@ class BatchQueue implements BatchQueueInterface {
 			->limit( $count )
 			->get();
 
-		if ( ! is_array( $rawEvents ) ) {
+		if ( ! is_array( $raw_events ) ) {
 			return $events;
 		}
 
-		foreach ( $rawEvents as $rawEvent ) {
-			if ( property_exists( $rawEvent, 'id' ) && property_exists( $rawEvent, 'event' ) ) {
-				$eventData = maybe_unserialize( $rawEvent->event );
-				if ( is_array( $eventData ) && property_exists( $rawEvent, 'created_at' ) ) {
-					$eventData['created_at'] = $rawEvent->created_at;
+		foreach ( $raw_events as $raw_event ) {
+			if ( property_exists( $raw_event, 'id' ) && property_exists( $raw_event, 'event' ) ) {
+				$event_data = maybe_unserialize( $raw_event->event );
+				if ( is_array( $event_data ) && property_exists( $raw_event, 'created_at' ) ) {
+					$event_data['created_at'] = $raw_event->created_at;
 				}
-				$events[ $rawEvent->id ] = $eventData;
+				$events[ $raw_event->id ] = $event_data;
 			}
 		}
 
 		return $events;
 	}
+	/**
+	 * Remove events from the queue that have exceeded the attempts limit
+	 *
+	 * @param  int $limit number of attempts
+	 * @return bool
+	 */
+	public function remove_events_exceeding_attempts_limit( $limit ) {
+		return (bool) $this
+			->query()
+			->select( '*' )
+			->from( $this->table(), false )
+			->where( 'attempts', '>=', $limit )
+			->delete();
+	}
+
+	/**
+	 * Increment the attempts for a given event
+	 *
+	 * @param  int[] $ids list of ids to increment
+	 *
+	 * @return bool
+	 */
+	public function increment_attempt( array $ids ) {
+		global $wpdb;
+
+		$table = $this->table();
+		$ids   = array_map( 'intval', $ids );
+
+		$placeholders = implode( ',', array_fill( 0, count( $ids ), '%d' ) );
+
+		return (bool) $wpdb->query(
+			$wpdb->prepare(
+				"UPDATE {$table} SET attempts = attempts + 1 WHERE id IN ($placeholders)", // phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+				...$ids
+			)
+		);
+	}
 
 	/**
 	 * Remove events from the queue
 	 *
-	 * @param  int[] $ids
+	 * @param  int[] $ids list of ids to remove
 	 *
 	 * @return bool
 	 */
@@ -103,7 +185,7 @@ class BatchQueue implements BatchQueueInterface {
 	/**
 	 * Reserve events in the queue
 	 *
-	 * @param  int[] $ids
+	 * @param  int[] $ids list of ids to reserve
 	 *
 	 * @return bool
 	 */
@@ -118,7 +200,7 @@ class BatchQueue implements BatchQueueInterface {
 	/**
 	 * Release events back onto the queue
 	 *
-	 * @param  int[] $ids
+	 * @param  int[] $ids list of ids to release
 	 *
 	 * @return bool
 	 */
