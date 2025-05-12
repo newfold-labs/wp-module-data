@@ -119,7 +119,7 @@ class Data {
 		// Inline script for global vars for ctb
 		wp_localize_script(
 			'newfold-hiive-events',
-			'nfd-hiive-events',
+			'nfdHiiveEvents',
 			array(
 				'eventEndpoint' => esc_url_raw( get_home_url() . '/index.php?rest_route=/newfold-data/v1/events/' ),
 				'brand'         => $this->plugin->brand,

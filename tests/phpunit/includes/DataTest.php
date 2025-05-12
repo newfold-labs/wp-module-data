@@ -439,7 +439,7 @@ class DataTest extends UnitTestCase {
 				->once()
 				->with(
 					'newfold-hiive-events', // handle
-					'nfd-hiive-events', // object_name
+					'nfdHiiveEvents', // object_name
 					\WP_Mock\Functions::type( 'array' ),  // l10n
 				);
 		WP_Mock::userFunction( 'get_home_url' )
