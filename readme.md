@@ -23,8 +23,21 @@ Connects a WordPress site to Newfold systems to provide basic features and metri
  composer require newfold-labs/wp-module-data
  ```
  
- ## Updates
- This module has a constant `NFD_DATA_MODULE_VERSION` which needs to be incremented in conjuction with new releases and updates via github tagging. 
+ ## Releasing Updates
+
+ Run the `Newfold Prepare Release` github action to automatically bump the version (either patch, minor or major version), and update build and language files all at once. It will create a PR with changed files for review. Using this workflow, we can skip all the manual release steps below. 
+ 
+### Manual release steps
+
+1. This module has a constant `NFD_DATA_MODULE_VERSION` which needs to be incremented in conjuction with new releases and updates via github tagging.
+
+2. Also update the version in the `package.json` file.
+
+3. Run `npm install` to update the package lock file.
+
+4. Update build files and/or language files to reflect new version (this module does not yet have a js build step or translations, so this isn't needed - yet).
+
+4. Create release branch and release PR.
 
  ## Usage
  

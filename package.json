@@ -8,12 +8,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "test:e2e": "npx cypress run",
-    "set-version-bump": "npm run set-version-patch",
-    "set-version-patch": "node ./.github/scripts/set-version-bump.js && npm run post-set-version",
-    "set-version-minor": "node ./.github/scripts/set-version-bump.js minor && npm run post-set-version",
-    "set-version-major": "node ./.github/scripts/set-version-bump.js major && npm run post-set-version",
-    "post-set-version": "npm ci && composer install"
+    "test:e2e": "npx cypress run"
   },
   "keywords": [],
   "author": "",
@@ -22,7 +17,6 @@
     "@testing-library/cypress": "^10.0.3",
     "@wordpress/env": "^10.1",
     "cypress": "^14.3.1",
-    "cypress-axe": "^1.6.0",
-    "semver": "^7.7.1"
+    "cypress-axe": "^1.6.0"
   }
 }
