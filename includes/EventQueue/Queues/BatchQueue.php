@@ -85,7 +85,8 @@ class BatchQueue implements BatchQueueInterface {
 				'event'        => serialize( $event ),
 				'available_at' => $time,
 				'created_at'   => $event->created_at ?? $time,
-				'attempts'     => 0,
+				// Events are stored for later if they have failed once, except pageviews which are never sent synchronously.
+				'attempts'     => 'pageview' === $event->key ? 0 : 1,
 			);
 		}
 

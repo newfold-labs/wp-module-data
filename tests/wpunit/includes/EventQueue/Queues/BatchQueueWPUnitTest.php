@@ -93,7 +93,7 @@ class BatchQueueWPUnitTest extends WPUnitTestCase {
 		$db_event = unserialize( $row->event );
 
 		$this->assertEquals( 'test-event', $db_event->key );
-		$this->assertEquals( 0, $row->attempts );
+		$this->assertEquals( 1, $row->attempts );
 	}
 
 	/**
@@ -162,7 +162,7 @@ class BatchQueueWPUnitTest extends WPUnitTestCase {
 
 		$row = array_pop( $results );
 
-		$this->assertEquals( 1, $row->attempts );
+		$this->assertEquals( 2, $row->attempts );
 	}
 
 	/**
