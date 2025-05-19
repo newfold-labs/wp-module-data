@@ -85,7 +85,7 @@ class BatchQueue implements BatchQueueInterface {
 				'event'        => serialize( $event ),
 				'available_at' => $time,
 				'created_at'   => $event->created_at ?? $time,
-				'attempts'     => 1,
+				'attempts'     => 0,
 			);
 		}
 
