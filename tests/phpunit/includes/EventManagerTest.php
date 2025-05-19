@@ -185,6 +185,11 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 						->with( array( 15 ) )
 						->andReturnTrue();
 
+		$batch_queue_mock->expects( 'increment_attempt' )
+						->once()
+						->with( array( 15 ) )
+						->andReturnTrue();
+
 		$hiive_connection_subscriber = Mockery::mock( HiiveConnection::class );
 
 		\Patchwork\redefine(
@@ -212,10 +217,6 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 						->with( array( 15 ) );
 
 		$batch_queue_mock->expects( 'release' )
-						->once()
-						->with( array( 16 ) );
-
-		$batch_queue_mock->expects( 'increment_attempt' )
 						->once()
 						->with( array( 16 ) );
 
@@ -257,6 +258,11 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 						->with( array( 15 ) )
 						->andReturnTrue();
 
+		$batch_queue_mock->expects( 'increment_attempt' )
+						->once()
+						->with( array( 15 ) )
+						->andReturnTrue();
+
 		$hiive_connection_subscriber = Mockery::mock( HiiveConnection::class );
 
 		\Patchwork\redefine(
@@ -284,9 +290,6 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 						->with( array( 15 ) );
 
 		$batch_queue_mock->expects( 'release' )
-						->never();
-
-		$batch_queue_mock->expects( 'increment_attempt' )
 						->never();
 
 		$sut->send_saved_events_batch();
@@ -327,6 +330,11 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 						->with( array( 15 ) )
 						->andReturnTrue();
 
+		$batch_queue_mock->expects( 'increment_attempt' )
+						->once()
+						->with( array( 15 ) )
+						->andReturnTrue();
+
 		$hiive_connection_subscriber = Mockery::mock( HiiveConnection::class );
 
 		\Patchwork\redefine(
@@ -351,10 +359,6 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 
 		$batch_queue_mock->expects( 'remove' )
 						->never();
-
-		$batch_queue_mock->expects( 'increment_attempt' )
-				->once()
-				->with( array( 16 ) );
 
 		$batch_queue_mock->expects( 'release' )
 						->once()
@@ -398,6 +402,11 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 						->with( array( 15 ) )
 						->andReturnTrue();
 
+		$batch_queue_mock->expects( 'increment_attempt' )
+						->once()
+						->with( array( 15 ) )
+						->andReturnTrue();
+
 		$hiive_connection_subscriber = Mockery::mock( HiiveConnection::class );
 
 		\Patchwork\redefine(
@@ -415,7 +424,6 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 			->once()
 			->andReturnTrue();
 
-		$batch_queue_mock->expects( 'increment_attempt' )->never();
 		$batch_queue_mock->expects( 'remove' )->never();
 
 		$batch_queue_mock->expects( 'release' )
@@ -460,6 +468,11 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 						->with( array( 16 ) )
 						->andReturnTrue();
 
+		$batch_queue_mock->expects( 'increment_attempt' )
+						->once()
+						->with( array( 16 ) )
+						->andReturnTrue();
+
 		$hiive_connection_subscriber = Mockery::mock( HiiveConnection::class );
 
 		\Patchwork\redefine(
@@ -481,10 +494,6 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 		WP_Mock::userFunction( 'is_wp_error' )
 			->once()
 			->andReturnFalse();
-
-		$batch_queue_mock->expects( 'increment_attempt' )
-			->once()
-			->with( array( 19 ) );
 
 		$batch_queue_mock->expects( 'release' )
 						->once()

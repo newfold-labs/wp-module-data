@@ -291,6 +291,8 @@ class EventManager {
 			return;
 		}
 
+		$queue->increment_attempt( array_keys( $events ) );
+
 		foreach ( $this->get_subscribers() as $subscriber ) {
 			/**
 			 * @var array{succeededEvents:array,failedEvents:array}|WP_Error $response
@@ -313,7 +315,6 @@ class EventManager {
 
 			// Release the 'reserve' we placed on the entry, so it will be tried again later.
 			if ( ! empty( $response['failedEvents'] ) ) {
-				$queue->increment_attempt( array_keys( $response['failedEvents'] ) );
 				$queue->release( array_keys( $response['failedEvents'] ) );
 			}
 		}
