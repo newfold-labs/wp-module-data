@@ -135,9 +135,9 @@ class HiiveConnection implements SubscriberInterface {
 	 * @used-by Data::init()
 	 * @used-by HiiveConnection::reconnect()
 	 *
-	 * @param string $path the path
-	 * @param string $authorization the authorization
-	 * @return Boolean success
+	 * @param string  $path Additional path to append to the API URL
+	 * @param ?string $authorization The authorization header
+	 * @return bool Success
 	 */
 	public function connect( string $path = '/sites/v2/connect', ?string $authorization = null ): bool {
 
