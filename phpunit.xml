@@ -4,7 +4,6 @@
     <include>
       <directory suffix=".php">includes/</directory>
       <directory suffix=".php">upgrades/</directory>
-      <file>bootstrap.php</file>
     </include>
   </coverage>
   <php>

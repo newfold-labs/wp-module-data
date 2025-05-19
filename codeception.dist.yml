@@ -17,5 +17,4 @@ coverage:
   include:
     - /includes/*
     - /upgrades/*
-    - /bootstrap.php
 bootstrap: bootstrap.php
