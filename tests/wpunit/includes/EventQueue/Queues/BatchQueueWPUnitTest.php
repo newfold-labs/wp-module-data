@@ -256,6 +256,6 @@ class BatchQueueWPUnitTest extends WPUnitTestCase {
 		$batch_queue->push( $this->events );
 		$batch_queue->push( $this->events );
 
-		$this->assertEquals(3, $batch_queue->count());
+		$this->assertEquals( 3, $batch_queue->count() );
 	}
 }

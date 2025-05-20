@@ -57,9 +57,10 @@ class DataTest extends UnitTestCase {
 	 * @covers ::authenticate
 	 */
 	public function test_authenticate() {
-		$plugin = Mockery::mock( Plugin::class );
+		$plugin        = Mockery::mock( Plugin::class );
+		$event_manager = Mockery::mock( EventManager::class );
 
-		$sut = new Data( $plugin );
+		$sut = new Data( $plugin, $event_manager );
 
 		\Patchwork\redefine(
 			'defined',
@@ -145,10 +146,10 @@ class DataTest extends UnitTestCase {
 	 * @covers ::authenticate
 	 */
 	public function test_authenticate_returns_early_when_no_auth_header() {
+		$plugin        = Mockery::mock( Plugin::class );
+		$event_manager = Mockery::mock( EventManager::class );
 
-		$plugin = Mockery::mock( Plugin::class );
-
-		$sut = new Data( $plugin );
+		$sut = new Data( $plugin, $event_manager );
 
 		\Patchwork\redefine(
 			'defined',
@@ -183,9 +184,10 @@ class DataTest extends UnitTestCase {
 	 * @covers ::authenticate
 	 */
 	public function test_authenticate_returns_early_when_not_a_rest_request() {
-		$plugin = Mockery::mock( Plugin::class );
+		$plugin        = Mockery::mock( Plugin::class );
+		$event_manager = Mockery::mock( EventManager::class );
 
-		$sut = new Data( $plugin );
+		$sut = new Data( $plugin, $event_manager );
 
 		\Patchwork\redefine(
 			'defined',
@@ -208,9 +210,10 @@ class DataTest extends UnitTestCase {
 	 * @covers ::authenticate
 	 */
 	public function test_authenticate_returns_early_when_already_authenticated() {
-		$plugin = Mockery::mock( Plugin::class );
+		$plugin        = Mockery::mock( Plugin::class );
+		$event_manager = Mockery::mock( EventManager::class );
 
-		$sut = new Data( $plugin );
+		$sut = new Data( $plugin, $event_manager );
 
 		$result = $sut->authenticate( true );
 
@@ -223,9 +226,10 @@ class DataTest extends UnitTestCase {
 	public function test_delete_token_on_401_response_is_added(): void {
 		forceWpMockStrictModeOff();
 
-		$plugin = Mockery::mock( Plugin::class );
+		$plugin        = Mockery::mock( Plugin::class );
+		$event_manager = Mockery::mock( EventManager::class );
 
-		$sut = new Data( $plugin );
+		$sut = new Data( $plugin, $event_manager );
 
 		WP_Mock::expectFilterAdded(
 			'http_response',
@@ -244,9 +248,10 @@ class DataTest extends UnitTestCase {
 	 */
 	public function test_deletes_hiive_token_on_401(): void {
 
-		$plugin = Mockery::mock( Plugin::class );
+		$plugin        = Mockery::mock( Plugin::class );
+		$event_manager = Mockery::mock( EventManager::class );
 
-		$sut = new Data( $plugin );
+		$sut = new Data( $plugin, $event_manager );
 
 		$request_response = array(
 			'response' => array(
@@ -290,9 +295,10 @@ class DataTest extends UnitTestCase {
 	 */
 	public function test_does_not_delete_hiive_token_on_hiive_200(): void {
 
-		$plugin = Mockery::mock( Plugin::class );
+		$plugin        = Mockery::mock( Plugin::class );
+		$event_manager = Mockery::mock( EventManager::class );
 
-		$sut = new Data( $plugin );
+		$sut = new Data( $plugin, $event_manager );
 
 		$request_response = array(
 			'response' => array(
@@ -335,9 +341,10 @@ class DataTest extends UnitTestCase {
 	 */
 	public function test_does_not_delete_hiive_token_on_401_other_domain(): void {
 
-		$plugin = Mockery::mock( Plugin::class );
+		$plugin        = Mockery::mock( Plugin::class );
+		$event_manager = Mockery::mock( EventManager::class );
 
-		$sut = new Data( $plugin );
+		$sut = new Data( $plugin, $event_manager );
 
 		$request_response = array(
 			'response' => array(
@@ -379,35 +386,19 @@ class DataTest extends UnitTestCase {
 			->once()
 			->andReturn( 'valid_token' );
 
-		WP_Mock::userFunction( 'wp_next_scheduled' )
-			->with( 'nfd_data_cron' )
-			->once()
-			->andReturnTrue();
-
-		\WP_Mock::userFunction( 'get_dropins' )
-			->once()
-			->andReturn( array() );
-
-		WP_Mock::userFunction( 'get_transient' )
-			->with( 'nfd_plugin_activated' )
-			->once()
-			->andReturnFalse();
-
-		WP_Mock::userFunction( 'is_plugin_active' )
-			->with( 'woocommerce/woocommerce.php' )
-			->once()
-			->andReturnFalse();
-
-		WP_Mock::userFunction( 'wp_next_scheduled' )
-			->with( 'nfd_data_sync_cron' )
-			->once()
-			->andReturnTrue();
-
 		WP_Mock::expectActionAdded( 'rest_api_init', array( new WP_Mock\Matcher\AnyInstance( Capabilities::class ), 'register_routes' ) );
 
 		$plugin = Mockery::mock( Plugin::class );
 
-		$sut = new Data( $plugin );
+		$event_manager = Mockery::mock( EventManager::class );
+		$event_manager->shouldReceive( 'initialize_rest_endpoint' )
+			->once();
+		$event_manager->shouldReceive( 'init' )
+			->once();
+		$event_manager->shouldReceive( 'add_subscriber' )
+			->once();
+
+		$sut = new Data( $plugin, $event_manager );
 		$sut->init();
 
 		$this->assertConditionsMet();
@@ -423,7 +414,9 @@ class DataTest extends UnitTestCase {
 		$plugin->version = '1.0.0';
 		$plugin->brand   = 'bluehost';
 
-		$sut = new Data( $plugin );
+		$event_manager = Mockery::mock( EventManager::class );
+
+		$sut = new Data( $plugin, $event_manager );
 
 		WP_Mock::userFunction( 'wp_enqueue_script' )
 				->once()

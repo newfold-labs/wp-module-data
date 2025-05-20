@@ -36,12 +36,22 @@ class Data {
 	protected $plugin;
 
 	/**
+	 * @var EventManager $event_manager
+	 */
+	protected $event_manager;
+
+	/**
 	 * Data constructor.
 	 */
-	public function __construct( Plugin $plugin ) {
+	public function __construct(
+		Plugin $plugin,
+		?EventManager $event_manager = null
+	) {
 		self::$instance = $this;
 
 		$this->plugin = $plugin;
+
+		$this->event_manager = $event_manager ?? new EventManager();
 	}
 
 	/**
@@ -71,8 +81,7 @@ class Data {
 
 		$this->hiive = new HiiveConnection();
 
-		$manager = new EventManager();
-		$manager->initialize_rest_endpoint();
+		$this->event_manager->initialize_rest_endpoint();
 
 		// Initialize the required verification endpoints
 		$this->hiive->register_verification_hooks();
@@ -87,13 +96,13 @@ class Data {
 			return;
 		}
 
-		$manager->init();
+		$this->event_manager->init();
 
-		$manager->add_subscriber( $this->hiive );
+		$this->event_manager->add_subscriber( $this->hiive );
 
 		if ( defined( 'NFD_DATA_DEBUG' ) && NFD_DATA_DEBUG ) {
 			$this->logger = new Logger();
-			$manager->add_subscriber( $this->logger );
+			$this->event_manager->add_subscriber( $this->logger );
 		}
 
 		// Register endpoint for clearing capabilities cache

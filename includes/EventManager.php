@@ -33,6 +33,11 @@ class EventManager {
 	);
 
 	/**
+	 * @var EventQueue
+	 */
+	private $event_queue;
+
+	/**
 	 * List of subscribers receiving event data
 	 *
 	 * @var array
@@ -45,12 +50,27 @@ class EventManager {
 	 * @var Event[]
 	 */
 	private $queue = array();
+
 	/**
 	 * The maximum number of attempts to send an event
 	 *
 	 * @var int
 	 */
 	private $attempts_limit = 3;
+
+	/**
+	 * Constructor
+	 *
+	 * Inject or instantiate required objects.
+	 *
+	 * @param ?EventQueue $event_queue
+	 */
+	public function __construct(
+		?EventQueue $event_queue = null
+	) {
+
+		$this->event_queue = $event_queue ?? EventQueue::getInstance();
+	}
 
 	/**
 	 * Initialize the Event Manager
@@ -146,7 +166,7 @@ class EventManager {
 
 		// Save any async events for sending later
 		if ( ! empty( $async ) ) {
-			EventQueue::getInstance()->queue()->push( $async );
+			$this->event_queue->queue()->push( $async );
 		}
 
 		// Any remaining items in the queue should be sent now
@@ -231,12 +251,12 @@ class EventManager {
 			}
 
 			if ( is_wp_error( $response ) ) {
-				EventQueue::getInstance()->queue()->push( $events );
+				$this->event_queue->queue()->push( $events );
 				continue;
 			}
 
 			if ( ! empty( $response['failedEvents'] ) ) {
-				EventQueue::getInstance()->queue()->push( $response['failedEvents'] );
+				$this->event_queue->queue()->push( $response['failedEvents'] );
 			}
 		}
 	}
@@ -248,7 +268,7 @@ class EventManager {
 	 */
 	public function send_saved_events_batch(): void {
 
-		$queue = EventQueue::getInstance()->queue();
+		$queue = $this->event_queue->queue();
 
 		$queue->remove_events_exceeding_attempts_limit( $this->attempts_limit );
 
@@ -270,6 +290,8 @@ class EventManager {
 			// It would be good to log this somewhere.
 			return;
 		}
+
+		$queue->increment_attempt( array_keys( $events ) );
 
 		foreach ( $this->get_subscribers() as $subscriber ) {
 			/**
@@ -293,7 +315,6 @@ class EventManager {
 
 			// Release the 'reserve' we placed on the entry, so it will be tried again later.
 			if ( ! empty( $response['failedEvents'] ) ) {
-				$queue->increment_attempt( array_keys( $response['failedEvents'] ) );
 				$queue->release( array_keys( $response['failedEvents'] ) );
 			}
 		}
