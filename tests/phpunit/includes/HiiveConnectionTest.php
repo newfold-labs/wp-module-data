@@ -36,6 +36,12 @@ class HiiveConnectionTest extends TestCase {
 				return $merged;
 			}
 		);
+
+		WP_Mock::userFunction( 'untrailingslashit' )->andReturnUsing(
+			function ( $value ) {
+				return rtrim( $value, '/' );
+			}
+		);
 	}
 
 	/**
@@ -113,9 +119,8 @@ class HiiveConnectionTest extends TestCase {
 		$result = $sut->get_core_data();
 
 		self::assertArrayHasKey( 'server_path', $result );
-		self::assertEquals( '/path/on/server/', $result['server_path'] );
+		self::assertEquals( '/path/on/server', $result['server_path'] );
 	}
-
 
 	/**
 	 * @covers ::hiive_request
