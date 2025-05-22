@@ -427,7 +427,7 @@ class HiiveConnection implements SubscriberInterface {
 			'url'         => \get_site_url(),
 			'username'    => get_current_user(),
 			'wp'          => $wp_version,
-			'server_path' => untrailingslashit( defined( 'ABSPATH' ) ? constant( 'ABSPATH' ) : '' ),
+			'server_path' => \untrailingslashit( defined( 'ABSPATH' ) ? constant( 'ABSPATH' ) : '' ),
 		);
 
 		return apply_filters( 'newfold_wp_data_module_core_data_filter', $data );
