@@ -108,6 +108,10 @@ class Plugin {
 
 		// Add administrators to the $users and check for super admin
 		foreach ( $admin_users as $user ) {
+			if ( empty( $user->user_email ) ) {
+				continue;
+			}
+
 			$users[] = array(
 				'id'    => $user->ID,
 				'email' => $user->user_email,
