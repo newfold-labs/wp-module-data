@@ -106,7 +106,11 @@ class Plugin {
 		);
 		$users       = array();
 
-		// Add administrators to the $users and check for super admin
+		/**
+		 * Add administrators to the $users and check for super admin
+		 *
+		 * @var \WP_User $user
+		 */
 		foreach ( $admin_users as $user ) {
 			if ( empty( $user->user_email ) ) {
 				continue;
