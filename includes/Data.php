@@ -70,6 +70,8 @@ class Data {
 
 		// If we ever get a 401 response from the Hiive API, delete the token.
 		add_filter( 'http_response', array( $this, 'delete_token_on_401_response' ), 10, 3 );
+		// Register the admin scripts.
+		add_action( 'admin_enqueue_scripts', array( $this, 'scripts' ) );
 	}
 
 	/**
@@ -109,8 +111,6 @@ class Data {
 		$capabilities_api = new Capabilities( new SiteCapabilities() );
 		add_action( 'rest_api_init', array( $capabilities_api, 'register_routes' ) );
 
-		// Register the admin scripts.
-		add_action( 'admin_enqueue_scripts', array( $this, 'scripts' ) );
 	}
 
 	/**
