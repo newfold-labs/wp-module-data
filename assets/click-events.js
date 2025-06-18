@@ -12,7 +12,6 @@
 
 		const target = e.target;
 		const eventId = target.getAttribute( 'data-nfd-click' );
-		const isCTB = target.getAttribute('data-ctb-id');
 		const eventKey = target.getAttribute( 'data-nfd-event-key' ) || eventId;
 		const eventCategory =
 			target.getAttribute( 'data-nfd-event-category' ) || 'plugin';
@@ -20,6 +19,8 @@
 			target.getAttribute( 'data-nfd-brand' ) ||
 			window.nfdHiiveEvents.brand;
 		const queue = target.getAttribute( 'data-nfd-queue' ) || false;
+		const isCTB = target.getAttribute( 'data-ctb-id' );
+		const linkTarget = target.getAttribute( 'target' );
 
 		const eventData = {
 			action: eventId,
@@ -56,9 +57,14 @@
 				}
 			} );
 
-		// Send user to the link - if not a CTB link
+		// Send user to the link - except with a CTB link since the CTB script manages that as a fallback
 		if ( e.target.tagName === 'A' && ! isCTB ) {
-			window.location.href = e.target.href;
+			// respect target="_blank" settings in links
+			if ( linkTarget === '_blank' ) {
+				window.open( e.target.href );
+			} else {
+				window.open( e.target.href, '_self' );
+			}
 		}
 	};
 
