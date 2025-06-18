@@ -19,6 +19,8 @@
 			target.getAttribute( 'data-nfd-brand' ) ||
 			window.nfdHiiveEvents.brand;
 		const queue = target.getAttribute( 'data-nfd-queue' ) || false;
+		const isCTB = target.getAttribute( 'data-ctb-id' );
+		const linkTarget = target.getAttribute( 'target' );
 
 		const eventData = {
 			action: eventId,
@@ -46,12 +48,23 @@
 				data: eventData,
 			} )
 			.catch( ( error ) => {
-				console.error( 'Error sending event to API', error );
+				if ( error === 'This site is not connected to the hiive.' ) {
+					console.warn(
+						'Site not connected to Hiive, event not sent.'
+					);
+				} else {
+					console.error( 'Error sending event to API', error );
+				}
 			} );
 
-		// Send user to the link.
-		if ( e.target.tagName === 'A' ) {
-			window.location.href = e.target.href;
+		// Send user to the link - except with a CTB link since the CTB script manages that as a fallback
+		if ( e.target.tagName === 'A' && ! isCTB ) {
+			// respect target="_blank" settings in links
+			if ( linkTarget === '_blank' ) {
+				window.open( e.target.href );
+			} else {
+				window.open( e.target.href, '_self' );
+			}
 		}
 	};
 
