@@ -4,14 +4,17 @@ on:
   workflow_dispatch:
     inputs:
       level:
-        description: The level of release to be used.
+        description: 'The level of release to be used.'
         type: choice
         options:
-          - patch
-          - minor
-          - major
+          - 'patch'
+          - 'minor'
+          - 'major'
         default: 'patch'
         required: true
+# Disable permissions for all available scopes by default.
+# Any needed permissions should be configured at the job level.
+permissions: {}
 
 jobs:
 
