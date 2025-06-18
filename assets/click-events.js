@@ -12,6 +12,7 @@
 
 		const target = e.target;
 		const eventId = target.getAttribute( 'data-nfd-click' );
+		const isCTB = target.getAttribute('data-ctb-id');
 		const eventKey = target.getAttribute( 'data-nfd-event-key' ) || eventId;
 		const eventCategory =
 			target.getAttribute( 'data-nfd-event-category' ) || 'plugin';
@@ -46,11 +47,17 @@
 				data: eventData,
 			} )
 			.catch( ( error ) => {
-				console.error( 'Error sending event to API', error );
+				if ( error === 'This site is not connected to the hiive.' ) {
+					console.warn(
+						'Site not connected to Hiive, event not sent.'
+					);
+				} else {
+					console.error( 'Error sending event to API', error );
+				}
 			} );
 
-		// Send user to the link.
-		if ( e.target.tagName === 'A' ) {
+		// Send user to the link - if not a CTB link
+		if ( e.target.tagName === 'A' && ! isCTB ) {
 			window.location.href = e.target.href;
 		}
 	};
