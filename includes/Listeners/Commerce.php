@@ -108,7 +108,7 @@ class Commerce extends Listener {
 	 * @return void
 	 */
 	public function site_cart_views() {
-		if ( WC()->cart->get_cart_contents_count() !== 0 ) {
+		if ( WC()->cart && WC()->cart->get_cart_contents_count() !== 0 ) {
 			$data = array(
 				'product_count' => WC()->cart->get_cart_contents_count(),
 				'cart_total'    => floatval( WC()->cart->get_cart_contents_total() ),
