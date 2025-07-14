@@ -108,10 +108,11 @@ class Commerce extends Listener {
 	 * @return void
 	 */
 	public function site_cart_views() {
-		if ( WC()->cart && WC()->cart->get_cart_contents_count() !== 0 ) {
+		$cart = WC()->cart;
+		if ( $cart && $cart->get_cart_contents_count() !== 0 ) {
 			$data = array(
-				'product_count' => WC()->cart->get_cart_contents_count(),
-				'cart_total'    => floatval( WC()->cart->get_cart_contents_total() ),
+				'product_count' => $cart->get_cart_contents_count(),
+				'cart_total'    => floatval( $cart->get_cart_contents_total() ),
 				'currency'      => get_woocommerce_currency(),
 			);
 
