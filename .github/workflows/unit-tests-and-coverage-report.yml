@@ -205,3 +205,4 @@ jobs:
         with:
           message-id: coverage-report
           message-path: coverage-comment.md
+        continue-on-error: true # When a PR is opened by a non-member, there are no write permissions (and no access to secrets), so this step will always fail.
