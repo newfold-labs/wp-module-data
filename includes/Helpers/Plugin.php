@@ -117,8 +117,9 @@ class Plugin {
 			}
 
 			$users[] = array(
-				'id'    => $user->ID,
-				'email' => $user->user_email,
+				'id'             => $user->ID,
+				'email'          => $user->user_email,
+				'is_super_admin' => is_super_admin( $user->ID ),
 			);
 		}
 

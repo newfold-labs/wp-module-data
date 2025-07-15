@@ -55,7 +55,7 @@ class PluginWPUnitTest extends WPUnitTestCase {
 
 		$this->assertCount(2, $result['users']);
 
-		$this->assertEqualSets(['id','email',], array_keys($result['users'][1]));
+		$this->assertEqualSets( array( 'id', 'email', 'is_super_admin' ), array_keys( $result['users'][1] ) );
 	}
 
 	/**
