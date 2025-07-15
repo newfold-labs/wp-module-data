@@ -5,13 +5,14 @@ namespace NewfoldLabs\WP\Module\Data\Listeners;
 use Mockery;
 use NewfoldLabs\WP\Module\Data\Event;
 use NewfoldLabs\WP\Module\Data\EventManager;
+use NewfoldLabs\WP\Module\Data\UnitTestCase;
 use WP_Mock;
 use WP_User;
 
 /**
- * @coversDefaultClass \NewfoldLabs\WP\Module\Data\Listeners\Commerce
+ * @coversDefaultClass Commerce
  */
-class CommerceTest extends \WP_Mock\Tools\TestCase {
+class CommerceTest extends UnitTestCase {
 
 	public function setUp(): void {
 		parent::setUp();
@@ -94,6 +95,34 @@ class CommerceTest extends \WP_Mock\Tools\TestCase {
 		);
 
 		$sut->woopay_connection( $wcpay_account_data, '' );
+
+		$this->assertConditionsMet();
+	}
+
+	/**
+	 * @covers ::site_cart_views
+	 */
+	public function test_site_cart_views_woocommerce_inactive(): void {
+
+		\Patchwork\redefine(
+			'function_exists',
+			function ( string $function_name ) {
+				switch ($function_name) {
+					case 'WC':
+						return false;
+					default:
+						return \Patchwork\relay(func_get_args());
+				}
+			}
+		);
+
+		$event_manager = Mockery::mock( EventManager::class );
+
+		$sut = new Commerce( $event_manager );
+
+		$event_manager->expects( 'push' )->never();
+
+		$sut->site_cart_views();
 
 		$this->assertConditionsMet();
 	}
