@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1752602539">
-  <project timestamp="1752602539">
+<coverage generated="1752602643">
+  <project timestamp="1752602643">
     <file name="/home/runner/work/wp-module-data/wp-module-data/bootstrap.php">
       <line num="31" type="stmt" count="0"/>
       <line num="40" type="stmt" count="0"/>
@@ -1120,7 +1120,7 @@
     </file>
     <file name="/home/runner/work/wp-module-data/wp-module-data/includes/Listeners/Commerce.php">
       <class name="NewfoldLabs\WP\Module\Data\Listeners\Commerce" namespace="global">
-        <metrics complexity="50" methods="15" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="176" coveredstatements="28" elements="191" coveredelements="29"/>
+        <metrics complexity="51" methods="15" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="182" coveredstatements="45" elements="197" coveredelements="47"/>
       </class>
       <line num="15" type="method" name="register_hooks" visibility="public" complexity="2" crap="6" count="0"/>
       <line num="16" type="stmt" count="0"/>
@@ -1165,155 +1165,161 @@
       <line num="98" type="stmt" count="0"/>
       <line num="99" type="stmt" count="0"/>
       <line num="102" type="stmt" count="0"/>
-      <line num="110" type="method" name="site_cart_views" visibility="public" complexity="3" crap="12" count="0"/>
-      <line num="111" type="stmt" count="0"/>
-      <line num="112" type="stmt" count="0"/>
-      <line num="113" type="stmt" count="0"/>
-      <line num="114" type="stmt" count="0"/>
-      <line num="115" type="stmt" count="0"/>
-      <line num="116" type="stmt" count="0"/>
-      <line num="117" type="stmt" count="0"/>
-      <line num="119" type="stmt" count="0"/>
-      <line num="120" type="stmt" count="0"/>
-      <line num="121" type="stmt" count="0"/>
-      <line num="122" type="stmt" count="0"/>
-      <line num="132" type="method" name="checkout_views" visibility="public" complexity="1" crap="2" count="0"/>
-      <line num="133" type="stmt" count="0"/>
-      <line num="134" type="stmt" count="0"/>
-      <line num="135" type="stmt" count="0"/>
-      <line num="136" type="stmt" count="0"/>
-      <line num="137" type="stmt" count="0"/>
-      <line num="138" type="stmt" count="0"/>
-      <line num="140" type="stmt" count="0"/>
-      <line num="141" type="stmt" count="0"/>
-      <line num="142" type="stmt" count="0"/>
-      <line num="143" type="stmt" count="0"/>
-      <line num="153" type="method" name="thank_you_page" visibility="public" complexity="2" crap="6" count="0"/>
+      <line num="111" type="method" name="site_cart_views" visibility="public" complexity="4" crap="4" count="4"/>
+      <line num="112" type="stmt" count="4"/>
+      <line num="113" type="stmt" count="1"/>
+      <line num="116" type="stmt" count="3"/>
+      <line num="118" type="stmt" count="3"/>
+      <line num="119" type="stmt" count="1"/>
+      <line num="122" type="stmt" count="2"/>
+      <line num="124" type="stmt" count="2"/>
+      <line num="125" type="stmt" count="1"/>
+      <line num="128" type="stmt" count="1"/>
+      <line num="129" type="stmt" count="1"/>
+      <line num="130" type="stmt" count="1"/>
+      <line num="131" type="stmt" count="1"/>
+      <line num="132" type="stmt" count="1"/>
+      <line num="134" type="stmt" count="1"/>
+      <line num="135" type="stmt" count="1"/>
+      <line num="136" type="stmt" count="1"/>
+      <line num="137" type="stmt" count="1"/>
+      <line num="145" type="method" name="checkout_views" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="146" type="stmt" count="0"/>
+      <line num="147" type="stmt" count="0"/>
+      <line num="148" type="stmt" count="0"/>
+      <line num="149" type="stmt" count="0"/>
+      <line num="150" type="stmt" count="0"/>
+      <line num="151" type="stmt" count="0"/>
+      <line num="153" type="stmt" count="0"/>
       <line num="154" type="stmt" count="0"/>
       <line num="155" type="stmt" count="0"/>
-      <line num="158" type="stmt" count="0"/>
-      <line num="159" type="stmt" count="0"/>
-      <line num="161" type="stmt" count="0"/>
-      <line num="162" type="stmt" count="0"/>
-      <line num="163" type="stmt" count="0"/>
-      <line num="164" type="stmt" count="0"/>
-      <line num="165" type="stmt" count="0"/>
+      <line num="156" type="stmt" count="0"/>
+      <line num="166" type="method" name="thank_you_page" visibility="public" complexity="2" crap="6" count="0"/>
       <line num="167" type="stmt" count="0"/>
       <line num="168" type="stmt" count="0"/>
-      <line num="169" type="stmt" count="0"/>
-      <line num="170" type="stmt" count="0"/>
-      <line num="181" type="method" name="razorpay_connection" visibility="public" complexity="4" crap="20" count="0"/>
+      <line num="171" type="stmt" count="0"/>
+      <line num="172" type="stmt" count="0"/>
+      <line num="174" type="stmt" count="0"/>
+      <line num="175" type="stmt" count="0"/>
+      <line num="176" type="stmt" count="0"/>
+      <line num="177" type="stmt" count="0"/>
+      <line num="178" type="stmt" count="0"/>
+      <line num="180" type="stmt" count="0"/>
+      <line num="181" type="stmt" count="0"/>
       <line num="182" type="stmt" count="0"/>
       <line num="183" type="stmt" count="0"/>
-      <line num="184" type="stmt" count="0"/>
-      <line num="185" type="stmt" count="0"/>
-      <line num="186" type="stmt" count="0"/>
-      <line num="187" type="stmt" count="0"/>
-      <line num="188" type="stmt" count="0"/>
-      <line num="189" type="stmt" count="0"/>
-      <line num="190" type="stmt" count="0"/>
-      <line num="191" type="stmt" count="0"/>
-      <line num="192" type="stmt" count="0"/>
-      <line num="193" type="stmt" count="0"/>
+      <line num="194" type="method" name="razorpay_connection" visibility="public" complexity="4" crap="20" count="0"/>
+      <line num="195" type="stmt" count="0"/>
       <line num="196" type="stmt" count="0"/>
-      <line num="207" type="method" name="shippo_connection" visibility="public" complexity="4" crap="20" count="0"/>
-      <line num="208" type="stmt" count="0"/>
+      <line num="197" type="stmt" count="0"/>
+      <line num="198" type="stmt" count="0"/>
+      <line num="199" type="stmt" count="0"/>
+      <line num="200" type="stmt" count="0"/>
+      <line num="201" type="stmt" count="0"/>
+      <line num="202" type="stmt" count="0"/>
+      <line num="203" type="stmt" count="0"/>
+      <line num="204" type="stmt" count="0"/>
+      <line num="205" type="stmt" count="0"/>
+      <line num="206" type="stmt" count="0"/>
       <line num="209" type="stmt" count="0"/>
-      <line num="210" type="stmt" count="0"/>
-      <line num="211" type="stmt" count="0"/>
-      <line num="212" type="stmt" count="0"/>
-      <line num="213" type="stmt" count="0"/>
-      <line num="214" type="stmt" count="0"/>
-      <line num="215" type="stmt" count="0"/>
-      <line num="216" type="stmt" count="0"/>
-      <line num="217" type="stmt" count="0"/>
-      <line num="218" type="stmt" count="0"/>
-      <line num="219" type="stmt" count="0"/>
+      <line num="220" type="method" name="shippo_connection" visibility="public" complexity="4" crap="20" count="0"/>
+      <line num="221" type="stmt" count="0"/>
       <line num="222" type="stmt" count="0"/>
-      <line num="233" type="method" name="stripe_connection" visibility="public" complexity="4" crap="20" count="0"/>
-      <line num="234" type="stmt" count="0"/>
+      <line num="223" type="stmt" count="0"/>
+      <line num="224" type="stmt" count="0"/>
+      <line num="225" type="stmt" count="0"/>
+      <line num="226" type="stmt" count="0"/>
+      <line num="227" type="stmt" count="0"/>
+      <line num="228" type="stmt" count="0"/>
+      <line num="229" type="stmt" count="0"/>
+      <line num="230" type="stmt" count="0"/>
+      <line num="231" type="stmt" count="0"/>
+      <line num="232" type="stmt" count="0"/>
       <line num="235" type="stmt" count="0"/>
-      <line num="236" type="stmt" count="0"/>
-      <line num="237" type="stmt" count="0"/>
-      <line num="238" type="stmt" count="0"/>
-      <line num="239" type="stmt" count="0"/>
-      <line num="240" type="stmt" count="0"/>
-      <line num="241" type="stmt" count="0"/>
-      <line num="242" type="stmt" count="0"/>
-      <line num="243" type="stmt" count="0"/>
-      <line num="244" type="stmt" count="0"/>
-      <line num="245" type="stmt" count="0"/>
+      <line num="246" type="method" name="stripe_connection" visibility="public" complexity="4" crap="20" count="0"/>
+      <line num="247" type="stmt" count="0"/>
       <line num="248" type="stmt" count="0"/>
-      <line num="259" type="method" name="paypal_connection" visibility="public" complexity="4" crap="20" count="0"/>
-      <line num="260" type="stmt" count="0"/>
+      <line num="249" type="stmt" count="0"/>
+      <line num="250" type="stmt" count="0"/>
+      <line num="251" type="stmt" count="0"/>
+      <line num="252" type="stmt" count="0"/>
+      <line num="253" type="stmt" count="0"/>
+      <line num="254" type="stmt" count="0"/>
+      <line num="255" type="stmt" count="0"/>
+      <line num="256" type="stmt" count="0"/>
+      <line num="257" type="stmt" count="0"/>
+      <line num="258" type="stmt" count="0"/>
       <line num="261" type="stmt" count="0"/>
-      <line num="262" type="stmt" count="0"/>
-      <line num="263" type="stmt" count="0"/>
-      <line num="264" type="stmt" count="0"/>
-      <line num="265" type="stmt" count="0"/>
-      <line num="266" type="stmt" count="0"/>
-      <line num="267" type="stmt" count="0"/>
-      <line num="268" type="stmt" count="0"/>
-      <line num="269" type="stmt" count="0"/>
-      <line num="270" type="stmt" count="0"/>
-      <line num="271" type="stmt" count="0"/>
+      <line num="272" type="method" name="paypal_connection" visibility="public" complexity="4" crap="20" count="0"/>
+      <line num="273" type="stmt" count="0"/>
       <line num="274" type="stmt" count="0"/>
-      <line num="285" type="method" name="ecomdash_connected" visibility="public" complexity="5" crap="30" count="0"/>
-      <line num="286" type="stmt" count="0"/>
+      <line num="275" type="stmt" count="0"/>
+      <line num="276" type="stmt" count="0"/>
+      <line num="277" type="stmt" count="0"/>
+      <line num="278" type="stmt" count="0"/>
+      <line num="279" type="stmt" count="0"/>
+      <line num="280" type="stmt" count="0"/>
+      <line num="281" type="stmt" count="0"/>
+      <line num="282" type="stmt" count="0"/>
+      <line num="283" type="stmt" count="0"/>
+      <line num="284" type="stmt" count="0"/>
       <line num="287" type="stmt" count="0"/>
-      <line num="288" type="stmt" count="0"/>
-      <line num="289" type="stmt" count="0"/>
-      <line num="290" type="stmt" count="0"/>
-      <line num="291" type="stmt" count="0"/>
-      <line num="292" type="stmt" count="0"/>
-      <line num="293" type="stmt" count="0"/>
-      <line num="294" type="stmt" count="0"/>
-      <line num="295" type="stmt" count="0"/>
-      <line num="297" type="stmt" count="0"/>
-      <line num="307" type="method" name="product_created_or_updated" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="298" type="method" name="ecomdash_connected" visibility="public" complexity="5" crap="30" count="0"/>
+      <line num="299" type="stmt" count="0"/>
+      <line num="300" type="stmt" count="0"/>
+      <line num="301" type="stmt" count="0"/>
+      <line num="302" type="stmt" count="0"/>
+      <line num="303" type="stmt" count="0"/>
+      <line num="304" type="stmt" count="0"/>
+      <line num="305" type="stmt" count="0"/>
+      <line num="306" type="stmt" count="0"/>
+      <line num="307" type="stmt" count="0"/>
       <line num="308" type="stmt" count="0"/>
-      <line num="309" type="stmt" count="0"/>
       <line num="310" type="stmt" count="0"/>
-      <line num="311" type="stmt" count="0"/>
-      <line num="312" type="stmt" count="0"/>
-      <line num="314" type="stmt" count="0"/>
-      <line num="315" type="stmt" count="0"/>
-      <line num="316" type="stmt" count="0"/>
-      <line num="317" type="stmt" count="0"/>
-      <line num="330" type="method" name="woocommerce_hpos_enabled" visibility="public" complexity="5" crap="5" count="1"/>
-      <line num="331" type="stmt" count="1"/>
-      <line num="332" type="stmt" count="1"/>
-      <line num="333" type="stmt" count="1"/>
-      <line num="334" type="stmt" count="1"/>
-      <line num="336" type="stmt" count="1"/>
-      <line num="337" type="stmt" count="1"/>
-      <line num="338" type="stmt" count="1"/>
-      <line num="339" type="stmt" count="1"/>
-      <line num="340" type="stmt" count="1"/>
-      <line num="342" type="stmt" count="1"/>
-      <line num="343" type="stmt" count="1"/>
+      <line num="320" type="method" name="product_created_or_updated" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="321" type="stmt" count="0"/>
+      <line num="322" type="stmt" count="0"/>
+      <line num="323" type="stmt" count="0"/>
+      <line num="324" type="stmt" count="0"/>
+      <line num="325" type="stmt" count="0"/>
+      <line num="327" type="stmt" count="0"/>
+      <line num="328" type="stmt" count="0"/>
+      <line num="329" type="stmt" count="0"/>
+      <line num="330" type="stmt" count="0"/>
+      <line num="343" type="method" name="woocommerce_hpos_enabled" visibility="public" complexity="5" crap="5" count="1"/>
       <line num="344" type="stmt" count="1"/>
       <line num="345" type="stmt" count="1"/>
-      <line num="367" type="method" name="woopay_connection" visibility="public" complexity="7" crap="7.23" count="1"/>
-      <line num="371" type="stmt" count="1"/>
-      <line num="372" type="stmt" count="0"/>
-      <line num="376" type="stmt" count="1"/>
-      <line num="377" type="stmt" count="0"/>
-      <line num="381" type="stmt" count="1"/>
-      <line num="382" type="stmt" count="0"/>
-      <line num="385" type="stmt" count="1"/>
-      <line num="386" type="stmt" count="1"/>
-      <line num="388" type="stmt" count="1"/>
+      <line num="346" type="stmt" count="1"/>
+      <line num="347" type="stmt" count="1"/>
+      <line num="349" type="stmt" count="1"/>
+      <line num="350" type="stmt" count="1"/>
+      <line num="351" type="stmt" count="1"/>
+      <line num="352" type="stmt" count="1"/>
+      <line num="353" type="stmt" count="1"/>
+      <line num="355" type="stmt" count="1"/>
+      <line num="356" type="stmt" count="1"/>
+      <line num="357" type="stmt" count="1"/>
+      <line num="358" type="stmt" count="1"/>
+      <line num="380" type="method" name="woopay_connection" visibility="public" complexity="7" crap="7.23" count="1"/>
+      <line num="384" type="stmt" count="1"/>
+      <line num="385" type="stmt" count="0"/>
       <line num="389" type="stmt" count="1"/>
-      <line num="390" type="stmt" count="1"/>
-      <line num="391" type="stmt" count="1"/>
-      <line num="392" type="stmt" count="1"/>
-      <line num="393" type="stmt" count="1"/>
+      <line num="390" type="stmt" count="0"/>
       <line num="394" type="stmt" count="1"/>
-      <line num="395" type="stmt" count="1"/>
-      <line num="396" type="stmt" count="1"/>
+      <line num="395" type="stmt" count="0"/>
       <line num="398" type="stmt" count="1"/>
-      <metrics loc="401" ncloc="273" classes="1" methods="15" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="176" coveredstatements="28" elements="191" coveredelements="29"/>
+      <line num="399" type="stmt" count="1"/>
+      <line num="401" type="stmt" count="1"/>
+      <line num="402" type="stmt" count="1"/>
+      <line num="403" type="stmt" count="1"/>
+      <line num="404" type="stmt" count="1"/>
+      <line num="405" type="stmt" count="1"/>
+      <line num="406" type="stmt" count="1"/>
+      <line num="407" type="stmt" count="1"/>
+      <line num="408" type="stmt" count="1"/>
+      <line num="409" type="stmt" count="1"/>
+      <line num="411" type="stmt" count="1"/>
+      <metrics loc="414" ncloc="285" classes="1" methods="15" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="182" coveredstatements="45" elements="197" coveredelements="47"/>
     </file>
     <file name="/home/runner/work/wp-module-data/wp-module-data/includes/Listeners/Content.php">
       <class name="NewfoldLabs\WP\Module\Data\Listeners\Content" namespace="global">
@@ -2140,6 +2146,6 @@
       <line num="24" type="stmt" count="0"/>
       <metrics loc="25" ncloc="25" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="18" coveredstatements="0" elements="18" coveredelements="0"/>
     </file>
-    <metrics files="43" loc="5548" ncloc="3499" classes="37" methods="198" coveredmethods="55" conditionals="0" coveredconditionals="0" statements="1707" coveredstatements="593" elements="1905" coveredelements="648"/>
+    <metrics files="43" loc="5561" ncloc="3511" classes="37" methods="198" coveredmethods="56" conditionals="0" coveredconditionals="0" statements="1713" coveredstatements="610" elements="1911" coveredelements="666"/>
   </project>
 </coverage>
