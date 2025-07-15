@@ -4,10 +4,9 @@ namespace NewfoldLabs\WP\Module\Data;
 
 use Mockery;
 use NewfoldLabs\WP\Module\Data\Listeners\Commerce;
-use function NewfoldLabs\WP\ModuleLoader\container;
 
 /**
- * @coversDefaultClass Commerce
+ * @coversDefaultClass \NewfoldLabs\WP\Module\Data\Listeners\Commerce
  */
 class CommerceWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase {
 

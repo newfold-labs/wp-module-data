@@ -10,7 +10,7 @@ use WP_Mock;
 use WP_User;
 
 /**
- * @coversDefaultClass Commerce
+ * @coversDefaultClass \NewfoldLabs\WP\Module\Data\Listeners\Commerce
  */
 class CommerceTest extends UnitTestCase {
 
