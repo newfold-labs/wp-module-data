@@ -59,6 +59,26 @@ class PluginWPUnitTest extends WPUnitTestCase {
 	}
 
 	/**
+	 * @covers ::collect
+	 * @covers ::get_data
+	 * @covers ::get_admin_users
+	 */
+	public function test_collect_jetpack_filters_users_with_no_email(): void {
+		$username    = uniqid( 'admin' );
+		$new_user_id = wp_create_user( $username, 'password', "{$username}@example.com" );
+		$new_user    = new \WP_User( $new_user_id );
+		$new_user->add_role( 'administrator' );
+		$new_user->user_email = ''; // Remove email to test filtering
+		wp_update_user( $new_user );
+
+		$sut = new Plugin();
+
+		$result = $sut->collect( 'jetpack/jetpack.php' );
+
+		$this->assertCount( 1, $result['users'] );
+	}
+
+	/**
 	 * @covers ::collect_installed
 	 */
 	public function test_collect_installed(): void {
