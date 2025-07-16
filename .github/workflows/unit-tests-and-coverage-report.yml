@@ -104,6 +104,11 @@ jobs:
         continue-on-error: true
         run: composer install -v
 
+      # @see https://developer.woocommerce.com/2023/06/05/new-requirement-for-woocommerce-8-2-php-7-4/
+      - name: Install old version of WooCommerce
+        if: ${{ matrix.php == '7.3' }}
+        run: composer require wpackagist-plugin/woocommerce:8.1.2
+
       - name: Allow writing to wp-content
         run: sudo chmod -R a+w wp-content
 
@@ -205,3 +210,4 @@ jobs:
         with:
           message-id: coverage-report
           message-path: coverage-comment.md
+        continue-on-error: true # When a PR is opened by a non-member, there are no write permissions (and no access to secrets), so this step will always fail.

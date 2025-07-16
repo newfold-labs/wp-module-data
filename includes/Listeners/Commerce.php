@@ -105,24 +105,37 @@ class Commerce extends Listener {
 	/**
 	 * Site Cart View, send data to Hiive
 	 *
+	 * @hooked woocommerce_before_cart
 	 * @return void
 	 */
 	public function site_cart_views() {
-		$cart = WC()->cart;
-		if ( $cart && $cart->get_cart_contents_count() !== 0 ) {
-			$data = array(
-				'product_count' => $cart->get_cart_contents_count(),
-				'cart_total'    => floatval( $cart->get_cart_contents_total() ),
-				'currency'      => get_woocommerce_currency(),
-			);
-
-			$this->push(
-				'site_cart_view',
-				$data
-			);
+		if ( ! function_exists( 'WC' ) ) {
+			return;
 		}
-	}
 
+		$cart = WC()->cart;
+
+		if ( ! $cart ) {
+			return;
+		}
+
+		$cart_contents_count = $cart->get_cart_contents_count();
+
+		if ( 0 === $cart_contents_count ) {
+			return;
+		}
+
+		$data = array(
+			'product_count' => $cart->get_cart_contents_count(),
+			'cart_total'    => floatval( $cart->get_cart_contents_total() ),
+			'currency'      => get_woocommerce_currency(),
+		);
+
+		$this->push(
+			'site_cart_view',
+			$data
+		);
+	}
 
 	/**
 	 * Checkout view, send data to Hiive
