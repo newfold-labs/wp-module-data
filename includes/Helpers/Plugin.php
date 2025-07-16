@@ -93,9 +93,9 @@ class Plugin {
 	}
 
 	/**
-	 * Get Admin and SuperAdmin user accounts
+	 * Get Admin user accounts
 	 *
-	 * @return array<array{id:int, email:string}> $users Array of Admin & Super Admin users
+	 * @return array<array{id:int, email:string}> $users Array of Admin user.
 	 */
 	protected function get_admin_users(): array {
 		// Get all admin users
@@ -107,7 +107,7 @@ class Plugin {
 		$users       = array();
 
 		/**
-		 * Add administrators to the $users and check for super admin
+		 * Add administrators to the $users array, filtering out those with an email address.
 		 *
 		 * @var \WP_User $user
 		 */
