@@ -5,8 +5,9 @@
 	 * @param {Event} e The event object.
 	 */
 	const processEvent = ( e ) => {
+		const isLink = e.target.tagName === 'A';
 		// If it's a link, prevent the default behavior until the event is sent.
-		if ( e.target.tagName === 'A' ) {
+		if ( isLink ) {
 			e.preventDefault();
 		}
 
@@ -19,8 +20,6 @@
 			target.getAttribute( 'data-nfd-brand' ) ||
 			window.nfdHiiveEvents.brand;
 		const queue = target.getAttribute( 'data-nfd-queue' ) || false;
-		const isCTB = target.getAttribute( 'data-ctb-id' );
-		const linkTarget = target.getAttribute( 'target' );
 
 		const eventData = {
 			action: eventId,
@@ -57,13 +56,22 @@
 				}
 			} );
 
-		// Send user to the link - except with a CTB link since the CTB script manages that as a fallback
-		if ( e.target.tagName === 'A' && ! isCTB ) {
-			// respect target="_blank" settings in links
-			if ( linkTarget === '_blank' ) {
-				window.open( e.target.href );
+		// Maybe send user to link manually
+		if ( isLink ) {
+			const isCTB = target.getAttribute( 'data-ctb-id' );
+			const hasPDAttr = target.hasAttribute( 'data-nfd-prevent-default' );
+			// except with a CTB link since the CTB script manages that as a fallback
+			// or if it has a data-nfd-prevent-default attribute to prevent default behavior
+			if ( isCTB || hasPDAttr ) {
+				return;
 			} else {
-				window.open( e.target.href, '_self' );
+				const linkTarget = target.getAttribute( 'target' );
+				// respect target="_blank" settings in links
+				if ( linkTarget === '_blank' ) {
+					window.open( e.target.href );
+				} else {
+					window.open( e.target.href, '_self' );
+				}
 			}
 		}
 	};
