@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1759418824">
-  <project timestamp="1759418824">
+<coverage generated="1759933910">
+  <project timestamp="1759933910">
     <file name="/home/runner/work/wp-module-data/wp-module-data/bootstrap.php">
       <line num="31" type="stmt" count="0"/>
       <line num="40" type="stmt" count="0"/>
@@ -833,7 +833,7 @@
     </file>
     <file name="/home/runner/work/wp-module-data/wp-module-data/includes/HiiveConnection.php">
       <class name="NewfoldLabs\WP\Module\Data\HiiveConnection" namespace="global">
-        <metrics complexity="46" methods="17" coveredmethods="8" conditionals="0" coveredconditionals="0" statements="143" coveredstatements="108" elements="160" coveredelements="116"/>
+        <metrics complexity="47" methods="17" coveredmethods="7" conditionals="0" coveredconditionals="0" statements="145" coveredstatements="109" elements="162" coveredelements="116"/>
       </class>
       <line num="47" type="method" name="__construct" visibility="public" complexity="2" crap="2" count="1"/>
       <line num="49" type="stmt" count="1"/>
@@ -965,17 +965,13 @@
       <line num="386" type="stmt" count="1"/>
       <line num="391" type="stmt" count="3"/>
       <line num="393" type="stmt" count="3"/>
-      <line num="403" type="method" name="get_auth_token" visibility="public" complexity="1" crap="1" count="6"/>
-      <line num="404" type="stmt" count="6"/>
-      <line num="412" type="method" name="get_core_data" visibility="public" complexity="3" crap="3" count="2"/>
-      <line num="413" type="stmt" count="2"/>
-      <line num="414" type="stmt" count="2"/>
-      <line num="416" type="stmt" count="2"/>
-      <line num="417" type="stmt" count="2"/>
-      <line num="418" type="stmt" count="2"/>
+      <line num="403" type="method" name="get_auth_token" visibility="public" complexity="2" crap="2.15" count="6"/>
+      <line num="405" type="stmt" count="6"/>
+      <line num="406" type="stmt" count="0"/>
+      <line num="410" type="stmt" count="6"/>
+      <line num="418" type="method" name="get_core_data" visibility="public" complexity="3" crap="3" count="2"/>
       <line num="419" type="stmt" count="2"/>
       <line num="420" type="stmt" count="2"/>
-      <line num="421" type="stmt" count="2"/>
       <line num="422" type="stmt" count="2"/>
       <line num="423" type="stmt" count="2"/>
       <line num="424" type="stmt" count="2"/>
@@ -986,15 +982,21 @@
       <line num="429" type="stmt" count="2"/>
       <line num="430" type="stmt" count="2"/>
       <line num="431" type="stmt" count="2"/>
+      <line num="432" type="stmt" count="2"/>
       <line num="433" type="stmt" count="2"/>
-      <line num="444" type="method" name="add_plugin_name_version_to_user_agent" visibility="public" complexity="1" crap="1" count="3"/>
-      <line num="445" type="stmt" count="3"/>
-      <line num="446" type="stmt" count="3"/>
-      <line num="447" type="stmt" count="3"/>
-      <line num="449" type="stmt" count="3"/>
+      <line num="434" type="stmt" count="2"/>
+      <line num="435" type="stmt" count="2"/>
+      <line num="436" type="stmt" count="2"/>
+      <line num="437" type="stmt" count="2"/>
+      <line num="439" type="stmt" count="2"/>
+      <line num="450" type="method" name="add_plugin_name_version_to_user_agent" visibility="public" complexity="1" crap="1" count="3"/>
       <line num="451" type="stmt" count="3"/>
+      <line num="452" type="stmt" count="3"/>
       <line num="453" type="stmt" count="3"/>
-      <metrics loc="456" ncloc="284" classes="1" methods="17" coveredmethods="8" conditionals="0" coveredconditionals="0" statements="143" coveredstatements="108" elements="160" coveredelements="116"/>
+      <line num="455" type="stmt" count="3"/>
+      <line num="457" type="stmt" count="3"/>
+      <line num="459" type="stmt" count="3"/>
+      <metrics loc="462" ncloc="288" classes="1" methods="17" coveredmethods="7" conditionals="0" coveredconditionals="0" statements="145" coveredstatements="109" elements="162" coveredelements="116"/>
     </file>
     <file name="/home/runner/work/wp-module-data/wp-module-data/includes/HiiveWorker.php">
       <class name="NewfoldLabs\WP\Module\Data\HiiveWorker" namespace="global">
@@ -2066,15 +2068,19 @@
     </file>
     <file name="/home/runner/work/wp-module-data/wp-module-data/includes/WonderBlocks/Requests/Request.php">
       <class name="NewfoldLabs\WP\Module\Data\WonderBlocks\Requests\Request" namespace="global">
-        <metrics complexity="4" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="4" coveredstatements="4" elements="6" coveredelements="6"/>
+        <metrics complexity="8" methods="4" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="6" coveredstatements="4" elements="10" coveredelements="6"/>
       </class>
-      <line num="33" type="method" name="get_base_url" visibility="public" complexity="3" crap="3" count="3"/>
-      <line num="34" type="stmt" count="3"/>
-      <line num="35" type="stmt" count="1"/>
-      <line num="38" type="stmt" count="2"/>
-      <line num="44" type="method" name="get_endpoint" visibility="public" complexity="1" crap="1" count="1"/>
-      <line num="45" type="stmt" count="1"/>
-      <metrics loc="53" ncloc="26" classes="1" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="4" coveredstatements="4" elements="6" coveredelements="6"/>
+      <line num="35" type="method" name="get_local_base_url" visibility="protected" complexity="2" crap="6" count="0"/>
+      <line num="36" type="stmt" count="0"/>
+      <line num="44" type="method" name="get_production_base_url" visibility="protected" complexity="2" crap="6" count="0"/>
+      <line num="45" type="stmt" count="0"/>
+      <line num="51" type="method" name="get_base_url" visibility="public" complexity="3" crap="3" count="3"/>
+      <line num="52" type="stmt" count="3"/>
+      <line num="53" type="stmt" count="1"/>
+      <line num="56" type="stmt" count="2"/>
+      <line num="62" type="method" name="get_endpoint" visibility="public" complexity="1" crap="1" count="1"/>
+      <line num="63" type="stmt" count="1"/>
+      <metrics loc="71" ncloc="34" classes="1" methods="4" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="6" coveredstatements="4" elements="10" coveredelements="6"/>
     </file>
     <file name="/home/runner/work/wp-module-data/wp-module-data/includes/WonderBlocks/WonderBlocks.php">
       <class name="NewfoldLabs\WP\Module\Data\WonderBlocks\WonderBlocks" namespace="global">
@@ -2148,6 +2154,6 @@
       <line num="24" type="stmt" count="0"/>
       <metrics loc="25" ncloc="25" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="18" coveredstatements="0" elements="18" coveredelements="0"/>
     </file>
-    <metrics files="43" loc="5569" ncloc="3515" classes="37" methods="198" coveredmethods="56" conditionals="0" coveredconditionals="0" statements="1715" coveredstatements="612" elements="1913" coveredelements="668"/>
+    <metrics files="43" loc="5593" ncloc="3527" classes="37" methods="200" coveredmethods="55" conditionals="0" coveredconditionals="0" statements="1719" coveredstatements="613" elements="1919" coveredelements="668"/>
   </project>
 </coverage>
