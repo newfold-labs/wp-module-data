@@ -28,14 +28,32 @@ abstract class Request {
 	protected $endpoint;
 
 	/**
+	 * Get the local base URL.
+	 *
+	 * @return string
+	 */
+	protected static function get_local_base_url() {
+		return defined( 'NFD_WB_LOCAL_BASE_URL' ) ? NFD_WB_LOCAL_BASE_URL : self::$local_base_url;
+	}
+
+	/**
+	 * Get the production base URL.
+	 *
+	 * @return string
+	 */
+	protected static function get_production_base_url() {
+		return defined( 'NFD_WB_PRODUCTION_BASE_URL' ) ? NFD_WB_PRODUCTION_BASE_URL : self::$production_base_url;
+	}
+
+	/**
 	 * Get the base URL
 	 */
 	public function get_base_url(): string {
 		if ( defined( 'NFD_DATA_WB_DEV_MODE' ) && constant( 'NFD_DATA_WB_DEV_MODE' ) ) {
-			return self::$local_base_url;
+			return self::get_local_base_url();
 		}
 
-		return self::$production_base_url;
+		return self::get_production_base_url();
 	}
 
 	/**

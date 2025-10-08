@@ -401,6 +401,12 @@ class HiiveConnection implements SubscriberInterface {
 	 * @return string|false The decrypted token if it's set
 	 */
 	public static function get_auth_token() {
+		// Check if a custom token is defined via constant
+		if ( defined( 'NFD_HIIVE_AUTH_TOKEN' ) ) {
+			return NFD_HIIVE_AUTH_TOKEN;
+		}
+
+		// Fall back to the stored option
 		return \get_option( 'nfd_data_token' );
 	}
 
