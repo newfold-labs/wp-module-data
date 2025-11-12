@@ -30,6 +30,7 @@ class EventManager {
 		'\\NewfoldLabs\\WP\\Module\\Data\\Listeners\\Yoast',
 		'\\NewfoldLabs\\WP\\Module\\Data\\Listeners\\WonderCart',
 		'\\NewfoldLabs\\WP\\Module\\Data\\Listeners\\WPMail',
+		'\\NewfoldLabs\\WP\\Module\\Data\\Listeners\\SalesPromotion',
 	);
 
 	/**
