@@ -35,6 +35,15 @@ class Yoast extends Listener {
 		add_action( 'wpseo_ftc_post_update_site_representation', array( $this, 'site_representation_updated' ), 10, 3 );
 		add_action( 'wpseo_ftc_post_update_social_profiles', array( $this, 'social_profiles_updated' ), 10, 3 );
 		add_action( 'wpseo_ftc_post_update_enable_tracking', array( $this, 'tracking_updated' ), 10, 3 );
+
+		// Upgrade database
+		add_action( 'wpseo_run_upgrade', array( $this, 'database_upgrade' ) );
+
+		// Updated options
+		add_action( 'update_option_wpseo_titles', array( $this, 'option_updated' ), 10, 3 );
+		add_action( 'update_option_wpseo_social', array( $this, 'option_updated' ), 10, 3 );
+		add_action( 'update_option_wpseo', array( $this, 'option_updated' ), 10, 3 );
+		add_action( 'update_option_wpseo_ms', array( $this, 'option_updated' ), 10, 3 );
 	}
 
 	/**
@@ -348,5 +357,58 @@ class Yoast extends Listener {
 		}
 
 		return $cleaned_failures;
+	}
+
+	/**
+	 * Yoast SEO database upgrade.
+	 *
+	 * @param string|null $previous_version The previous version of Yoast SEO.
+	 *
+	 * @return void
+	 */
+	public function database_upgrade( $previous_version ) {
+
+		if ( ! $previous_version ) {
+			$previous_version = '';
+		}
+
+		$data = array(
+			'category' => 'yoast_event',
+			'data'     => array(
+				'previous_version' => $previous_version,
+				'new_version'      => WPSEO_VERSION,
+			),
+		);
+
+		$this->push(
+			'database_upgrade',
+			$data
+		);
+	}
+
+	/**
+	 * Yoast SEO option updated.
+	 *
+	 * @param mixed  $old_value The old value.
+	 * @param mixed  $new_value The new value.
+	 * @param string $option    The option name.
+	 *
+	 * @return void
+	 */
+	public function option_updated( $old_value, $new_value, $option ) {
+		if ( $old_value !== $new_value ) {
+
+			$data = array(
+				'category' => 'yoast_event',
+				'data'     => array(
+					'old_value' => $old_value,
+					'new_value' => $new_value,
+				),
+			);
+			$this->push(
+				$option,
+				$data
+			);
+		}
 	}
 }
