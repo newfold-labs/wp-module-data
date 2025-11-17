@@ -6,10 +6,19 @@ namespace NewfoldLabs\WP\Module\Data\Listeners;
  * Monitors Yoast events
  */
 class Yoast extends Listener {
-	// We don't want to track these fields
+
+	/**
+	 * Fields to skip when tracking site representation changes
+	 *
+	 * @var array
+	 */
 	private $site_representation_skip_fields = array( 'company_logo_id', 'person_logo_id', 'description' );
 
-	// The names used for Hiive events tracking are different from the names used for the Yoast options
+	/**
+	 * Mapping between Yoast site representation option names and Hiive event tracking names
+	 *
+	 * @var array
+	 */
 	private $site_representation_map = array(
 		'company_or_person'         => 'site_representation',
 		'company_name'              => 'organization_name',
@@ -19,6 +28,11 @@ class Yoast extends Listener {
 		'website_name'              => 'website_name',
 	);
 
+	/**
+	 * Mapping between Yoast social profiles option names and Hiive event tracking names
+	 *
+	 * @var array
+	 */
 	private $social_profiles_map = array(
 		'facebook_site'     => 'facebook_profile',
 		'twitter_site'      => 'twitter_profile',
@@ -153,8 +167,8 @@ class Yoast extends Listener {
 
 			// name is a special case, because it represents the company_or_person_user_id which is initialised to false, and the first time the user saves the site representation step
 			// is set either to 0 if the site represents an organisation, or to an integer > 0 if the site represents a person
-			if ( $key === 'name' ) {
-				if ( $old_value === false && $value === 0 ) {
+			if ( 'name' === $key ) {
+				if ( false === $old_value && 0 === $value ) {
 					return;
 				}
 			}
@@ -163,7 +177,7 @@ class Yoast extends Listener {
 			// switched from organisation to person, and then the person id is being set.
 			// Once the name is assigned an integer > 0, it can never go back to 0, even if the user switches back to organisation
 			// ( it "caches" the last user id that was set)
-			if ( ( $this->is_param_empty( $old_value ) ) || ( $key === 'name' && $old_value === 0 ) ) {
+			if ( ( $this->is_param_empty( $old_value ) ) || ( 'name' === $key && 0 === $old_value ) ) {
 				$this->push( "set_$key", array( 'category' => $category ) );
 				return;
 			}
@@ -205,7 +219,7 @@ class Yoast extends Listener {
 
 		// The option value changed
 		if ( $value !== $old_value ) {
-			if ( $key === 'other_profiles' ) {
+			if ( 'other_profiles' === $key ) {
 				$this->push_other_social_profiles( $key, $value, $old_value, $category );
 				return;
 			}
