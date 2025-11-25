@@ -8,7 +8,7 @@ use WP_Post;
 /**
  * Monitors SalesPromotion events
  */
-class SalesPromotion extends Listener {
+class SalesPromotions extends Listener {
 
 	/**
 	 * Register the hooks for the listener
@@ -17,15 +17,15 @@ class SalesPromotion extends Listener {
 	 */
 	public function register_hooks() {
 		add_action( 'rest_after_insert_bh_sales_campaign', array( $this, 'register_campaign' ), 10 );
-		add_action( 'bluehost/sales_promotion/edit_campaign_event_modal_opened', array(
+		add_action( 'bluehost/sales_promotions/edit_campaign_event_modal_opened', array(
 			$this,
 			'create_campaign_modal_open',
 		),          10, 2 );
-		add_action( 'bluehost/sales_promotion/edit_campaign_event_campaign_selected', array(
+		add_action( 'bluehost/sales_promotions/edit_campaign_event_campaign_selected', array(
 			$this,
 			'campaign_selected',
 		),          10, 2 );
-		add_action( 'bluehost/sales_promotion/edit_campaign_event_campaign_abandoned', array(
+		add_action( 'bluehost/sales_promotions/edit_campaign_event_campaign_abandoned', array(
 			$this,
 			'campaign_abandoned',
 		),          10, 2 );
@@ -40,7 +40,7 @@ class SalesPromotion extends Listener {
 	 * @return WP_Post The post value
 	 */
 	public function register_campaign( $post ) {
-		$campaign = function_exists( 'bh_sales_promotion_get_campaign' ) ? bh_sales_promotion_get_campaign( $post->ID ) : false;
+		$campaign = function_exists( 'bh_sales_promotions_get_campaign' ) ? bh_sales_promotions_get_campaign( $post->ID ) : false;
 		if ( $campaign ) {
 			$type = $campaign->get_type();
 
@@ -142,7 +142,7 @@ class SalesPromotion extends Listener {
 		if ( $cart instanceof WC_Cart ) {
 			// To track Cart Discount
 			foreach ( $cart->get_applied_coupons() as $coupon_item ) {
-				if( false !== strpos ( $coupon_item, 'bh_sales_promotion_cart_discount')  ) {
+				if( false !== strpos ( $coupon_item, 'bh_sales_promotions_cart_discount')  ) {
 					array_push( $campaigns, 'cart-discount' );
 					$campaign_total += $cart->coupon_discount_totals[ $coupon_item ];
 				}
@@ -154,17 +154,17 @@ class SalesPromotion extends Listener {
 			$shipping_methods_property->setAccessible( true );
 			$shipping_methods = $shipping_methods_property->getValue( $cart );
 			foreach ( $shipping_methods as $shipping_method ) {
-				if ( 'bh_sales_promotion_free_shipping' === $shipping_method->id ) {
+				if ( 'bh_sales_promotions_free_shipping' === $shipping_method->id ) {
 					array_push( $campaigns, 'free-shipping' );
 				}
 			}
 
 			// To track rest of the campaigns
 			foreach ( $cart->get_cart() as $cart_item_key => $cart_item ) {
-				if ( isset( $cart_item['bh_sales_promotion'] ) && isset( $cart_item['bh_sales_promotion']['campaigns'] ) ) {
-					$campaign_type = $cart_item['bh_sales_promotion_discounts']['type'];
+				if ( isset( $cart_item['bh_sales_promotions'] ) && isset( $cart_item['bh_sales_promotions']['campaigns'] ) ) {
+					$campaign_type = $cart_item['bh_sales_promotions_discounts']['type'];
 					array_push( $campaigns, $campaign_type );
-					$campaign_total += $cart_item['bh_sales_promotion_discounts']['price_base'] - $cart_item['bh_sales_promotion_discounts']['price_adjusted'];
+					$campaign_total += $cart_item['bh_sales_promotions_discounts']['price_base'] - $cart_item['bh_sales_promotions_discounts']['price_adjusted'];
 				}
 			}
 			if ( count( $campaigns ) > 0 ) {
