@@ -59,11 +59,12 @@ class SalesPromotions extends Listener {
 	}
 
 	/**
-	 * Track sales_promotion create campaign modal window open
-	 * Send data to hiive
+	 * Track sales_promotion create campaign modal window open.
 	 *
-	 * @param string $args  A list of details that were involved on the event.
-	 * @param string $event The name of the event.
+	 * Send data to hiive.
+	 *
+	 * @param array<string, mixed> $args  A list of details that were involved on the event.
+	 * @param string                $event The name of the event.
 	 *
 	 * @return void
 	 */
@@ -84,11 +85,12 @@ class SalesPromotions extends Listener {
 	}
 
 	/**
-	 * Track sales_promotion campaign selection
-	 * Send data to hiive
+	 * Track sales_promotion campaign selection.
 	 *
-	 * @param string $args  A list of details that were involved on the event.
-	 * @param string $event The name of the event.
+	 * Send data to hiive.
+	 *
+	 * @param array<string, mixed> $args  A list of details that were involved on the event.
+	 * @param string                $event The name of the event.
 	 *
 	 * @return void
 	 */
@@ -106,11 +108,12 @@ class SalesPromotions extends Listener {
 	}
 
 	/**
-	 * Track sales_promotion campaign abondoned
-	 * Send data to hiive
+	 * Track sales_promotion campaign abandoned.
 	 *
-	 * @param string $args  A list of details that were involved on the event.
-	 * @param string $event The name of the event.
+	 * Send data to hiive.
+	 *
+	 * @param array<string, mixed> $args  A list of details that were involved on the event.
+	 * @param string                $event The name of the event.
 	 *
 	 * @return void
 	 */
@@ -128,8 +131,9 @@ class SalesPromotions extends Listener {
 	}
 
 	/**
-	 * Track sales_promotion campaigns used in checkout page
-	 * Send data to hiive
+	 * Track sales_promotion campaigns used in checkout page.
+	 *
+	 * Send data to hiive.
 	 *
 	 * @return void
 	 */
