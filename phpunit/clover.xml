@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1764615045">
-  <project timestamp="1764615045">
+<coverage generated="1764615379">
+  <project timestamp="1764615379">
     <file name="/home/runner/work/wp-module-data/wp-module-data/bootstrap.php">
       <line num="31" type="stmt" count="0"/>
       <line num="40" type="stmt" count="0"/>
@@ -1586,71 +1586,71 @@
       <line num="54" type="stmt" count="0"/>
       <line num="55" type="stmt" count="0"/>
       <line num="58" type="stmt" count="0"/>
-      <line num="70" type="method" name="create_campaign_modal_open" visibility="public" complexity="2" crap="6" count="0"/>
-      <line num="71" type="stmt" count="0"/>
+      <line num="71" type="method" name="create_campaign_modal_open" visibility="public" complexity="2" crap="6" count="0"/>
       <line num="72" type="stmt" count="0"/>
-      <line num="74" type="stmt" count="0"/>
+      <line num="73" type="stmt" count="0"/>
       <line num="75" type="stmt" count="0"/>
       <line num="76" type="stmt" count="0"/>
       <line num="77" type="stmt" count="0"/>
       <line num="78" type="stmt" count="0"/>
-      <line num="80" type="stmt" count="0"/>
+      <line num="79" type="stmt" count="0"/>
       <line num="81" type="stmt" count="0"/>
       <line num="82" type="stmt" count="0"/>
       <line num="83" type="stmt" count="0"/>
-      <line num="95" type="method" name="campaign_selected" visibility="public" complexity="1" crap="2" count="0"/>
-      <line num="96" type="stmt" count="0"/>
-      <line num="97" type="stmt" count="0"/>
+      <line num="84" type="stmt" count="0"/>
+      <line num="97" type="method" name="campaign_selected" visibility="public" complexity="1" crap="2" count="0"/>
       <line num="98" type="stmt" count="0"/>
       <line num="99" type="stmt" count="0"/>
       <line num="100" type="stmt" count="0"/>
+      <line num="101" type="stmt" count="0"/>
       <line num="102" type="stmt" count="0"/>
-      <line num="103" type="stmt" count="0"/>
       <line num="104" type="stmt" count="0"/>
       <line num="105" type="stmt" count="0"/>
-      <line num="117" type="method" name="campaign_abandoned" visibility="public" complexity="1" crap="2" count="0"/>
-      <line num="118" type="stmt" count="0"/>
-      <line num="119" type="stmt" count="0"/>
-      <line num="120" type="stmt" count="0"/>
+      <line num="106" type="stmt" count="0"/>
+      <line num="107" type="stmt" count="0"/>
+      <line num="120" type="method" name="campaign_abandoned" visibility="public" complexity="1" crap="2" count="0"/>
       <line num="121" type="stmt" count="0"/>
       <line num="122" type="stmt" count="0"/>
+      <line num="123" type="stmt" count="0"/>
       <line num="124" type="stmt" count="0"/>
       <line num="125" type="stmt" count="0"/>
-      <line num="126" type="stmt" count="0"/>
       <line num="127" type="stmt" count="0"/>
-      <line num="136" type="method" name="checkout_campaigns_used" visibility="public" complexity="10" crap="110" count="0"/>
-      <line num="137" type="stmt" count="0"/>
-      <line num="138" type="stmt" count="0"/>
-      <line num="140" type="stmt" count="0"/>
+      <line num="128" type="stmt" count="0"/>
+      <line num="129" type="stmt" count="0"/>
+      <line num="130" type="stmt" count="0"/>
+      <line num="140" type="method" name="checkout_campaigns_used" visibility="public" complexity="10" crap="110" count="0"/>
+      <line num="141" type="stmt" count="0"/>
       <line num="142" type="stmt" count="0"/>
       <line num="144" type="stmt" count="0"/>
-      <line num="145" type="stmt" count="0"/>
       <line num="146" type="stmt" count="0"/>
-      <line num="147" type="stmt" count="0"/>
-      <line num="152" type="stmt" count="0"/>
-      <line num="153" type="stmt" count="0"/>
-      <line num="154" type="stmt" count="0"/>
-      <line num="155" type="stmt" count="0"/>
+      <line num="148" type="stmt" count="0"/>
+      <line num="149" type="stmt" count="0"/>
+      <line num="150" type="stmt" count="0"/>
+      <line num="151" type="stmt" count="0"/>
       <line num="156" type="stmt" count="0"/>
       <line num="157" type="stmt" count="0"/>
       <line num="158" type="stmt" count="0"/>
-      <line num="163" type="stmt" count="0"/>
-      <line num="164" type="stmt" count="0"/>
-      <line num="165" type="stmt" count="0"/>
-      <line num="166" type="stmt" count="0"/>
+      <line num="159" type="stmt" count="0"/>
+      <line num="160" type="stmt" count="0"/>
+      <line num="161" type="stmt" count="0"/>
+      <line num="162" type="stmt" count="0"/>
       <line num="167" type="stmt" count="0"/>
+      <line num="168" type="stmt" count="0"/>
+      <line num="169" type="stmt" count="0"/>
       <line num="170" type="stmt" count="0"/>
       <line num="171" type="stmt" count="0"/>
-      <line num="172" type="stmt" count="0"/>
-      <line num="173" type="stmt" count="0"/>
       <line num="174" type="stmt" count="0"/>
       <line num="175" type="stmt" count="0"/>
       <line num="176" type="stmt" count="0"/>
+      <line num="177" type="stmt" count="0"/>
+      <line num="178" type="stmt" count="0"/>
       <line num="179" type="stmt" count="0"/>
       <line num="180" type="stmt" count="0"/>
-      <line num="181" type="stmt" count="0"/>
-      <line num="182" type="stmt" count="0"/>
-      <metrics loc="187" ncloc="136" classes="1" methods="6" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="86" coveredstatements="0" elements="92" coveredelements="0"/>
+      <line num="183" type="stmt" count="0"/>
+      <line num="184" type="stmt" count="0"/>
+      <line num="185" type="stmt" count="0"/>
+      <line num="186" type="stmt" count="0"/>
+      <metrics loc="191" ncloc="136" classes="1" methods="6" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="86" coveredstatements="0" elements="92" coveredelements="0"/>
     </file>
     <file name="/home/runner/work/wp-module-data/wp-module-data/includes/Listeners/SiteHealth.php">
       <class name="NewfoldLabs\WP\Module\Data\Listeners\SiteHealth" namespace="global">
@@ -2252,6 +2252,6 @@
       <line num="24" type="stmt" count="0"/>
       <metrics loc="25" ncloc="25" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="18" coveredstatements="0" elements="18" coveredelements="0"/>
     </file>
-    <metrics files="44" loc="5781" ncloc="3664" classes="38" methods="206" coveredmethods="55" conditionals="0" coveredconditionals="0" statements="1805" coveredstatements="613" elements="2011" coveredelements="668"/>
+    <metrics files="44" loc="5785" ncloc="3664" classes="38" methods="206" coveredmethods="55" conditionals="0" coveredconditionals="0" statements="1805" coveredstatements="613" elements="2011" coveredelements="668"/>
   </project>
 </coverage>
