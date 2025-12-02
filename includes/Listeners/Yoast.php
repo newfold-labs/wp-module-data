@@ -410,19 +410,44 @@ class Yoast extends Listener {
 	 * @return void
 	 */
 	public function option_updated( $old_value, $new_value, $option ) {
-		if ( $old_value !== $new_value ) {
 
+		$modified_values = array();
+		$original_values = array();
+
+		if ( is_array( $old_value ) && is_array( $new_value ) ) {
+			foreach ( $new_value as $key => $value ) {
+
+				if ( ! array_key_exists( $key, $old_value ) ) {
+					$modified_values[ $key ] = $value;
+					continue;
+				}
+				$old_val     = $old_value[ $key ];
+				$has_changed = ( is_array( $value ) || is_object( $value ) )
+					? json_encode( $value ) !== json_encode( $old_val )
+					: $value !== $old_val;
+
+				if ( $has_changed ) {
+					$modified_values[ $key ] = $value;
+					$original_values[ $key ] = $old_val;
+				}
+			}
+		} elseif ( $old_value !== $new_value ) {
+			$modified_values = $new_value;
+			$original_values = $old_value;
+		}
+
+		if ( ! empty( $modified_values ) ) {
 			$data = array(
 				'category' => 'yoast_event',
 				'data'     => array(
-					'old_value' => $old_value,
-					'new_value' => $new_value,
+					'old_value' => $original_values,
+					'new_value' => $modified_values,
 				),
 			);
-			$this->push(
-				$option,
-				$data
-			);
+				$this->push(
+					$option,
+					$data
+				);
 		}
 	}
 }
