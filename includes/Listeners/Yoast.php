@@ -412,7 +412,6 @@ class Yoast extends Listener {
 	public function option_updated( $old_value, $new_value, $option ) {
 
 		$modified_values = array();
-		$original_values = array();
 
 		if ( is_array( $old_value ) && is_array( $new_value ) ) {
 			foreach ( $new_value as $key => $value ) {
@@ -428,20 +427,17 @@ class Yoast extends Listener {
 
 				if ( $has_changed ) {
 					$modified_values[ $key ] = $value;
-					$original_values[ $key ] = $old_val;
 				}
 			}
 		} elseif ( $old_value !== $new_value ) {
 			$modified_values = $new_value;
-			$original_values = $old_value;
 		}
 
 		if ( ! empty( $modified_values ) ) {
 			$data = array(
 				'category' => 'yoast_event',
 				'data'     => array(
-					'old_value' => $original_values,
-					'new_value' => $modified_values,
+					$modified_values,
 				),
 			);
 				$this->push(
