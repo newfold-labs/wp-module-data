@@ -436,14 +436,12 @@ class Yoast extends Listener {
 		if ( ! empty( $modified_values ) ) {
 			$data = array(
 				'category' => 'yoast_event',
-				'data'     => array(
-					$modified_values,
-				),
+				'data'     => $modified_values,
 			);
-				$this->push(
-					$option,
-					$data
-				);
+			$this->push(
+				$option,
+				$data
+			);
 		}
 	}
 }
