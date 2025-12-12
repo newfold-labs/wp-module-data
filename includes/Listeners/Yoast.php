@@ -6,10 +6,19 @@ namespace NewfoldLabs\WP\Module\Data\Listeners;
  * Monitors Yoast events
  */
 class Yoast extends Listener {
-	// We don't want to track these fields
+
+	/**
+	 * Fields to skip when tracking site representation changes
+	 *
+	 * @var array
+	 */
 	private $site_representation_skip_fields = array( 'company_logo_id', 'person_logo_id', 'description' );
 
-	// The names used for Hiive events tracking are different from the names used for the Yoast options
+	/**
+	 * Mapping between Yoast site representation option names and Hiive event tracking names
+	 *
+	 * @var array
+	 */
 	private $site_representation_map = array(
 		'company_or_person'         => 'site_representation',
 		'company_name'              => 'organization_name',
@@ -19,6 +28,11 @@ class Yoast extends Listener {
 		'website_name'              => 'website_name',
 	);
 
+	/**
+	 * Mapping between Yoast social profiles option names and Hiive event tracking names
+	 *
+	 * @var array
+	 */
 	private $social_profiles_map = array(
 		'facebook_site'     => 'facebook_profile',
 		'twitter_site'      => 'twitter_profile',
@@ -35,6 +49,15 @@ class Yoast extends Listener {
 		add_action( 'wpseo_ftc_post_update_site_representation', array( $this, 'site_representation_updated' ), 10, 3 );
 		add_action( 'wpseo_ftc_post_update_social_profiles', array( $this, 'social_profiles_updated' ), 10, 3 );
 		add_action( 'wpseo_ftc_post_update_enable_tracking', array( $this, 'tracking_updated' ), 10, 3 );
+
+		// Upgrade database
+		add_action( 'wpseo_run_upgrade', array( $this, 'database_upgrade' ) );
+
+		// Updated options
+		add_action( 'update_option_wpseo_titles', array( $this, 'option_updated' ), 10, 3 );
+		add_action( 'update_option_wpseo_social', array( $this, 'option_updated' ), 10, 3 );
+		add_action( 'update_option_wpseo', array( $this, 'option_updated' ), 10, 3 );
+		add_action( 'update_option_wpseo_ms', array( $this, 'option_updated' ), 10, 3 );
 	}
 
 	/**
@@ -144,8 +167,8 @@ class Yoast extends Listener {
 
 			// name is a special case, because it represents the company_or_person_user_id which is initialised to false, and the first time the user saves the site representation step
 			// is set either to 0 if the site represents an organisation, or to an integer > 0 if the site represents a person
-			if ( $key === 'name' ) {
-				if ( $old_value === false && $value === 0 ) {
+			if ( 'name' === $key ) {
+				if ( false === $old_value && 0 === $value ) {
 					return;
 				}
 			}
@@ -154,7 +177,7 @@ class Yoast extends Listener {
 			// switched from organisation to person, and then the person id is being set.
 			// Once the name is assigned an integer > 0, it can never go back to 0, even if the user switches back to organisation
 			// ( it "caches" the last user id that was set)
-			if ( ( $this->is_param_empty( $old_value ) ) || ( $key === 'name' && $old_value === 0 ) ) {
+			if ( ( $this->is_param_empty( $old_value ) ) || ( 'name' === $key && 0 === $old_value ) ) {
 				$this->push( "set_$key", array( 'category' => $category ) );
 				return;
 			}
@@ -196,7 +219,7 @@ class Yoast extends Listener {
 
 		// The option value changed
 		if ( $value !== $old_value ) {
-			if ( $key === 'other_profiles' ) {
+			if ( 'other_profiles' === $key ) {
 				$this->push_other_social_profiles( $key, $value, $old_value, $category );
 				return;
 			}
@@ -348,5 +371,77 @@ class Yoast extends Listener {
 		}
 
 		return $cleaned_failures;
+	}
+
+	/**
+	 * Yoast SEO database upgrade.
+	 *
+	 * @param string|null $previous_version The previous version of Yoast SEO.
+	 *
+	 * @return void
+	 */
+	public function database_upgrade( $previous_version ) {
+
+		if ( ! $previous_version ) {
+			$previous_version = '';
+		}
+
+		$data = array(
+			'category' => 'yoast_event',
+			'data'     => array(
+				'previous_version' => $previous_version,
+				'new_version'      => WPSEO_VERSION,
+			),
+		);
+
+		$this->push(
+			'database_upgrade',
+			$data
+		);
+	}
+
+	/**
+	 * Yoast SEO option updated.
+	 *
+	 * @param mixed  $old_value The old value.
+	 * @param mixed  $new_value The new value.
+	 * @param string $option    The option name.
+	 *
+	 * @return void
+	 */
+	public function option_updated( $old_value, $new_value, $option ) {
+
+		$modified_values = array();
+
+		if ( is_array( $old_value ) && is_array( $new_value ) ) {
+			foreach ( $new_value as $key => $value ) {
+
+				if ( ! array_key_exists( $key, $old_value ) ) {
+					$modified_values[ $key ] = $value;
+					continue;
+				}
+				$old_val     = $old_value[ $key ];
+				$has_changed = ( is_array( $value ) || is_object( $value ) )
+					? json_encode( $value ) !== json_encode( $old_val )
+					: $value !== $old_val;
+
+				if ( $has_changed ) {
+					$modified_values[ $key ] = $value;
+				}
+			}
+		} elseif ( $old_value !== $new_value ) {
+			$modified_values = $new_value;
+		}
+
+		if ( ! empty( $modified_values ) ) {
+			$data = array(
+				'category' => 'yoast_event',
+				'data'     => $modified_values,
+			);
+			$this->push(
+				$option,
+				$data
+			);
+		}
 	}
 }
