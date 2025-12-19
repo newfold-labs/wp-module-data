@@ -173,7 +173,7 @@ class HiiveConnectionWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase 
 	public function test_500_error_without_data(): void {
 
 		$sut = Mockery::mock( HiiveConnection::class )->makePartial();
-		$sut->expects('get_core_data')->andReturn(array());
+		$sut->expects( 'get_core_data' )->andReturn( array() );
 		update_option( 'nfd_data_token', 'appear-connected' );
 
 		/**
@@ -213,7 +213,7 @@ class HiiveConnectionWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase 
 	public function test_500_error_with_data(): void {
 
 		$sut = Mockery::mock( HiiveConnection::class )->makePartial();
-		$sut->expects('get_core_data')->andReturn(array());
+		$sut->expects( 'get_core_data' )->andReturn( array() );
 		update_option( 'nfd_data_token', 'appear-connected' );
 
 		$event = new Event(
