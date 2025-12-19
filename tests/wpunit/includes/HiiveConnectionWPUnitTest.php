@@ -3,6 +3,7 @@
 namespace NewfoldLabs\WP\Module\Data;
 
 use Mockery;
+use WP_Error;
 use function NewfoldLabs\WP\ModuleLoader\container;
 
 /**
@@ -253,5 +254,39 @@ class HiiveConnectionWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase 
 		);
 
 		$this->assertIsArray( $result );
+	}
+
+	/**
+	 * The Requests library adds the `$payload` parameter to the URL – it must be an array.
+	 * For POST requests, the `$payload` array is JSON encoded to use as the body.
+	 *
+	 * @see http_build_query()
+	 * @see Curl::format_get()
+	 *
+	 * @covers ::hiive_request()
+	 */
+	public function test_get_request_payload(): void {
+
+		$sut = Mockery::mock( HiiveConnection::class )->makePartial();
+		$sut->expects( 'add_plugin_name_version_to_user_agent' )->andReturnArg( 0 );
+
+		add_filter( 'pre_option_nfd_data_token', fn() => 'auth_token' );
+
+		$assert_payload = function ( string $url, array $parsed_args ) {
+			$this->assertEquals( is_array( $parsed_args['body'] ), 'GET' === $parsed_args['method'], 'Request payload should be an array for GET requests, for use in `http_build_query()`.' );
+			$this->assertEquals( is_string( $parsed_args['body'] ), 'POST' === $parsed_args['method'], 'Request payload should be a string for POST requests.' );
+			return new WP_Error( 'test successful' );
+		};
+
+		/**
+		 * @see WP_Http::request()
+		 */
+		add_filter( 'pre_http_request', $assert_payload, 10, 2 );
+
+		$sut->hiive_request(
+			'route/whatever',
+			array( 'body' => 'not-empty' ),
+			array( 'method' => 'GET' )
+		);
 	}
 }

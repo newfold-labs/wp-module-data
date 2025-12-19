@@ -367,12 +367,9 @@ class HiiveConnection implements SubscriberInterface {
 		$url         = "{$this->api}/{$path}";
 
 		if ( ! empty( $payload ) ) {
-			if ( 'GET' === $parsed_args['method'] ) {
-				$url 				 = \add_query_arg( $payload, $url );
-				$parsed_args['body'] = null;
-			} else {
-				$parsed_args['body'] = \wp_json_encode( $payload );
-			}
+			$parsed_args['body'] = 'GET' === $parsed_args['method']
+				? $payload
+				: \wp_json_encode( $payload );
 		}
 
 		$request_response = \wp_remote_request( $url, $parsed_args );
