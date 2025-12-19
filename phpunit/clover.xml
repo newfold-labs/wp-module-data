@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1766186818">
-  <project timestamp="1766186818">
+<coverage generated="1766186901">
+  <project timestamp="1766186901">
     <file name="/home/runner/work/wp-module-data/wp-module-data/bootstrap.php">
       <line num="31" type="stmt" count="0"/>
       <line num="40" type="stmt" count="0"/>
@@ -833,7 +833,7 @@
     </file>
     <file name="/home/runner/work/wp-module-data/wp-module-data/includes/HiiveConnection.php">
       <class name="NewfoldLabs\WP\Module\Data\HiiveConnection" namespace="global">
-        <metrics complexity="47" methods="17" coveredmethods="7" conditionals="0" coveredconditionals="0" statements="145" coveredstatements="109" elements="162" coveredelements="116"/>
+        <metrics complexity="48" methods="17" coveredmethods="7" conditionals="0" coveredconditionals="0" statements="148" coveredstatements="113" elements="165" coveredelements="120"/>
       </class>
       <line num="47" type="method" name="__construct" visibility="public" complexity="2" crap="2" count="1"/>
       <line num="49" type="stmt" count="1"/>
@@ -938,43 +938,43 @@
       <line num="320" type="stmt" count="4"/>
       <line num="321" type="stmt" count="2"/>
       <line num="324" type="stmt" count="2"/>
-      <line num="340" type="method" name="hiive_request" visibility="public" complexity="8" crap="8.03" count="5"/>
-      <line num="348" type="stmt" count="5"/>
-      <line num="352" type="stmt" count="5"/>
+      <line num="340" type="method" name="hiive_request" visibility="public" complexity="9" crap="9" count="6"/>
+      <line num="348" type="stmt" count="6"/>
+      <line num="352" type="stmt" count="6"/>
       <line num="353" type="stmt" count="1"/>
-      <line num="356" type="stmt" count="4"/>
-      <line num="357" type="stmt" count="4"/>
-      <line num="358" type="stmt" count="4"/>
-      <line num="359" type="stmt" count="4"/>
-      <line num="360" type="stmt" count="4"/>
-      <line num="361" type="stmt" count="4"/>
-      <line num="362" type="stmt" count="4"/>
-      <line num="363" type="stmt" count="4"/>
-      <line num="364" type="stmt" count="4"/>
-      <line num="366" type="stmt" count="4"/>
-      <line num="368" type="stmt" count="4"/>
-      <line num="369" type="stmt" count="3"/>
-      <line num="372" type="stmt" count="4"/>
-      <line num="375" type="stmt" count="4"/>
-      <line num="376" type="stmt" count="0"/>
-      <line num="380" type="stmt" count="4"/>
-      <line num="381" type="stmt" count="1"/>
-      <line num="382" type="stmt" count="1"/>
-      <line num="383" type="stmt" count="1"/>
-      <line num="384" type="stmt" count="0"/>
+      <line num="356" type="stmt" count="5"/>
+      <line num="357" type="stmt" count="5"/>
+      <line num="358" type="stmt" count="5"/>
+      <line num="359" type="stmt" count="5"/>
+      <line num="360" type="stmt" count="5"/>
+      <line num="361" type="stmt" count="5"/>
+      <line num="362" type="stmt" count="5"/>
+      <line num="363" type="stmt" count="5"/>
+      <line num="364" type="stmt" count="5"/>
+      <line num="366" type="stmt" count="5"/>
+      <line num="367" type="stmt" count="5"/>
+      <line num="369" type="stmt" count="5"/>
+      <line num="370" type="stmt" count="4"/>
+      <line num="371" type="stmt" count="1"/>
+      <line num="372" type="stmt" count="3"/>
+      <line num="375" type="stmt" count="5"/>
+      <line num="378" type="stmt" count="5"/>
+      <line num="379" type="stmt" count="1"/>
+      <line num="383" type="stmt" count="4"/>
+      <line num="384" type="stmt" count="1"/>
+      <line num="385" type="stmt" count="1"/>
       <line num="386" type="stmt" count="1"/>
-      <line num="391" type="stmt" count="3"/>
-      <line num="393" type="stmt" count="3"/>
-      <line num="403" type="method" name="get_auth_token" visibility="public" complexity="2" crap="2.15" count="6"/>
-      <line num="405" type="stmt" count="6"/>
-      <line num="406" type="stmt" count="0"/>
-      <line num="410" type="stmt" count="6"/>
-      <line num="418" type="method" name="get_core_data" visibility="public" complexity="3" crap="3" count="2"/>
-      <line num="419" type="stmt" count="2"/>
-      <line num="420" type="stmt" count="2"/>
+      <line num="387" type="stmt" count="0"/>
+      <line num="389" type="stmt" count="1"/>
+      <line num="394" type="stmt" count="3"/>
+      <line num="396" type="stmt" count="3"/>
+      <line num="406" type="method" name="get_auth_token" visibility="public" complexity="2" crap="2.15" count="6"/>
+      <line num="408" type="stmt" count="6"/>
+      <line num="409" type="stmt" count="0"/>
+      <line num="413" type="stmt" count="6"/>
+      <line num="421" type="method" name="get_core_data" visibility="public" complexity="3" crap="3" count="2"/>
       <line num="422" type="stmt" count="2"/>
       <line num="423" type="stmt" count="2"/>
-      <line num="424" type="stmt" count="2"/>
       <line num="425" type="stmt" count="2"/>
       <line num="426" type="stmt" count="2"/>
       <line num="427" type="stmt" count="2"/>
@@ -988,15 +988,18 @@
       <line num="435" type="stmt" count="2"/>
       <line num="436" type="stmt" count="2"/>
       <line num="437" type="stmt" count="2"/>
+      <line num="438" type="stmt" count="2"/>
       <line num="439" type="stmt" count="2"/>
-      <line num="450" type="method" name="add_plugin_name_version_to_user_agent" visibility="public" complexity="1" crap="1" count="3"/>
-      <line num="451" type="stmt" count="3"/>
-      <line num="452" type="stmt" count="3"/>
-      <line num="453" type="stmt" count="3"/>
+      <line num="440" type="stmt" count="2"/>
+      <line num="442" type="stmt" count="2"/>
+      <line num="453" type="method" name="add_plugin_name_version_to_user_agent" visibility="public" complexity="1" crap="1" count="3"/>
+      <line num="454" type="stmt" count="3"/>
       <line num="455" type="stmt" count="3"/>
-      <line num="457" type="stmt" count="3"/>
-      <line num="459" type="stmt" count="3"/>
-      <metrics loc="462" ncloc="288" classes="1" methods="17" coveredmethods="7" conditionals="0" coveredconditionals="0" statements="145" coveredstatements="109" elements="162" coveredelements="116"/>
+      <line num="456" type="stmt" count="3"/>
+      <line num="458" type="stmt" count="3"/>
+      <line num="460" type="stmt" count="3"/>
+      <line num="462" type="stmt" count="3"/>
+      <metrics loc="465" ncloc="291" classes="1" methods="17" coveredmethods="7" conditionals="0" coveredconditionals="0" statements="148" coveredstatements="113" elements="165" coveredelements="120"/>
     </file>
     <file name="/home/runner/work/wp-module-data/wp-module-data/includes/HiiveWorker.php">
       <class name="NewfoldLabs\WP\Module\Data\HiiveWorker" namespace="global">
@@ -2295,6 +2298,6 @@
       <line num="24" type="stmt" count="0"/>
       <metrics loc="25" ncloc="25" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="18" coveredstatements="0" elements="18" coveredelements="0"/>
     </file>
-    <metrics files="44" loc="5880" ncloc="3728" classes="38" methods="208" coveredmethods="55" conditionals="0" coveredconditionals="0" statements="1846" coveredstatements="613" elements="2054" coveredelements="668"/>
+    <metrics files="44" loc="5883" ncloc="3731" classes="38" methods="208" coveredmethods="55" conditionals="0" coveredconditionals="0" statements="1849" coveredstatements="617" elements="2057" coveredelements="672"/>
   </project>
 </coverage>
