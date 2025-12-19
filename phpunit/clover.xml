@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1764678863">
-  <project timestamp="1764678863">
+<coverage generated="1766186345">
+  <project timestamp="1766186345">
     <file name="/home/runner/work/wp-module-data/wp-module-data/bootstrap.php">
       <line num="31" type="stmt" count="0"/>
       <line num="40" type="stmt" count="0"/>
@@ -1818,7 +1818,7 @@
     </file>
     <file name="/home/runner/work/wp-module-data/wp-module-data/includes/Listeners/Yoast.php">
       <class name="NewfoldLabs\WP\Module\Data\Listeners\Yoast" namespace="global">
-        <metrics complexity="54" methods="14" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="155" coveredstatements="0" elements="169" coveredelements="0"/>
+        <metrics complexity="54" methods="14" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="149" coveredstatements="0" elements="163" coveredelements="0"/>
       </class>
       <line num="47" type="method" name="register_hooks" visibility="public" complexity="1" crap="2" count="0"/>
       <line num="49" type="stmt" count="0"/>
@@ -1959,35 +1959,29 @@
       <line num="400" type="stmt" count="0"/>
       <line num="412" type="method" name="option_updated" visibility="public" complexity="10" crap="110" count="0"/>
       <line num="414" type="stmt" count="0"/>
-      <line num="415" type="stmt" count="0"/>
+      <line num="416" type="stmt" count="0"/>
       <line num="417" type="stmt" count="0"/>
-      <line num="418" type="stmt" count="0"/>
+      <line num="419" type="stmt" count="0"/>
       <line num="420" type="stmt" count="0"/>
       <line num="421" type="stmt" count="0"/>
-      <line num="422" type="stmt" count="0"/>
+      <line num="423" type="stmt" count="0"/>
       <line num="424" type="stmt" count="0"/>
       <line num="425" type="stmt" count="0"/>
       <line num="426" type="stmt" count="0"/>
-      <line num="427" type="stmt" count="0"/>
+      <line num="428" type="stmt" count="0"/>
       <line num="429" type="stmt" count="0"/>
-      <line num="430" type="stmt" count="0"/>
-      <line num="431" type="stmt" count="0"/>
-      <line num="434" type="stmt" count="0"/>
-      <line num="435" type="stmt" count="0"/>
+      <line num="432" type="stmt" count="0"/>
+      <line num="433" type="stmt" count="0"/>
       <line num="436" type="stmt" count="0"/>
+      <line num="437" type="stmt" count="0"/>
+      <line num="438" type="stmt" count="0"/>
       <line num="439" type="stmt" count="0"/>
       <line num="440" type="stmt" count="0"/>
       <line num="441" type="stmt" count="0"/>
       <line num="442" type="stmt" count="0"/>
       <line num="443" type="stmt" count="0"/>
       <line num="444" type="stmt" count="0"/>
-      <line num="445" type="stmt" count="0"/>
-      <line num="446" type="stmt" count="0"/>
-      <line num="447" type="stmt" count="0"/>
-      <line num="448" type="stmt" count="0"/>
-      <line num="449" type="stmt" count="0"/>
-      <line num="450" type="stmt" count="0"/>
-      <metrics loc="454" ncloc="294" classes="1" methods="14" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="155" coveredstatements="0" elements="169" coveredelements="0"/>
+      <metrics loc="448" ncloc="288" classes="1" methods="14" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="149" coveredstatements="0" elements="163" coveredelements="0"/>
     </file>
     <file name="/home/runner/work/wp-module-data/wp-module-data/includes/Logger.php">
       <class name="NewfoldLabs\WP\Module\Data\Logger" namespace="global">
@@ -2301,6 +2295,6 @@
       <line num="24" type="stmt" count="0"/>
       <metrics loc="25" ncloc="25" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="18" coveredstatements="0" elements="18" coveredelements="0"/>
     </file>
-    <metrics files="44" loc="5886" ncloc="3734" classes="38" methods="208" coveredmethods="55" conditionals="0" coveredconditionals="0" statements="1852" coveredstatements="613" elements="2060" coveredelements="668"/>
+    <metrics files="44" loc="5880" ncloc="3728" classes="38" methods="208" coveredmethods="55" conditionals="0" coveredconditionals="0" statements="1846" coveredstatements="613" elements="2054" coveredelements="668"/>
   </project>
 </coverage>
