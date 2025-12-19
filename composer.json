@@ -63,7 +63,7 @@
     },
     "optimize-autoloader": true,
     "platform": {
-      "php": "7.3"
+      "php": "7.4"
     },
     "platform-check": false,
     "sort-packages": true

@@ -10,7 +10,7 @@
  * @wordpress-plugin
  * Plugin Name:       Data Module Test Plugin
  * Description:       Minimal plugin to activate and test module functionality.
- * Requires PHP:      7.3
+ * Requires PHP:      7.4
  * Author:            Bluehost
  * Author URI:        https://bluehost.com
  * Text Domain:       wp-module-data
