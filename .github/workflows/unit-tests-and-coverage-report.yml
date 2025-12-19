@@ -106,7 +106,7 @@ jobs:
 
       # @see https://developer.woocommerce.com/2023/06/05/new-requirement-for-woocommerce-8-2-php-7-4/
       - name: Install old version of WooCommerce
-        if: ${{ matrix.php == '7.3' }}
+        if: ${{ matrix.php == '7.4' }}
         run: composer require wpackagist-plugin/woocommerce:8.1.2
 
       - name: Allow writing to wp-content
@@ -129,20 +129,20 @@ jobs:
 
       # For PRs, we'll generate the coverage report on each pushed commit
       - name: Merge code coverage for PR
-        if: ${{ matrix.php == '7.3' && github.event_name == 'pull_request' }}
+        if: ${{ matrix.php == '7.4' && github.event_name == 'pull_request' }}
         run: |
           vendor/bin/phpcov merge --clover clover.xml tests/_output/;
           vendor/bin/phpcov merge --clover gh-pages/phpunit/clover.xml --php gh-pages/${{ github.event.pull_request.head.sha }}/phpunit/phpunit.cov --html gh-pages/${{ github.event.pull_request.head.sha }}/phpunit/html/ tests/_output/;
 
       - name: Merge code coverage for main
-        if: ${{ (matrix.php == '7.3') && (github.ref == 'refs/heads/main') }} # only commit on main, on the PHP version we're using in production.
+        if: ${{ (matrix.php == '7.4') && (github.ref == 'refs/heads/main') }} # only commit on main, on the PHP version we're using in production.
         run: |
           vendor/bin/phpcov merge --clover clover.xml tests/_output/;
           vendor/bin/phpcov merge --clover gh-pages/phpunit/clover.xml --php gh-pages/phpunit/phpunit.cov --html gh-pages/phpunit/html/ tests/_output/;
 
       # This makes the coverage percentage available in `{{ steps.coverage-percentage.outputs.coverage }}`.
       - name: Check test coverage
-        if: ${{ matrix.php == '7.3' }}
+        if: ${{ matrix.php == '7.4' }}
         uses: johanvanhelden/gha-clover-test-coverage-check@2543c79a701f179bd63aa14c16c6938c509b2cec # v1
         id: coverage-percentage
         with:
@@ -153,23 +153,23 @@ jobs:
 
       # See: https://github.blog/2009-12-29-bypassing-jekyll-on-github-pages/
       - name: Add `.nojekyll` file so code coverage report successfully deploys to gh-pages
-        if: ${{ matrix.php == '7.3' }}
+        if: ${{ matrix.php == '7.4' }}
         working-directory: gh-pages/phpunit
         run: |
           touch .nojekyll
           git add -- .nojekyll *
 
       - name: Update README coverage badge
-        if: ${{ (matrix.php == '7.3') && (github.ref == 'refs/heads/main') }} # only commit on main, on the PHP version we're using in production.
+        if: ${{ (matrix.php == '7.4') && (github.ref == 'refs/heads/main') }} # only commit on main, on the PHP version we're using in production.
         run: php-coverage-badger clover.xml gh-pages/phpunit/coverage.svg
 
       - name: Generate PR coverage badge
-        if: ${{ (matrix.php == '7.3') && github.event_name == 'pull_request' }}
+        if: ${{ (matrix.php == '7.4') && github.event_name == 'pull_request' }}
         run: php-coverage-badger clover.xml gh-pages/${{ github.event.pull_request.head.sha }}/phpunit/coverage.svg
 
       - name: Commit code coverage to gh-pages
-        if: ${{ matrix.php == '7.3' }}
-        uses: stefanzweifel/git-auto-commit-action@28e16e81777b558cc906c8750092100bbb34c5e3 # v7.0.0
+        if: ${{ matrix.php == '7.4' }}
+        uses: stefanzweifel/git-auto-commit-action@04702edda442b2e678b25b537cec683a1493fcb9 # v7.1.0
         with:
           repository: gh-pages
           branch: gh-pages
@@ -179,21 +179,21 @@ jobs:
           GITHUB_TOKEN: "${{ github.token }}"
 
       - name: Add coverage badge to PR comment
-        if: ${{ matrix.php == '7.3' && github.event_name == 'pull_request' }}
+        if: ${{ matrix.php == '7.4' && github.event_name == 'pull_request' }}
         run: |
           echo "[![Code Coverage ](https://newfold-labs.github.io/wp-module-data/${{ github.event.pull_request.head.sha }}/phpunit/coverage.svg)](https://newfold-labs.github.io/wp-module-data/${{ github.event.pull_request.head.sha }}/phpunit/html/)" >> coverage-comment.md
           echo "" >> coverage-comment.md
           echo "" >> coverage-comment.md
 
       - name: Add coverage report link to PR comment
-        if: ${{ matrix.php == '7.3' && github.event_name == 'pull_request' }}
+        if: ${{ matrix.php == '7.4' && github.event_name == 'pull_request' }}
         run: |
           echo "${{ format('[project coverage report {0}%](https://newfold-labs.github.io/wp-module-data/{1}/phpunit/html/) @ {2}', steps.coverage-percentage.outputs.coverage-rounded, github.event.pull_request.head.sha, github.event.pull_request.head.sha) }}" >> coverage-comment.md
           echo "" >> coverage-comment.md
           echo "" >> coverage-comment.md
 
       - name: Add phpcov uncovered lines report to PR comment
-        if: ${{ matrix.php == '7.3' && github.event_name == 'pull_request' }}
+        if: ${{ matrix.php == '7.4' && github.event_name == 'pull_request' }}
         continue-on-error: true # phpcov can fail if there are no uncovered lines
         run: |
           BRANCHED_COMMIT=$(git rev-list origin..HEAD | tail -n 1);
@@ -206,7 +206,7 @@ jobs:
 
       - name: Add coverage PR comment
         uses: mshick/add-pr-comment@b8f338c590a895d50bcbfa6c5859251edc8952fc # v2.8.2
-        if: ${{ matrix.php == '7.3' && github.event_name == 'pull_request' }}
+        if: ${{ matrix.php == '7.4' && github.event_name == 'pull_request' }}
         with:
           message-id: coverage-report
           message-path: coverage-comment.md
