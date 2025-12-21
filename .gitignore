@@ -10,3 +10,4 @@
 /wordpress
 /wp-content
 debug.log
+/.wp-env.override
