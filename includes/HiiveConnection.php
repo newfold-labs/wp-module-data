@@ -364,12 +364,15 @@ class HiiveConnection implements SubscriberInterface {
 		);
 
 		$parsed_args = \wp_parse_args( $args ?? array(), $defaults );
+		$url         = "{$this->api}/{$path}";
 
 		if ( ! empty( $payload ) ) {
-			$parsed_args['body'] = \wp_json_encode( $payload );
+			$parsed_args['body'] = 'GET' === $parsed_args['method']
+				? $payload
+				: \wp_json_encode( $payload );
 		}
 
-		$request_response = \wp_remote_request( "{$this->api}/{$path}", $parsed_args );
+		$request_response = \wp_remote_request( $url, $parsed_args );
 
 		// E.g. Hiive is down, or the site has disabled HTTP requests.
 		if ( \is_wp_error( $request_response ) ) {
