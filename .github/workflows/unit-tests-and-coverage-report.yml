@@ -11,14 +11,6 @@ on:
     types: [ opened, reopened, ready_for_review, synchronize ]
     branches:
       - main
-    paths:
-      - "**/*.js"
-      - "**/*.php"
-      - "/composer.json"
-      - "/composer.lock"
-      - "/package.json"
-      - "/package-lock.json"
-      - ".github/workflows/unit-tests-and-coverage-report.yml"
   workflow_dispatch:
 
 concurrency:
@@ -49,6 +41,5 @@ jobs:
       coverage-php-version: '7.4'
       repository-name: ${{ needs.get-repo-name.outputs.repository-name }}
       minimum-coverage: 25
-      third-party-plugin: 'wpackagist-plugin/woocommerce'
     secrets:
       repo_token: ${{ secrets.GITHUB_TOKEN }}
