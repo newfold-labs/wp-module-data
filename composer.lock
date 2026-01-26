@@ -316,16 +316,16 @@
         },
         {
             "name": "wp-forge/helpers",
-            "version": "2.0",
+            "version": "2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wp-forge/helpers.git",
-                "reference": "28ebc09a3390dbff427270a4ed2b93395e8b9b78"
+                "reference": "be36209958e1194ba4bc902ae5366ebd35fa8cc0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wp-forge/helpers/zipball/28ebc09a3390dbff427270a4ed2b93395e8b9b78",
-                "reference": "28ebc09a3390dbff427270a4ed2b93395e8b9b78",
+                "url": "https://api.github.com/repos/wp-forge/helpers/zipball/be36209958e1194ba4bc902ae5366ebd35fa8cc0",
+                "reference": "be36209958e1194ba4bc902ae5366ebd35fa8cc0",
                 "shasum": ""
             },
             "require": {
@@ -354,9 +354,9 @@
             "description": "A collection of helpers for WordPress and PHP development.",
             "support": {
                 "issues": "https://github.com/wp-forge/helpers/issues",
-                "source": "https://github.com/wp-forge/helpers/tree/2.0"
+                "source": "https://github.com/wp-forge/helpers/tree/2.0.1"
             },
-            "time": "2022-01-06T13:10:47+00:00"
+            "time": "2025-10-24T15:28:10+00:00"
         },
         {
             "name": "wp-forge/wp-options",
