@@ -49,6 +49,6 @@ jobs:
       coverage-php-version: '7.4'
       repository-name: ${{ needs.get-repo-name.outputs.repository-name }}
       minimum-coverage: 25
-      third-party-plugin: 'wpackagist-plugin/woocommerce:8.1.2'
+      third-party-plugin: 'wpackagist-plugin/woocommerce'
     secrets:
       repo_token: ${{ secrets.GITHUB_TOKEN }}
