@@ -87,6 +87,8 @@ class DataTest extends UnitTestCase {
 		);
 
 		$_SERVER['REQUEST_METHOD'] = 'GET';
+		$_SERVER['HTTP_HOST']      = '';
+		$_SERVER['REQUEST_URI']    = '';
 
 		\Patchwork\redefine(
 			'file_get_contents',
@@ -150,6 +152,10 @@ class DataTest extends UnitTestCase {
 		$event_manager = Mockery::mock( EventManager::class );
 
 		$sut = new Data( $plugin, $event_manager );
+
+		unset( $_SERVER['HTTP_AUTHORIZATION'] );
+		$_SERVER['HTTP_HOST']   = '';
+		$_SERVER['REQUEST_URI'] = '';
 
 		\Patchwork\redefine(
 			'defined',
