@@ -1,6 +1,6 @@
 {
   "name": "wp-module-data",
-  "version": "2.9.2",
+  "version": "2.9.3",
   "description": "",
   "engines": {
     "node": ">=22.11.0",
