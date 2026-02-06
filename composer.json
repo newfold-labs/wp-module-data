@@ -119,7 +119,7 @@
   "require-dev": {
     "10up/wp_mock": "^0.5.0|^1.0.0",
     "brianhenryie/composer-phpstorm": ">=0.4",
-    "johnpbloch/wordpress": ">=6.9.0",
+    "johnpbloch/wordpress": ">=6.9.1",
     "kporras07/composer-symlinks": "^1.3",
     "lucatume/wp-browser": "^3.7.8",
     "newfold-labs/wp-php-standards": "^1.2.5",
