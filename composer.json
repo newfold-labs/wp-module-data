@@ -127,7 +127,7 @@
     "phpunit/phpcov": "^8.2.1",
     "wpackagist-plugin/jetpack": "^15.5",
     "wpackagist-plugin/woocommerce": ">=10.4.3",
-    "wpackagist-plugin/woocommerce-payments": "^10.4.0",
+    "wpackagist-plugin/woocommerce-payments": "^10.5.0",
     "wpackagist-theme/twentytwentyfive": ">=1"
   },
   "extra": {
