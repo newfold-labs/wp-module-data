@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b24c68458195bf9f7fc1d245307f2e01",
+    "content-hash": "d7f0e5f98a908bf992631cf315bb9ceb",
     "packages": [
         {
             "name": "doctrine/inflector",
@@ -6896,15 +6896,15 @@
         },
         {
             "name": "wpackagist-plugin/woocommerce",
-            "version": "10.5.0",
+            "version": "10.5.1",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/woocommerce/",
-                "reference": "tags/10.5.0"
+                "reference": "tags/10.5.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/woocommerce.10.5.0.zip"
+                "url": "https://downloads.wordpress.org/plugin/woocommerce.10.5.1.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
