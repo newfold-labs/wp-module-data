@@ -125,7 +125,7 @@
     "newfold-labs/wp-php-standards": "^1.2.5",
     "newfold-labs/wp-plugin-bluehost": "dev-latest-zip",
     "phpunit/phpcov": "^8.2.1",
-    "wpackagist-plugin/jetpack": "^15.5",
+    "wpackagist-plugin/jetpack": "^15.6",
     "wpackagist-plugin/woocommerce": ">=10.5.2",
     "wpackagist-plugin/woocommerce-payments": "^10.5.1",
     "wpackagist-theme/twentytwentyfive": ">=1"
