@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bf7057e06a860e3df836ed85605b31a4",
+    "content-hash": "7bd7acb68b2e1e6bf62dc75278ec2490",
     "packages": [
         {
             "name": "doctrine/inflector",
@@ -6914,15 +6914,15 @@
         },
         {
             "name": "wpackagist-plugin/woocommerce-payments",
-            "version": "10.5.1",
+            "version": "10.6.0",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/woocommerce-payments/",
-                "reference": "tags/10.5.1"
+                "reference": "tags/10.6.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/woocommerce-payments.10.5.1.zip"
+                "url": "https://downloads.wordpress.org/plugin/woocommerce-payments.10.6.0.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
