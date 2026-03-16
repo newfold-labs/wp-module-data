@@ -11,6 +11,7 @@ Documentation for wp-module-data (Newfold Data Module), for **humans** and **AI 
 | [integration.md](integration.md) | How the module registers, provides capabilities, and integrates with the container. |
 | [development.md](development.md) | Lint, test, and day-to-day workflow. |
 | [dependencies.md](dependencies.md) | Composer dependencies and how they are used. |
+| [release.md](release.md) | Release process: use the Newfold Prepare Release workflow. |
 
 ## Quick links
 
