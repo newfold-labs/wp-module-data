@@ -40,6 +40,6 @@ composer run test-coverage
 
 ## Keeping documentation current
 
-**When you change code, features, or workflows, update the docs so they stay accurate.**
+**When you change code, features, or workflows, update the docs so they stay accurate.** Keep **docs/index.md** current: when you add, remove, or rename doc files, update the table of contents (and quick links if present).
 
 - Keep all docs current. When adding or changing dependencies, update **dependencies.md**. When cutting a release, update **docs/changelog.md**.

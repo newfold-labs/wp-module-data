@@ -1,3 +1,10 @@
+---
+name: wp-module-data
+title: Documentation index
+description: Table of contents and quick links.
+updated: 2025-03-18
+---
+
 # wp-module-data – Documentation index
 
 Documentation for wp-module-data (Newfold Data Module), for **humans** and **AI agents**. Start here.
