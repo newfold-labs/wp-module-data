@@ -24,13 +24,9 @@
         "newfold-labs/*"
       ]
     },
-    "outlandishideas/wpackagist": {
+    "wp-packages": {
       "type": "composer",
-      "url": "https://wpackagist.org",
-      "only": [
-        "wpackagist-plugin/*",
-        "wpackagist-theme/*"
-      ]
+      "url": "https://repo.wp-packages.org"
     }
   },
   "autoload": {
@@ -125,10 +121,10 @@
     "newfold-labs/wp-php-standards": "^1.2.5",
     "newfold-labs/wp-plugin-bluehost": "dev-latest-zip",
     "phpunit/phpcov": "^8.2.1",
-    "wpackagist-plugin/jetpack": "^15.6",
-    "wpackagist-plugin/woocommerce": ">=10.6.1",
-    "wpackagist-plugin/woocommerce-payments": "^10.6.0",
-    "wpackagist-theme/twentytwentyfive": ">=1"
+    "wp-plugin/jetpack": "^15.6",
+    "wp-plugin/woocommerce": ">=10.6.1",
+    "wp-plugin/woocommerce-payments": "^10.6.0",
+    "wp-theme/twentytwentyfive": ">=1"
   },
   "extra": {
     "symlinks": {
