@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b464fccbe8f82cdb5c27ad6984b7f141",
+    "content-hash": "02867e7f92a79e4f125a89eaf8c6ad9c",
     "packages": [
         {
             "name": "doctrine/inflector",
@@ -6877,7 +6877,7 @@
             "time": "2025-11-25T12:08:04+00:00"
         },
         {
-            "name": "wpackagist-plugin/jetpack",
+            "name": "wp-plugin/jetpack",
             "version": "15.6",
             "source": {
                 "type": "svn",
@@ -6889,13 +6889,26 @@
                 "url": "https://downloads.wordpress.org/plugin/jetpack.15.6.zip"
             },
             "require": {
-                "composer/installers": "^1.0 || ^2.0"
+                "composer/installers": "~1.0|~2.0"
             },
             "type": "wordpress-plugin",
-            "homepage": "https://wordpress.org/plugins/jetpack/"
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "Automattic"
+                }
+            ],
+            "description": "Improve your WP security with powerful one-click tools like backup, WAF, and malware scan. Includes free tools like stats, CDN and social sharing.",
+            "homepage": "https://jetpack.com",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/jetpack/#developers",
+                "issues": "https://wordpress.org/support/plugin/jetpack",
+                "source": "https://plugins.svn.wordpress.org/jetpack"
+            },
+            "time": "2026-03-23T19:23:21+00:00"
         },
         {
-            "name": "wpackagist-plugin/woocommerce",
+            "name": "wp-plugin/woocommerce",
             "version": "10.6.1",
             "source": {
                 "type": "svn",
@@ -6907,13 +6920,26 @@
                 "url": "https://downloads.wordpress.org/plugin/woocommerce.10.6.1.zip"
             },
             "require": {
-                "composer/installers": "^1.0 || ^2.0"
+                "composer/installers": "~1.0|~2.0"
             },
             "type": "wordpress-plugin",
-            "homepage": "https://wordpress.org/plugins/woocommerce/"
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "Automattic"
+                }
+            ],
+            "description": "Everything you need to launch an online store in days and keep it growing for years. From your first sale to millions in revenue, Woo is with you.",
+            "homepage": "https://woocommerce.com/",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/woocommerce/#developers",
+                "issues": "https://wordpress.org/support/plugin/woocommerce",
+                "source": "https://plugins.svn.wordpress.org/woocommerce"
+            },
+            "time": "2026-03-23T19:23:21+00:00"
         },
         {
-            "name": "wpackagist-plugin/woocommerce-payments",
+            "name": "wp-plugin/woocommerce-payments",
             "version": "10.6.0",
             "source": {
                 "type": "svn",
@@ -6925,13 +6951,26 @@
                 "url": "https://downloads.wordpress.org/plugin/woocommerce-payments.10.6.0.zip"
             },
             "require": {
-                "composer/installers": "^1.0 || ^2.0"
+                "composer/installers": "~1.0|~2.0"
             },
             "type": "wordpress-plugin",
-            "homepage": "https://wordpress.org/plugins/woocommerce-payments/"
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "WooCommerce"
+                }
+            ],
+            "description": "Securely accept credit and debit cards on your WooCommerce store. Manage payments without leaving your WordPress dashboard. Only with WooPayments.",
+            "homepage": "https://woocommerce.com/payments/",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/woocommerce-payments/#developers",
+                "issues": "https://wordpress.org/support/plugin/woocommerce-payments",
+                "source": "https://plugins.svn.wordpress.org/woocommerce-payments"
+            },
+            "time": "2026-03-23T19:23:21+00:00"
         },
         {
-            "name": "wpackagist-theme/twentytwentyfive",
+            "name": "wp-theme/twentytwentyfive",
             "version": "1.4",
             "source": {
                 "type": "svn",
@@ -6943,10 +6982,18 @@
                 "url": "https://downloads.wordpress.org/theme/twentytwentyfive.1.4.zip"
             },
             "require": {
-                "composer/installers": "^1.0 || ^2.0"
+                "composer/installers": "~1.0|~2.0"
             },
             "type": "wordpress-theme",
-            "homepage": "https://wordpress.org/themes/twentytwentyfive/"
+            "notification-url": "https://wp-packages.org/downloads",
+            "description": "Twenty Twenty-Five emphasizes simplicity and adaptability. It offers flexible design options, supported by a variety of patterns for different page types, such as services and landing pages, making it ideal for building personal blogs, professional portfolios, online magazines, or business websites. Its templates cater to various blog styles, from text-focused to image-heavy layouts. Additionally, it supports international typography and diverse color palettes, ensuring accessibility and customization for users worldwide.",
+            "homepage": "https://wordpress.org/themes/twentytwentyfive/",
+            "support": {
+                "changelog": "https://wordpress.org/themes/twentytwentyfive/#developers",
+                "issues": "https://wordpress.org/support/theme/twentytwentyfive",
+                "source": "https://themes.svn.wordpress.org/twentytwentyfive"
+            },
+            "time": "2026-03-23T19:23:21+00:00"
         }
     ],
     "aliases": [],
