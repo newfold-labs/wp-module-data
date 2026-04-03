@@ -1,0 +1,88 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Data Module Test Plugin\n"
+"Report-Msgid-Bugs-To: https://github.com/newfold-labs/wp-module-data/issues\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2025-02-13T09:55:55+00:00\n"
+"PO-Revision-Date: 2026-04-03T19:13:29+00:00\n"
+"Language: nl\n"
+"X-Generator: WP-CLI 2.13.0-alpha\n"
+"X-Domain: wp-module-data\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. Plugin Name of the plugin
+#: wp-module-data-plugin.php:11
+msgid "Data Module Test Plugin"
+msgstr ""
+
+#. Description of the plugin
+#: wp-module-data-plugin.php:12
+msgid "Minimal plugin to activate and test module functionality."
+msgstr ""
+
+#. Author of the plugin
+#: wp-module-data-plugin.php:14
+msgid "Bluehost"
+msgstr ""
+
+#. Author URI of the plugin
+#: wp-module-data-plugin.php:15
+msgid "https://bluehost.com"
+msgstr ""
+
+#: bootstrap.php:70
+msgid "Data"
+msgstr ""
+
+#: includes/API/Capabilities.php:71
+msgid "Sorry, you are not allowed to access this endpoint."
+msgstr ""
+
+#: includes/API/Events.php:58
+msgid "Event action. For the \"pageview\" action/key, Hiive tries to read the page URL and page title only from the \"page\" and \"page_title\" keys in the data arg."
+msgstr ""
+
+#: includes/API/Events.php:66
+msgid "Event category"
+msgstr ""
+
+#: includes/API/Events.php:73
+msgid "Event data"
+msgstr ""
+
+#: includes/API/Events.php:78
+msgid "Whether or not to queue the event"
+msgstr ""
+
+#: includes/API/Events.php:167
+msgid "Sorry, you are not allowed to use this endpoint."
+msgstr ""
+
+#: includes/API/Events.php:186
+msgid "Request does not contain an array of events."
+msgstr ""
+
+#: includes/API/Events.php:212
+msgid "Some events failed."
+msgstr ""
+
+#: includes/API/Verify.php:52
+msgid "Connection verification token."
+msgstr ""
+
+#: includes/EventManager.php:137
+msgid "Once Every Minute"
+msgstr ""
+
+#: includes/HiiveConnection.php:353
+#: includes/HiiveConnection.php:389
+msgid "This site is not connected to the hiive."
+msgstr ""
+
+#: includes/Listeners/Cron.php:67
+msgid "Once Weekly"
+msgstr ""
