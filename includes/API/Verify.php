@@ -49,7 +49,7 @@ class Verify extends WP_REST_Controller {
 			array(
 				'args' => array(
 					'token' => array(
-						'description' => __( 'Connection verification token.' ),
+						'description' => __( 'Connection verification token.', 'wp-module-data' ),
 						'type'        => 'string',
 					),
 				),
