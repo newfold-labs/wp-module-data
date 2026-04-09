@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0dfbdf531e9db26ed2628c9bc91798a8",
+    "content-hash": "2530cd10497c02636073d39e1b3f23b8",
     "packages": [
         {
             "name": "doctrine/inflector",
@@ -6878,15 +6878,15 @@
         },
         {
             "name": "wpackagist-plugin/jetpack",
-            "version": "15.6",
+            "version": "15.7",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/jetpack/",
-                "reference": "tags/15.6"
+                "reference": "tags/15.7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/jetpack.15.6.zip"
+                "url": "https://downloads.wordpress.org/plugin/jetpack.15.7.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
