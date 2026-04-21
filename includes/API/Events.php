@@ -55,7 +55,7 @@ class Events extends WP_REST_Controller {
 				'args' => array(
 					'action'   => array(
 						'required'          => true,
-						'description'       => __( 'Event action. For the "pageview" action/key, Hiive tries to read the page URL and page title only from the "page" and "page_title" keys in the data arg.' ),
+						'description'       => __( 'Event action. For the "pageview" action/key, Hiive tries to read the page URL and page title only from the "page" and "page_title" keys in the data arg.', 'wp-module-data' ),
 						'type'              => 'string',
 						'sanitize_callback' => function ( $value ) {
 							return sanitize_title( $value );
@@ -63,19 +63,19 @@ class Events extends WP_REST_Controller {
 					),
 					'category' => array(
 						'default'           => 'admin',
-						'description'       => __( 'Event category' ),
+						'description'       => __( 'Event category', 'wp-module-data' ),
 						'type'              => 'string',
 						'sanitize_callback' => function ( $value ) {
 							return sanitize_title( $value );
 						},
 					),
 					'data'     => array(
-						'description' => __( 'Event data' ),
+						'description' => __( 'Event data', 'wp-module-data' ),
 						'type'        => 'object',
 					),
 					'queue'    => array(
 						'default'           => true,
-						'description'       => __( 'Whether or not to queue the event' ),
+						'description'       => __( 'Whether or not to queue the event', 'wp-module-data' ),
 						'type'              => 'boolean',
 						'sanitize_callback' => function ( $value ) {
 							return filter_var( $value, FILTER_VALIDATE_BOOLEAN );
@@ -164,7 +164,7 @@ class Events extends WP_REST_Controller {
 		if ( ! current_user_can( 'read' ) ) {
 			return new \WP_Error(
 				'rest_cannot_log_event',
-				__( 'Sorry, you are not allowed to use this endpoint.' ),
+				__( 'Sorry, you are not allowed to use this endpoint.', 'wp-module-data' ),
 				array( 'status' => rest_authorization_required_code() )
 			);
 		}
@@ -183,7 +183,7 @@ class Events extends WP_REST_Controller {
 		if ( ! rest_is_array( $events ) ) {
 			return new \WP_Error(
 				'rest_cannot_log_events',
-				__( 'Request does not contain an array of events.' )
+				__( 'Request does not contain an array of events.', 'wp-module-data' )
 			);
 		}
 
@@ -209,7 +209,7 @@ class Events extends WP_REST_Controller {
 		if ( ! empty( $errors ) ) {
 			return new \WP_Error(
 				'rest_cannot_log_events',
-				__( 'Some events failed.' ),
+				__( 'Some events failed.', 'wp-module-data' ),
 				array(
 					'errors' => $errors,
 				)

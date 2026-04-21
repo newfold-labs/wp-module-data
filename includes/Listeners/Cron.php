@@ -64,7 +64,7 @@ class Cron extends Listener {
 		if ( ! array_key_exists( 'weekly', $schedules ) || constant( 'WEEK_IN_SECONDS' ) !== $schedules['weekly']['interval'] ) {
 			$schedules['weekly'] = array(
 				'interval' => constant( 'WEEK_IN_SECONDS' ),
-				'display'  => __( 'Once Weekly' ),
+				'display'  => __( 'Once Weekly', 'wp-module-data' ),
 			);
 		}
 		return $schedules;
