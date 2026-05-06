@@ -134,7 +134,7 @@ class EventManager {
 			) {
 			$schedules['minutely'] = array(
 				'interval' => MINUTE_IN_SECONDS,
-				'display'  => __( 'Once Every Minute' ),
+				'display'  => __( 'Once Every Minute', 'wp-module-data' ),
 			);
 		}
 

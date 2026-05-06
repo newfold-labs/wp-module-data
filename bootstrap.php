@@ -67,7 +67,7 @@ if ( function_exists( 'add_action' ) && function_exists( 'add_filter' ) ) {
 			registerModule(
 				array(
 					'name'     => 'data',
-					'label'    => __( 'Data', 'newfold-data-module' ),
+					'label'    => __( 'Data', 'wp-module-data' ),
 					'callback' => function ( Container $container ) {
 						$module = new Data( $container->plugin() );
 						$module->start();

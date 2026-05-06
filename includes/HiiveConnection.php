@@ -350,7 +350,7 @@ class HiiveConnection implements SubscriberInterface {
 		// If for some reason we are not connected, bail out now.
 		// If we are not connected, the throttling logic should eventually reconnect.
 		if ( ! self::is_connected() ) {
-			return new WP_Error( 'hiive_connection', __( 'This site is not connected to the hiive.' ) );
+			return new WP_Error( 'hiive_connection', __( 'This site is not connected to the hiive.', 'wp-module-data' ) );
 		}
 
 		$defaults = array(
@@ -386,7 +386,7 @@ class HiiveConnection implements SubscriberInterface {
 				if ( $this->reconnect() ) {
 					$this->hiive_request( $path, $payload, $args );
 				} else {
-					return new WP_Error( 'hiive_connection', __( 'This site is not connected to the hiive.' ) );
+					return new WP_Error( 'hiive_connection', __( 'This site is not connected to the hiive.', 'wp-module-data' ) );
 				}
 			}
 		}
