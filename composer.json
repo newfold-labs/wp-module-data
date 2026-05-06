@@ -121,9 +121,9 @@
     "newfold-labs/wp-php-standards": "^1.2.5",
     "newfold-labs/wp-plugin-bluehost": "dev-latest-zip",
     "phpunit/phpcov": "^8.2.1",
-    "wp-plugin/jetpack": "^15.6",
-    "wp-plugin/woocommerce": ">=10.6.1",
-    "wp-plugin/woocommerce-payments": "^10.6.0",
+    "wp-plugin/jetpack": "^15.8",
+    "wp-plugin/woocommerce": ">=10.6.2",
+    "wp-plugin/woocommerce-payments": "^10.7.1",
     "wp-theme/twentytwentyfive": ">=1"
   },
   "extra": {
