@@ -22,12 +22,21 @@ class SiteCapabilities {
 	protected $transient;
 
 	/**
+	 * Hiive connection manager
+	 *
+	 * @var HiiveConnection
+	 */
+	protected $hiive;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param ?Transient $transient Inject instance of Transient class.
+	 * @param ?HiiveConnection $hiive Inject instance of the hiive connection manager
 	 */
-	public function __construct( ?Transient $transient = null ) {
+	public function __construct( ?Transient $transient = null, ?HiiveConnection $hiive = null ) {
 		$this->transient = $transient ?? new Transient();
+		$this->hiive     = $hiive ?? new HiiveConnection();
 	}
 
 	/**
@@ -114,14 +123,10 @@ class SiteCapabilities {
 	protected function fetch(): array {
 		$capabilities = array();
 
-		$response = wp_remote_get(
-			constant( 'NFD_HIIVE_URL' ) . '/sites/v1/capabilities',
-			array(
-				'headers' => array(
-					'Content-Type'  => 'application/json',
-					'Accept'        => 'application/json',
-					'Authorization' => 'Bearer ' . HiiveConnection::get_auth_token(),
-				),
+		$response = $this->hiive->hiive_request(
+			'sites/v1/capabilities',
+			args: array(
+				'method' => 'GET'
 			)
 		);
 
