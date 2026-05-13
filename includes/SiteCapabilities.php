@@ -121,7 +121,6 @@ class SiteCapabilities {
 	 * @return array<string, bool>
 	 */
 	protected function fetch(): array {
-		$capabilities = array();
 
 		$response = $this->hiive->hiive_request(
 			'sites/v1/capabilities',
@@ -130,14 +129,13 @@ class SiteCapabilities {
 			)
 		);
 
-		if ( wp_remote_retrieve_response_code( $response ) === 200 && ! is_wp_error( $response ) ) {
-			$body = wp_remote_retrieve_body( $response );
-			$data = json_decode( $body, true );
-			if ( $data && is_array( $data ) ) {
-				$capabilities = $data;
-			}
+		if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
+			return array();
 		}
 
-		return $capabilities;
+		$body = wp_remote_retrieve_body( $response );
+		$data = json_decode( $body, true );
+
+		return is_array( $data ) ? $data : array();
 	}
 }
