@@ -126,7 +126,7 @@ class SiteCapabilities {
 			'sites/v1/capabilities',
 			null,
 			array(
-				'method' => 'GET'
+				'method' => 'GET',
 			)
 		);
 
