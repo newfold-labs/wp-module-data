@@ -32,7 +32,7 @@ class SiteCapabilities {
 	 * Constructor.
 	 *
 	 * @param ?Transient $transient Inject instance of Transient class.
-	 * @param ?HiiveConnection $hiive Inject instance of the hiive connection manager
+	 * @param ?HiiveConnection $hiive Inject instance of the hiive connection manager.
 	 */
 	public function __construct( ?Transient $transient = null, ?HiiveConnection $hiive = null ) {
 		$this->transient = $transient ?? new Transient();
@@ -60,7 +60,7 @@ class SiteCapabilities {
 	 *
 	 * @used-by Capabilities::update()
 	 *
-	 * @param array<string, bool> $capabilities
+	 * @param array<string, bool> $capabilities The capabilities array.
 	 *
 	 * @return bool True if the value was changed, false otherwise.
 	 */
@@ -75,7 +75,7 @@ class SiteCapabilities {
 	 * @used-by self::fetch()
 	 * @used-by Capabilities::update()
 	 *
-	 * @param array<string, bool> $capabilities
+	 * @param array<string, bool> $capabilities The capabilities array.
 	 *
 	 * @return bool True if the value was set, false otherwise.
 	 */
@@ -124,7 +124,8 @@ class SiteCapabilities {
 
 		$response = $this->hiive->hiive_request(
 			'sites/v1/capabilities',
-			args: array(
+			null,
+			array(
 				'method' => 'GET'
 			)
 		);
