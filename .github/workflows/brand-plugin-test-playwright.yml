@@ -33,9 +33,9 @@ jobs:
     name: Bluehost Build and Test Playwright
     needs: setup
     timeout-minutes: 120
-    uses: newfold-labs/workflows/.github/workflows/module-plugin-test-playwright.yml@main
     permissions:
       contents: read # Required for the reusable workflow to clone this module and the brand plugin (GITHUB_TOKEN).
+    uses: newfold-labs/workflows/.github/workflows/module-plugin-test-playwright.yml@main
     with:
       module-repo: ${{ github.repository }}
       module-branch: ${{ needs.setup.outputs.branch }}
@@ -46,9 +46,9 @@ jobs:
     name: Bluehost Dev Build and Test Playwright
     needs: setup
     timeout-minutes: 120
-    uses: newfold-labs/workflows/.github/workflows/module-plugin-test-playwright.yml@main
     permissions:
       contents: read # Required for the reusable workflow to clone this module and the brand plugin (GITHUB_TOKEN).
+    uses: newfold-labs/workflows/.github/workflows/module-plugin-test-playwright.yml@main
     with:
       module-repo: ${{ github.repository }}
       module-branch: ${{ needs.setup.outputs.branch }}

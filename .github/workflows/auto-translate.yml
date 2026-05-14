@@ -20,10 +20,10 @@ jobs:
   translate:
     name: 'Check and update translations'
     timeout-minutes: 120
-    uses: newfold-labs/workflows/.github/workflows/reusable-translations.yml@main
     permissions:
       contents: write      # Required for the reusable translations workflow to push the auto-translate branch and commits.
       pull-requests: write # Required for gh pr list/update/create flows inside the reusable workflow (GITHUB_TOKEN).
+    uses: newfold-labs/workflows/.github/workflows/reusable-translations.yml@main
     with:
       text_domain: 'wp-module-data'
     secrets:
