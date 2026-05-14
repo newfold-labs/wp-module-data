@@ -25,6 +25,7 @@ permissions: {}
 jobs:
   get-repo-name:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     permissions: {} # No checkout or GitHub API usage; only derives the repo name from github.repository.
     outputs:
       repository-name: ${{ steps.repo-name.outputs.name }}
@@ -37,6 +38,7 @@ jobs:
 
   unit-tests:
     needs: get-repo-name
+    timeout-minutes: 120
     uses: newfold-labs/workflows/.github/workflows/reusable-codecoverage.yml@main
     permissions:
       contents: write      # Required for the reusable codecoverage workflow to push coverage HTML to gh-pages.

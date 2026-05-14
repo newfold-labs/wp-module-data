@@ -18,6 +18,7 @@ jobs:
   setup:
     name: Setup
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     permissions: {} # No checkout or GitHub API usage; only derives the branch name from workflow ref env vars.
     outputs:
       branch: ${{ steps.extract_branch.outputs.branch }}
@@ -31,6 +32,7 @@ jobs:
   bluehost:
     name: Bluehost Build and Test Playwright
     needs: setup
+    timeout-minutes: 120
     uses: newfold-labs/workflows/.github/workflows/module-plugin-test-playwright.yml@main
     permissions:
       contents: read # Required for the reusable workflow to clone this module and the brand plugin (GITHUB_TOKEN).
@@ -43,6 +45,7 @@ jobs:
   bluehost-dev:
     name: Bluehost Dev Build and Test Playwright
     needs: setup
+    timeout-minutes: 120
     uses: newfold-labs/workflows/.github/workflows/module-plugin-test-playwright.yml@main
     permissions:
       contents: read # Required for the reusable workflow to clone this module and the brand plugin (GITHUB_TOKEN).
