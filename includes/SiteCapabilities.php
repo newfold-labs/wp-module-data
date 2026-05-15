@@ -22,12 +22,21 @@ class SiteCapabilities {
 	protected $transient;
 
 	/**
+	 * Hiive connection manager
+	 *
+	 * @var HiiveConnection
+	 */
+	protected $hiive;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param ?Transient $transient Inject instance of Transient class.
+	 * @param ?HiiveConnection $hiive Inject instance of the hiive connection manager.
 	 */
-	public function __construct( ?Transient $transient = null ) {
+	public function __construct( ?Transient $transient = null, ?HiiveConnection $hiive = null ) {
 		$this->transient = $transient ?? new Transient();
+		$this->hiive     = $hiive ?? new HiiveConnection();
 	}
 
 	/**
@@ -51,7 +60,7 @@ class SiteCapabilities {
 	 *
 	 * @used-by Capabilities::update()
 	 *
-	 * @param array<string, bool> $capabilities
+	 * @param array<string, bool> $capabilities The capabilities array.
 	 *
 	 * @return bool True if the value was changed, false otherwise.
 	 */
@@ -66,7 +75,7 @@ class SiteCapabilities {
 	 * @used-by self::fetch()
 	 * @used-by Capabilities::update()
 	 *
-	 * @param array<string, bool> $capabilities
+	 * @param array<string, bool> $capabilities The capabilities array.
 	 *
 	 * @return bool True if the value was set, false otherwise.
 	 */
@@ -112,27 +121,22 @@ class SiteCapabilities {
 	 * @return array<string, bool>
 	 */
 	protected function fetch(): array {
-		$capabilities = array();
 
-		$response = wp_remote_get(
-			constant( 'NFD_HIIVE_URL' ) . '/sites/v1/capabilities',
+		$response = $this->hiive->hiive_request(
+			'sites/v1/capabilities',
+			null,
 			array(
-				'headers' => array(
-					'Content-Type'  => 'application/json',
-					'Accept'        => 'application/json',
-					'Authorization' => 'Bearer ' . HiiveConnection::get_auth_token(),
-				),
+				'method' => 'GET',
 			)
 		);
 
-		if ( wp_remote_retrieve_response_code( $response ) === 200 && ! is_wp_error( $response ) ) {
-			$body = wp_remote_retrieve_body( $response );
-			$data = json_decode( $body, true );
-			if ( $data && is_array( $data ) ) {
-				$capabilities = $data;
-			}
+		if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
+			return array();
 		}
 
-		return $capabilities;
+		$body = wp_remote_retrieve_body( $response );
+		$data = json_decode( $body, true );
+
+		return is_array( $data ) ? $data : array();
 	}
 }

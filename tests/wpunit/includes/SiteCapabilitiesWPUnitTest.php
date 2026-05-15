@@ -14,24 +14,6 @@ use WP_Error;
  */
 class SiteCapabilitiesWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase {
 
-	protected function setUp(): void {
-		parent::setUp();
-
-		require_once codecept_root_dir( 'vendor/antecedent/patchwork/Patchwork.php' );
-
-		\Patchwork\redefine(
-			'constant',
-			function ( string $constant_name ) {
-				switch ( $constant_name ) {
-					case 'NFD_HIIVE_URL':
-						return 'https://hiive.localhost';
-					default:
-						return \Patchwork\relay( func_get_args() );
-				}
-			}
-		);
-	}
-
 	protected function tearDown(): void {
 		parent::tearDown();
 		Mockery::resetContainer();
@@ -71,17 +53,11 @@ class SiteCapabilitiesWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase
 			->with( 'nfd_site_capabilities' )
 			->andReturnFalse();
 
-		/**
-		 * @see \WP_Http::request()
-		 */
-		add_filter(
-			'pre_http_request',
-			function () {
-				return array(
-					'body'     => json_encode( array( 'test_capability' => true ) ),
-					'response' => array( 'code' => 200 ),
-				);
-			}
+		$hiive = $this->mock_hiive_capabilities_request(
+			array(
+				'body'     => wp_json_encode( array( 'test_capability' => true ) ),
+				'response' => array( 'code' => 200 ),
+			)
 		);
 
 		$transient->shouldReceive( 'set' )
@@ -93,7 +69,7 @@ class SiteCapabilitiesWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase
 					)
 					->andReturnTrue();
 
-		$sut = new SiteCapabilities( $transient );
+		$sut = new SiteCapabilities( $transient, $hiive );
 
 		$result = $sut->get( 'test_capability' );
 
@@ -113,14 +89,8 @@ class SiteCapabilitiesWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase
 			->with( 'nfd_site_capabilities' )
 			->andReturnFalse();
 
-		/**
-		 * @see \WP_Http::request()
-		 */
-		add_filter(
-			'pre_http_request',
-			function () {
-				return new WP_Error( 'could_not_connect', 'Could not connect to Hiive' );
-			}
+		$hiive = $this->mock_hiive_capabilities_request(
+			new WP_Error( 'could_not_connect', 'Could not connect to Hiive' )
 		);
 
 		$transient->shouldReceive( 'set' )
@@ -132,7 +102,7 @@ class SiteCapabilitiesWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase
 					)
 					->andReturnTrue();
 
-		$sut = new SiteCapabilities( $transient );
+		$sut = new SiteCapabilities( $transient, $hiive );
 
 		$result = $sut->get( 'test_capability' );
 
@@ -152,17 +122,11 @@ class SiteCapabilitiesWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase
 			->with( 'nfd_site_capabilities' )
 			->andReturnFalse();
 
-		/**
-		 * @see \WP_Http::request()
-		 */
-		add_filter(
-			'pre_http_request',
-			function () {
-				return array(
-					'body'     => '',
-					'response' => array( 'code' => 401 ),
-				);
-			}
+		$hiive = $this->mock_hiive_capabilities_request(
+			array(
+				'body'     => '',
+				'response' => array( 'code' => 401 ),
+			)
 		);
 
 		$transient->shouldReceive( 'set' )
@@ -174,7 +138,7 @@ class SiteCapabilitiesWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase
 					)
 					->andReturnTrue();
 
-		$sut = new SiteCapabilities( $transient );
+		$sut = new SiteCapabilities( $transient, $hiive );
 
 		$result = $sut->get( 'test_capability' );
 
@@ -268,5 +232,27 @@ class SiteCapabilitiesWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase
 
 		$this->assertIsArray( $result );
 		$this->assertEmpty( $result );
+	}
+
+	/**
+	 * @param array<string, mixed>|WP_Error $response
+	 *
+	 * @return HiiveConnection
+	 */
+	private function mock_hiive_capabilities_request( $response ): HiiveConnection {
+		$hiive = Mockery::mock( HiiveConnection::class );
+
+		$hiive->shouldReceive( 'hiive_request' )
+			->once()
+			->with(
+				'sites/v1/capabilities',
+				null,
+				array(
+					'method' => 'GET',
+				)
+			)
+			->andReturn( $response );
+
+		return $hiive;
 	}
 }
