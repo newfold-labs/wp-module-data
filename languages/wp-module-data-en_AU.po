@@ -8,39 +8,29 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: 2025-02-13T09:55:55+00:00\n"
-"PO-Revision-Date: 2026-05-15T14:58:07+00:00\n"
+"PO-Revision-Date: 2026-05-15T15:38:54+00:00\n"
 "Language: en_AU\n"
 "X-Generator: WP-CLI 2.13.0-alpha\n"
 "X-Domain: wp-module-data\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-#. Plugin Name of the plugin
-#: wp-module-data-plugin.php:11
-msgid "Data Module Test Plugin"
-msgstr "Data Module Test Plugin"
-
-#. Description of the plugin
-#: wp-module-data-plugin.php:12
-msgid "Minimal plugin to activate and test module functionality."
-msgstr "Minimal plugin to activate and test module functionality."
 
 #. Author of the plugin
 #: wp-module-data-plugin.php:14
 msgid "Bluehost"
 msgstr "Bluehost"
 
-#. Author URI of the plugin
-#: wp-module-data-plugin.php:15
-msgid "https://bluehost.com"
-msgstr "https://bluehost.com"
+#: includes/API/Verify.php:52
+msgid "Connection verification token."
+msgstr "Connection verification token."
 
 #: bootstrap.php:70
 msgid "Data"
 msgstr "Data"
 
-#: includes/API/Capabilities.php:71
-msgid "Sorry, you are not allowed to access this endpoint."
-msgstr "Sorry, you are not allowed to access this endpoint."
+#. Plugin Name of the plugin
+#: wp-module-data-plugin.php:11
+msgid "Data Module Test Plugin"
+msgstr "Data Module Test Plugin"
 
 #: includes/API/Events.php:58
 msgid "Event action. For the \"pageview\" action/key, Hiive tries to read the page URL and page title only from the \"page\" and \"page_title\" keys in the data arg."
@@ -54,13 +44,18 @@ msgstr "Event category"
 msgid "Event data"
 msgstr "Event data"
 
-#: includes/API/Events.php:78
-msgid "Whether or not to queue the event"
-msgstr "Whether or not to queue the event"
+#. Description of the plugin
+#: wp-module-data-plugin.php:12
+msgid "Minimal plugin to activate and test module functionality."
+msgstr "Minimal plugin to activate and test module functionality."
 
-#: includes/API/Events.php:167
-msgid "Sorry, you are not allowed to use this endpoint."
-msgstr "Sorry, you are not allowed to use this endpoint."
+#: includes/EventManager.php:137
+msgid "Once Every Minute"
+msgstr "Once Every Minute"
+
+#: includes/Listeners/Cron.php:67
+msgid "Once Weekly"
+msgstr "Once Weekly"
 
 #: includes/API/Events.php:186
 msgid "Request does not contain an array of events."
@@ -70,19 +65,23 @@ msgstr "Request does not contain an array of events."
 msgid "Some events failed."
 msgstr "Some events failed."
 
-#: includes/API/Verify.php:52
-msgid "Connection verification token."
-msgstr "Connection verification token."
+#: includes/API/Capabilities.php:71
+msgid "Sorry, you are not allowed to access this endpoint."
+msgstr "Sorry, you are not allowed to access this endpoint."
 
-#: includes/EventManager.php:137
-msgid "Once Every Minute"
-msgstr "Once Every Minute"
+#: includes/API/Events.php:167
+msgid "Sorry, you are not allowed to use this endpoint."
+msgstr "Sorry, you are not allowed to use this endpoint."
 
-#: includes/HiiveConnection.php:353
-#: includes/HiiveConnection.php:389
+#: includes/HiiveConnection.php:353 includes/HiiveConnection.php:389
 msgid "This site is not connected to the hiive."
 msgstr "This site is not connected to the hiive."
 
-#: includes/Listeners/Cron.php:67
-msgid "Once Weekly"
-msgstr "Once Weekly"
+#: includes/API/Events.php:78
+msgid "Whether or not to queue the event"
+msgstr "Whether or not to queue the event"
+
+#. Author URI of the plugin
+#: wp-module-data-plugin.php:15
+msgid "https://bluehost.com"
+msgstr "https://bluehost.com"

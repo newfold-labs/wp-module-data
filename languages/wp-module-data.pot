@@ -14,32 +14,22 @@ msgstr ""
 "X-Generator: WP-CLI 2.13.0-alpha\n"
 "X-Domain: wp-module-data\n"
 
-#. Plugin Name of the plugin
-#: wp-module-data-plugin.php:11
-msgid "Data Module Test Plugin"
-msgstr ""
-
-#. Description of the plugin
-#: wp-module-data-plugin.php:12
-msgid "Minimal plugin to activate and test module functionality."
-msgstr ""
-
 #. Author of the plugin
 #: wp-module-data-plugin.php:14
 msgid "Bluehost"
 msgstr ""
 
-#. Author URI of the plugin
-#: wp-module-data-plugin.php:15
-msgid "https://bluehost.com"
+#: includes/API/Verify.php:52
+msgid "Connection verification token."
 msgstr ""
 
 #: bootstrap.php:70
 msgid "Data"
 msgstr ""
 
-#: includes/API/Capabilities.php:71
-msgid "Sorry, you are not allowed to access this endpoint."
+#. Plugin Name of the plugin
+#: wp-module-data-plugin.php:11
+msgid "Data Module Test Plugin"
 msgstr ""
 
 #: includes/API/Events.php:58
@@ -54,12 +44,17 @@ msgstr ""
 msgid "Event data"
 msgstr ""
 
-#: includes/API/Events.php:78
-msgid "Whether or not to queue the event"
+#. Description of the plugin
+#: wp-module-data-plugin.php:12
+msgid "Minimal plugin to activate and test module functionality."
 msgstr ""
 
-#: includes/API/Events.php:167
-msgid "Sorry, you are not allowed to use this endpoint."
+#: includes/EventManager.php:137
+msgid "Once Every Minute"
+msgstr ""
+
+#: includes/Listeners/Cron.php:67
+msgid "Once Weekly"
 msgstr ""
 
 #: includes/API/Events.php:186
@@ -70,19 +65,23 @@ msgstr ""
 msgid "Some events failed."
 msgstr ""
 
-#: includes/API/Verify.php:52
-msgid "Connection verification token."
+#: includes/API/Capabilities.php:71
+msgid "Sorry, you are not allowed to access this endpoint."
 msgstr ""
 
-#: includes/EventManager.php:137
-msgid "Once Every Minute"
+#: includes/API/Events.php:167
+msgid "Sorry, you are not allowed to use this endpoint."
 msgstr ""
 
-#: includes/HiiveConnection.php:353
-#: includes/HiiveConnection.php:389
+#: includes/HiiveConnection.php:353 includes/HiiveConnection.php:389
 msgid "This site is not connected to the hiive."
 msgstr ""
 
-#: includes/Listeners/Cron.php:67
-msgid "Once Weekly"
+#: includes/API/Events.php:78
+msgid "Whether or not to queue the event"
+msgstr ""
+
+#. Author URI of the plugin
+#: wp-module-data-plugin.php:15
+msgid "https://bluehost.com"
 msgstr ""
