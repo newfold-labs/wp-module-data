@@ -149,7 +149,7 @@
     "wp-cli/i18n-command": "^2.7.3",
     "wp-plugin/jetpack": "^15.8",
     "wp-plugin/woocommerce": ">=10.6.2",
-    "wp-plugin/woocommerce-payments": "^10.7.1",
+    "wp-plugin/woocommerce-payments": "^10.8.0",
     "wp-theme/twentytwentyfive": ">=1"
   },
   "extra": {
