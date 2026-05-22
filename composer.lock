@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d8834504761d122c9a1482a956342737",
+    "content-hash": "368f2713ac0806d897751eb554564bc7",
     "packages": [
         {
             "name": "doctrine/inflector",
@@ -7555,15 +7555,15 @@
         },
         {
             "name": "wp-theme/twentytwentyfive",
-            "version": "1.4",
+            "version": "1.5",
             "source": {
                 "type": "svn",
                 "url": "https://themes.svn.wordpress.org/twentytwentyfive/",
-                "reference": "1.4"
+                "reference": "1.5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/theme/twentytwentyfive.1.4.zip"
+                "url": "https://downloads.wordpress.org/theme/twentytwentyfive.1.5.zip"
             },
             "require": {
                 "composer/installers": "~1.0|~2.0"
@@ -7577,7 +7577,7 @@
                 "issues": "https://wordpress.org/support/theme/twentytwentyfive",
                 "source": "https://themes.svn.wordpress.org/twentytwentyfive"
             },
-            "time": "2026-03-23T19:23:21+00:00"
+            "time": "2026-05-20T21:56:34+00:00"
         }
     ],
     "aliases": [],
