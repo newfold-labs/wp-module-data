@@ -138,7 +138,7 @@
     "wpscholar/url": "^1.2.5"
   },
   "require-dev": {
-    "10up/wp_mock": "^1.1.0",
+    "10up/wp_mock": "^1.1.1",
     "brianhenryie/composer-phpstorm": ">=0.4",
     "johnpbloch/wordpress": ">=7.0.0",
     "kporras07/composer-symlinks": "^1.3",
