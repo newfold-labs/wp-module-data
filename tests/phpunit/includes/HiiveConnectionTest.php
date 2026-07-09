@@ -11,6 +11,14 @@ use function NewfoldLabs\WP\ModuleLoader\container;
 
 /**
  * @coversDefaultClass \NewfoldLabs\WP\Module\Data\HiiveConnection
+ *
+ * @phpcs:disable Squiz.Commenting.FunctionComment.Missing
+ * @phpcs:disable Squiz.PHP.CommentedOutCode.Found
+ * @phpcs:disable WordPress.WP.GlobalVariablesOverride.Prohibited
+ * @phpcs:disable PHPCompatibility.FunctionUse.ArgumentFunctionsReportCurrentValue.NeedsInspection
+ * @phpcs:disable WordPress.PHP.NoSilencedErrors.Discouraged
+ * @phpcs:disable WordPress.WP.AlternativeFunctions.file_system_operations_mkdir
+ * @phpcs:disable WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents
  */
 class HiiveConnectionTest extends TestCase {
 
