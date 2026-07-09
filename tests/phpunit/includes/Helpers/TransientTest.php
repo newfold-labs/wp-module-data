@@ -96,6 +96,16 @@ class TransientTest extends TestCase {
 				)
 				->andReturnTrue();
 
+		\WP_Mock::userFunction( 'wp_cache_delete' )
+				->once()
+				->with( $test_transient_name, 'options' );
+
+		\WP_Mock::userFunction( 'delete_option' )
+				->never();
+
+		\WP_Mock::userFunction( 'add_option' )
+				->never();
+
 		WP_Mock::expectAction(
 			"set_transient_{$test_transient_name}",
 			'value',
@@ -215,6 +225,10 @@ class TransientTest extends TestCase {
 				->with( $test_transient_name )
 				->andReturnTrue();
 
+		\WP_Mock::userFunction( 'wp_cache_delete' )
+				->once()
+				->with( $test_transient_name, 'options' );
+
 		WP_Mock::expectFilter(
 			"transient_{$test_transient_name}",
 			false,
@@ -309,6 +323,16 @@ class TransientTest extends TestCase {
 		\WP_Mock::userFunction( 'update_option' )
 				->once()
 				->andReturn( true );
+
+		\WP_Mock::userFunction( 'wp_cache_delete' )
+				->once()
+				->with( $test_transient_name, 'options' );
+
+		\WP_Mock::userFunction( 'delete_option' )
+				->never();
+
+		\WP_Mock::userFunction( 'add_option' )
+				->never();
 
 		WP_Mock::expectAction(
 			"set_transient_{$test_transient_name}",

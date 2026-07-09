@@ -52,6 +52,7 @@ class Transient {
 				$value = $data['value'];
 			} else {
 				\delete_option( $key );
+				self::delete_option_cache( $key );
 				$value = false;
 			}
 		} else {
@@ -96,7 +97,15 @@ class Transient {
 			'expires_at' => $expires_in + time(),
 		);
 
+		self::delete_option_cache( $key );
+
 		$result = \update_option( $key, $data, false );
+
+		if ( ! $result ) {
+			\delete_option( $key );
+			self::delete_option_cache( $key );
+			$result = \add_option( $key, $data, '', false );
+		}
 
 		if ( $result ) {
 			do_action( "set_transient_{$key}", $value, $expires_in, $key );
@@ -129,6 +138,8 @@ class Transient {
 
 		$result = \delete_option( $key );
 
+		self::delete_option_cache( $key );
+
 		if ( $result ) {
 
 			/**
@@ -140,6 +151,18 @@ class Transient {
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Clear a cached option value from the object cache.
+	 *
+	 * Object-cache drop-ins can serve stale option values unless the options
+	 * cache group is invalidated when using the options-table transient fallback.
+	 *
+	 * @param string $key Option name.
+	 */
+	protected static function delete_option_cache( string $key ): void {
+		\wp_cache_delete( $key, 'options' );
 	}
 
 	/**
