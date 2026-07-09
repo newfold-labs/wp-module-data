@@ -387,10 +387,10 @@ class HiiveConnection implements SubscriberInterface {
 			$body = json_decode( $request_response['body'], true );
 			if ( 'Invalid token for url' === $body['message'] ) {
 				if ( $this->reconnect() ) {
-					$this->hiive_request( $path, $payload, $args );
-				} else {
-					return new WP_Error( 'hiive_connection', __( 'This site is not connected to the hiive.', 'wp-module-data' ) );
+					return $this->hiive_request( $path, $payload, $args );
 				}
+
+				return new WP_Error( 'hiive_connection', __( 'This site is not connected to the hiive.', 'wp-module-data' ) );
 			}
 		}
 

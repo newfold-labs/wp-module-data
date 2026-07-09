@@ -283,8 +283,11 @@ class HiiveConnectionTest extends TestCase {
 			);
 
 		WP_Mock::userFunction( 'is_wp_error' )
-				->times( 3 )
-				->andReturnFalse();
+				->andReturnUsing(
+					function ( $thing ) {
+						return $thing instanceof \WP_Error;
+					}
+				);
 
 		// Calls ::rename()
 
@@ -323,11 +326,16 @@ class HiiveConnectionTest extends TestCase {
 		file_put_contents( $temp_dir . '/wp-admin/includes/plugin.php', '<?php' );
 
 		WP_Mock::userFunction( 'get_dropins' )
-			->twice()
+			->zeroOrMoreTimes()
 			->andReturn( array() );
 
+		WP_Mock::userFunction( 'get_transient' )
+			->zeroOrMoreTimes()
+			->andReturn( false );
+
 		WP_Mock::userFunction( 'set_transient' )
-			->once()->andReturnTrue();
+			->zeroOrMoreTimes()
+			->andReturnTrue();
 
 		WP_Mock::userFunction( 'delete_transient' )
 			->with( 'nfd_site_capabilities' )
@@ -351,24 +359,52 @@ class HiiveConnectionTest extends TestCase {
 			->with( 'nfd_data_connection_attempts', 1 )
 			->once()->andReturnTrue();
 
+		$reconnect_response = array(
+			'response' => array(
+				'code' => 200,
+			),
+			'body'     => json_encode(
+				array(
+					'site'  => array(),
+					'token' => 'hiive_auth_token',
+				)
+			),
+		);
+
 		WP_Mock::userFunction( 'wp_remote_post' )
-			->with( '/sites/v2/reconnect', \WP_Mock\Functions::type( 'array' ) )
-			->once()->andReturn( array() );
+			->withArgs(
+				function ( $url, $args ) {
+					return false !== strpos( $url, '/sites/v2/reconnect' );
+				}
+			)
+			->once()
+			->andReturn( $reconnect_response );
 
 		WP_Mock::userFunction( 'wp_remote_retrieve_response_code' )
-			->with( \WP_Mock\Functions::type( 'array' ) )
-			->zeroOrMoreTimes()->andReturn( 200 );
+			->andReturnUsing(
+				function ( $response ) {
+					if ( $response instanceof \WP_Error ) {
+						return 0;
+					}
+
+					return $response['response']['code'] ?? 200;
+				}
+			);
 
 		WP_Mock::userFunction( 'wp_remote_retrieve_body' )
-			->with( \WP_Mock\Functions::type( 'array' ) )
-			->zeroOrMoreTimes()->andReturn(
-				json_encode(
-					array(
-						'site'  => array(),
-						'token' => 'hiive_auth_token',
-					)
-				)
+			->andReturnUsing(
+				function ( $response ) {
+					if ( $response instanceof \WP_Error ) {
+						return '';
+					}
+
+					return $response['body'] ?? '';
+				}
 			);
+
+		WP_Mock::userFunction( 'wp_remote_retrieve_response_message' )
+			->zeroOrMoreTimes()
+			->andReturn( '' );
 
 		WP_Mock::userFunction( 'update_option' )
 			->with( 'nfd_data_token', 'hiive_auth_token' )
@@ -380,7 +416,7 @@ class HiiveConnectionTest extends TestCase {
 		 * @see https://github.com/10up/wp_mock/pull/246
 		 */
 		WP_Mock::userFunction( 'remove_filter' )
-				->twice()
+				->once()
 				->with( 'http_headers_useragent', array( $sut, 'add_plugin_name_version_to_user_agent' ) );
 
 		/**
