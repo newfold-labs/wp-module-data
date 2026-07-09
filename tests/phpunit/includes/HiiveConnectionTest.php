@@ -315,11 +315,16 @@ class HiiveConnectionTest extends TestCase {
 		file_put_contents( $temp_dir . '/wp-admin/includes/plugin.php', '<?php' );
 
 		WP_Mock::userFunction( 'get_dropins' )
-			->once()
+			->twice()
 			->andReturn( array() );
 
 		WP_Mock::userFunction( 'set_transient' )
 			->once()->andReturnTrue();
+
+		WP_Mock::userFunction( 'delete_transient' )
+			->with( 'nfd_site_capabilities' )
+			->once()
+			->andReturnTrue();
 
 		// Calls Plugin::collect_installed()
 
