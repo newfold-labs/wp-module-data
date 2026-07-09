@@ -181,6 +181,9 @@ class HiiveConnection implements SubscriberInterface {
 
 				// Token is auto-encrypted using the `pre_update_option_nfd_data_token` hook.
 				\update_option( 'nfd_data_token', $body->token );
+
+				( new SiteCapabilities() )->clear();
+
 				return true;
 			}
 		}

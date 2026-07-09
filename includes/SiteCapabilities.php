@@ -15,6 +15,14 @@ use NewfoldLabs\WP\Module\Data\Helpers\Transient;
 class SiteCapabilities {
 
 	/**
+	 * Capabilities returned by Hiive always include this key.
+	 *
+	 * Used to distinguish a real Hiive payload from legacy bootstrap fallback
+	 * entries that only contained a subset of capabilities.
+	 */
+	public const HIIVE_RESPONSE_MARKER = 'canAccessAI';
+
+	/**
 	 * Implementation of transient functionality which uses the WordPress options table when an object cache is present.
 	 *
 	 * @var Transient
@@ -65,7 +73,14 @@ class SiteCapabilities {
 	 * @return bool True if the value was changed, false otherwise.
 	 */
 	public function update( array $capabilities ): bool {
-		$updated_capabilities = array_merge( $this->all( false ), $capabilities );
+		$existing = $this->all( false );
+
+		if ( ! $this->is_valid_capabilities( $existing ) && HiiveConnection::is_connected() ) {
+			$existing = $this->fetch();
+		}
+
+		$updated_capabilities = array_merge( $existing, $capabilities );
+
 		return $this->set( $updated_capabilities );
 	}
 
@@ -80,6 +95,10 @@ class SiteCapabilities {
 	 * @return bool True if the value was set, false otherwise.
 	 */
 	public function set( array $capabilities ): bool {
+		if ( ! $this->is_valid_capabilities( $capabilities ) ) {
+			return false;
+		}
+
 		return $this->transient->set( 'nfd_site_capabilities', $capabilities, 4 * constant( 'HOUR_IN_SECONDS' ) );
 	}
 
@@ -93,17 +112,33 @@ class SiteCapabilities {
 	public function all( bool $fetch_when_absent = true ): array {
 		$capabilities = $this->transient->get( 'nfd_site_capabilities' );
 
-		if ( is_array( $capabilities ) ) {
+		if ( $this->is_valid_capabilities( $capabilities ) ) {
 			return $capabilities;
 		}
 
 		if ( $fetch_when_absent ) {
-			$capabilities = $this->fetch();
-			$this->set( $capabilities );
-			return $capabilities;
+			$fetched = $this->fetch();
+
+			if ( $this->is_valid_capabilities( $fetched ) ) {
+				$this->set( $fetched );
+				return $fetched;
+			}
+
+			return array();
 		}
 
 		return array();
+	}
+
+	/**
+	 * Remove any cached capabilities.
+	 *
+	 * @used-by HiiveConnection::connect()
+	 *
+	 * @return bool Whether the cache entry was deleted.
+	 */
+	public function clear(): bool {
+		return $this->transient->delete( 'nfd_site_capabilities' );
 	}
 
 	/**
@@ -113,6 +148,17 @@ class SiteCapabilities {
 	 */
 	protected function exists( string $capability ): bool {
 		return array_key_exists( $capability, $this->all() );
+	}
+
+	/**
+	 * Whether a capabilities array looks like a real Hiive response.
+	 *
+	 * @param mixed $capabilities Capabilities array candidate.
+	 */
+	protected function is_valid_capabilities( $capabilities ): bool {
+		return is_array( $capabilities )
+			&& ! empty( $capabilities )
+			&& array_key_exists( self::HIIVE_RESPONSE_MARKER, $capabilities );
 	}
 
 	/**
