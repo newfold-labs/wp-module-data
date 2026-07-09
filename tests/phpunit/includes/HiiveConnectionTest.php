@@ -373,7 +373,7 @@ class HiiveConnectionTest extends TestCase {
 
 		WP_Mock::userFunction( 'wp_remote_post' )
 			->withArgs(
-				function ( $url, $args ) {
+				function ( $url ) {
 					return false !== strpos( $url, '/sites/v2/reconnect' );
 				}
 			)
