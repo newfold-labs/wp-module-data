@@ -1,6 +1,8 @@
 <?php
 /**
  * SiteCapabilities has only one public method: {@see \NewfoldLabs\WP\Module\Data\SiteCapabilities::get()}
+ *
+ * @package NewfoldLabs\WP\Module\Data
  */
 
 namespace NewfoldLabs\WP\Module\Data;
@@ -14,6 +16,9 @@ use WP_Error;
  */
 class SiteCapabilitiesWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase {
 
+	/**
+	 * Reset Mockery between tests.
+	 */
 	protected function tearDown(): void {
 		parent::tearDown();
 		Mockery::resetContainer();
@@ -320,7 +325,7 @@ class SiteCapabilitiesWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase
 	}
 
 	/**
-	 * @param array<string, mixed>|WP_Error $response
+	 * @param array<string, mixed>|WP_Error $response Mocked Hiive capabilities API response.
 	 *
 	 * @return HiiveConnection
 	 */

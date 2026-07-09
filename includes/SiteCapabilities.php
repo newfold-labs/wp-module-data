@@ -39,7 +39,7 @@ class SiteCapabilities {
 	/**
 	 * Constructor.
 	 *
-	 * @param ?Transient $transient Inject instance of Transient class.
+	 * @param ?Transient       $transient Inject instance of Transient class.
 	 * @param ?HiiveConnection $hiive Inject instance of the hiive connection manager.
 	 */
 	public function __construct( ?Transient $transient = null, ?HiiveConnection $hiive = null ) {
