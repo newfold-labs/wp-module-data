@@ -61,7 +61,7 @@ class Transient {
 			 * This is to prevent PHP notices when trying to access $data['expires_at'].
 			 */
 			$value = false;
-        }
+		}
 
 		/**
 		 * Implement the filters as used in {@see get_transient()}.

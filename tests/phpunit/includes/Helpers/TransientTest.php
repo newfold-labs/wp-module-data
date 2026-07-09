@@ -26,12 +26,15 @@ class TransientTest extends TestCase {
 					case 'ABSPATH':
 						return $temp_dir;
 					default:
+						// phpcs:ignore PHPCompatibility.FunctionUse.ArgumentFunctionsReportCurrentValue.NeedsInspection -- Relay constant() args in test shim.
 						return \Patchwork\relay( func_get_args() );
 				}
 			}
 		);
 
+		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged, WordPress.WP.AlternativeFunctions.file_system_operations_mkdir -- Test bootstrap creates temp WP structure.
 		@mkdir( $temp_dir . '/wp-admin/includes', 0777, true );
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents -- Test bootstrap creates temp WP structure.
 		file_put_contents( $temp_dir . '/wp-admin/includes/plugin.php', '<?php' );
 	}
 
