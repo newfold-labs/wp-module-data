@@ -36,12 +36,17 @@ class Data {
 	protected $plugin;
 
 	/**
+	 * Event manager instance.
+	 *
 	 * @var EventManager $event_manager
 	 */
 	protected $event_manager;
 
 	/**
 	 * Data constructor.
+	 *
+	 * @param Plugin        $plugin        Dependency injection container.
+	 * @param ?EventManager $event_manager Event manager instance.
 	 */
 	public function __construct(
 		Plugin $plugin,
@@ -63,6 +68,12 @@ class Data {
 	 * @see \NewfoldLabs\WP\ModuleLoader\register()
 	 */
 	public function start(): void {
+
+		// The minutely schedule must exist on every request, even when we bail out of init()
+		// below because the site isn't connected to Hiive. A previously scheduled
+		// nfd_data_sync_cron event survives disconnection and WP-Cron cannot reschedule it
+		// without the schedule being registered.
+		$this->event_manager->register_cron_schedule();
 
 		// Delays our primary module setup until init
 		add_action( 'init', array( $this, 'init' ) );
@@ -110,7 +121,6 @@ class Data {
 		// Register endpoint for clearing capabilities cache
 		$capabilities_api = new Capabilities( new SiteCapabilities() );
 		add_action( 'rest_api_init', array( $capabilities_api, 'register_routes' ) );
-
 	}
 
 	/**
@@ -164,7 +174,7 @@ class Data {
 	 *
 	 * @hooked rest_authentication_errors
 	 *
-	 * @param  bool|null|\WP_Error $errors
+	 * @param  bool|null|\WP_Error $errors Current authentication result.
 	 *
 	 * @return bool|null|\WP_Error
 	 * @see WP_REST_Server::check_authentication()
