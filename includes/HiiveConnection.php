@@ -185,6 +185,9 @@ class HiiveConnection implements SubscriberInterface {
 
 				// Token is auto-encrypted using the `pre_update_option_nfd_data_token` hook.
 				\update_option( 'nfd_data_token', $body->token );
+
+				( new SiteCapabilities() )->clear();
+
 				return true;
 			}
 		}
@@ -388,10 +391,10 @@ class HiiveConnection implements SubscriberInterface {
 			$body = json_decode( $request_response['body'], true );
 			if ( 'Invalid token for url' === $body['message'] ) {
 				if ( $this->reconnect() ) {
-					$this->hiive_request( $path, $payload, $args );
-				} else {
-					return new WP_Error( 'hiive_connection', __( 'This site is not connected to the hiive.', 'wp-module-data' ) );
+					return $this->hiive_request( $path, $payload, $args );
 				}
+
+				return new WP_Error( 'hiive_connection', __( 'This site is not connected to the hiive.', 'wp-module-data' ) );
 			}
 		}
 

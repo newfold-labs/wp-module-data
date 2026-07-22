@@ -283,8 +283,11 @@ class HiiveConnectionTest extends TestCase {
 			);
 
 		WP_Mock::userFunction( 'is_wp_error' )
-				->times( 3 )
-				->andReturnFalse();
+				->andReturnUsing(
+					function ( $thing ) {
+						return $thing instanceof \WP_Error;
+					}
+				);
 
 		// Calls ::rename()
 
@@ -326,14 +329,23 @@ class HiiveConnectionTest extends TestCase {
 			->zeroOrMoreTimes()
 			->andReturn( array() );
 
-		WP_Mock::userFunction( 'set_transient' )
-			->once()
-			->andReturnTrue();
-
 		WP_Mock::userFunction( 'get_transient' )
 			->with( 'nfd_data_verify_token' )
 			->once()
 			->andReturn( md5( 'password' ) );
+
+		WP_Mock::userFunction( 'get_transient' )
+			->zeroOrMoreTimes()
+			->andReturn( false );
+
+		WP_Mock::userFunction( 'set_transient' )
+			->zeroOrMoreTimes()
+			->andReturnTrue();
+
+		WP_Mock::userFunction( 'delete_transient' )
+			->with( 'nfd_site_capabilities' )
+			->once()
+			->andReturnTrue();
 
 		// Calls Plugin::collect_installed()
 
@@ -409,7 +421,7 @@ class HiiveConnectionTest extends TestCase {
 		 * @see https://github.com/10up/wp_mock/pull/246
 		 */
 		WP_Mock::userFunction( 'remove_filter' )
-				->twice()
+				->once()
 				->with( 'http_headers_useragent', array( $sut, 'add_plugin_name_version_to_user_agent' ) );
 
 		/**

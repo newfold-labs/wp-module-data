@@ -1,6 +1,8 @@
 <?php
 /**
  * SiteCapabilities has only one public method: {@see \NewfoldLabs\WP\Module\Data\SiteCapabilities::get()}
+ *
+ * @package NewfoldLabs\WP\Module\Data
  */
 
 namespace NewfoldLabs\WP\Module\Data;
@@ -14,6 +16,9 @@ use WP_Error;
  */
 class SiteCapabilitiesWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase {
 
+	/**
+	 * Reset Mockery between tests.
+	 */
 	protected function tearDown(): void {
 		parent::tearDown();
 		Mockery::resetContainer();
@@ -31,7 +36,12 @@ class SiteCapabilitiesWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase
 		$transient->shouldReceive( 'get' )
 			->once()
 			->with( 'nfd_site_capabilities' )
-			->andReturn( array( 'test_capability' => true ) );
+			->andReturn(
+				array(
+					'canAccessAI'     => true,
+					'test_capability' => true,
+				)
+			);
 
 		$sut = new SiteCapabilities( $transient );
 
@@ -55,7 +65,12 @@ class SiteCapabilitiesWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase
 
 		$hiive = $this->mock_hiive_capabilities_request(
 			array(
-				'body'     => wp_json_encode( array( 'test_capability' => true ) ),
+				'body'     => wp_json_encode(
+					array(
+						'canAccessAI'     => true,
+						'test_capability' => true,
+					)
+				),
 				'response' => array( 'code' => 200 ),
 			)
 		);
@@ -64,7 +79,10 @@ class SiteCapabilitiesWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase
 					->once()
 					->with(
 						'nfd_site_capabilities',
-						array( 'test_capability' => true ),
+						array(
+							'canAccessAI'     => true,
+							'test_capability' => true,
+						),
 						14400,
 					)
 					->andReturnTrue();
@@ -93,14 +111,7 @@ class SiteCapabilitiesWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase
 			new WP_Error( 'could_not_connect', 'Could not connect to Hiive' )
 		);
 
-		$transient->shouldReceive( 'set' )
-					->once()
-					->with(
-						'nfd_site_capabilities',
-						array(),
-						14400,
-					)
-					->andReturnTrue();
+		$transient->shouldNotReceive( 'set' );
 
 		$sut = new SiteCapabilities( $transient, $hiive );
 
@@ -129,14 +140,7 @@ class SiteCapabilitiesWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase
 			)
 		);
 
-		$transient->shouldReceive( 'set' )
-					->once()
-					->with(
-						'nfd_site_capabilities',
-						array(),
-						14400,
-					)
-					->andReturnTrue();
+		$transient->shouldNotReceive( 'set' );
 
 		$sut = new SiteCapabilities( $transient, $hiive );
 
@@ -157,6 +161,7 @@ class SiteCapabilitiesWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase
 					->with( 'nfd_site_capabilities' )
 					->andReturn(
 						array(
+							'canAccessAI'         => true,
 							'existing_capability' => true,
 						),
 					);
@@ -166,6 +171,7 @@ class SiteCapabilitiesWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase
 					->with(
 						'nfd_site_capabilities',
 						array(
+							'canAccessAI'         => true,
 							'existing_capability' => true,
 							'new_capability'      => true,
 						),
@@ -187,20 +193,12 @@ class SiteCapabilitiesWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase
 
 		$transient = Mockery::mock( Transient::class );
 
-		$transient->shouldReceive( 'get' )
-					->once()
-					->with( 'nfd_site_capabilities' )
-					->andReturn(
-						array(
-							'existing_capability' => true,
-						),
-					);
-
 		$transient->shouldReceive( 'set' )
 					->once()
 					->with(
 						'nfd_site_capabilities',
 						array(
+							'canAccessAI'    => true,
 							'new_capability' => true,
 						),
 						14400,
@@ -209,9 +207,101 @@ class SiteCapabilitiesWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase
 
 		$sut = new SiteCapabilities( $transient );
 
-		$result = $sut->set( array( 'new_capability' => true ) );
+		$result = $sut->set(
+			array(
+				'canAccessAI'    => true,
+				'new_capability' => true,
+			)
+		);
 
 		$this->assertTrue( $result );
+	}
+
+	/**
+	 * @covers ::all
+	 * @covers ::fetch
+	 */
+	public function test_refetches_when_cache_contains_bootstrap_fallback(): void {
+
+		$transient = Mockery::mock( Transient::class );
+
+		$transient->shouldReceive( 'get' )
+			->once()
+			->with( 'nfd_site_capabilities' )
+			->andReturn(
+				array(
+					'canMigrateSite' => true,
+					'hasAISiteGen'   => true,
+				)
+			);
+
+		$hiive = $this->mock_hiive_capabilities_request(
+			array(
+				'body'     => wp_json_encode(
+					array(
+						'canAccessAI'         => true,
+						'canAccessHelpCenter' => true,
+					)
+				),
+				'response' => array( 'code' => 200 ),
+			)
+		);
+
+		$transient->shouldReceive( 'set' )
+					->once()
+					->with(
+						'nfd_site_capabilities',
+						array(
+							'canAccessAI'         => true,
+							'canAccessHelpCenter' => true,
+						),
+						14400,
+					)
+					->andReturnTrue();
+
+		$sut = new SiteCapabilities( $transient, $hiive );
+
+		$result = $sut->all();
+
+		$this->assertTrue( $result['canAccessHelpCenter'] );
+	}
+
+	/**
+	 * @covers ::clear
+	 */
+	public function test_clear(): void {
+
+		$transient = Mockery::mock( Transient::class );
+
+		$transient->shouldReceive( 'delete' )
+					->once()
+					->with( 'nfd_site_capabilities' )
+					->andReturnTrue();
+
+		$sut = new SiteCapabilities( $transient );
+
+		$this->assertTrue( $sut->clear() );
+	}
+
+	/**
+	 * @covers ::set
+	 */
+	public function test_set_rejects_invalid_capabilities(): void {
+
+		$transient = Mockery::mock( Transient::class );
+
+		$transient->shouldNotReceive( 'set' );
+
+		$sut = new SiteCapabilities( $transient );
+
+		$this->assertFalse(
+			$sut->set(
+				array(
+					'canMigrateSite' => true,
+					'hasAISiteGen'   => true,
+				)
+			)
+		);
 	}
 
 	/**
@@ -235,7 +325,7 @@ class SiteCapabilitiesWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase
 	}
 
 	/**
-	 * @param array<string, mixed>|WP_Error $response
+	 * @param array<string, mixed>|WP_Error $response Mocked Hiive capabilities API response.
 	 *
 	 * @return HiiveConnection
 	 */

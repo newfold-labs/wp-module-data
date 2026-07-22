@@ -95,22 +95,6 @@ if ( function_exists( 'add_action' ) && function_exists( 'add_filter' ) ) {
 		}
 	);
 
-	// Temporary filter, as the migrate capability isn't working as expected.
-	add_filter(
-		'pre_set_transient_nfd_site_capabilities',
-		function ( $transient ) {
-			if ( empty( $transient ) && 'bluehost' === container()->plugin()->brand ) {
-				return array(
-					'canMigrateSite' => true,
-					'hasAISiteGen'   => true,
-				);
-			}
-			return $transient;
-		},
-		10,
-		2
-	);
-
 	// Register activation/deactivation hooks
 	add_action(
 		'newfold_container_set',
