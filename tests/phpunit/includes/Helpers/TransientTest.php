@@ -26,12 +26,15 @@ class TransientTest extends TestCase {
 					case 'ABSPATH':
 						return $temp_dir;
 					default:
+						// phpcs:ignore PHPCompatibility.FunctionUse.ArgumentFunctionsReportCurrentValue.NeedsInspection -- Relay constant() args in test shim.
 						return \Patchwork\relay( func_get_args() );
 				}
 			}
 		);
 
+		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged, WordPress.WP.AlternativeFunctions.file_system_operations_mkdir -- Test bootstrap creates temp WP structure.
 		@mkdir( $temp_dir . '/wp-admin/includes', 0777, true );
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents -- Test bootstrap creates temp WP structure.
 		file_put_contents( $temp_dir . '/wp-admin/includes/plugin.php', '<?php' );
 	}
 
@@ -95,6 +98,16 @@ class TransientTest extends TestCase {
 					false
 				)
 				->andReturnTrue();
+
+		\WP_Mock::userFunction( 'wp_cache_delete' )
+				->once()
+				->with( $test_transient_name, 'options' );
+
+		\WP_Mock::userFunction( 'delete_option' )
+				->never();
+
+		\WP_Mock::userFunction( 'add_option' )
+				->never();
 
 		WP_Mock::expectAction(
 			"set_transient_{$test_transient_name}",
@@ -215,6 +228,10 @@ class TransientTest extends TestCase {
 				->with( $test_transient_name )
 				->andReturnTrue();
 
+		\WP_Mock::userFunction( 'wp_cache_delete' )
+				->once()
+				->with( $test_transient_name, 'options' );
+
 		WP_Mock::expectFilter(
 			"transient_{$test_transient_name}",
 			false,
@@ -309,6 +326,16 @@ class TransientTest extends TestCase {
 		\WP_Mock::userFunction( 'update_option' )
 				->once()
 				->andReturn( true );
+
+		\WP_Mock::userFunction( 'wp_cache_delete' )
+				->once()
+				->with( $test_transient_name, 'options' );
+
+		\WP_Mock::userFunction( 'delete_option' )
+				->never();
+
+		\WP_Mock::userFunction( 'add_option' )
+				->never();
 
 		WP_Mock::expectAction(
 			"set_transient_{$test_transient_name}",

@@ -150,6 +150,10 @@ class HiiveConnection implements SubscriberInterface {
 		$token = md5( \wp_generate_password() );
 		Transient::set( 'nfd_data_verify_token', $token, 5 * constant( 'MINUTE_IN_SECONDS' ) );
 
+		if ( Transient::get( 'nfd_data_verify_token' ) !== $token ) {
+			return false;
+		}
+
 		$data                 = $this->get_core_data();
 		$data['verify_token'] = $token;
 		$data['plugins']      = ( new PluginHelper() )->collect_installed();

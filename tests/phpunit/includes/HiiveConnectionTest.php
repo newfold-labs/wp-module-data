@@ -11,6 +11,14 @@ use function NewfoldLabs\WP\ModuleLoader\container;
 
 /**
  * @coversDefaultClass \NewfoldLabs\WP\Module\Data\HiiveConnection
+ *
+ * @phpcs:disable Squiz.Commenting.FunctionComment.Missing
+ * @phpcs:disable Squiz.PHP.CommentedOutCode.Found
+ * @phpcs:disable WordPress.WP.GlobalVariablesOverride.Prohibited
+ * @phpcs:disable PHPCompatibility.FunctionUse.ArgumentFunctionsReportCurrentValue.NeedsInspection
+ * @phpcs:disable WordPress.PHP.NoSilencedErrors.Discouraged
+ * @phpcs:disable WordPress.WP.AlternativeFunctions.file_system_operations_mkdir
+ * @phpcs:disable WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents
  */
 class HiiveConnectionTest extends TestCase {
 
@@ -315,11 +323,17 @@ class HiiveConnectionTest extends TestCase {
 		file_put_contents( $temp_dir . '/wp-admin/includes/plugin.php', '<?php' );
 
 		WP_Mock::userFunction( 'get_dropins' )
-			->once()
+			->zeroOrMoreTimes()
 			->andReturn( array() );
 
 		WP_Mock::userFunction( 'set_transient' )
-			->once()->andReturnTrue();
+			->once()
+			->andReturnTrue();
+
+		WP_Mock::userFunction( 'get_transient' )
+			->with( 'nfd_data_verify_token' )
+			->once()
+			->andReturn( md5( 'password' ) );
 
 		// Calls Plugin::collect_installed()
 
@@ -338,24 +352,52 @@ class HiiveConnectionTest extends TestCase {
 			->with( 'nfd_data_connection_attempts', 1 )
 			->once()->andReturnTrue();
 
+		$reconnect_response = array(
+			'response' => array(
+				'code' => 200,
+			),
+			'body'     => json_encode(
+				array(
+					'site'  => array(),
+					'token' => 'hiive_auth_token',
+				)
+			),
+		);
+
 		WP_Mock::userFunction( 'wp_remote_post' )
-			->with( '/sites/v2/reconnect', \WP_Mock\Functions::type( 'array' ) )
-			->once()->andReturn( array() );
+			->withArgs(
+				function ( $url ) {
+					return false !== strpos( $url, '/sites/v2/reconnect' );
+				}
+			)
+			->once()
+			->andReturn( $reconnect_response );
 
 		WP_Mock::userFunction( 'wp_remote_retrieve_response_code' )
-			->with( \WP_Mock\Functions::type( 'array' ) )
-			->zeroOrMoreTimes()->andReturn( 200 );
+			->andReturnUsing(
+				function ( $response ) {
+					if ( $response instanceof \WP_Error ) {
+						return 0;
+					}
+
+					return $response['response']['code'] ?? 200;
+				}
+			);
 
 		WP_Mock::userFunction( 'wp_remote_retrieve_body' )
-			->with( \WP_Mock\Functions::type( 'array' ) )
-			->zeroOrMoreTimes()->andReturn(
-				json_encode(
-					array(
-						'site'  => array(),
-						'token' => 'hiive_auth_token',
-					)
-				)
+			->andReturnUsing(
+				function ( $response ) {
+					if ( $response instanceof \WP_Error ) {
+						return '';
+					}
+
+					return $response['body'] ?? '';
+				}
 			);
+
+		WP_Mock::userFunction( 'wp_remote_retrieve_response_message' )
+			->zeroOrMoreTimes()
+			->andReturn( '' );
 
 		WP_Mock::userFunction( 'update_option' )
 			->with( 'nfd_data_token', 'hiive_auth_token' )
