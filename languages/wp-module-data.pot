@@ -74,12 +74,12 @@ msgstr ""
 msgid "Connection verification token."
 msgstr ""
 
-#: includes/EventManager.php:137
+#: includes/EventManager.php:153
 msgid "Once Every Minute"
 msgstr ""
 
-#: includes/HiiveConnection.php:353
-#: includes/HiiveConnection.php:389
+#: includes/HiiveConnection.php:360
+#: includes/HiiveConnection.php:397
 msgid "This site is not connected to the hiive."
 msgstr ""
 

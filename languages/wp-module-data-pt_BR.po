@@ -8,7 +8,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: 2025-02-13T09:55:55+00:00\n"
-"PO-Revision-Date: 2026-05-15T14:58:07+00:00\n"
+"PO-Revision-Date: 2026-07-22T22:21:14+00:00\n"
 "Language: pt_BR\n"
 "X-Generator: WP-CLI 2.13.0-alpha\n"
 "X-Domain: wp-module-data\n"
@@ -74,12 +74,12 @@ msgstr ""
 msgid "Connection verification token."
 msgstr ""
 
-#: includes/EventManager.php:137
+#: includes/EventManager.php:153
 msgid "Once Every Minute"
 msgstr ""
 
-#: includes/HiiveConnection.php:353
-#: includes/HiiveConnection.php:389
+#: includes/HiiveConnection.php:360
+#: includes/HiiveConnection.php:397
 msgid "This site is not connected to the hiive."
 msgstr ""
 
