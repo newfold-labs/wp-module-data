@@ -330,6 +330,11 @@ class HiiveConnectionTest extends TestCase {
 			->andReturn( array() );
 
 		WP_Mock::userFunction( 'get_transient' )
+			->with( 'nfd_data_verify_token' )
+			->once()
+			->andReturn( md5( 'password' ) );
+
+		WP_Mock::userFunction( 'get_transient' )
 			->zeroOrMoreTimes()
 			->andReturn( false );
 

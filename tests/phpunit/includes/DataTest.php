@@ -1,4 +1,20 @@
 <?php
+/**
+ * Tests for the Data class.
+ *
+ * The lint job pipes phpcs through cs2pr, which fails on warnings as well as errors, so the
+ * pre-existing warnings in this file block any PR that touches it. They are all test-harness
+ * constructs that don't apply to a PHPUnit file: Patchwork redefines `constant()`, the fixture
+ * writes a temp file directly rather than through WP_Filesystem (unavailable here), and the
+ * commented-out block is illustrative.
+ *
+ * phpcs:disable PHPCompatibility.FunctionUse.ArgumentFunctionsReportCurrentValue.NeedsInspection
+ * phpcs:disable Squiz.PHP.CommentedOutCode.Found
+ * phpcs:disable WordPress.PHP.NoSilencedErrors.Discouraged
+ * phpcs:disable WordPress.WP.AlternativeFunctions
+ *
+ * @package NewfoldLabs\WP\Module\Data
+ */
 
 namespace NewfoldLabs\WP\Module\Data;
 
@@ -13,6 +29,9 @@ use WP_Mock;
  */
 class DataTest extends UnitTestCase {
 
+	/**
+	 * Set up the test case.
+	 */
 	public function setUp(): void {
 		parent::setUp();
 
@@ -44,6 +63,9 @@ class DataTest extends UnitTestCase {
 		file_put_contents( $this->temp_dir . '/wp-admin/includes/plugin.php', '<?php' );
 	}
 
+	/**
+	 * Tear down the test case.
+	 */
 	public function tearDown(): void {
 		parent::tearDown();
 
@@ -234,6 +256,7 @@ class DataTest extends UnitTestCase {
 
 		$plugin        = Mockery::mock( Plugin::class );
 		$event_manager = Mockery::mock( EventManager::class );
+		$event_manager->expects( 'register_cron_schedule' );
 
 		$sut = new Data( $plugin, $event_manager );
 
@@ -243,6 +266,27 @@ class DataTest extends UnitTestCase {
 			10,
 			3
 		);
+
+		$sut->start();
+
+		$this->assertConditionsMet();
+	}
+
+	/**
+	 * The minutely schedule must be registered on every request, not only when the site is
+	 * connected to Hiive, otherwise WP-Cron cannot reschedule an already-scheduled
+	 * nfd_data_sync_cron event and logs `invalid_schedule`.
+	 *
+	 * @covers ::start
+	 */
+	public function test_start_registers_cron_schedule_regardless_of_connection(): void {
+		forceWpMockStrictModeOff();
+
+		$plugin        = Mockery::mock( Plugin::class );
+		$event_manager = Mockery::mock( EventManager::class );
+		$event_manager->expects( 'register_cron_schedule' )->once();
+
+		$sut = new Data( $plugin, $event_manager );
 
 		$sut->start();
 
@@ -383,6 +427,11 @@ class DataTest extends UnitTestCase {
 		$this->assertConditionsMet();
 	}
 
+	/**
+	 * Deliberately no `@covers` tag: this test exercises the whole init() call graph, and
+	 * restricting attribution to Data::init() drops the coverage recorded for the objects it
+	 * constructs (HiiveConnection, SiteCapabilities, API\Capabilities).
+	 */
 	public function test_registers_capabilities_endpoint(): void {
 
 		forceWpMockStrictModeOff();
