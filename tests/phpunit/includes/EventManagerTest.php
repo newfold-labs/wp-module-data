@@ -1,4 +1,17 @@
 <?php
+/**
+ * Tests for the EventManager class.
+ *
+ * The lint job pipes phpcs through cs2pr, which fails on warnings as well as errors, so the
+ * pre-existing warnings in this file block any PR that touches it. They are test-harness
+ * constructs that don't apply to a PHPUnit file: Patchwork redefines `constant()`, and the
+ * commented-out fragments are illustrative.
+ *
+ * phpcs:disable PHPCompatibility.FunctionUse.ArgumentFunctionsReportCurrentValue.NeedsInspection
+ * phpcs:disable Squiz.PHP.CommentedOutCode.Found
+ *
+ * @package NewfoldLabs\WP\Module\Data
+ */
 
 namespace NewfoldLabs\WP\Module\Data;
 
@@ -13,6 +26,9 @@ use WP_Mock;
  * @coversDefaultClass \NewfoldLabs\WP\Module\Data\EventManager
  */
 class EventManagerTest extends \WP_Mock\Tools\TestCase {
+	/**
+	 * Tear down the test case.
+	 */
 	public function tearDown(): void {
 		parent::tearDown();
 
@@ -90,6 +106,24 @@ class EventManagerTest extends \WP_Mock\Tools\TestCase {
 		 *
 		 * `Unexpected use of add_action for action admin_footer with callback NewfoldLabs\WP\Module\Data\Listeners\Admin::view`
 		 */
+		$this->assertConditionsMet();
+	}
+
+	/**
+	 * The schedule must be registrable without going through init(), so Data::start() can
+	 * register it on requests where the site isn't connected to Hiive.
+	 *
+	 * @covers ::register_cron_schedule
+	 */
+	public function test_register_cron_schedule_adds_filter(): void {
+		$event_queue = Mockery::mock( EventQueue::class );
+
+		$sut = new EventManager( $event_queue );
+
+		WP_Mock::expectFilterAdded( 'cron_schedules', array( $sut, 'add_minutely_schedule' ) );
+
+		$sut->register_cron_schedule();
+
 		$this->assertConditionsMet();
 	}
 

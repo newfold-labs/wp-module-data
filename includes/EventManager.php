@@ -34,6 +34,8 @@ class EventManager {
 	);
 
 	/**
+	 * Queue used to store events between requests.
+	 *
 	 * @var EventQueue
 	 */
 	private $event_queue;
@@ -64,7 +66,7 @@ class EventManager {
 	 *
 	 * Inject or instantiate required objects.
 	 *
-	 * @param ?EventQueue $event_queue
+	 * @param ?EventQueue $event_queue Queue used to store events between requests.
 	 */
 	public function __construct(
 		?EventQueue $event_queue = null
@@ -95,12 +97,26 @@ class EventManager {
 	}
 
 	/**
+	 * Register the minutely cron schedule.
+	 *
+	 * Deliberately separate from {@see self::initialize_cron()} so it can be registered on every
+	 * request, regardless of Hiive connection state. The `nfd_data_sync_cron` event outlives the
+	 * connection: once scheduled it stays in the cron array even after the site disconnects, and
+	 * WP-Cron then fails to reschedule it with `invalid_schedule` because `minutely` is unknown.
+	 *
+	 * @see Data::start()
+	 */
+	public function register_cron_schedule(): void {
+		// phpcs:disable WordPress.WP.CronInterval.CronSchedulesInterval
+		add_filter( 'cron_schedules', array( $this, 'add_minutely_schedule' ) );
+	}
+
+	/**
 	 * Handle setting up the scheduled job for sending updates
 	 */
 	protected function initialize_cron(): void {
 		// Ensure there is a minutely option in the cron schedules
-		// phpcs:disable WordPress.WP.CronInterval.CronSchedulesInterval
-		add_filter( 'cron_schedules', array( $this, 'add_minutely_schedule' ) );
+		$this->register_cron_schedule();
 
 		// Minutely cron hook
 		add_action( 'nfd_data_sync_cron', array( $this, 'send_saved_events_batch' ) );
@@ -243,6 +259,8 @@ class EventManager {
 
 		foreach ( $this->get_subscribers() as $subscriber ) {
 			/**
+			 * Response returned by the subscriber.
+			 *
 			 * @var array{succeededEvents:array,failedEvents:array}|WP_Error $response
 			 */
 			$response = $subscriber->notify( $events );
@@ -296,6 +314,8 @@ class EventManager {
 
 		foreach ( $this->get_subscribers() as $subscriber ) {
 			/**
+			 * Response returned by the subscriber.
+			 *
 			 * @var array{succeededEvents:array,failedEvents:array}|WP_Error $response
 			 */
 			$response = $subscriber->notify( $events );
