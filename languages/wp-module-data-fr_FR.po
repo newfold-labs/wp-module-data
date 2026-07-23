@@ -1,88 +1,88 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: Data Module Test Plugin\n"
 "Report-Msgid-Bugs-To: https://github.com/newfold-labs/wp-module-data/issues\n"
+"POT-Creation-Date: 2025-02-13T09:55:55+00:00\n"
+"PO-Revision-Date: 2026-07-23T17:31:39+00:00\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-02-13T09:55:55+00:00\n"
-"PO-Revision-Date: 2026-07-23T14:29:05+00:00\n"
-"Language: fr\n"
-"X-Generator: WP-CLI 2.13.0-alpha\n"
-"X-Domain: wp-module-data\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-
-#. Plugin Name of the plugin
-#: wp-module-data-plugin.php:11
-msgid "Data Module Test Plugin"
-msgstr ""
-
-#. Description of the plugin
-#: wp-module-data-plugin.php:12
-msgid "Minimal plugin to activate and test module functionality."
-msgstr ""
+"X-Domain: wp-module-data\n"
+"X-Generator: WP-CLI 2.13.0-alpha\n"
 
 #. Author of the plugin
 #: wp-module-data-plugin.php:14
 msgid "Bluehost"
-msgstr ""
+msgstr "Hôte bleu"
+
+#: includes/API/Verify.php:52
+msgid "Connection verification token."
+msgstr "Jeton de vérification de connexion."
+
+#: bootstrap.php:70
+msgid "Data"
+msgstr "Données"
+
+#. Plugin Name of the plugin
+#: wp-module-data-plugin.php:11
+msgid "Data Module Test Plugin"
+msgstr "Plugin de test pour modules de données"
+
+#: includes/API/Events.php:58
+msgid "Event action. For the \"pageview\" action/key, Hiive tries to read the page URL and page title only from the \"page\" and \"page_title\" keys in the data arg."
+msgstr "Action événementielle. Pour l’action/clé « page view », Hiive essaie de lire l’URL et le titre de la page uniquement à partir des touches « page » et « page_title » dans l’arg de données."
+
+#: includes/API/Events.php:66
+msgid "Event category"
+msgstr "Catégorie d’événement"
+
+#: includes/API/Events.php:73
+msgid "Event data"
+msgstr "Données d’événements"
+
+#. Description of the plugin
+#: wp-module-data-plugin.php:12
+msgid "Minimal plugin to activate and test module functionality."
+msgstr "Plugin minimal pour activer et tester la fonctionnalité du module."
+
+#: includes/EventManager.php:153
+msgid "Once Every Minute"
+msgstr "Une fois toutes les minutes"
+
+#: includes/Listeners/Cron.php:67
+msgid "Once Weekly"
+msgstr "Une fois par semaine"
+
+#: includes/API/Events.php:186
+msgid "Request does not contain an array of events."
+msgstr "La requête ne contient pas un ensemble d’événements."
+
+#: includes/API/Events.php:212
+msgid "Some events failed."
+msgstr "Certains événements ont échoué."
+
+#: includes/API/Capabilities.php:71
+msgid "Sorry, you are not allowed to access this endpoint."
+msgstr "Désolé, vous n’êtes pas autorisé à accéder à ce point de terminaison."
+
+#: includes/API/Events.php:167
+msgid "Sorry, you are not allowed to use this endpoint."
+msgstr "Désolé, vous n’avez pas le droit d’utiliser ce point de terminaison."
+
+#: includes/HiiveConnection.php:360 includes/HiiveConnection.php:397
+msgid "This site is not connected to the hiive."
+msgstr "Ce site n’est pas lié à la hiive."
+
+#: includes/API/Events.php:78
+msgid "Whether or not to queue the event"
+msgstr "Savoir s’il faut mettre l’événement en file d’attente ou non"
 
 #. Author URI of the plugin
 #: wp-module-data-plugin.php:15
 msgid "https://bluehost.com"
-msgstr ""
-
-#: bootstrap.php:70
-msgid "Data"
-msgstr ""
-
-#: includes/API/Capabilities.php:71
-msgid "Sorry, you are not allowed to access this endpoint."
-msgstr ""
-
-#: includes/API/Events.php:58
-msgid "Event action. For the \"pageview\" action/key, Hiive tries to read the page URL and page title only from the \"page\" and \"page_title\" keys in the data arg."
-msgstr ""
-
-#: includes/API/Events.php:66
-msgid "Event category"
-msgstr ""
-
-#: includes/API/Events.php:73
-msgid "Event data"
-msgstr ""
-
-#: includes/API/Events.php:78
-msgid "Whether or not to queue the event"
-msgstr ""
-
-#: includes/API/Events.php:167
-msgid "Sorry, you are not allowed to use this endpoint."
-msgstr ""
-
-#: includes/API/Events.php:186
-msgid "Request does not contain an array of events."
-msgstr ""
-
-#: includes/API/Events.php:212
-msgid "Some events failed."
-msgstr ""
-
-#: includes/API/Verify.php:52
-msgid "Connection verification token."
-msgstr ""
-
-#: includes/EventManager.php:153
-msgid "Once Every Minute"
-msgstr ""
-
-#: includes/HiiveConnection.php:360
-#: includes/HiiveConnection.php:397
-msgid "This site is not connected to the hiive."
-msgstr ""
-
-#: includes/Listeners/Cron.php:67
-msgid "Once Weekly"
-msgstr ""
+msgstr "https://bluehost.com"
