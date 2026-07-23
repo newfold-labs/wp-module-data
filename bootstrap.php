@@ -111,10 +111,12 @@ if ( function_exists( 'add_action' ) && function_exists( 'add_filter' ) ) {
 			register_deactivation_hook(
 				$container->plugin()->file,
 				function () use ( $container ) {
-					delete_option( 'nfd_data_module_version' );
-					nfd_drop_event_queue_table();
+					// Clear first so a concurrent cron firing can't race the rest of teardown.
+					// Both hooks are always scheduled without arguments.
 					wp_clear_scheduled_hook( 'nfd_data_sync_cron' );
 					wp_clear_scheduled_hook( 'nfd_data_cron' );
+					delete_option( 'nfd_data_module_version' );
+					nfd_drop_event_queue_table();
 				}
 			);
 
