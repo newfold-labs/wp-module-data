@@ -113,6 +113,8 @@ if ( function_exists( 'add_action' ) && function_exists( 'add_filter' ) ) {
 				function () use ( $container ) {
 					delete_option( 'nfd_data_module_version' );
 					nfd_drop_event_queue_table();
+					wp_clear_scheduled_hook( 'nfd_data_sync_cron' );
+					wp_clear_scheduled_hook( 'nfd_data_cron' );
 				}
 			);
 
