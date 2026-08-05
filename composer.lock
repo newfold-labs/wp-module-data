@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2ba6d97d589268c9d5e40dac51703d92",
+    "content-hash": "f625960d0887530d6672e1da6db72d9c",
     "packages": [
         {
             "name": "doctrine/inflector",
@@ -7524,15 +7524,15 @@
         },
         {
             "name": "wp-plugin/woocommerce-payments",
-            "version": "10.9.0",
+            "version": "11.0.0",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/woocommerce-payments/",
-                "reference": "tags/10.9.0"
+                "reference": "tags/11.0.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/woocommerce-payments.10.9.0.zip"
+                "url": "https://downloads.wordpress.org/plugin/woocommerce-payments.11.0.0.zip"
             },
             "require": {
                 "composer/installers": "~1.0|~2.0"
@@ -7551,7 +7551,7 @@
                 "issues": "https://wordpress.org/support/plugin/woocommerce-payments",
                 "source": "https://plugins.svn.wordpress.org/woocommerce-payments"
             },
-            "time": "2026-06-24T10:26:14+00:00"
+            "time": "2026-08-05T08:10:46+00:00"
         },
         {
             "name": "wp-theme/twentytwentyfive",
