@@ -306,6 +306,75 @@ class DataTest extends UnitTestCase {
 	}
 
 	/**
+	 * A correctly-signed request whose timestamp is in the future beyond the window
+	 * must also be rejected - the freshness check is absolute in both directions.
+	 *
+	 * @covers ::authenticate
+	 * @covers ::is_timestamp_fresh
+	 */
+	public function test_authenticate_rejects_future_timestamp() {
+		$plugin        = Mockery::mock( Plugin::class );
+		$event_manager = Mockery::mock( EventManager::class );
+
+		$sut = new Data( $plugin, $event_manager );
+
+		\Patchwork\redefine(
+			'defined',
+			function ( string $constant_name ) {
+				return 'REST_REQUEST' === $constant_name ? true : \Patchwork\relay( func_get_args() );
+			}
+		);
+		\Patchwork\redefine(
+			'constant',
+			function ( string $constant_name ) {
+				return 'REST_REQUEST' === $constant_name ? true : \Patchwork\relay( func_get_args() );
+			}
+		);
+		\Patchwork\redefine(
+			'file_get_contents',
+			function ( string $filename ) {
+				return 'php://input' === $filename ? '' : \Patchwork\relay( func_get_args() );
+			}
+		);
+
+		$_SERVER['REQUEST_METHOD'] = 'GET';
+		$_SERVER['HTTP_HOST']      = '';
+		$_SERVER['REQUEST_URI']    = '';
+
+		// A timestamp well into the future, beyond the +/- AUTH_TIMESTAMP_WINDOW allowance.
+		$timestamp                   = (string) ( time() + ( Data::AUTH_TIMESTAMP_WINDOW + 60 ) );
+		$_SERVER['HTTP_X_TIMESTAMP'] = $timestamp;
+
+		$hiive_site_auth_token = 'abc123';
+
+		$hash  = hash(
+			'sha256',
+			json_encode(
+				array(
+					'method'    => 'GET',
+					'url'       => 'http://',
+					'body'      => '',
+					'timestamp' => $timestamp,
+				)
+			)
+		);
+		$salt  = hash( 'sha256', strrev( $hiive_site_auth_token ) );
+		$token = hash( 'sha256', $hash . $salt );
+
+		$_SERVER['HTTP_AUTHORIZATION'] = "Bearer $token";
+
+		WP_Mock::userFunction( 'get_option' )
+			->with( 'nfd_data_token' )
+			->andReturn( $hiive_site_auth_token );
+
+		WP_Mock::userFunction( 'wp_set_current_user' )->never();
+
+		$result = $sut->authenticate( null );
+
+		self::assertNull( $result );
+	}
+
+	/**
 	 * @covers ::authenticate
 	 */
 	public function test_authenticate_returns_early_when_no_auth_header() {
