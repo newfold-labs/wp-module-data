@@ -13,6 +13,14 @@ use function WP_Forge\Helpers\dataGet;
 class Data {
 
 	/**
+	 * How far, in seconds, a signed Hiive request timestamp may be from the current
+	 * time and still be accepted. Bounds how long a captured request can be replayed.
+	 *
+	 * @var int
+	 */
+	const AUTH_TIMESTAMP_WINDOW = 300;
+
+	/**
 	 * Hiive Connection instance
 	 *
 	 * @var HiiveConnection
@@ -212,6 +220,14 @@ class Data {
 
 		$is_valid = hash( 'sha256', $hash . $salt ) === $token;
 
+		// Reject stale requests. The timestamp is part of the signed payload, so a
+		// captured request cannot have its timestamp altered without breaking the
+		// signature - which means requiring it to be recent bounds how long a
+		// leaked/logged Hiive request stays replayable.
+		if ( $is_valid && ! $this->is_timestamp_fresh( $data['timestamp'] ) ) {
+			$is_valid = false;
+		}
+
 		// Allow access if token is valid
 		if ( $is_valid ) {
 
@@ -237,5 +253,24 @@ class Data {
 
 		// Don't return false, since we could be interfering with a basic auth implementation.
 		return $errors;
+	}
+
+	/**
+	 * Determine whether a signed request's timestamp is within the freshness window.
+	 *
+	 * Hiive sends the timestamp as a Unix-seconds string in the `X-Timestamp` header
+	 * and includes it in the signed payload. Any request that authenticates therefore
+	 * carries a numeric timestamp; a missing or non-numeric value is treated as invalid.
+	 *
+	 * @param  mixed $timestamp The `X-Timestamp` value carried in the signed request.
+	 *
+	 * @return bool True when the timestamp is present, numeric, and within the window.
+	 */
+	protected function is_timestamp_fresh( $timestamp ): bool {
+		if ( ! is_numeric( $timestamp ) ) {
+			return false;
+		}
+
+		return abs( time() - (int) $timestamp ) <= self::AUTH_TIMESTAMP_WINDOW;
 	}
 }
