@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1786483110">
-  <project timestamp="1786483110">
+<coverage generated="1786639074">
+  <project timestamp="1786639074">
     <file name="/home/runner/work/wp-module-data/wp-module-data/bootstrap.php">
       <line num="31" type="stmt" count="0"/>
       <line num="40" type="stmt" count="0"/>
@@ -287,79 +287,85 @@
     </file>
     <file name="/home/runner/work/wp-module-data/wp-module-data/includes/Data.php">
       <class name="NewfoldLabs\WP\Module\Data\Data" namespace="global">
-        <metrics complexity="19" methods="6" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="64" coveredstatements="58" elements="70" coveredelements="62"/>
+        <metrics complexity="23" methods="7" coveredmethods="5" conditionals="0" coveredconditionals="0" statements="69" coveredstatements="64" elements="76" coveredelements="69"/>
       </class>
-      <line num="51" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="1"/>
-      <line num="55" type="stmt" count="1"/>
-      <line num="57" type="stmt" count="1"/>
-      <line num="59" type="stmt" count="1"/>
-      <line num="70" type="method" name="start" visibility="public" complexity="1" crap="1" count="2"/>
-      <line num="76" type="stmt" count="2"/>
-      <line num="79" type="stmt" count="2"/>
-      <line num="80" type="stmt" count="2"/>
-      <line num="83" type="stmt" count="2"/>
-      <line num="85" type="stmt" count="2"/>
-      <line num="93" type="method" name="init" visibility="public" complexity="4" crap="4.47" count="1"/>
-      <line num="95" type="stmt" count="1"/>
-      <line num="97" type="stmt" count="1"/>
-      <line num="100" type="stmt" count="1"/>
-      <line num="104" type="stmt" count="1"/>
-      <line num="107" type="stmt" count="0"/>
-      <line num="109" type="stmt" count="0"/>
+      <line num="59" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="1"/>
+      <line num="63" type="stmt" count="1"/>
+      <line num="65" type="stmt" count="1"/>
+      <line num="67" type="stmt" count="1"/>
+      <line num="78" type="method" name="start" visibility="public" complexity="1" crap="1" count="2"/>
+      <line num="84" type="stmt" count="2"/>
+      <line num="87" type="stmt" count="2"/>
+      <line num="88" type="stmt" count="2"/>
+      <line num="91" type="stmt" count="2"/>
+      <line num="93" type="stmt" count="2"/>
+      <line num="101" type="method" name="init" visibility="public" complexity="4" crap="4.47" count="1"/>
+      <line num="103" type="stmt" count="1"/>
+      <line num="105" type="stmt" count="1"/>
+      <line num="108" type="stmt" count="1"/>
       <line num="112" type="stmt" count="1"/>
-      <line num="114" type="stmt" count="1"/>
-      <line num="116" type="stmt" count="1"/>
+      <line num="115" type="stmt" count="0"/>
       <line num="117" type="stmt" count="0"/>
-      <line num="118" type="stmt" count="0"/>
+      <line num="120" type="stmt" count="1"/>
       <line num="122" type="stmt" count="1"/>
-      <line num="123" type="stmt" count="1"/>
-      <line num="129" type="method" name="scripts" visibility="public" complexity="1" crap="1" count="1"/>
+      <line num="124" type="stmt" count="1"/>
+      <line num="125" type="stmt" count="0"/>
+      <line num="126" type="stmt" count="0"/>
       <line num="130" type="stmt" count="1"/>
       <line num="131" type="stmt" count="1"/>
-      <line num="132" type="stmt" count="1"/>
-      <line num="133" type="stmt" count="1"/>
-      <line num="134" type="stmt" count="1"/>
-      <line num="135" type="stmt" count="1"/>
-      <line num="136" type="stmt" count="1"/>
+      <line num="137" type="method" name="scripts" visibility="public" complexity="1" crap="1" count="1"/>
+      <line num="138" type="stmt" count="1"/>
       <line num="139" type="stmt" count="1"/>
       <line num="140" type="stmt" count="1"/>
       <line num="141" type="stmt" count="1"/>
       <line num="142" type="stmt" count="1"/>
       <line num="143" type="stmt" count="1"/>
       <line num="144" type="stmt" count="1"/>
-      <line num="145" type="stmt" count="1"/>
-      <line num="146" type="stmt" count="1"/>
-      <line num="161" type="method" name="delete_token_on_401_response" visibility="public" complexity="3" crap="3" count="3"/>
-      <line num="163" type="stmt" count="3"/>
-      <line num="164" type="stmt" count="1"/>
-      <line num="167" type="stmt" count="3"/>
-      <line num="184" type="method" name="authenticate" visibility="public" complexity="9" crap="9.04" count="4"/>
-      <line num="187" type="stmt" count="4"/>
-      <line num="188" type="stmt" count="1"/>
-      <line num="192" type="stmt" count="3"/>
-      <line num="193" type="stmt" count="1"/>
-      <line num="197" type="stmt" count="2"/>
-      <line num="198" type="stmt" count="1"/>
+      <line num="147" type="stmt" count="1"/>
+      <line num="148" type="stmt" count="1"/>
+      <line num="149" type="stmt" count="1"/>
+      <line num="150" type="stmt" count="1"/>
+      <line num="151" type="stmt" count="1"/>
+      <line num="152" type="stmt" count="1"/>
+      <line num="153" type="stmt" count="1"/>
+      <line num="154" type="stmt" count="1"/>
+      <line num="169" type="method" name="delete_token_on_401_response" visibility="public" complexity="3" crap="3" count="3"/>
+      <line num="171" type="stmt" count="3"/>
+      <line num="172" type="stmt" count="1"/>
+      <line num="175" type="stmt" count="3"/>
+      <line num="192" type="method" name="authenticate" visibility="public" complexity="11" crap="11" count="7"/>
+      <line num="195" type="stmt" count="7"/>
+      <line num="196" type="stmt" count="1"/>
+      <line num="200" type="stmt" count="6"/>
       <line num="201" type="stmt" count="1"/>
-      <line num="203" type="stmt" count="1"/>
-      <line num="204" type="stmt" count="1"/>
-      <line num="205" type="stmt" count="1"/>
+      <line num="205" type="stmt" count="5"/>
       <line num="206" type="stmt" count="1"/>
-      <line num="207" type="stmt" count="1"/>
-      <line num="208" type="stmt" count="1"/>
-      <line num="210" type="stmt" count="1"/>
-      <line num="211" type="stmt" count="1"/>
-      <line num="213" type="stmt" count="1"/>
-      <line num="216" type="stmt" count="1"/>
-      <line num="218" type="stmt" count="1"/>
-      <line num="221" type="stmt" count="0"/>
-      <line num="226" type="stmt" count="1"/>
-      <line num="227" type="stmt" count="1"/>
-      <line num="231" type="stmt" count="1"/>
-      <line num="232" type="stmt" count="1"/>
+      <line num="209" type="stmt" count="4"/>
+      <line num="211" type="stmt" count="4"/>
+      <line num="212" type="stmt" count="4"/>
+      <line num="213" type="stmt" count="4"/>
+      <line num="214" type="stmt" count="4"/>
+      <line num="215" type="stmt" count="4"/>
+      <line num="216" type="stmt" count="4"/>
+      <line num="218" type="stmt" count="4"/>
+      <line num="219" type="stmt" count="4"/>
+      <line num="221" type="stmt" count="4"/>
+      <line num="227" type="stmt" count="4"/>
+      <line num="228" type="stmt" count="3"/>
+      <line num="232" type="stmt" count="4"/>
       <line num="234" type="stmt" count="1"/>
-      <line num="239" type="stmt" count="0"/>
-      <metrics loc="242" ncloc="148" classes="1" methods="6" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="64" coveredstatements="58" elements="70" coveredelements="62"/>
+      <line num="237" type="stmt" count="0"/>
+      <line num="242" type="stmt" count="1"/>
+      <line num="243" type="stmt" count="1"/>
+      <line num="247" type="stmt" count="1"/>
+      <line num="248" type="stmt" count="1"/>
+      <line num="250" type="stmt" count="1"/>
+      <line num="255" type="stmt" count="3"/>
+      <line num="269" type="method" name="is_timestamp_fresh" visibility="protected" complexity="2" crap="2" count="3"/>
+      <line num="270" type="stmt" count="3"/>
+      <line num="271" type="stmt" count="1"/>
+      <line num="274" type="stmt" count="2"/>
+      <metrics loc="277" ncloc="162" classes="1" methods="7" coveredmethods="5" conditionals="0" coveredconditionals="0" statements="69" coveredstatements="64" elements="76" coveredelements="69"/>
     </file>
     <file name="/home/runner/work/wp-module-data/wp-module-data/includes/Event.php">
       <class name="NewfoldLabs\WP\Module\Data\Event" namespace="global">
@@ -2318,6 +2324,6 @@
       <line num="24" type="stmt" count="0"/>
       <metrics loc="25" ncloc="25" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="18" coveredstatements="0" elements="18" coveredelements="0"/>
     </file>
-    <metrics files="44" loc="5981" ncloc="3771" classes="38" methods="212" coveredmethods="55" conditionals="0" coveredconditionals="0" statements="1865" coveredstatements="627" elements="2077" coveredelements="682"/>
+    <metrics files="44" loc="6016" ncloc="3785" classes="38" methods="213" coveredmethods="56" conditionals="0" coveredconditionals="0" statements="1870" coveredstatements="633" elements="2083" coveredelements="689"/>
   </project>
 </coverage>
