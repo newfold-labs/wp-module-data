@@ -21,7 +21,7 @@ if ( defined( 'NFD_DATA_MODULE_VERSION' ) ) {
 	return;
 }
 
-define( 'NFD_DATA_MODULE_VERSION', '2.9.6' );
+define( 'NFD_DATA_MODULE_VERSION', '2.9.7' );
 
 if ( ! function_exists( 'nfd_create_event_queue_table' ) ) {
 	/**
