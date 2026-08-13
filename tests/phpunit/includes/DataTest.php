@@ -72,7 +72,7 @@ class DataTest extends UnitTestCase {
 		/**
 		 * @see DataTest::test_authenticate()
 		 */
-		unset( $_SERVER['HTTP_AUTHORIZATION'] );
+		unset( $_SERVER['HTTP_AUTHORIZATION'], $_SERVER['HTTP_X_TIMESTAMP'] );
 	}
 
 	/**
@@ -124,11 +124,14 @@ class DataTest extends UnitTestCase {
 			}
 		);
 
-		$_SERVER['HTTP_X-Timestamp'] = time();
+		// The getallheaders() polyfill maps $_SERVER['HTTP_X_TIMESTAMP'] to the
+		// 'X-Timestamp' header key that authenticate() reads and signs over.
+		$timestamp                   = (string) time();
+		$_SERVER['HTTP_X_TIMESTAMP'] = $timestamp;
 
 		$hiive_site_auth_token = 'abc123';
 
-		$hash = hash(
+		$hash  = hash(
 			'sha256',
 			json_encode(
 				array(
@@ -136,8 +139,7 @@ class DataTest extends UnitTestCase {
 					'url'                      => 'http://',
 					/** @see Url::getCurrentUrl() */
 										'body' => '',
-					'timestamp'                => null,
-				// 'timestamp' => $_SERVER['HTTP_X-Timestamp'],
+					'timestamp'                => $timestamp,
 				)
 			)
 		);
@@ -164,6 +166,143 @@ class DataTest extends UnitTestCase {
 		$result = $sut->authenticate( null );
 
 		self::assertTrue( $result );
+	}
+
+	/**
+	 * A correctly-signed request whose timestamp is outside the freshness window
+	 * must be rejected, otherwise a captured request replays indefinitely.
+	 *
+	 * @covers ::authenticate
+	 * @covers ::is_timestamp_fresh
+	 */
+	public function test_authenticate_rejects_stale_timestamp() {
+		$plugin        = Mockery::mock( Plugin::class );
+		$event_manager = Mockery::mock( EventManager::class );
+
+		$sut = new Data( $plugin, $event_manager );
+
+		\Patchwork\redefine(
+			'defined',
+			function ( string $constant_name ) {
+				return 'REST_REQUEST' === $constant_name ? true : \Patchwork\relay( func_get_args() );
+			}
+		);
+		\Patchwork\redefine(
+			'constant',
+			function ( string $constant_name ) {
+				return 'REST_REQUEST' === $constant_name ? true : \Patchwork\relay( func_get_args() );
+			}
+		);
+		\Patchwork\redefine(
+			'file_get_contents',
+			function ( string $filename ) {
+				return 'php://input' === $filename ? '' : \Patchwork\relay( func_get_args() );
+			}
+		);
+
+		$_SERVER['REQUEST_METHOD'] = 'GET';
+		$_SERVER['HTTP_HOST']      = '';
+		$_SERVER['REQUEST_URI']    = '';
+
+		// A timestamp well outside the +/- AUTH_TIMESTAMP_WINDOW seconds allowance.
+		$timestamp                   = (string) ( time() - ( Data::AUTH_TIMESTAMP_WINDOW + 60 ) );
+		$_SERVER['HTTP_X_TIMESTAMP'] = $timestamp;
+
+		$hiive_site_auth_token = 'abc123';
+
+		$hash  = hash(
+			'sha256',
+			json_encode(
+				array(
+					'method'    => 'GET',
+					'url'       => 'http://',
+					'body'      => '',
+					'timestamp' => $timestamp,
+				)
+			)
+		);
+		$salt  = hash( 'sha256', strrev( $hiive_site_auth_token ) );
+		$token = hash( 'sha256', $hash . $salt );
+
+		$_SERVER['HTTP_AUTHORIZATION'] = "Bearer $token";
+
+		WP_Mock::userFunction( 'get_option' )
+			->with( 'nfd_data_token' )
+			->andReturn( $hiive_site_auth_token );
+
+		// A rejected request must never set the current user.
+		WP_Mock::userFunction( 'wp_set_current_user' )->never();
+
+		$result = $sut->authenticate( null );
+
+		self::assertNull( $result );
+	}
+
+	/**
+	 * A correctly-signed request with no timestamp must be rejected rather than
+	 * treated as never-expiring.
+	 *
+	 * @covers ::authenticate
+	 * @covers ::is_timestamp_fresh
+	 */
+	public function test_authenticate_rejects_missing_timestamp() {
+		$plugin        = Mockery::mock( Plugin::class );
+		$event_manager = Mockery::mock( EventManager::class );
+
+		$sut = new Data( $plugin, $event_manager );
+
+		\Patchwork\redefine(
+			'defined',
+			function ( string $constant_name ) {
+				return 'REST_REQUEST' === $constant_name ? true : \Patchwork\relay( func_get_args() );
+			}
+		);
+		\Patchwork\redefine(
+			'constant',
+			function ( string $constant_name ) {
+				return 'REST_REQUEST' === $constant_name ? true : \Patchwork\relay( func_get_args() );
+			}
+		);
+		\Patchwork\redefine(
+			'file_get_contents',
+			function ( string $filename ) {
+				return 'php://input' === $filename ? '' : \Patchwork\relay( func_get_args() );
+			}
+		);
+
+		$_SERVER['REQUEST_METHOD'] = 'GET';
+		$_SERVER['HTTP_HOST']      = '';
+		$_SERVER['REQUEST_URI']    = '';
+		unset( $_SERVER['HTTP_X_TIMESTAMP'] );
+
+		$hiive_site_auth_token = 'abc123';
+
+		// Signed with a null timestamp, matching a request that carries no X-Timestamp.
+		$hash  = hash(
+			'sha256',
+			json_encode(
+				array(
+					'method'    => 'GET',
+					'url'       => 'http://',
+					'body'      => '',
+					'timestamp' => null,
+				)
+			)
+		);
+		$salt  = hash( 'sha256', strrev( $hiive_site_auth_token ) );
+		$token = hash( 'sha256', $hash . $salt );
+
+		$_SERVER['HTTP_AUTHORIZATION'] = "Bearer $token";
+
+		WP_Mock::userFunction( 'get_option' )
+			->with( 'nfd_data_token' )
+			->andReturn( $hiive_site_auth_token );
+
+		WP_Mock::userFunction( 'wp_set_current_user' )->never();
+
+		$result = $sut->authenticate( null );
+
+		self::assertNull( $result );
 	}
 
 	/**
