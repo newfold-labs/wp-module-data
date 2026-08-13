@@ -22,7 +22,6 @@ jobs:
     outputs:
       branch: ${{ steps.extract_branch.outputs.branch }}
     steps:
-
       - name: Extract branch name
         shell: bash
         run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
@@ -53,7 +52,6 @@ jobs:
       plugin-branch: 'develop'
       artifact-name: 'wp-plugin-bluehost-develop'
     secrets: inherit
-
 
   hostgator:
     name: HostGator Build and Test Playwright
