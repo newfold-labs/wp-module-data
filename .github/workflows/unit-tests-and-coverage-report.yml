@@ -18,9 +18,15 @@ concurrency:
   group: ${{ github.workflow }}-${{ (github.event_name == 'pull_request' && github.head_ref) || github.sha }}
   cancel-in-progress: true
 
+# Disable permissions for all available scopes by default.
+# Any needed permissions should be configured at the job level.
+permissions: {}
+
 jobs:
   get-repo-name:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions: {} # No checkout or GitHub API usage; only derives the repo name from github.repository.
     outputs:
       repository-name: ${{ steps.repo-name.outputs.name }}
     steps:
@@ -32,9 +38,10 @@ jobs:
 
   unit-tests:
     needs: get-repo-name
+    timeout-minutes: 120
     permissions:
-      contents: write
-      pull-requests: write
+      contents: write      # Required for the reusable codecoverage workflow to push coverage HTML to gh-pages.
+      pull-requests: write # Required for the reusable workflow to add PR comments (coverage via mshick/add-pr-comment).
     uses: newfold-labs/workflows/.github/workflows/reusable-codecoverage.yml@main
     with:
       php-versions: '["7.4", "8.0", "8.1", "8.2", "8.3"]'
