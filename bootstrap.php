@@ -21,7 +21,7 @@ if ( defined( 'NFD_DATA_MODULE_VERSION' ) ) {
 	return;
 }
 
-define( 'NFD_DATA_MODULE_VERSION', '2.9.7' );
+define( 'NFD_DATA_MODULE_VERSION', '2.9.8' );
 
 if ( ! function_exists( 'nfd_create_event_queue_table' ) ) {
 	/**
@@ -43,13 +43,13 @@ if ( ! function_exists( 'nfd_drop_event_queue_table' ) ) {
 }
 
 if ( function_exists( 'is_admin' ) && is_admin() ) {
-	$upgrade_handler = new UpgradeHandler(
+	$nfd_data_upgrade_handler = new UpgradeHandler(
 		__DIR__ . '/upgrades',
 		get_option( 'nfd_data_module_version' ),
 		NFD_DATA_MODULE_VERSION
 	);
 
-	if ( $upgrade_handler->maybe_upgrade() ) {
+	if ( $nfd_data_upgrade_handler->maybe_upgrade() ) {
 		// If an upgrade occurred, update the new version in the database to prevent running the routine(s) again.
 		update_option( 'nfd_data_module_version', NFD_DATA_MODULE_VERSION, true );
 	}

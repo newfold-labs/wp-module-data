@@ -5,7 +5,7 @@ return [
 	'language' => 'pt_BR',
 	'project-id-version' => 'Data Module Test Plugin',
 	'pot-creation-date' => '2025-02-13T09:55:55+00:00',
-	'po-revision-date' => '2026-08-13T16:37:20+00:00',
+	'po-revision-date' => '2026-08-27T15:42:35+00:00',
 	'x-generator' => 'WP-CLI 2.13.0-alpha',
 	'messages' => [],
 ];
