@@ -206,6 +206,14 @@ class Data {
 			return null;
 		}
 
+		// A Hiive request is verified against the site's stored connection token.
+		// A site with no stored token (for example one that is not connected) has
+		// nothing to verify against, so bail and let another auth method handle it
+		// rather than run the signature check against an empty token.
+		if ( empty( HiiveConnection::get_auth_token() ) ) {
+			return $errors;
+		}
+
 		$token = str_replace( 'Bearer ', '', $_SERVER['HTTP_AUTHORIZATION'] );
 
 		$data = array(
