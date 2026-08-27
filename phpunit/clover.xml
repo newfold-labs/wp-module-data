@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1787756487">
-  <project timestamp="1787756487">
+<coverage generated="1787845411">
+  <project timestamp="1787845411">
     <file name="/home/runner/work/wp-module-data/wp-module-data/bootstrap.php">
       <line num="31" type="stmt" count="0"/>
       <line num="40" type="stmt" count="0"/>
@@ -287,7 +287,7 @@
     </file>
     <file name="/home/runner/work/wp-module-data/wp-module-data/includes/Data.php">
       <class name="NewfoldLabs\WP\Module\Data\Data" namespace="global">
-        <metrics complexity="23" methods="7" coveredmethods="5" conditionals="0" coveredconditionals="0" statements="69" coveredstatements="64" elements="76" coveredelements="69"/>
+        <metrics complexity="24" methods="7" coveredmethods="5" conditionals="0" coveredconditionals="0" statements="71" coveredstatements="66" elements="78" coveredelements="71"/>
       </class>
       <line num="59" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="1"/>
       <line num="63" type="stmt" count="1"/>
@@ -333,39 +333,41 @@
       <line num="171" type="stmt" count="3"/>
       <line num="172" type="stmt" count="1"/>
       <line num="175" type="stmt" count="3"/>
-      <line num="192" type="method" name="authenticate" visibility="public" complexity="11" crap="11" count="7"/>
-      <line num="195" type="stmt" count="7"/>
+      <line num="192" type="method" name="authenticate" visibility="public" complexity="12" crap="12" count="8"/>
+      <line num="195" type="stmt" count="8"/>
       <line num="196" type="stmt" count="1"/>
-      <line num="200" type="stmt" count="6"/>
+      <line num="200" type="stmt" count="7"/>
       <line num="201" type="stmt" count="1"/>
-      <line num="205" type="stmt" count="5"/>
+      <line num="205" type="stmt" count="6"/>
       <line num="206" type="stmt" count="1"/>
-      <line num="209" type="stmt" count="4"/>
-      <line num="211" type="stmt" count="4"/>
-      <line num="212" type="stmt" count="4"/>
-      <line num="213" type="stmt" count="4"/>
-      <line num="214" type="stmt" count="4"/>
-      <line num="215" type="stmt" count="4"/>
-      <line num="216" type="stmt" count="4"/>
-      <line num="218" type="stmt" count="4"/>
+      <line num="213" type="stmt" count="5"/>
+      <line num="214" type="stmt" count="1"/>
+      <line num="217" type="stmt" count="4"/>
       <line num="219" type="stmt" count="4"/>
+      <line num="220" type="stmt" count="4"/>
       <line num="221" type="stmt" count="4"/>
+      <line num="222" type="stmt" count="4"/>
+      <line num="223" type="stmt" count="4"/>
+      <line num="224" type="stmt" count="4"/>
+      <line num="226" type="stmt" count="4"/>
       <line num="227" type="stmt" count="4"/>
-      <line num="228" type="stmt" count="3"/>
-      <line num="232" type="stmt" count="4"/>
-      <line num="234" type="stmt" count="1"/>
-      <line num="237" type="stmt" count="0"/>
+      <line num="229" type="stmt" count="4"/>
+      <line num="235" type="stmt" count="4"/>
+      <line num="236" type="stmt" count="3"/>
+      <line num="240" type="stmt" count="4"/>
       <line num="242" type="stmt" count="1"/>
-      <line num="243" type="stmt" count="1"/>
-      <line num="247" type="stmt" count="1"/>
-      <line num="248" type="stmt" count="1"/>
+      <line num="245" type="stmt" count="0"/>
       <line num="250" type="stmt" count="1"/>
-      <line num="255" type="stmt" count="3"/>
-      <line num="269" type="method" name="is_timestamp_fresh" visibility="protected" complexity="2" crap="2" count="3"/>
-      <line num="270" type="stmt" count="3"/>
-      <line num="271" type="stmt" count="1"/>
-      <line num="274" type="stmt" count="2"/>
-      <metrics loc="277" ncloc="162" classes="1" methods="7" coveredmethods="5" conditionals="0" coveredconditionals="0" statements="69" coveredstatements="64" elements="76" coveredelements="69"/>
+      <line num="251" type="stmt" count="1"/>
+      <line num="255" type="stmt" count="1"/>
+      <line num="256" type="stmt" count="1"/>
+      <line num="258" type="stmt" count="1"/>
+      <line num="263" type="stmt" count="3"/>
+      <line num="277" type="method" name="is_timestamp_fresh" visibility="protected" complexity="2" crap="2" count="3"/>
+      <line num="278" type="stmt" count="3"/>
+      <line num="279" type="stmt" count="1"/>
+      <line num="282" type="stmt" count="2"/>
+      <metrics loc="285" ncloc="166" classes="1" methods="7" coveredmethods="5" conditionals="0" coveredconditionals="0" statements="71" coveredstatements="66" elements="78" coveredelements="71"/>
     </file>
     <file name="/home/runner/work/wp-module-data/wp-module-data/includes/Event.php">
       <class name="NewfoldLabs\WP\Module\Data\Event" namespace="global">
@@ -2324,6 +2326,6 @@
       <line num="24" type="stmt" count="0"/>
       <metrics loc="25" ncloc="25" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="18" coveredstatements="0" elements="18" coveredelements="0"/>
     </file>
-    <metrics files="44" loc="6016" ncloc="3785" classes="38" methods="213" coveredmethods="56" conditionals="0" coveredconditionals="0" statements="1870" coveredstatements="633" elements="2083" coveredelements="689"/>
+    <metrics files="44" loc="6024" ncloc="3789" classes="38" methods="213" coveredmethods="56" conditionals="0" coveredconditionals="0" statements="1872" coveredstatements="635" elements="2085" coveredelements="691"/>
   </project>
 </coverage>
