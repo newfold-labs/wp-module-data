@@ -457,6 +457,101 @@ class DataTest extends UnitTestCase {
 	}
 
 	/**
+	 * A site with no stored Hiive connection token must not authenticate a request.
+	 *
+	 * The request below is signed exactly the way {@see DataTest::test_authenticate()}
+	 * signs a valid one, but the site has no stored token. authenticate() must bail
+	 * before the signature check and leave the request unauthenticated, so the current
+	 * user is never set.
+	 *
+	 * @covers ::authenticate
+	 */
+	public function test_authenticate_returns_early_when_no_connection_token() {
+		$plugin        = Mockery::mock( Plugin::class );
+		$event_manager = Mockery::mock( EventManager::class );
+
+		$sut = new Data( $plugin, $event_manager );
+
+		\Patchwork\redefine(
+			'defined',
+			function ( string $constant_name ) {
+				switch ( $constant_name ) {
+					case 'REST_REQUEST':
+						return true;
+					default:
+						return \Patchwork\relay( func_get_args() );
+				}
+			}
+		);
+
+		\Patchwork\redefine(
+			'constant',
+			function ( string $constant_name ) {
+				switch ( $constant_name ) {
+					case 'REST_REQUEST':
+						return true;
+					default:
+						return \Patchwork\relay( func_get_args() );
+				}
+			}
+		);
+
+		$_SERVER['REQUEST_METHOD'] = 'GET';
+		$_SERVER['HTTP_HOST']      = '';
+		$_SERVER['REQUEST_URI']    = '';
+
+		\Patchwork\redefine(
+			'file_get_contents',
+			function ( string $filename ) {
+				switch ( $filename ) {
+					case 'php://input':
+						return '';
+					default:
+						return \Patchwork\relay( func_get_args() );
+				}
+			}
+		);
+
+		$timestamp                   = (string) time();
+		$_SERVER['HTTP_X_TIMESTAMP'] = $timestamp;
+
+		// Build the token the same way the server signs one, but with an empty
+		// stored token - the value get_option() returns when the site is not connected.
+		$hash  = hash(
+			'sha256',
+			json_encode(
+				array(
+					'method'    => 'GET',
+					'url'       => 'http://',
+					'body'      => '',
+					'timestamp' => $timestamp,
+				)
+			)
+		);
+		$salt  = hash( 'sha256', strrev( '' ) );
+		$token = hash( 'sha256', $hash . $salt );
+
+		$_SERVER['HTTP_AUTHORIZATION'] = "Bearer $token";
+
+		WP_Mock::userFunction( 'get_option' )
+			->with( 'nfd_data_token' )
+			->andReturn( false );
+
+		// If the request were to authenticate, these would run. They must not.
+		$user     = Mockery::mock( \WP_User::class );
+		$user->ID = 123;
+		WP_Mock::userFunction( 'get_users' )
+			->with( \WP_Mock\Functions::type( 'array' ) )
+			->andReturn( array( $user ) );
+		WP_Mock::userFunction( 'wp_set_current_user' )
+			->never();
+
+		$result = $sut->authenticate( null );
+
+		self::assertNull( $result );
+	}
+
+	/**
 	 * @covers ::start
 	 */
 	public function test_delete_token_on_401_response_is_added(): void {
