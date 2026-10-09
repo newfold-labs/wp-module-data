@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7cf696c2ac67f4ba9556fe830d77342c",
+    "content-hash": "c632e820d90f4be5ce6f084125275fce",
     "packages": [
         {
             "name": "doctrine/inflector",
@@ -7478,15 +7478,15 @@
         },
         {
             "name": "wp-plugin/jetpack",
-            "version": "16.2",
+            "version": "16.3",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/jetpack/",
-                "reference": "tags/16.2"
+                "reference": "tags/16.3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/jetpack.16.2.zip"
+                "url": "https://downloads.wordpress.org/plugin/jetpack.16.3.zip"
             },
             "require": {
                 "composer/installers": "~1.0|~2.0"
@@ -7505,7 +7505,7 @@
                 "issues": "https://wordpress.org/support/plugin/jetpack",
                 "source": "https://plugins.svn.wordpress.org/jetpack"
             },
-            "time": "2026-09-10T20:41:22+00:00"
+            "time": "2026-10-06T21:10:33+00:00"
         },
         {
             "name": "wp-plugin/woocommerce",
