@@ -38,7 +38,6 @@ jobs:
 
   unit-tests:
     needs: get-repo-name
-    timeout-minutes: 120
     permissions:
       contents: write      # Required for the reusable codecoverage workflow to push coverage HTML to gh-pages.
       pull-requests: write # Required for the reusable workflow to add PR comments (coverage via mshick/add-pr-comment).

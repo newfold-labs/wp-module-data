@@ -19,7 +19,6 @@ permissions: {}
 jobs:
   translate:
     name: 'Check and update translations'
-    timeout-minutes: 120
     permissions:
       contents: write      # Required for the reusable translations workflow to push the auto-translate branch and commits.
       pull-requests: write # Required for gh pr list/update/create flows inside the reusable workflow (GITHUB_TOKEN).
