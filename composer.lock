@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d8b4b673eb035f6c083bf8e51c6fd649",
+    "content-hash": "e7750b7759eb33568b56b4fc5504dda4",
     "packages": [
         {
             "name": "doctrine/inflector",
@@ -7478,15 +7478,15 @@
         },
         {
             "name": "wp-plugin/jetpack",
-            "version": "16.3.1",
+            "version": "16.4",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/jetpack/",
-                "reference": "tags/16.3.1"
+                "reference": "tags/16.4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/jetpack.16.3.1.zip"
+                "url": "https://downloads.wordpress.org/plugin/jetpack.16.4.zip"
             },
             "require": {
                 "composer/installers": "~1.0|~2.0"
@@ -7498,14 +7498,14 @@
                     "name": "Automattic"
                 }
             ],
-            "description": "Improve your WP security with powerful one-click tools like backup, WAF, and malware scan. Includes free tools like stats, CDN and social sharing.",
+            "description": "Connect ChatGPT, Claude, or another AI agent to your site. Plus backup, malware scan, firewall, stats, CDN, and SEO tools in one plugin.",
             "homepage": "https://jetpack.com",
             "support": {
                 "changelog": "https://wordpress.org/plugins/jetpack/#developers",
                 "issues": "https://wordpress.org/support/plugin/jetpack",
                 "source": "https://plugins.svn.wordpress.org/jetpack"
             },
-            "time": "2026-10-12T20:08:20+00:00"
+            "time": "2026-11-03T17:46:49+00:00"
         },
         {
             "name": "wp-plugin/woocommerce",
